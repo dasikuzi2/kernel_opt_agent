@@ -1,0 +1,58 @@
+{
+  "candidate_id": "hybrid-humming-two-shapes",
+  "opportunity_id": "sm89-w4-backbone-kernel",
+  "name": "Route two M=1 projection shapes to Humming and retain Marlin elsewhere",
+  "family": "weight-layout-specialization",
+  "change_axes": ["shape-dispatch", "dual-packed-weight-layout", "cta-scheduling"],
+  "hypothesis": "The isolated 1.347x and 1.245x Humming wins for N=1024 output and down projections can outweigh mixed-backend costs while Marlin retains the other three winning shapes.",
+  "expected_global_effect": "Use Humming for 48 of 96 GPTQ projection calls per decode and Marlin for the remaining 48, without changing graph topology, weights, activations, or sampling.",
+  "source_paths": [
+    "candidates/hybrid-humming-two-shapes/sitecustomize.py",
+    "candidates/hybrid-humming-two-shapes/hybrid_candidate.py",
+    "candidates/hybrid-humming-two-shapes/candidate_spec.json",
+    "models/w4_backend_shape_screen_round38.json",
+    "operator.json",
+    "workload.json"
+  ],
+  "commands": {
+    "build": {
+      "argv": ["wsl", "-d", "Ubuntu", "--", "/home/aden/.venvs/qwen35-vllm-4060/bin/python", "-S", "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/hybrid-humming-two-shapes/hybrid_candidate.py", "build"],
+      "cwd": "candidates/hybrid-humming-two-shapes",
+      "timeout_seconds": 30
+    },
+    "correctness": {
+      "argv": ["wsl", "-d", "Ubuntu", "--", "/home/aden/.venvs/qwen35-vllm-4060/bin/python", "-S", "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/hybrid-humming-two-shapes/hybrid_candidate.py", "correctness"],
+      "cwd": "candidates/hybrid-humming-two-shapes",
+      "timeout_seconds": 30
+    },
+    "smoke": {
+      "argv": ["wsl", "-d", "Ubuntu", "--", "/home/aden/.venvs/qwen35-vllm-4060/bin/python", "-S", "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/hybrid-humming-two-shapes/hybrid_candidate.py", "smoke"],
+      "cwd": "candidates/hybrid-humming-two-shapes",
+      "timeout_seconds": 600
+    }
+  },
+  "smoke_result_path": "candidates/hybrid-humming-two-shapes/smoke_result.json",
+  "predicted_global_gain_us": {"lower": 100.0, "upper": 400.0},
+  "dependency_contract": {
+    "status": "PROVEN_LEGAL",
+    "preserved_dependencies": [
+      "every projection consumes the same BF16 activation and emits the same logical tensor shape",
+      "the selected kernel is fixed per layer at model load and therefore remains CUDA-graph safe",
+      "attention, recurrent state, KV state, model topology, sampling, and scheduling remain stock vLLM"
+    ],
+    "changed_boundaries": [
+      "N=1024,K=2048 and N=1024,K=3584 checkpoint tensors are losslessly transformed into Humming's packed layout",
+      "the other three unique projection shapes retain stock Marlin packing and execution"
+    ],
+    "prohibited_rewrites": [
+      "no modification of GPTQ integer values or scales",
+      "no FP16 activation substitution",
+      "no output shortlist, speculative decoding, changed sampling, or skipped work"
+    ],
+    "numerical_ordering": "Selected layers may accumulate in a different order; the frozen exact-greedy token gate is mandatory and any mismatch rejects the candidate.",
+    "evidence": [
+      {"path": "models/w4_backend_shape_screen_round38.json", "sha256": "2f56ba5f333418366474f7cb846c3d8d523d8f3fdcee8bbdc1241aba27f2d39e", "claim": "Atomic screening identifies exactly two Humming-winning shapes and a 1.149x projection-weighted oracle margin."}
+    ]
+  },
+  "development_budget": {"max_technical_attempts": 2, "max_wall_clock_minutes": 15}
+}

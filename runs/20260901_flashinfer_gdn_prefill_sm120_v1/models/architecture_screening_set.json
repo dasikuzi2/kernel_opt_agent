@@ -1,0 +1,61 @@
+{
+  "cases": [
+    {
+      "expected_route": "CP",
+      "id": "77daf91d-0660-4c4b-8c32-336a69281cd9",
+      "num_seqs": 1,
+      "role": "CP_SHORTEST",
+      "total_seq_len": 6
+    },
+    {
+      "expected_route": "CP",
+      "id": "73b8cc85-11ec-4ac4-8469-fce7b52ee44a",
+      "num_seqs": 1,
+      "role": "CP_MEDIAN",
+      "total_seq_len": 97
+    },
+    {
+      "expected_route": "CP",
+      "id": "07aa7922-1848-48a9-830a-54216b5553b3",
+      "num_seqs": 2,
+      "role": "CP_LONGEST",
+      "total_seq_len": 5709
+    },
+    {
+      "expected_route": "NON_CP",
+      "id": "7ba9d519-7c0b-4eac-b2ad-ae403dce2f95",
+      "num_seqs": 13,
+      "role": "NON_CP_SHORTEST",
+      "total_seq_len": 3999
+    },
+    {
+      "expected_route": "NON_CP",
+      "id": "c2931c92-bbe9-43d9-bc55-9aed77901266",
+      "num_seqs": 37,
+      "role": "NON_CP_MEDIAN",
+      "total_seq_len": 8192
+    },
+    {
+      "expected_route": "NON_CP",
+      "id": "9a5d694b-7d4c-4ee6-8315-a13053ab6f92",
+      "num_seqs": 57,
+      "role": "NON_CP_LONGEST",
+      "total_seq_len": 8192
+    }
+  ],
+  "claim_scope": "DISCOVERY_ONLY_NOT_PRODUCTION_ACCEPTANCE",
+  "population": {
+    "cp": 82,
+    "non_cp": 18,
+    "total": 100
+  },
+  "schema_version": "architecture-screening-set-v1",
+  "selection_policy": {
+    "heads": 8,
+    "method": "shortest/median/longest on both sides of the routing boundary",
+    "route_equation": "num_seqs * heads * denominator < sm_count * numerator",
+    "sm_count": 170,
+    "threshold_denominator": 3,
+    "threshold_numerator": 1
+  }
+}

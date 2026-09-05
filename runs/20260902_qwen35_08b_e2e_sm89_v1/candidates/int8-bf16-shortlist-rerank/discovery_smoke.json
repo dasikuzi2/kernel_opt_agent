@@ -1,0 +1,44 @@
+{
+  "candidate_id": "int8-bf16-shortlist-rerank",
+  "cases": [
+    {
+      "case_id": "natural-six-by-128",
+      "role": "ANCHOR"
+    },
+    {
+      "case_id": "gsm8k-frozen-512",
+      "role": "EDGE"
+    }
+  ],
+  "objective": {
+    "baseline": 4671.184221786991,
+    "candidate": 4271.10996194339,
+    "direction": "minimize",
+    "unit": "us_weighted"
+  },
+  "reachability": {
+    "compile_cache_policy": "SOURCE_HASHED",
+    "evidence": [
+      {
+        "path": "models/nsys2025_int8_bf16_rerank_g1024k128_map.json",
+        "sha256": "35cb1b15f97a01703ad2b6be2334337d39cfed6265e6c46bbed6dddf2ff81a98"
+      },
+      {
+        "path": "comparisons/vllm_fp8_exact_vs_int8head_g1024_rerank_k128_quality_gsm8k_n512.json",
+        "sha256": "0306094ecd0b69a8cfb6c0ae89544383c9fdf8bc7dbf0d05f70316f29c5a3c53"
+      }
+    ],
+    "execution_proof": {
+      "evidence_index": 0,
+      "kind": "KERNEL_INSTANCE_COUNT",
+      "minimum_count": 192,
+      "observed_count": 192,
+      "scope": "CUDA kernels containing '_sm89_int8_groupwise_lmhead_kernel'"
+    },
+    "expected_path": "INT8 full-vocabulary scan followed by exact BF16 shortlist rerank",
+    "observed_path": "INT8 full-vocabulary scan followed by exact BF16 shortlist rerank",
+    "status": "PASS"
+  },
+  "schema_version": "candidate-smoke-result-v3",
+  "status": "PASS"
+}

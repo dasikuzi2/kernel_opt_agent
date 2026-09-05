@@ -1,0 +1,40 @@
+{
+  "created_at": "2026-09-01T06:33:20.596235+00:00",
+  "operator": "gdn_prefill_qk4_v8_d128_k_last",
+  "run_id": "20260901_flashinfer_gdn_prefill_sm120_v1",
+  "schema_version": "optimization-intake-v1",
+  "source_identities": {
+    "hardware.json": {
+      "sha256": "bf4e95ccb8261950220dcb220efa7090314f37752bb800e843324f992abc6503",
+      "source": "D:\\codes\\kernel_opt_agent\\hardware.json.tmp"
+    },
+    "operator.json": {
+      "sha256": "8c85cd1801ae6534183b402daffe09a3c0b04e4f624d925ee457f38a9e782b74",
+      "source": "D:\\codes\\kernel_opt_agent\\operator.json.tmp"
+    },
+    "workload.json": {
+      "sha256": "50ac3b02216f600d3aae3e06fd39e5054649a9b07c348ab8e9b556e9aa82dc14",
+      "source": "D:\\codes\\kernel_opt_agent\\workload.json.tmp"
+    }
+  },
+  "status": "READY",
+  "target": {
+    "architecture": "sm_120",
+    "compute_capability": "12.0",
+    "device_index": 0,
+    "device_name": "NVIDIA GeForce RTX 5090",
+    "max_threads_per_block": 1024,
+    "max_threads_per_sm": 1536,
+    "memory_bytes": 33645199360,
+    "registers_per_sm": 65536,
+    "shared_memory_per_block_bytes": 49152,
+    "shared_memory_per_block_optin_bytes": 101376,
+    "shared_memory_per_sm_bytes": 102400,
+    "sm_count": 170,
+    "uuid": "GPU-14f89acf-cf7c-3a09-80d5-e43035823f0d",
+    "vendor": "NVIDIA",
+    "warp_size": 32
+  },
+  "user_confirmation_required_for_reuse": true,
+  "workload": "gdn_prefill_qk4_v8_d128_k_last-official-equal-weight-trace"
+}

@@ -1,0 +1,175 @@
+{
+  "abi": {
+    "aliasing": [
+      "inputs and returned outputs must not alias unless the definition explicitly permits it"
+    ],
+    "entrypoint": "run",
+    "layout_constraints": [
+      "tensor shapes and declared axis order are preserved"
+    ],
+    "mutable_arguments": []
+  },
+  "computation": {
+    "definition": "Gated Delta Net prefill with GVA configuration and k-last state layout. The state is in k-last layout [N, H, V, K]. Captured from Qwen3 Next linear attention layers (TP=4).",
+    "dependencies": [
+      "The executable mathematical reference is frozen by reference_sha256.",
+      "len_cu_seqlens == num_seqs + 1",
+      "total_seq_len == cu_seqlens[-1].item()"
+    ],
+    "forbidden_rewrites": [
+      "Dropping or changing outputs, state transitions, variable-length boundaries, dtypes or declared layouts.",
+      "Special-casing input values or workload UUIDs instead of the declared axes and tensor metadata."
+    ],
+    "legal_rewrites": [
+      "Any decomposition, fusion, tiling, scheduling or specialization preserving the ABI and numerical acceptance rule."
+    ]
+  },
+  "inputs": [
+    {
+      "dtype": "bfloat16",
+      "layout": "contiguous in declared axis order; Query tensor.",
+      "lifetime": "call-scoped",
+      "name": "q",
+      "shape": [
+        "total_seq_len",
+        "num_q_heads",
+        "head_size"
+      ]
+    },
+    {
+      "dtype": "bfloat16",
+      "layout": "contiguous in declared axis order; Key tensor.",
+      "lifetime": "call-scoped",
+      "name": "k",
+      "shape": [
+        "total_seq_len",
+        "num_k_heads",
+        "head_size"
+      ]
+    },
+    {
+      "dtype": "bfloat16",
+      "layout": "contiguous in declared axis order; Value tensor.",
+      "lifetime": "call-scoped",
+      "name": "v",
+      "shape": [
+        "total_seq_len",
+        "num_v_heads",
+        "head_size"
+      ]
+    },
+    {
+      "dtype": "float32",
+      "layout": "contiguous in declared axis order; Recurrent state in k-last layout [N, H, V, K].; optional ABI argument",
+      "lifetime": "caller-owned input",
+      "name": "state",
+      "shape": [
+        "num_seqs",
+        "num_v_heads",
+        "head_size",
+        "head_size"
+      ]
+    },
+    {
+      "dtype": "float32",
+      "layout": "contiguous in declared axis order; Log decay parameter (learnable). Used to compute g = exp(-exp(A_log) * softplus(a + dt_bias)).",
+      "lifetime": "call-scoped",
+      "name": "A_log",
+      "shape": [
+        "num_v_heads"
+      ]
+    },
+    {
+      "dtype": "bfloat16",
+      "layout": "contiguous in declared axis order; Input-dependent decay from projection.",
+      "lifetime": "call-scoped",
+      "name": "a",
+      "shape": [
+        "total_seq_len",
+        "num_v_heads"
+      ]
+    },
+    {
+      "dtype": "float32",
+      "layout": "contiguous in declared axis order; Decay bias (learnable). Added to 'a' before softplus.",
+      "lifetime": "call-scoped",
+      "name": "dt_bias",
+      "shape": [
+        "num_v_heads"
+      ]
+    },
+    {
+      "dtype": "bfloat16",
+      "layout": "contiguous in declared axis order; Update gate input from projection. beta = sigmoid(b).",
+      "lifetime": "call-scoped",
+      "name": "b",
+      "shape": [
+        "total_seq_len",
+        "num_v_heads"
+      ]
+    },
+    {
+      "dtype": "int64",
+      "layout": "contiguous in declared axis order; Cumulative sequence lengths for variable-length batching.",
+      "lifetime": "call-scoped",
+      "name": "cu_seqlens",
+      "shape": [
+        "len_cu_seqlens"
+      ]
+    },
+    {
+      "dtype": "float32",
+      "layout": "contiguous in declared axis order; Scale factor. Default is 1/sqrt(head_size).",
+      "lifetime": "call-scoped",
+      "name": "scale",
+      "shape": []
+    }
+  ],
+  "name": "gdn_prefill_qk4_v8_d128_k_last",
+  "numerics": {
+    "acceptance": "All outputs: atol=0.01, rtol=0.01, matched element ratio >= 1; NaN/Inf mismatch fails.",
+    "accumulation_dtype": "as fixed by the mathematical reference; recurrent state is float32",
+    "deterministic_required": true,
+    "reference": "Frozen FlashInfer-Trace reference; sha256=a4959960bd7f6361e3881a6a0e00cebd20958411f633aabed8319973fb2ebc81"
+  },
+  "outputs": [
+    {
+      "dtype": "bfloat16",
+      "layout": "contiguous in declared axis order; Attention output. Shape follows num_v_heads in GVA mode.",
+      "lifetime": "call-scoped",
+      "name": "output",
+      "shape": [
+        "total_seq_len",
+        "num_v_heads",
+        "head_size"
+      ]
+    },
+    {
+      "dtype": "float32",
+      "layout": "contiguous in declared axis order; Updated recurrent state in k-last layout [N, H, V, K].",
+      "lifetime": "call-scoped",
+      "name": "new_state",
+      "shape": [
+        "num_seqs",
+        "num_v_heads",
+        "head_size",
+        "head_size"
+      ]
+    }
+  ],
+  "schema_version": "operator-contract-v1",
+  "source_identity": {
+    "dataset_revision": "5e832ce88dd1013032b22a0e942979d7d2769cc3",
+    "definition": {
+      "path": "D:\\codes\\kernel_opt_agent\\operator_source.json.tmp",
+      "sha256": "2975eeade1e9bda0fdb87c76ca9493b27570fc62cfdea45e2ec769223cd81c05"
+    },
+    "format": "FlashInfer-Trace",
+    "record_count": 100,
+    "reference_sha256": "a4959960bd7f6361e3881a6a0e00cebd20958411f633aabed8319973fb2ebc81",
+    "workloads": {
+      "path": "D:\\codes\\kernel_opt_agent\\workload_source.jsonl.tmp",
+      "sha256": "279eea77da0aa1cd47ad953e790e0a0f062ed5c7578c4a55eccee105b6d1151e"
+    }
+  }
+}

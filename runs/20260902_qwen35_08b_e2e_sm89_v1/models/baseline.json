@@ -1,0 +1,102 @@
+{
+  "schema_version": "production-baseline-v1",
+  "status": "VALID",
+  "claim_scope": "DISCOVERY_BASELINE_ONLY_NOT_POWER_CONTROLLED_QUALIFICATION",
+  "correctness": {
+    "status": "PASS",
+    "contract": "128 greedy token IDs match the frozen Transformers BF16 reference for all three workload cases.",
+    "evidence": [
+      {
+        "path": "traces/vllm_vs_transformers_parity.json",
+        "sha256": "c4580db6fd1b94df89d8083790bd4710c33f5dc8d6a54431f2a0bad93ebf90ff"
+      }
+    ]
+  },
+  "source_identities": [
+    {
+      "path": "traces/vllm_discovery_baseline_w1_n3.json",
+      "sha256": "e335f6b3352a213ed22a913c1d02e0c31b4b56fce3beb6dd551ef67b07143571",
+      "role": "production baseline trace, controls, raw samples and generated tokens"
+    },
+    {
+      "path": "traces/vllm_vs_transformers_parity.json",
+      "sha256": "c4580db6fd1b94df89d8083790bd4710c33f5dc8d6a54431f2a0bad93ebf90ff",
+      "role": "independent Transformers BF16 token-parity result"
+    }
+  ],
+  "measurement_methods": {
+    "cpu_dispatch": {
+      "method": "vLLM engine arrival, queue, schedule, first-token and last-token timestamps",
+      "use": "diagnostic only; not subtracted from end-to-end latency"
+    },
+    "gpu_active": {
+      "status": "NOT_CAPTURED_IN_FROZEN_BASELINE",
+      "reason": "Nsight Systems 2022.4 could not parse the CUDA 13 trace at baseline time.",
+      "later_evidence": "models/nsys2025_lmhead_opportunity_map.json",
+      "claim_boundary": "Later node tracing ranks opportunities but is not substituted into these baseline case measurements."
+    },
+    "end_to_end": {
+      "method": "steady-clock around one vLLM offline generate request",
+      "statistic": "median of three measured trials after one warmup",
+      "unit": "ms"
+    }
+  },
+  "environment_controls": {
+    "competing_load": "GPU idle was checked before launch; no concurrent CUDA workload was intentionally admitted.",
+    "clock_power_policy": "Observed-only laptop power/clock state; clocks were not locked, so cross-session latency is discovery evidence only.",
+    "thermal_policy": "No thermal lock; case order rotated to reduce monotonic heating bias.",
+    "warmup_and_cold_start": "One full workload warmup; model initialization excluded; weights and compiled graph warm."
+  },
+  "weighted_objective": {
+    "end_to_end_ms": 936.152490899994,
+    "tpot_ms": 6.8148290984253,
+    "ttft_ms": 71.11868858337402
+  },
+  "cases": [
+    {
+      "case_id": "prompt-128-generate-128",
+      "correctness": "PASS",
+      "source_identity": {
+        "path": "traces/vllm_discovery_baseline_w1_n3.json",
+        "sha256": "e335f6b3352a213ed22a913c1d02e0c31b4b56fce3beb6dd551ef67b07143571"
+      },
+      "raw_samples": {
+        "path": "traces/vllm_discovery_baseline_w1_n3.json",
+        "sha256": "e335f6b3352a213ed22a913c1d02e0c31b4b56fce3beb6dd551ef67b07143571"
+      },
+      "cpu_dispatch": {"status": "RECORDED_IN_RAW_ENGINE_TIMESTAMPS"},
+      "gpu_active": {"status": "NOT_CAPTURED"},
+      "end_to_end": {"median_ms": 851.8937129999813, "tpot_ms": 6.497007566929235, "ttft_ms": 26.70884132385254}
+    },
+    {
+      "case_id": "prompt-512-generate-128",
+      "correctness": "PASS",
+      "source_identity": {
+        "path": "traces/vllm_discovery_baseline_w1_n3.json",
+        "sha256": "e335f6b3352a213ed22a913c1d02e0c31b4b56fce3beb6dd551ef67b07143571"
+      },
+      "raw_samples": {
+        "path": "traces/vllm_discovery_baseline_w1_n3.json",
+        "sha256": "e335f6b3352a213ed22a913c1d02e0c31b4b56fce3beb6dd551ef67b07143571"
+      },
+      "cpu_dispatch": {"status": "RECORDED_IN_RAW_ENGINE_TIMESTAMPS"},
+      "gpu_active": {"status": "NOT_CAPTURED"},
+      "end_to_end": {"median_ms": 904.7947059999899, "tpot_ms": 6.893061070866269, "ttft_ms": 29.917478561401367}
+    },
+    {
+      "case_id": "prompt-2048-generate-128",
+      "correctness": "PASS",
+      "source_identity": {
+        "path": "traces/vllm_discovery_baseline_w1_n3.json",
+        "sha256": "e335f6b3352a213ed22a913c1d02e0c31b4b56fce3beb6dd551ef67b07143571"
+      },
+      "raw_samples": {
+        "path": "traces/vllm_discovery_baseline_w1_n3.json",
+        "sha256": "e335f6b3352a213ed22a913c1d02e0c31b4b56fce3beb6dd551ef67b07143571"
+      },
+      "cpu_dispatch": {"status": "RECORDED_IN_RAW_ENGINE_TIMESTAMPS"},
+      "gpu_active": {"status": "NOT_CAPTURED"},
+      "end_to_end": {"median_ms": 988.6706730000014, "tpot_ms": 6.895018527559145, "ttft_ms": 113.60335350036621}
+    }
+  ]
+}

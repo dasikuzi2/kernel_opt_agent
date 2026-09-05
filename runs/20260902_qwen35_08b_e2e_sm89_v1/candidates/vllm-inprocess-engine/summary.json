@@ -1,0 +1,11 @@
+{
+  "schema_version": "sm89-vllm-inprocess-engine-stop-v1",
+  "status": "MEASURED_REJECT_CONFOUNDED",
+  "candidate": "VLLM_ENABLE_V1_MULTIPROCESSING=0",
+  "native_multiprocess_tpot_ms": 5.11861,
+  "inprocess_tpot_ms": 8.546706059058224,
+  "apparent_speedup": 0.5989,
+  "token_exact_cases": "6/6",
+  "confound": "The multiprocess reference ran near 2625 MHz while the in-process screen ran near 945 MHz.",
+  "decision": "Do not use in-process mode as a latency optimization. It remains useful only as a WSL diagnostic path."
+}

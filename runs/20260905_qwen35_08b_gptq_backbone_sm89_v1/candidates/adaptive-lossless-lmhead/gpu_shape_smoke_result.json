@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "claim_scope": "SYNTHETIC_CORRECTNESS_AND_FALLBACK_ONLY",
+  "shape": [
+    33001,
+    1023
+  ],
+  "packed_fraction": 0.7652609122926249,
+  "fallback_blocks": 724,
+  "sampled_weight_bits_exact": 8192,
+  "argmax_equal": true,
+  "max_abs_logit_delta": 0.125,
+  "max_delta_over_logit_peak": 0.0017241379310344827,
+  "m2_fallback": true,
+  "bias_fallback": true
+}

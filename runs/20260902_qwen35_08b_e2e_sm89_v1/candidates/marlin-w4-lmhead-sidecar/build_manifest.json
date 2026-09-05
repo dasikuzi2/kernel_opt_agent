@@ -1,0 +1,44 @@
+{
+  "schema_version": "qwen35-sm89-marlin-lmhead-sidecar-v1",
+  "status": "PASS",
+  "captured_at": "2026-09-05T10:50:49.383798+00:00",
+  "source": {
+    "checkpoint": "/home/aden/models/Qwen3.5-0.8B-W4A16-AutoRound-GPTQ-g128/model.safetensors",
+    "tensor_key": "model.language_model.embed_tokens.weight",
+    "tensor_shape": [
+      248320,
+      1024
+    ],
+    "checkpoint_tensor_dtype": "torch.float16",
+    "checkpoint_tensor_sha256": "24375b3c4ceac14cb5a66efa63545eae9ca0f37a6b57ea7a713797784249771b",
+    "runtime_tensor_dtype": "torch.bfloat16",
+    "runtime_tensor_sha256": "6e287b0f79bfe7b7e1d4f0eed87263d364c2ee944df123411eafc0fba99856ca"
+  },
+  "sidecar": {
+    "path": "/home/aden/vllm-sidecars/qwen35-08b-gptq/sm89_lmhead_marlin_w4_g128.safetensors",
+    "sha256": "b8a06c4d71433a5f97d480d5b16373298567c6ae055e5cf961e5f29656a1a793",
+    "bytes": 131113688,
+    "packed_weight_shape": [
+      64,
+      496640
+    ],
+    "packed_weight_dtype": "torch.int32",
+    "permuted_scales_shape": [
+      8,
+      248320
+    ],
+    "permuted_scales_dtype": "torch.bfloat16"
+  },
+  "timings_seconds": {
+    "checkpoint_tensor_load": 0.0016086859977804124,
+    "quantize_repack": 1.9559334250006941,
+    "sidecar_save": 0.0451106750042527
+  },
+  "contract": {
+    "runtime_use_requires_exact_sidecar_sha256": true,
+    "runtime_use_requires_dense_shape_and_metadata_match": true,
+    "packed_equivalence_requires_separate_online_vs_sidecar_validation": true,
+    "dense_weight_retained": true,
+    "reason_dense_weight_retained": "tied input embedding and BF16 shortlist rerank both consume the original rows"
+  }
+}

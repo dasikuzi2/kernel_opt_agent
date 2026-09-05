@@ -1,0 +1,111 @@
+{
+  "schema_version": "qwen35-bf16-skinny-gemm-screen-v1",
+  "device": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "torch_version": "2.13.0+cu130",
+  "iterations": 50,
+  "repeats": 5,
+  "weighted_shape_sum_us": {
+    "torch": 0,
+    "skinny": 0,
+    "speedup": null,
+    "warning": "sum of isolated medians is a screening estimate, not end-to-end latency"
+  },
+  "results": [
+    {
+      "name": "gdn_qkvz",
+      "shape": [
+        1,
+        8192,
+        1024
+      ],
+      "multiplicity": 18,
+      "weight_bytes": 16777216,
+      "correct": false,
+      "error": "DSLUserCodeError: \n\u001b[91m\u001b[1merror[CONFIG_UNSUPPORTED_ARCH]:\u001b[0m Unsupported GPU architecture 'sm_89'. This kernel is only compatible with: [Arch.sm_90, Arch.sm_90a, Arch.sm_100, Arch.sm_100a, Arch.sm_100f, Arch.sm_110, Arch.sm_110a, Arch.sm_110f, Arch.sm_103, Arch.sm_103a, Arch.sm_103f, Arch.sm_120, Arch.sm_120a, Arch.sm_120f, Arch.sm_121, Arch.sm_121a, Arch.sm_121f].\n   \u001b[94m-->\u001b[0m /home/aden/.venvs/qwen35-vllm-4060/lib/python3.12/site-packages/vllm/model_executor/kernels/linear/cute_dsl/_skinny_gemm.py:229:14\n    |\n227 |         smem = cutlass.utils.SmemAllocator()\n228 |         partials = smem.allocate_tensor(cutlass.Float32, smem_layout, byte_alignment=16)\n229 |         with cute.arch.elect_one():\n    |              \u001b[91m^^^^^^^^^^^^^^^^^^^^^\u001b[0m\n  \u001b[92msuggestion:\u001b[0m Set `CUTE_DSL_ARCH` environment variable or pass a compatible `gpu_arch` to compile\n              options.\n"
+    },
+    {
+      "name": "gdn_ba",
+      "shape": [
+        1,
+        32,
+        1024
+      ],
+      "multiplicity": 18,
+      "weight_bytes": 65536,
+      "correct": false,
+      "error": "DSLUserCodeError: \n\u001b[91m\u001b[1merror[CONFIG_UNSUPPORTED_ARCH]:\u001b[0m Unsupported GPU architecture 'sm_89'. This kernel is only compatible with: [Arch.sm_90, Arch.sm_90a, Arch.sm_100, Arch.sm_100a, Arch.sm_100f, Arch.sm_110, Arch.sm_110a, Arch.sm_110f, Arch.sm_103, Arch.sm_103a, Arch.sm_103f, Arch.sm_120, Arch.sm_120a, Arch.sm_120f, Arch.sm_121, Arch.sm_121a, Arch.sm_121f].\n   \u001b[94m-->\u001b[0m /home/aden/.venvs/qwen35-vllm-4060/lib/python3.12/site-packages/vllm/model_executor/kernels/linear/cute_dsl/_skinny_gemm.py:229:14\n    |\n227 |         smem = cutlass.utils.SmemAllocator()\n228 |         partials = smem.allocate_tensor(cutlass.Float32, smem_layout, byte_alignment=16)\n229 |         with cute.arch.elect_one():\n    |              \u001b[91m^^^^^^^^^^^^^^^^^^^^^\u001b[0m\n  \u001b[92msuggestion:\u001b[0m Set `CUTE_DSL_ARCH` environment variable or pass a compatible `gpu_arch` to compile\n              options.\n"
+    },
+    {
+      "name": "gdn_out",
+      "shape": [
+        1,
+        1024,
+        2048
+      ],
+      "multiplicity": 18,
+      "weight_bytes": 4194304,
+      "correct": false,
+      "error": "DSLUserCodeError: \n\u001b[91m\u001b[1merror[CONFIG_UNSUPPORTED_ARCH]:\u001b[0m Unsupported GPU architecture 'sm_89'. This kernel is only compatible with: [Arch.sm_90, Arch.sm_90a, Arch.sm_100, Arch.sm_100a, Arch.sm_100f, Arch.sm_110, Arch.sm_110a, Arch.sm_110f, Arch.sm_103, Arch.sm_103a, Arch.sm_103f, Arch.sm_120, Arch.sm_120a, Arch.sm_120f, Arch.sm_121, Arch.sm_121a, Arch.sm_121f].\n   \u001b[94m-->\u001b[0m /home/aden/.venvs/qwen35-vllm-4060/lib/python3.12/site-packages/vllm/model_executor/kernels/linear/cute_dsl/_skinny_gemm.py:229:14\n    |\n227 |         smem = cutlass.utils.SmemAllocator()\n228 |         partials = smem.allocate_tensor(cutlass.Float32, smem_layout, byte_alignment=16)\n229 |         with cute.arch.elect_one():\n    |              \u001b[91m^^^^^^^^^^^^^^^^^^^^^\u001b[0m\n  \u001b[92msuggestion:\u001b[0m Set `CUTE_DSL_ARCH` environment variable or pass a compatible `gpu_arch` to compile\n              options.\n"
+    },
+    {
+      "name": "attention_qkv",
+      "shape": [
+        1,
+        3072,
+        1024
+      ],
+      "multiplicity": 6,
+      "weight_bytes": 6291456,
+      "correct": false,
+      "error": "DSLUserCodeError: \n\u001b[91m\u001b[1merror[CONFIG_UNSUPPORTED_ARCH]:\u001b[0m Unsupported GPU architecture 'sm_89'. This kernel is only compatible with: [Arch.sm_90, Arch.sm_90a, Arch.sm_100, Arch.sm_100a, Arch.sm_100f, Arch.sm_110, Arch.sm_110a, Arch.sm_110f, Arch.sm_103, Arch.sm_103a, Arch.sm_103f, Arch.sm_120, Arch.sm_120a, Arch.sm_120f, Arch.sm_121, Arch.sm_121a, Arch.sm_121f].\n   \u001b[94m-->\u001b[0m /home/aden/.venvs/qwen35-vllm-4060/lib/python3.12/site-packages/vllm/model_executor/kernels/linear/cute_dsl/_skinny_gemm.py:229:14\n    |\n227 |         smem = cutlass.utils.SmemAllocator()\n228 |         partials = smem.allocate_tensor(cutlass.Float32, smem_layout, byte_alignment=16)\n229 |         with cute.arch.elect_one():\n    |              \u001b[91m^^^^^^^^^^^^^^^^^^^^^\u001b[0m\n  \u001b[92msuggestion:\u001b[0m Set `CUTE_DSL_ARCH` environment variable or pass a compatible `gpu_arch` to compile\n              options.\n"
+    },
+    {
+      "name": "attention_out",
+      "shape": [
+        1,
+        1024,
+        2048
+      ],
+      "multiplicity": 6,
+      "weight_bytes": 4194304,
+      "correct": false,
+      "error": "DSLUserCodeError: \n\u001b[91m\u001b[1merror[CONFIG_UNSUPPORTED_ARCH]:\u001b[0m Unsupported GPU architecture 'sm_89'. This kernel is only compatible with: [Arch.sm_90, Arch.sm_90a, Arch.sm_100, Arch.sm_100a, Arch.sm_100f, Arch.sm_110, Arch.sm_110a, Arch.sm_110f, Arch.sm_103, Arch.sm_103a, Arch.sm_103f, Arch.sm_120, Arch.sm_120a, Arch.sm_120f, Arch.sm_121, Arch.sm_121a, Arch.sm_121f].\n   \u001b[94m-->\u001b[0m /home/aden/.venvs/qwen35-vllm-4060/lib/python3.12/site-packages/vllm/model_executor/kernels/linear/cute_dsl/_skinny_gemm.py:229:14\n    |\n227 |         smem = cutlass.utils.SmemAllocator()\n228 |         partials = smem.allocate_tensor(cutlass.Float32, smem_layout, byte_alignment=16)\n229 |         with cute.arch.elect_one():\n    |              \u001b[91m^^^^^^^^^^^^^^^^^^^^^\u001b[0m\n  \u001b[92msuggestion:\u001b[0m Set `CUTE_DSL_ARCH` environment variable or pass a compatible `gpu_arch` to compile\n              options.\n"
+    },
+    {
+      "name": "mlp_gate_up",
+      "shape": [
+        1,
+        7168,
+        1024
+      ],
+      "multiplicity": 24,
+      "weight_bytes": 14680064,
+      "correct": false,
+      "error": "DSLUserCodeError: \n\u001b[91m\u001b[1merror[CONFIG_UNSUPPORTED_ARCH]:\u001b[0m Unsupported GPU architecture 'sm_89'. This kernel is only compatible with: [Arch.sm_90, Arch.sm_90a, Arch.sm_100, Arch.sm_100a, Arch.sm_100f, Arch.sm_110, Arch.sm_110a, Arch.sm_110f, Arch.sm_103, Arch.sm_103a, Arch.sm_103f, Arch.sm_120, Arch.sm_120a, Arch.sm_120f, Arch.sm_121, Arch.sm_121a, Arch.sm_121f].\n   \u001b[94m-->\u001b[0m /home/aden/.venvs/qwen35-vllm-4060/lib/python3.12/site-packages/vllm/model_executor/kernels/linear/cute_dsl/_skinny_gemm.py:229:14\n    |\n227 |         smem = cutlass.utils.SmemAllocator()\n228 |         partials = smem.allocate_tensor(cutlass.Float32, smem_layout, byte_alignment=16)\n229 |         with cute.arch.elect_one():\n    |              \u001b[91m^^^^^^^^^^^^^^^^^^^^^\u001b[0m\n  \u001b[92msuggestion:\u001b[0m Set `CUTE_DSL_ARCH` environment variable or pass a compatible `gpu_arch` to compile\n              options.\n"
+    },
+    {
+      "name": "mlp_down",
+      "shape": [
+        1,
+        1024,
+        3584
+      ],
+      "multiplicity": 24,
+      "weight_bytes": 7340032,
+      "correct": false,
+      "error": "DSLUserCodeError: \n\u001b[91m\u001b[1merror[CONFIG_UNSUPPORTED_ARCH]:\u001b[0m Unsupported GPU architecture 'sm_89'. This kernel is only compatible with: [Arch.sm_90, Arch.sm_90a, Arch.sm_100, Arch.sm_100a, Arch.sm_100f, Arch.sm_110, Arch.sm_110a, Arch.sm_110f, Arch.sm_103, Arch.sm_103a, Arch.sm_103f, Arch.sm_120, Arch.sm_120a, Arch.sm_120f, Arch.sm_121, Arch.sm_121a, Arch.sm_121f].\n   \u001b[94m-->\u001b[0m /home/aden/.venvs/qwen35-vllm-4060/lib/python3.12/site-packages/vllm/model_executor/kernels/linear/cute_dsl/_skinny_gemm.py:229:14\n    |\n227 |         smem = cutlass.utils.SmemAllocator()\n228 |         partials = smem.allocate_tensor(cutlass.Float32, smem_layout, byte_alignment=16)\n229 |         with cute.arch.elect_one():\n    |              \u001b[91m^^^^^^^^^^^^^^^^^^^^^\u001b[0m\n  \u001b[92msuggestion:\u001b[0m Set `CUTE_DSL_ARCH` environment variable or pass a compatible `gpu_arch` to compile\n              options.\n"
+    },
+    {
+      "name": "lm_head",
+      "shape": [
+        1,
+        248320,
+        1024
+      ],
+      "multiplicity": 1,
+      "weight_bytes": 508559360,
+      "correct": false,
+      "error": "DSLUserCodeError: \n\u001b[91m\u001b[1merror[CONFIG_UNSUPPORTED_ARCH]:\u001b[0m Unsupported GPU architecture 'sm_89'. This kernel is only compatible with: [Arch.sm_90, Arch.sm_90a, Arch.sm_100, Arch.sm_100a, Arch.sm_100f, Arch.sm_110, Arch.sm_110a, Arch.sm_110f, Arch.sm_103, Arch.sm_103a, Arch.sm_103f, Arch.sm_120, Arch.sm_120a, Arch.sm_120f, Arch.sm_121, Arch.sm_121a, Arch.sm_121f].\n   \u001b[94m-->\u001b[0m /home/aden/.venvs/qwen35-vllm-4060/lib/python3.12/site-packages/vllm/model_executor/kernels/linear/cute_dsl/_skinny_gemm.py:229:14\n    |\n227 |         smem = cutlass.utils.SmemAllocator()\n228 |         partials = smem.allocate_tensor(cutlass.Float32, smem_layout, byte_alignment=16)\n229 |         with cute.arch.elect_one():\n    |              \u001b[91m^^^^^^^^^^^^^^^^^^^^^\u001b[0m\n  \u001b[92msuggestion:\u001b[0m Set `CUTE_DSL_ARCH` environment variable or pass a compatible `gpu_arch` to compile\n              options.\n"
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "serving_policy_spec.schema.json",
+  "title": "Measured serving policy derivation specification",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "deployment_point", "identity_controls", "expected_harness_sha256",
+    "expected_prompt_token_ids_sha256", "minimum_independent_traces_per_variant",
+    "require_distinct_vllm_cache_roots", "variants", "contracts", "limitations"
+  ],
+  "properties": {
+    "schema_version": {"const": "serving-policy-spec-v1"},
+    "deployment_point": {"type": "object"},
+    "identity_controls": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "expected_harness_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "expected_prompt_token_ids_sha256": {
+      "type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+    },
+    "minimum_independent_traces_per_variant": {"type": "integer", "minimum": 2},
+    "require_distinct_vllm_cache_roots": {"const": true},
+    "variants": {
+      "type": "array", "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "role", "supported_contracts", "traces", "required_switches", "lifecycle"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "role": {"type": "string", "enum": ["baseline", "candidate"]},
+          "supported_contracts": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+          "traces": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+          "challenger_traces": {"type": "array", "items": {"type": "string", "minLength": 1}},
+          "required_switches": {"type": "object", "additionalProperties": {"type": "string", "enum": ["on", "off"]}},
+          "lifecycle": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "requires_prepack": {"type": "boolean"},
+              "prepack_ready": {"type": "boolean"},
+              "requires_jit_warm": {"type": "boolean"},
+              "jit_warm_ready": {"type": "boolean"},
+              "evidence": {"type": "array", "items": {"type": "string", "minLength": 1}}
+            }
+          }
+        }
+      }
+    },
+    "contracts": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "baseline", "candidates", "requires_stock_token_identity", "minimum_speedup"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "baseline": {"type": "string", "minLength": 1},
+          "candidates": {"type": "array", "items": {"type": "string", "minLength": 1}},
+          "requires_stock_token_identity": {"type": "boolean"},
+          "minimum_speedup": {"type": "number", "exclusiveMinimum": 1.0},
+          "evidence": {"type": "array", "items": {"type": "string", "minLength": 1}},
+          "baseline_only_reason": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "limitations": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+  }
+}

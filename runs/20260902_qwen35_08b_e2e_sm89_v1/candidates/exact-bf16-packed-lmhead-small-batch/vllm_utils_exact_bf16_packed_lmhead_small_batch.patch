@@ -1,0 +1,103 @@
+--- a/vllm/model_executor/layers/utils.py
++++ b/vllm/model_executor/layers/utils.py
+@@ -107,4 +107,65 @@ def _sm89_exact_packed_bf16_gemv_kernel(
+     tl.store(output_ptr + offsets_n, accum, mask=offsets_n < n)
+ 
+ 
++@triton.jit
++def _sm89_exact_packed_bf16_small_batch_kernel(
++    x_ptr,
++    sign_mantissa_ptr,
++    exponent_nibbles_ptr,
++    base_exponent_ptr,
++    fallback_slot_ptr,
++    fallback_bits_ptr,
++    output_ptr,
++    m: tl.constexpr,
++    n: tl.constexpr,
++    k: tl.constexpr,
++    BLOCK_N: tl.constexpr,
++    BLOCK_K: tl.constexpr,
++    PACK_BLOCK: tl.constexpr,
++):
++    pid_n = tl.program_id(0)
++    offsets_n = pid_n * BLOCK_N + tl.arange(0, BLOCK_N)
++    offsets_k = tl.arange(0, BLOCK_K)
++    valid = (offsets_n[:, None] < n) & (offsets_k[None, :] < k)
++    linear = offsets_n[:, None] * k + offsets_k[None, :]
++    block_id = linear // PACK_BLOCK
++    in_block = linear % PACK_BLOCK
++    sm = tl.load(sign_mantissa_ptr + linear, mask=valid, other=0).to(tl.int32)
++    pair = tl.load(
++        exponent_nibbles_ptr + linear // 2, mask=valid, other=0
++    ).to(tl.int32)
++    delta = (pair >> ((linear & 1) * 4)) & 0xF
++    base = tl.load(base_exponent_ptr + block_id, mask=valid, other=0).to(tl.int32)
++    slot = tl.load(fallback_slot_ptr + block_id, mask=valid, other=-1)
++    packed_bits = (
++        ((sm & 0x80) << 8) | ((base + delta) << 7) | (sm & 0x7F)
++    )
++    fallback_bits = tl.load(
++        fallback_bits_ptr + slot * PACK_BLOCK + in_block,
++        mask=valid & (slot >= 0),
++        other=0,
++    ).to(tl.int32) & 0xFFFF
++    fp32_bits = tl.where(slot >= 0, fallback_bits, packed_bits) << 16
++    weight = tl.inline_asm_elementwise(
++        "mov.b32 $0, $1;",
++        "=f,r",
++        [fp32_bits],
++        dtype=tl.float32,
++        is_pure=True,
++        pack=1,
++    )
++    for row in tl.static_range(0, m):
++        x = tl.load(
++            x_ptr + row * k + offsets_k,
++            mask=offsets_k < k,
++            other=0.0,
++        ).to(tl.float32)
++        accum = tl.sum(weight * x[None, :], axis=1)
++        tl.store(
++            output_ptr + row * n + offsets_n,
++            accum,
++            mask=offsets_n < n,
++        )
++
++
+ _SM89_PACK_BLOCK = 256
+@@ -175,4 +236,23 @@ def sm89_bf16_gemv_impl(
+     if os.environ.get("VLLM_SM89_EXACT_PACKED_LM_HEAD", "0") == "1":
+         packed = _get_sm89_exact_packed_weight(weight)
+         output = torch.empty((*x.shape[:-1], n), dtype=x.dtype, device=x.device)
++        m = x.numel() // k
++        if m > 1:
++            block_n, num_warps = ((2, 4) if m <= 2 else (8, 4))
++            _sm89_exact_packed_bf16_small_batch_kernel[
++                (triton.cdiv(n, block_n),)
++            ](
++                x,
++                *packed,
++                output,
++                m=m,
++                n=n,
++                k=k,
++                BLOCK_N=block_n,
++                BLOCK_K=triton.next_power_of_2(k),
++                PACK_BLOCK=_SM89_PACK_BLOCK,
++                num_warps=num_warps,
++                num_stages=1,
++            )
++            return output
+         block_n, num_warps = 16, 8
+@@ -298,3 +378,9 @@ def default_unquantized_gemm(
+         and weight.dtype == torch.bfloat16
+-        and x.numel() == 1024
++        and (
++            x.numel() == 1024
++            or (
++                os.environ.get("VLLM_SM89_EXACT_PACKED_LM_HEAD", "0") == "1"
++                and x.numel() in (2048, 3072, 4096)
++            )
++        )
+         and x.shape[-1] == 1024

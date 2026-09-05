@@ -1,0 +1,166 @@
+{
+  "schema_version": "sm89-exact-bf16-backbone-compression-feasibility-v1",
+  "status": "PASS",
+  "scope": {
+    "model": "/home/aden/models/Qwen3.5-0.8B",
+    "config_sha256": "b90b86f35c8e6925ef74ee04d0e758f0a845c83a42089ad82bbaa948de9b4204",
+    "dtype": "bfloat16",
+    "block_values": 256,
+    "active_path": "text batch-1 decode projection weights"
+  },
+  "format": "8-bit exact sign+mantissa, 4-bit block-local exponent delta, 8-bit base and int32 fallback slot per block, dense BF16 fallback payload",
+  "groups": [
+    {
+      "group": "lm_head",
+      "tensors": 1,
+      "values": 254279680,
+      "blocks": 993280,
+      "passing_blocks": 978524,
+      "fallback_blocks": 14756,
+      "component_shapes": {
+        "248320x1024": 1
+      },
+      "dense_bytes": 508559360,
+      "packed_bytes": 393940992,
+      "packed_byte_fraction": 0.774621456185567,
+      "optimistic_local_speedup": 1.290953138484253,
+      "profiled_baseline_us_per_decode_step": 2057.5395,
+      "optimistic_saving_us_per_decode_step": 463.72525635067655
+    },
+    {
+      "group": "mlp_gate_up",
+      "tensors": 48,
+      "values": 176160768,
+      "blocks": 688128,
+      "passing_blocks": 678248,
+      "fallback_blocks": 9880,
+      "component_shapes": {
+        "3584x1024": 48
+      },
+      "dense_bytes": 352321536,
+      "packed_bytes": 272740352,
+      "packed_byte_fraction": 0.7741234188988095,
+      "optimistic_local_speedup": 1.2917836814993917,
+      "profiled_baseline_us_per_decode_step": 1703.2559999999999,
+      "optimistic_saving_us_per_decode_step": 384.72564202008925
+    },
+    {
+      "group": "gdn_qkvz",
+      "tensors": 36,
+      "values": 150994944,
+      "blocks": 589824,
+      "passing_blocks": 580978,
+      "fallback_blocks": 8846,
+      "component_shapes": {
+        "6144x1024": 18,
+        "2048x1024": 18
+      },
+      "dense_bytes": 301989888,
+      "packed_bytes": 233970688,
+      "packed_byte_fraction": 0.7747633192274306,
+      "optimistic_local_speedup": 1.290716758502672,
+      "profiled_baseline_us_per_decode_step": 1448.3339999999998,
+      "optimistic_saving_us_per_decode_step": 326.2179428100585
+    },
+    {
+      "group": "mlp_down",
+      "tensors": 24,
+      "values": 88080384,
+      "blocks": 344064,
+      "passing_blocks": 339044,
+      "fallback_blocks": 5020,
+      "component_shapes": {
+        "1024x3584": 24
+      },
+      "dense_bytes": 176160768,
+      "packed_bytes": 136411136,
+      "packed_byte_fraction": 0.7743559337797619,
+      "optimistic_local_speedup": 1.2913957992403202,
+      "profiled_baseline_us_per_decode_step": 904.848,
+      "optimistic_saving_us_per_decode_step": 204.17358203125002
+    },
+    {
+      "group": "gdn_out",
+      "tensors": 18,
+      "values": 37748736,
+      "blocks": 147456,
+      "passing_blocks": 144607,
+      "fallback_blocks": 2849,
+      "component_shapes": {
+        "1024x2048": 18
+      },
+      "dense_bytes": 75497472,
+      "packed_bytes": 58819072,
+      "packed_byte_fraction": 0.7790866427951388,
+      "optimistic_local_speedup": 1.2835542866096221,
+      "profiled_baseline_us_per_decode_step": 433.13399999999996,
+      "optimistic_saving_us_per_decode_step": 95.68508605957032
+    },
+    {
+      "group": "attention_qkv",
+      "tensors": 18,
+      "values": 31457280,
+      "blocks": 122880,
+      "passing_blocks": 120904,
+      "fallback_blocks": 1976,
+      "component_shapes": {
+        "4096x1024": 6,
+        "512x1024": 12
+      },
+      "dense_bytes": 62914560,
+      "packed_bytes": 48812032,
+      "packed_byte_fraction": 0.7758463541666667,
+      "optimistic_local_speedup": 1.2889149953847445,
+      "profiled_baseline_us_per_decode_step": 314.142,
+      "optimistic_saving_us_per_decode_step": 70.41607460937499
+    },
+    {
+      "group": "attention_out",
+      "tensors": 6,
+      "values": 12582912,
+      "blocks": 49152,
+      "passing_blocks": 48303,
+      "fallback_blocks": 849,
+      "component_shapes": {
+        "1024x2048": 6
+      },
+      "dense_bytes": 25165824,
+      "packed_bytes": 19554816,
+      "packed_byte_fraction": 0.77703857421875,
+      "optimistic_local_speedup": 1.286937396905192,
+      "profiled_baseline_us_per_decode_step": 144.378,
+      "optimistic_saving_us_per_decode_step": 32.19072473144531
+    },
+    {
+      "group": "gdn_ba",
+      "tensors": 36,
+      "values": 589824,
+      "blocks": 2304,
+      "passing_blocks": 2270,
+      "fallback_blocks": 34,
+      "component_shapes": {
+        "16x1024": 36
+      },
+      "dense_bytes": 1179648,
+      "packed_bytes": 913664,
+      "packed_byte_fraction": 0.7745225694444444,
+      "optimistic_local_speedup": 1.2911179602129448,
+      "profiled_baseline_us_per_decode_step": 87.264,
+      "optimistic_saving_us_per_decode_step": 19.6760625
+    }
+  ],
+  "aggregate_backbone": {
+    "dense_bytes": 995229696,
+    "packed_bytes": 771221760,
+    "packed_byte_fraction": 0.7749183561339391,
+    "optimistic_projection_saving_us_per_decode_step": 1133.0851147617884,
+    "current_frontier_tpot_us": 6656.8025689,
+    "optimistic_whole_step_speedup": 1.205130896750143
+  },
+  "materiality_gate": {
+    "minimum_whole_step_speedup": 1.03,
+    "passes": true,
+    "warning": "The upper bound assumes latency scales with bytes and charges no unpack instructions. GPU stream microbenchmarks must rotate through all layer weights to defeat false L2-hot wins."
+  },
+  "decision": "RUN_COLD_STREAM_GPU_SCREEN"
+}

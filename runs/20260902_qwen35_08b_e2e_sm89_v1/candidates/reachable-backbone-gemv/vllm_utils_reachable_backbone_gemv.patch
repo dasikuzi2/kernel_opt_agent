@@ -1,0 +1,78 @@
+diff --git a/vllm/model_executor/layers/utils.py b/vllm/model_executor/layers/utils.py
+--- a/vllm/model_executor/layers/utils.py
++++ b/vllm/model_executor/layers/utils.py
+@@ -42,14 +42,40 @@ def _sm89_bf16_gemv_kernel(
+     tl.store(output_ptr + offsets_n, accum, mask=offsets_n < n)
+ 
+ 
++_SM89_BACKBONE_GEMV_SELECTORS = frozenset(
++    selector.strip()
++    for selector in os.environ.get("VLLM_SM89_BF16_GEMV", "").split(",")
++    if selector.strip()
++)
++_ENABLE_SM89_BACKBONE_GEMV = bool(_SM89_BACKBONE_GEMV_SELECTORS) and (
++    current_platform.is_device_capability(89)
++)
++_SM89_BACKBONE_GEMV_SHAPES = {
++    "gdn_qkvz": (8192, 1024),
++    "attention_qkv": (5120, 1024),
++    "mlp_gate_up": (7168, 1024),
++    "mlp_down": (1024, 3584),
++}
++
++
+ def sm89_bf16_gemv_impl(
+     x: torch.Tensor,
+     weight: torch.Tensor,
+ ) -> torch.Tensor:
+     n, k = weight.shape
+-    if (n, k) != (248320, 1024):
+-        raise ValueError(f"unsupported SM89 BF16 lm_head shape: N={n}, K={k}")
+-    block_n, num_warps = 4, 8
++    if x.numel() != k:
++        return torch.nn.functional.linear(x, weight)
++    schedules = {
++        (248320, 1024): (4, 8),
++        (8192, 1024): (2, 4),
++        (5120, 1024): (8, 4),
++        (7168, 1024): (4, 4),
++        (1024, 3584): (4, 4),
++    }
++    schedule = schedules.get((n, k))
++    if schedule is None:
++        return torch.nn.functional.linear(x, weight)
++    block_n, num_warps = schedule
+     output = torch.empty((*x.shape[:-1], n), dtype=x.dtype, device=x.device)
+     _sm89_bf16_gemv_kernel[(triton.cdiv(n, block_n),)](
+         x,
+@@ -62,6 +88,10 @@ def sm89_bf16_gemv_impl(
+         num_warps=num_warps,
+         num_stages=1,
+     )
++    if (n, k) != (248320, 1024):
++        logger.info_once(
++            "Using reachable SM89 BF16 backbone GEMV for N=%d K=%d.", n, k
++        )
+     return output
+ 
+ 
+@@ -89,5 +119,19 @@ def default_unquantized_gemm(
+     weight: torch.Tensor,
+     bias: torch.Tensor | None = None,
+ ):
++    if (
++        _ENABLE_SM89_BACKBONE_GEMV
++        and bias is None
++        and x.is_cuda
++        and x.dtype == torch.bfloat16
++        and weight.dtype == torch.bfloat16
++        and weight.ndim == 2
++        and any(
++            selector in _SM89_BACKBONE_GEMV_SELECTORS
++            and weight.shape == shape
++            for selector, shape in _SM89_BACKBONE_GEMV_SHAPES.items()
++        )
++    ):
++        return sm89_bf16_gemv(x, weight)
+     if (
+         os.environ.get("VLLM_SM89_BF16_LM_HEAD", "0") == "1"

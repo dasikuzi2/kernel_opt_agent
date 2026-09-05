@@ -1,0 +1,98 @@
+{
+  "attempt": 1,
+  "completed_at": "2026-09-05T05:56:37.229363+00:00",
+  "improvement_percent": 8.564728789277979,
+  "smoke_result": {
+    "path": "candidates/int8-bf16-shortlist-rerank/discovery_smoke.json",
+    "sha256": "adb41b5a472b51a3d5911d70e551dee4509fcf9271fab738dbb43056c6ded874"
+  },
+  "source_after": [
+    {
+      "path": "candidates/int8-bf16-shortlist-rerank/vllm_utils_int8_bf16_shortlist_rerank.patch",
+      "sha256": "b4e0b9261ded2c6766886721b54ab9c28af0ffcbab1a347ffc0563d3c9b5e9dd"
+    },
+    {
+      "path": "candidates/int8-bf16-shortlist-rerank/verify_candidate.py",
+      "sha256": "17bd7d0b3d070fd96d6f2e2d3d98d5fabdacf577ba811ce8b126a5c176ac0cd4"
+    }
+  ],
+  "source_before": [
+    {
+      "path": "candidates/int8-bf16-shortlist-rerank/vllm_utils_int8_bf16_shortlist_rerank.patch",
+      "sha256": "b4e0b9261ded2c6766886721b54ab9c28af0ffcbab1a347ffc0563d3c9b5e9dd"
+    },
+    {
+      "path": "candidates/int8-bf16-shortlist-rerank/verify_candidate.py",
+      "sha256": "17bd7d0b3d070fd96d6f2e2d3d98d5fabdacf577ba811ce8b126a5c176ac0cd4"
+    }
+  ],
+  "stages": [
+    {
+      "argv": [
+        "C:\\Users\\aden\\AppData\\Local\\Programs\\Python\\Python314\\python.exe",
+        "verify_candidate.py",
+        "--stage",
+        "build"
+      ],
+      "cwd": "candidates/int8-bf16-shortlist-rerank",
+      "duration_seconds": 0.177726,
+      "exit_code": 0,
+      "stage": "build",
+      "stderr": {
+        "path": "candidates/int8-bf16-shortlist-rerank/attempts/attempt-01/build.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "path": "candidates/int8-bf16-shortlist-rerank/attempts/attempt-01/build.stdout.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "C:\\Users\\aden\\AppData\\Local\\Programs\\Python\\Python314\\python.exe",
+        "verify_candidate.py",
+        "--stage",
+        "correctness"
+      ],
+      "cwd": "candidates/int8-bf16-shortlist-rerank",
+      "duration_seconds": 0.178176,
+      "exit_code": 0,
+      "stage": "correctness",
+      "stderr": {
+        "path": "candidates/int8-bf16-shortlist-rerank/attempts/attempt-01/correctness.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "path": "candidates/int8-bf16-shortlist-rerank/attempts/attempt-01/correctness.stdout.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "C:\\Users\\aden\\AppData\\Local\\Programs\\Python\\Python314\\python.exe",
+        "verify_candidate.py",
+        "--stage",
+        "smoke",
+        "--output",
+        "discovery_smoke.json"
+      ],
+      "cwd": "candidates/int8-bf16-shortlist-rerank",
+      "duration_seconds": 0.18897,
+      "exit_code": 0,
+      "stage": "smoke",
+      "stderr": {
+        "path": "candidates/int8-bf16-shortlist-rerank/attempts/attempt-01/smoke.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "path": "candidates/int8-bf16-shortlist-rerank/attempts/attempt-01/smoke.stdout.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "timed_out": false
+    }
+  ],
+  "started_at": "2026-09-05T05:56:36.679849+00:00",
+  "status": "VALID_SCREEN"
+}

@@ -1,0 +1,93 @@
+{
+  "schema_version": "serving-policy-spec-v1",
+  "deployment_point": {
+    "model": "Qwen3.5-0.8B",
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU, SM89",
+    "engine": "vLLM 0.28.1rc1.dev312+g41848caa6",
+    "decode": "greedy, 64 generated tokens",
+    "scope": "steady-state service after engine initialization"
+  },
+  "identity_controls": [
+    "quantization", "new_tokens", "warmups", "trials", "ignore_eos", "sampling", "case_order"
+  ],
+  "expected_harness_sha256": "36af89e52a4d868addc706f36eb927d3276f1b6abc5c5e1d6157813c31e46d64",
+  "expected_prompt_token_ids_sha256": [
+    "1a27d458b872af262ee4fbf54ed5f0905fa226dd11ef651d2cb87471b77d3661",
+    "7f91dbb7096b79e8f0a26e548f74e96de812d6317de7facbae3f1036bf8ab0ef",
+    "30128ca05fabd8b0db235be1db9331bf298cacdea88eebd80808186011403ef9",
+    "bae053209ffcf1cf3764f548d02f2832ffa86aed6454e18d07e01f93dcc48536",
+    "441471a4c957b7af9d6b33ffa13da05a8fc637dca0ba1c71974b579c74915d88",
+    "061d29e0385385bee10b9b5dc6a7dcc429f194c69f8eaf11377baffc126f7242"
+  ],
+  "minimum_independent_traces_per_variant": 2,
+  "require_distinct_vllm_cache_roots": true,
+  "variants": [
+    {
+      "id": "stock_vllm_bf16",
+      "role": "baseline",
+      "supported_contracts": ["stock_token_identity", "bf16_weight_exact_reduction_order_drift_allowed"],
+      "traces": [
+        "../traces/vllm_bf16_exact_strict_stock_a_service_curve.json",
+        "../traces/vllm_bf16_exact_strict_stock_b_service_curve.json"
+      ],
+      "challenger_traces": [
+        "../traces/vllm_bf16_exact_source_stock_service_curve_b1_b2_b4_b8.json"
+      ],
+      "required_switches": {
+        "marlin_w4_rerank": "off",
+        "marlin_w4_scan_only": "off",
+        "bf16_lm_head": "off",
+        "exact_packed_lm_head": "off"
+      },
+      "lifecycle": {}
+    },
+    {
+      "id": "exact_bf16_packed_lm_head",
+      "role": "candidate",
+      "supported_contracts": ["stock_token_identity", "bf16_weight_exact_reduction_order_drift_allowed"],
+      "traces": [
+        "../traces/vllm_bf16_exact_strict_candidate_a_service_curve.json",
+        "../traces/vllm_bf16_exact_strict_candidate_b_service_curve.json"
+      ],
+      "required_switches": {
+        "marlin_w4_rerank": "off",
+        "marlin_w4_scan_only": "off",
+        "bf16_lm_head": "on",
+        "exact_packed_lm_head": "on"
+      },
+      "lifecycle": {
+        "requires_prepack": true,
+        "prepack_ready": true,
+        "requires_jit_warm": true,
+        "jit_warm_ready": true,
+        "evidence": [
+          "../comparisons/vllm_bf16_exact_packed_service_integration.json",
+          "../candidates/exact-bf16-packed-lmhead/vllm_utils_exact_bf16_packed_lmhead.patch"
+        ]
+      }
+    }
+  ],
+  "contracts": [
+    {
+      "id": "stock_token_identity",
+      "baseline": "stock_vllm_bf16",
+      "candidates": ["exact_bf16_packed_lm_head"],
+      "requires_stock_token_identity": true,
+      "minimum_speedup": 1.03
+    },
+    {
+      "id": "bf16_weight_exact_reduction_order_drift_allowed",
+      "baseline": "stock_vllm_bf16",
+      "candidates": ["exact_bf16_packed_lm_head"],
+      "requires_stock_token_identity": false,
+      "minimum_speedup": 1.03
+    }
+  ],
+  "limitations": [
+    "The result selects only among the listed measured variants; it is not a theoretical or global optimum proof.",
+    "Two guarded stock runs and two guarded candidate runs do not fully characterize power, clock, or long-horizon variance.",
+    "The packed BF16 path reconstructs weights bit-exactly but changes FP32 reduction order and can change greedy tokens.",
+    "Engine initialization, load-time packing, and first-use JIT are excluded from steady-state throughput and must be budgeted separately.",
+    "The result applies only to the frozen model, GPU, software stack, decode mode, output length, and batch points."
+  ]
+}

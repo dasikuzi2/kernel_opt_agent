@@ -1,0 +1,55 @@
+{
+  "abi": {
+    "entrypoint": "single-request text generation compatible with the vLLM offline LLM API",
+    "mutable_arguments": [
+      "runtime-owned recurrent state",
+      "runtime-owned KV cache",
+      "runtime-owned scratch buffers"
+    ]
+  },
+  "computation": {
+    "definition": "Run the frozen Qwen3.5-0.8B text backbone autoregressively. Given one tokenized prompt, compute the exact model forward recurrence and append 128 greedy tokens. The execution includes embedding, 18 Gated DeltaNet blocks, 6 full-attention blocks, FFN, normalization, LM head and token selection; vision inputs are absent.",
+    "dependencies": [
+      "each generated token depends on the complete recurrent/KV state from all earlier tokens",
+      "three Gated DeltaNet layers precede each full-attention layer in every four-layer group",
+      "all cross-operator fusions must preserve model weights, state updates, causal masking and greedy token sequence"
+    ],
+    "forbidden_rewrites": [
+      "weight quantization below the frozen BF16 checkpoint",
+      "speculative or multi-token decoding",
+      "token pruning or early exit",
+      "changed sampling policy",
+      "changed model weights or skipped layers"
+    ],
+    "legal_rewrites": [
+      "kernel and epilogue fusion",
+      "equivalent weight and activation layout changes",
+      "scratch-buffer reuse",
+      "CUDA graph capture and launch batching",
+      "architecture-specific SM89 kernels",
+      "mathematically equivalent scheduling and compiler substitutions"
+    ]
+  },
+  "inputs": [
+    {
+      "dtype": "int64",
+      "layout": "contiguous row-major token IDs",
+      "name": "input_ids",
+      "shape": ["1", "prompt_tokens"]
+    }
+  ],
+  "name": "qwen35_08b_text_generation_end_to_end",
+  "numerics": {
+    "acceptance": "Every workload case must generate exactly the same 128 token IDs as the frozen baseline. When token logprobs are available, maximum absolute logprob difference must also be <= 1e-3; missing logprobs do not weaken the exact-token requirement.",
+    "reference": "Frozen upstream Qwen/Qwen3.5-0.8B checkpoint executed in BF16 with greedy decoding and text-only inputs."
+  },
+  "outputs": [
+    {
+      "dtype": "int64",
+      "layout": "contiguous autoregressive order",
+      "name": "generated_token_ids",
+      "shape": ["1", 128]
+    }
+  ],
+  "schema_version": "operator-contract-v1"
+}

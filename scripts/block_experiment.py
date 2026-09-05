@@ -18,7 +18,7 @@ def evidence(run: Path, path: Path) -> dict:
     resolved = path.resolve()
     if run not in resolved.parents or not resolved.is_file():
         raise ValueError(f"evidence must be an existing file inside the run: {resolved}")
-    return {"path": str(resolved.relative_to(run)), "sha256": sha(resolved)}
+    return {"path": resolved.relative_to(run).as_posix(), "sha256": sha(resolved)}
 
 
 def atomic_json(path: Path, data: dict) -> None:

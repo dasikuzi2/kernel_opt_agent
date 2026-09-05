@@ -1,0 +1,25 @@
+{
+  "schema_version": "resource-discovery-v2",
+  "status": "BLOCKED",
+  "detector_identity": {},
+  "binary_identity": {},
+  "sass_input_identity": {},
+  "sass_summary_identity": {},
+  "disassembly_receipt_identity": {},
+  "hardware_evidence_identity": {},
+  "observed_instruction_classes": [],
+  "required_resource_ids": [],
+  "official_available_resource_ids": [],
+  "candidate_resource_ids": [],
+  "resource_nodes": [],
+  "unresolved_mappings": [
+    {
+      "reason": "final-binary SASS summary and official hardware evidence have not been bound"
+    }
+  ],
+  "exclusions": [],
+  "completeness_contract": {
+    "manual_resource_omission_forbidden": true,
+    "unresolved_mapping_blocks_modeling": true
+  }
+}

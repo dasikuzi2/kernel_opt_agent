@@ -1,0 +1,74 @@
+{
+  "schema_version": "sm89-exact-bf16-packed-backbone-stop-v1",
+  "candidate": "Exact BF16 block base-plus-delta packing for all batch-1 decode projections",
+  "scope": "Qwen3.5-0.8B, RTX 4060 Laptop SM89, batch-1 decode",
+  "correctness": {
+    "weight_bit_exact": true,
+    "quantization": false,
+    "reconstructed_weight_bits_validated": true,
+    "note": "FP32 reduction order can still change intermediate outputs even though every BF16 weight bit is reconstructed exactly."
+  },
+  "static_feasibility": {
+    "dense_backbone_bytes": 995229696,
+    "packed_backbone_bytes": 771221760,
+    "packed_byte_fraction": 0.7749183561339391,
+    "zero_unpack_cost_saving_us_per_token": 1133.0851147617884,
+    "optimistic_whole_step_speedup": 1.205130896750143,
+    "decision": "PASS_TO_GPU_SCREEN"
+  },
+  "scalar_unpack_cold_stream": {
+    "protocol": "Rotate every layer weight in each group; every included working set exceeds the 32 MiB L2; 100 paired warmups, 7 repeats, 5 iterations per sample, eight launch schedules.",
+    "dense_us": 4936.908864974976,
+    "packed_us": 5845.369648933411,
+    "local_speedup": 0.8445845449441851,
+    "observed_saving_us_per_token": -908.4607839584351,
+    "projected_whole_step_speedup": 0.8799168328204747,
+    "decision": "REJECT"
+  },
+  "tensorcore_unpack_screen": {
+    "representative_group": "attention_qkv, 6 x 5120x1024 projections",
+    "protocol": "Hoist block metadata per row/tile, reconstruct exact BF16, pad M=1 to M=16 and use Tensor Core dot; seven bounded schedules.",
+    "best_dense_us": 312.71040439605713,
+    "best_candidate_us": 690.7904148101807,
+    "best_local_speedup": 0.4526849210581266,
+    "projected_whole_step_speedup_for_screened_group": 0.9462563864923833,
+    "decision": "REJECT_WITHOUT_EXPANDING_TO_ALL_GROUPS"
+  },
+  "current_frontier_profile": {
+    "generated_steps": 186,
+    "exact_packed_lmhead_instances": 192,
+    "reachability": "PASS",
+    "cublas_backbone_gpu_time_percent_under_profiler": 52.73814062634954,
+    "packed_lmhead_gpu_time_percent_under_profiler": 30.89595338076937,
+    "warning": "Profiler timings are perturbative and are used for opportunity ranking and reachability, not as production latency."
+  },
+  "roofline_context": {
+    "calibrated_bandwidth_gb_s": 248.8785,
+    "current_strict_active_weight_bytes": 1426884288,
+    "current_strict_weight_service_floor_us": 5733.256540842218,
+    "current_strict_tpot_us": 6656.8025689,
+    "absolute_speedup_if_all_non_weight_time_vanished": 1.161085767134033,
+    "interpretation": "The remaining strict BF16 search space is narrow: even an impossible deletion of all non-weight time is bounded near 1.16x at the measured bandwidth."
+  },
+  "why_lmhead_differs": "The single 508.6 MB lm_head is a large DRAM stream whose regular bit reconstruction can be hidden by reduced traffic. Backbone projections are much smaller and repeated; cuBLAS already uses efficient shape-specific reductions, so scalar integer unpack or padded Tensor Core work becomes the bottleneck.",
+  "decision": "MEASURED_REJECT_BACKBONE_EXACT_PACKING",
+  "reopen_condition": "Reopen only with a native compressed-BF16 dot instruction, an unpack path that beats cuBLAS on cold rotating weights for every material shape, or a producer-consumer architecture that eliminates additional weight/input traffic and predicts at least 3% whole-step gain.",
+  "evidence": {
+    "feasibility": {
+      "path": "models/sm89_exact_bf16_backbone_compression_feasibility.json",
+      "sha256": "782e6fc84ab15253be671333c722eab680bf239be5dc49ca3761a257662b54ec"
+    },
+    "scalar_cold_stream": {
+      "path": "microbench_candidates/exact_bf16_backbone_cold_stream_sm89.json",
+      "sha256": "d01c89ea701ced915d5ba3e7ac6b8bd7bf527af789465ca28e45eb093eff2e75"
+    },
+    "tensorcore_screen": {
+      "path": "microbench_candidates/exact_bf16_backbone_tensorcore_attention_sm89.json",
+      "sha256": "1b393a75f820547d65e6494de3b5b95e7c7c18a9b9731806409de6fbc28d6417"
+    },
+    "nsys_map": {
+      "path": "models/nsys2025_exact_packed_frontier_map.json",
+      "sha256": "08e6caba697a9838cdd0adaf97224907d5991ab9579ca801c57fab80d19bcda8"
+    }
+  }
+}

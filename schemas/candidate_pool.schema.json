@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "candidate_pool.schema.json",
+  "title": "Fast production-candidate discovery pool",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "created_at", "discovery_started_at", "policy", "candidates", "events"],
+  "properties": {
+    "schema_version": {"const": "candidate-pool-v1"},
+    "status": {"enum": ["ACTIVE", "PAUSED", "COMPLETE"]},
+    "created_at": {"type": ["string", "null"]},
+    "discovery_started_at": {"type": ["string", "null"]},
+    "policy": {
+      "type": "object",
+      "required": ["min_candidates", "max_candidates", "min_families", "max_promotions", "max_technical_attempts_per_candidate", "max_candidate_wall_clock_minutes", "max_total_wall_clock_minutes", "promotion_threshold_percent", "screening_claim_scope"]
+    },
+    "candidates": {"type": "array"},
+    "events": {"type": "array"}
+  }
+}

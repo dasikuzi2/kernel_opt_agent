@@ -1,0 +1,17 @@
+{
+  "schema_version": "sm89-ordinary-triton-int4-recall-stop-v1",
+  "status": "MEASURED_REJECT",
+  "candidate": "ordinary Triton packed symmetric groupwise INT4 full-vocabulary scan",
+  "best_point": {
+    "group_k": 128,
+    "block_n": 8,
+    "num_warps": 4,
+    "byte_fraction_vs_dense_bf16": 0.2578125,
+    "median_int4_scan_us": 1838.387,
+    "speedup_vs_exact_packed_bf16": 1.529327,
+    "exact_winner_recall_at_128": "8/8"
+  },
+  "reference_int8_scan_us": 992.89565625,
+  "cause": "Nibble extraction, sign extension, and scalar dequantization consume the bandwidth saving; half the stored bytes did not produce a faster scan than the existing INT8 kernel.",
+  "decision": "Stop tuning ordinary Triton INT4. Reopen low-bit search only through a native integer/tensor-core path such as Marlin."
+}

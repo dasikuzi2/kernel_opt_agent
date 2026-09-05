@@ -1,0 +1,20 @@
+{
+  "opportunity_id": "sm89-decode-projection-fusion",
+  "name": "Fuse or persist batch-1 decode projections",
+  "model_scope": "EMPIRICAL_BOTTLENECK",
+  "source_model_term": "Nsight cublas_gemvx time across 114 decode projections",
+  "affected_stages": ["gdn-projections", "attention-projections", "mlp-projections"],
+  "current_contribution_us": 5035.625,
+  "optimistic_gain_ceiling_us": 800.0,
+  "likely_gain_interval_us": {"lower": 200.0, "upper": 500.0},
+  "confidence": "HIGH",
+  "rewrite_families": ["cross-projection-fusion", "persistent-scheduling", "weight-stream-specialization"],
+  "implementation_budget_minutes": 120,
+  "hypothesis": "Remove launch and intermediate traffic across related projections instead of replacing isolated cuBLAS GEMVs.",
+  "derivation": "Nsight observes 21,204 cuBLAS GEMV launches over 186 decode steps (5.036 ms/step); reachable isolated replacements delivered only about 0.37 ms of modeled kernel savings, bounding the likely interval below the 0.8 ms discovery ceiling.",
+  "evidence": [{
+    "path": "models/sm89_nsys_operator_map.json",
+    "sha256": "1c01492f85adec15ea27a11de9ed8d9f72d7c5f2b96d6171c74a36f59d01eb79",
+    "claim": "Runtime launch counts, logical shape mapping and reachable-candidate residuals."
+  }]
+}

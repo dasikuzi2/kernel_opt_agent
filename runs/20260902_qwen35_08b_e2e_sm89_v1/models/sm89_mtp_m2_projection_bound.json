@@ -1,0 +1,39 @@
+{
+  "schema_version": "mtp-m2-projection-bound-v1",
+  "status": "PASS",
+  "claim_scope": "DISCOVERY_PROJECTION_ONLY_COLD_CACHE_ESTIMATE",
+  "inputs": {
+    "economics": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\models\\sm89_mtp1_acceptance_economics.json",
+      "sha256": "19b8c99ba1cb379e64dd96ecb649f265aa83e81b7e70d2594a82cd74bb024735"
+    },
+    "microbenchmark": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\microbench_candidates\\bf16_triton_mtp_m2_backbone_sm89.json",
+      "sha256": "6dce71669b1eaf6660a699df5d36f755f575a8c56616cd7d0e20278d041b7560"
+    }
+  },
+  "projection_estimate": {
+    "stock_weighted_us": 8669.184029102325,
+    "candidate_weighted_us": 7206.912064924836,
+    "projected_cycle_saving_ms": 1.4622719641774893,
+    "all_shapes_numerically_close": true,
+    "maximum_observed_abs_error": 0.00390625
+  },
+  "projected_mtp": {
+    "current_cycle_ms": 15.585457161718953,
+    "projected_cycle_ms": 14.123185197541464,
+    "mean_acceptance_length": 1.7592592592592593,
+    "projected_tpot_ms": 8.027915796497252,
+    "projected_speedup_vs_non_spec": 0.9849178961191433,
+    "perfect_acceptance_tpot_ms": 7.061592598770732,
+    "perfect_acceptance_speedup_vs_non_spec": 1.119696134535447
+  },
+  "decision_boundary": {
+    "minimum_promotion_speedup": 1.03,
+    "break_even_required_cycle_saving_ms": 1.6752793104553891,
+    "promotion_required_cycle_saving_ms": 2.0804301216572405,
+    "additional_non_projection_saving_needed_for_promotion_ms": 0.6181581574797512,
+    "decision": "SCREEN_OUT_PROJECTION_ONLY_IMPLEMENTATION",
+    "reason": "At measured acceptance, replacing every screened M=2 projection still misses the promotion threshold. Re-open only if a separate cycle optimization supplies the recorded deficit or acceptance rises."
+  }
+}

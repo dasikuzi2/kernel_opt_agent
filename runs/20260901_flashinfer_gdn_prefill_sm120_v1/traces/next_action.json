@@ -1,0 +1,12 @@
+{
+  "action": "CAPTURE_DISCOVERY_BASELINE",
+  "blocking_inputs": [
+    {
+      "claim_scope": "DISCOVERY_ONLY",
+      "required": "models/baseline.json status VALID with correctness PASS"
+    }
+  ],
+  "commands": [],
+  "reason": "candidate discovery needs a correct production baseline, but full resource-model closure is not required yet",
+  "schema_version": "optimizer-next-action-v1"
+}

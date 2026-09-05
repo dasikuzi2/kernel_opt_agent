@@ -56,7 +56,7 @@ def main():
     if p0_errors:
         raise ValueError("P0 evidence is invalid: " + "; ".join(p0_errors))
     def relative_identity(path: Path):
-        return {"path": str(path.resolve().relative_to(repository_root)), "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
+        return {"path": path.resolve().relative_to(repository_root).as_posix(), "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
     index["records"].append({
         "id": args.id,
         "qualification": "EVIDENCE_CLOSED_V2",

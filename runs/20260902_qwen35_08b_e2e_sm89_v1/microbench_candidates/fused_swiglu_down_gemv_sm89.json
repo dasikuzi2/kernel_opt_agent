@@ -1,0 +1,155 @@
+{
+  "device": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "torch_version": "2.13.0+cu130",
+  "shape": {
+    "N": 1024,
+    "K": 3584,
+    "input": "BF16[7168]",
+    "weight": "BF16[1024,3584]"
+  },
+  "stock": {
+    "path": "torch.compile-compatible SwiGLU materialization followed by cuBLAS GEMV",
+    "median_us": 45.16863822937012,
+    "samples_us": [
+      45.16863822937012,
+      45.598721504211426,
+      45.26048183441162,
+      45.16335964202881,
+      45.14815807342529
+    ]
+  },
+  "candidate_family": "fused_swiglu_down_gemv",
+  "best": {
+    "block_n": 4,
+    "warps": 4,
+    "median_us": 26.521599292755127,
+    "speedup_vs_stock_activation_plus_cublas": 1.7030887817428408,
+    "samples_us": [
+      26.465280055999756,
+      27.089760303497314,
+      27.26912021636963,
+      26.485280990600586,
+      26.521599292755127
+    ],
+    "correctness": {
+      "output_equal": false,
+      "max_abs": 0.5,
+      "mismatch_count": 561
+    }
+  },
+  "results": [
+    {
+      "block_n": 1,
+      "warps": 4,
+      "median_us": 53.529601097106934,
+      "speedup_vs_stock_activation_plus_cublas": 0.8438067406374024,
+      "samples_us": [
+        53.89823913574219,
+        53.27360153198242,
+        53.529601097106934,
+        53.70880126953125,
+        53.437438011169434
+      ],
+      "correctness": {
+        "output_equal": false,
+        "max_abs": 0.5,
+        "mismatch_count": 561
+      }
+    },
+    {
+      "block_n": 1,
+      "warps": 8,
+      "median_us": 54.90176200866699,
+      "speedup_vs_stock_activation_plus_cublas": 0.8227174607299421,
+      "samples_us": [
+        55.44943809509277,
+        54.773759841918945,
+        54.90176200866699,
+        54.79423999786377,
+        56.89839839935303
+      ],
+      "correctness": {
+        "output_equal": false,
+        "max_abs": 0.5,
+        "mismatch_count": 561
+      }
+    },
+    {
+      "block_n": 2,
+      "warps": 4,
+      "median_us": 33.28511953353882,
+      "speedup_vs_stock_activation_plus_cublas": 1.3570219624375153,
+      "samples_us": [
+        32.941439151763916,
+        33.74079942703247,
+        33.28511953353882,
+        32.819199562072754,
+        33.99168014526367
+      ],
+      "correctness": {
+        "output_equal": false,
+        "max_abs": 0.5,
+        "mismatch_count": 561
+      }
+    },
+    {
+      "block_n": 2,
+      "warps": 8,
+      "median_us": 35.732479095458984,
+      "speedup_vs_stock_activation_plus_cublas": 1.2640779305768997,
+      "samples_us": [
+        36.04480028152466,
+        35.732479095458984,
+        35.25631904602051,
+        38.7174391746521,
+        35.07200002670288
+      ],
+      "correctness": {
+        "output_equal": false,
+        "max_abs": 0.5,
+        "mismatch_count": 561
+      }
+    },
+    {
+      "block_n": 4,
+      "warps": 4,
+      "median_us": 26.521599292755127,
+      "speedup_vs_stock_activation_plus_cublas": 1.7030887817428408,
+      "samples_us": [
+        26.465280055999756,
+        27.089760303497314,
+        27.26912021636963,
+        26.485280990600586,
+        26.521599292755127
+      ],
+      "correctness": {
+        "output_equal": false,
+        "max_abs": 0.5,
+        "mismatch_count": 561
+      }
+    },
+    {
+      "block_n": 4,
+      "warps": 8,
+      "median_us": 28.139519691467285,
+      "speedup_vs_stock_activation_plus_cublas": 1.605167349145144,
+      "samples_us": [
+        27.781119346618652,
+        28.646399974822998,
+        29.045119285583496,
+        25.774080753326416,
+        28.139519691467285
+      ],
+      "correctness": {
+        "output_equal": false,
+        "max_abs": 0.5,
+        "mismatch_count": 561
+      }
+    }
+  ],
+  "promotion_gate": {
+    "minimum_local_speedup": 1.03,
+    "requires_output_equal_for_strict_frontier": true,
+    "passed": false
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "candidate_smoke_result.schema.json",
+  "title": "Discovery-only candidate smoke result with execution-path proof",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema_version", "status", "candidate_id", "objective", "cases", "reachability"],
+  "properties": {
+    "schema_version": {"const": "candidate-smoke-result-v3"},
+    "status": {"const": "PASS"},
+    "candidate_id": {"type": "string", "minLength": 1},
+    "objective": {
+      "type": "object",
+      "required": ["direction", "baseline", "candidate", "unit"]
+    },
+    "cases": {"type": "array", "minItems": 2},
+    "reachability": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["status", "expected_path", "observed_path", "compile_cache_policy", "execution_proof", "evidence"],
+      "properties": {
+        "status": {"const": "PASS"},
+        "expected_path": {"type": "string", "minLength": 1},
+        "observed_path": {"type": "string", "minLength": 1},
+        "compile_cache_policy": {"enum": ["FRESH", "SOURCE_HASHED", "NOT_COMPILED"]},
+        "execution_proof": {
+          "type": "object",
+          "additionalProperties": true,
+          "required": ["kind", "scope", "observed_count", "minimum_count", "evidence_index"],
+          "properties": {
+            "kind": {"enum": ["KERNEL_INSTANCE_COUNT", "INSTRUMENTED_CALL_COUNT", "DIRECT_SENTINEL"]},
+            "scope": {"type": "string", "minLength": 1},
+            "observed_count": {"type": "integer", "minimum": 1},
+            "minimum_count": {"type": "integer", "minimum": 1},
+            "evidence_index": {"type": "integer", "minimum": 0}
+          }
+        },
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["path", "sha256"],
+            "properties": {
+              "path": {"type": "string", "minLength": 1},
+              "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+            }
+          }
+        }
+      }
+    }
+  }
+}

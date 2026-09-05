@@ -1,0 +1,16 @@
+{
+  "opportunity_id": "sm89-decode-graph-tail",
+  "name": "Compact the non-Marlin CUDA Graph tail",
+  "model_scope": "EMPIRICAL_BOTTLENECK",
+  "source_model_term": "All node-expanded non-Marlin kernels",
+  "affected_stages": ["decode-graph", "recurrent-state", "attention", "normalization"],
+  "current_contribution_us": 1371.87584375,
+  "optimistic_gain_ceiling_us": 180.0,
+  "likely_gain_interval_us": {"lower": 15.0, "upper": 70.0},
+  "confidence": "LOW",
+  "rewrite_families": ["graph-compaction", "launch-amortization", "producer-consumer-fusion"],
+  "implementation_budget_minutes": 60,
+  "hypothesis": "Only dependency-legal producer-consumer boundaries that remove a materialization or graph node can reduce the remaining tail; scheduler-only tuning is already below the observed opportunity scale.",
+  "derivation": "Non-Marlin kernels total 1.372 ms per output decision. The 0.180 ms ceiling keeps recurrent, attention and normalization mathematical work mandatory and exposes only a bounded launch/materialization fraction.",
+  "evidence": [{"path": "models/round37_imported_evidence.json", "sha256": "708cc8587a5e928ffa0d7355480d271768e57b9aedf95f0c8adf2ca52d51e8fc", "claim": "Complete node-expanded non-Marlin residual rather than a KERNEL-only graph summary."}]
+}

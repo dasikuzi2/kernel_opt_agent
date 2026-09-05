@@ -1,0 +1,58 @@
+{
+  "schema_version": "optimization-method-v1",
+  "method_id": "cuda-grid-stride-thread-reuse",
+  "title": "Use bounded grids and grid-stride loops as a thread-reuse candidate",
+  "kind": "TRANSFORMATION",
+  "source": {
+    "title": "CUDA Pro Tip: Write Flexible Kernels with Grid-Stride Loops",
+    "url": "https://developer.nvidia.com/blog/cuda-pro-tip-write-flexible-kernels-grid-stride-loops/",
+    "version": "2013-04-22",
+    "evidence_tier": "VENDOR_OFFICIAL_GUIDANCE",
+    "claim_scope": "General CUDA design pattern; thread reuse and launch amortization do not guarantee lower latency for a memory-streaming kernel."
+  },
+  "opportunity_families": ["persistent-schedule", "persistent-grid", "persistent-vector", "thread-coarsening"],
+  "applicability": {
+    "vendors": ["NVIDIA"],
+    "architecture_affinity": [],
+    "required_capabilities": [],
+    "dtypes": ["any"],
+    "problem_signatures": ["persistent", "grid", "thread reuse", "coarsening", "stride"]
+  },
+  "implementation_recipe": [
+    "Implement a grid-stride candidate whose grid size is a small multiple of the discovered SM count.",
+    "Preserve unit-stride addressing within a warp and keep the monolithic-grid control.",
+    "Vary thread reuse independently from vector access width before testing their combination."
+  ],
+  "validation_recipe": [
+    "Measure enough work to expose reuse while retaining a small edge case that detects underfilled grids.",
+    "Compare bounded-grid scalar, bounded-grid vector, and monolithic controls.",
+    "Reject persistence when repeated loop overhead or reduced parallelism dominates."
+  ],
+  "expected_bottleneck_shifts": [
+    "Thread creation or per-thread setup may shift to loop/control overhead or insufficient memory concurrency.",
+    "Combining reuse with vectorization can increase register pressure."
+  ],
+  "failure_modes": [
+    "The grid is too small to saturate memory latency.",
+    "Grid-stride loop control adds work without amortizing meaningful setup.",
+    "The persistent-vector combination consumes too many registers."
+  ],
+  "scope_limits": [
+    "A grid-stride loop is not equivalent to a cooperative persistent kernel.",
+    "The blocks-per-SM multiplier must come from target discovery, not a hard-coded neighboring device."
+  ],
+  "candidate_archetypes": [
+    {
+      "family": "persistent-grid",
+      "name": "SM-scaled bounded grid",
+      "change_axes": ["grid size", "thread reuse", "loop stride"],
+      "template": "Launch a bounded grid scaled by discovered SM count and process remaining elements through a coalesced grid-stride loop."
+    },
+    {
+      "family": "persistent-vector",
+      "name": "bounded grid plus vector access",
+      "change_axes": ["grid size", "thread reuse", "memory instruction width"],
+      "template": "Combine a validated bounded grid with the best aligned vector width only after both axes have independent controls."
+    }
+  ]
+}

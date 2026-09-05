@@ -1,0 +1,21 @@
+{
+  "created_at": "2026-09-01T06:33:20.596235+00:00",
+  "events": [],
+  "opportunities": [],
+  "policy": {
+    "confidence_weights": {
+      "HIGH": 1.0,
+      "LOW": 0.35,
+      "MEDIUM": 0.65
+    },
+    "forbidden_claim_scope": "ABSOLUTE_GLOBAL_OPTIMUM",
+    "max_opportunities": 12,
+    "min_candidate_opportunities": 3,
+    "min_opportunities": 4,
+    "min_rewrite_families": 4,
+    "score_formula": "midpoint(likely_gain_interval_us) * confidence_weight / implementation_budget_minutes"
+  },
+  "ranked_at": null,
+  "schema_version": "opportunity-map-v1",
+  "status": "DRAFT"
+}

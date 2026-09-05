@@ -1,0 +1,80 @@
+{
+  "schema_version": "sm89-marlin-w4-lmhead-sidecar-screen-v1",
+  "status": "DISCOVERY_SMOKE_PASS_LIFECYCLE_HARDENING_ONLY",
+  "candidate": "External SHA-bound safetensors sidecar for the Marlin W4 shortlist scan",
+  "base_candidate": "marlin-w4-bf16-shortlist-rerank",
+  "scope": "Qwen3.5-0.8B GPTQ-Marlin, RTX 4060 Laptop SM89, greedy active batch 1",
+  "architecture": {
+    "offline": "Convert the checkpoint FP16 tied embedding to the runtime BF16 value, quantize with vLLM production GPTQ APIs, repack for Marlin and store packed_weight plus permuted_scales.",
+    "runtime": "Require an exact sidecar SHA-256, validate schema/shape/dtype/quantization metadata, load tensors directly to the target CUDA device, allocate only the Marlin workspace and warm the existing rerank op during weight post-processing.",
+    "numerical_change_vs_base_candidate": "NONE_PROVEN_FOR_THE_PACKED_PATH",
+    "dense_weight_retained": true
+  },
+  "build": {
+    "sidecar_path": "/home/aden/vllm-sidecars/qwen35-08b-gptq/sm89_lmhead_marlin_w4_g128.safetensors",
+    "sidecar_sha256": "b8a06c4d71433a5f97d480d5b16373298567c6ae055e5cf961e5f29656a1a793",
+    "sidecar_bytes": 131113688,
+    "source_checkpoint_tensor_dtype": "torch.float16",
+    "runtime_dense_dtype": "torch.bfloat16",
+    "runtime_dense_sha256": "6e287b0f79bfe7b7e1d4f0eed87263d364c2ee944df123411eafc0fba99856ca"
+  },
+  "equivalence": {
+    "status": "PASS",
+    "packed_weight_bit_equal": true,
+    "permuted_scales_bit_equal": true,
+    "reranked_logits_bit_equal": true,
+    "argmax_equal": true,
+    "wrong_sidecar_sha256_rejected": true,
+    "online_quantize_repack_seconds": 2.047280487997341,
+    "sidecar_hash_and_load_seconds": 0.1427753730022232,
+    "materialization_speedup": 14.339170999507472,
+    "materialization_seconds_removed": 1.9045051149951178
+  },
+  "production_smoke": {
+    "status": "PASS",
+    "engine_log_proved_sidecar_load": true,
+    "model_loading_seconds": 2.154807,
+    "reported_model_memory_gib": 0.98,
+    "batch_1_output_tokens_per_second": 180.37835261371495,
+    "protocol": "fresh VLLM_CACHE_ROOT, one warmup and one measured 64-token greedy request; discovery evidence only"
+  },
+  "technical_failure_and_repair": {
+    "first_attempt": "TECHNICAL_FAILURE",
+    "cause": "Placing the sidecar inside the Hugging Face model directory made vLLM discover it as a second checkpoint shard and reject its non-model tensor names.",
+    "repair": "Move sidecars to a dedicated external directory and make the builder reject output.parent == checkpoint.parent.",
+    "causal_hypothesis_rejected": false
+  },
+  "global_value": {
+    "steady_state_throughput_frontier_changed": false,
+    "quality_contract_changed": false,
+    "cold_start_materialization_improved": true,
+    "priority": "Useful for production hardening and frequent cold starts, but lower global value than a new steady-state decode architecture."
+  },
+  "memory_boundary": {
+    "sidecar_does_not_remove_runtime_packed_memory": true,
+    "sidecar_does_not_remove_dense_tied_weight": true,
+    "why": [
+      "The input embedding reads rows from the same tied BF16 parameter.",
+      "The top-128 rerank reads original BF16 rows to recover higher-fidelity scores.",
+      "Removing the dense table therefore requires a quantized embedding and eliminates the current BF16 rerank authority, creating a different numerical candidate."
+    ],
+    "conclusion": "Checkpoint-native loading and shared-weight compression are separate architecture decisions; only the former is proven here."
+  },
+  "artifacts": {
+    "builder": "../../tools/build_marlin_lmhead_sidecar.py",
+    "validator": "../../tools/validate_marlin_lmhead_sidecar.py",
+    "build_manifest": "build_manifest.json",
+    "equivalence_validation": "equivalence_validation.json",
+    "incremental_patch": "vllm_utils_sidecar_loader.patch",
+    "production_smoke_trace": "../../traces/vllm_gptq_sidecar_candidate_smoke_b1.json"
+  },
+  "artifact_sha256": {
+    "build_manifest": "42f48bd8ae73053233772a8de7a9c62e9213ac64067bde9a457350883bce9de6",
+    "equivalence_validation": "0a0a73ad2791ef126d1de543021786acce4915b80375f62fde94b3cdaa3ed091",
+    "incremental_patch": "81077158d30bb8ccb3cda8f8b89565b06b86fe8c14ac0b8d051b7e11c61944f5",
+    "production_smoke_trace": "8ee9f827d0e6121dc02507f163485f7898cc25663b372b303bc107aeaaea078c",
+    "builder": "922d0c05cb1bce8882cf8b823444ee4c6be716d8dc352422fa1d127327f45e9e",
+    "validator": "2b6b84f7a00274a6f0879ebc1c1fd73c3f15420c2b988b27b92471a6226f0ead"
+  },
+  "decision": "Keep as an incremental production-hardening patch on top of the already qualified approximate rerank candidate. Do not claim a new throughput optimum or a memory reduction. Rebuild the sidecar for every checkpoint and require the recorded SHA-256 at runtime."
+}

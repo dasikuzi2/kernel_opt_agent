@@ -1,0 +1,20 @@
+{
+  "opportunity_id": "sm89-decode-graph-compaction",
+  "name": "Compact repeated short decode kernels",
+  "model_scope": "EMPIRICAL_BOTTLENECK",
+  "source_model_term": "Non-GEMV short-kernel tail in expanded CUDA Graph",
+  "affected_stages": ["decode-graph", "sampling-boundary"],
+  "current_contribution_us": 1239.0,
+  "optimistic_gain_ceiling_us": 200.0,
+  "likely_gain_interval_us": {"lower": 20.0, "upper": 100.0},
+  "confidence": "LOW",
+  "rewrite_families": ["graph-specialization", "kernel-fusion", "persistent-scheduling"],
+  "implementation_budget_minutes": 60,
+  "hypothesis": "Collapse repeated sub-10-us kernels only when a producer-consumer boundary can be removed without changing graph semantics.",
+  "derivation": "After the measured GEMV, lm-head, recurrent, normalization and attention families, roughly 1.24 ms/step remains in the expanded trace; node tracing inflates short kernels, so the likely interval is deliberately narrow and low confidence.",
+  "evidence": [{
+    "path": "models/nsys2025_lmhead_opportunity_map.json",
+    "sha256": "2489e67cd0c268c13ddac379a801630b17908f7f3d7ebbe244e04e4bc5a33026",
+    "claim": "Complete expanded CUDA kernel inventory and residual tail."
+  }]
+}

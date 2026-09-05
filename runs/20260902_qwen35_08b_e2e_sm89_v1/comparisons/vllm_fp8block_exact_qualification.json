@@ -1,0 +1,54 @@
+{
+  "schema_version": "vllm-cssc-qualification-v1",
+  "status": "PASS_LIMITED_LATENCY_FIRST",
+  "protocol": "C-S-S-C, six natural prompts, 3 warmups x 10 trials per case, 128 generated tokens, max_num_seqs=1, fixed 512 MiB KV cache",
+  "control": "BF16 backbone plus exact-packed BF16 lm_head",
+  "candidate": "vLLM fp8_per_block Marlin backbone plus exact-packed BF16 lm_head",
+  "means": {
+    "control_e2e_ms": 1112.7884006249737,
+    "candidate_e2e_ms": 995.9107070000451,
+    "e2e_speedup": 1.117357603250392,
+    "control_tpot_ms": 8.393551044291765,
+    "candidate_tpot_ms": 7.553913989173103,
+    "tpot_speedup": 1.111152583458337
+  },
+  "cross_pairs": [
+    {
+      "pair": "C1-S1",
+      "e2e_speedup": 1.1005175987521207,
+      "tpot_speedup": 1.1027750476736884,
+      "all_cases_faster": true
+    },
+    {
+      "pair": "C1-S2",
+      "e2e_speedup": 1.1117758051179234,
+      "tpot_speedup": 1.115765077241597,
+      "all_cases_faster": true
+    },
+    {
+      "pair": "C2-S1",
+      "e2e_speedup": 1.12288287826464,
+      "tpot_speedup": 1.1065937895370357,
+      "all_cases_faster": true
+    },
+    {
+      "pair": "C2-S2",
+      "e2e_speedup": 1.1343698796378705,
+      "tpot_speedup": 1.1196288015969056,
+      "all_cases_faster": true
+    }
+  ],
+  "repeatability": {
+    "control_repeat_token_exact_cases": "6/6",
+    "candidate_repeat_token_exact_cases": "6/6",
+    "cross_mode_token_exact_cases": "0/6"
+  },
+  "telemetry": {
+    "control_graphics_clock_mhz": [945.0, 960.0],
+    "candidate_graphics_clock_mhz": [915.0, 930.0],
+    "control_power_w": [38.685, 39.27],
+    "candidate_power_w": [30.89, 30.95],
+    "interpretation": "The candidate did not receive a higher-clock advantage, but absolute notebook GPU latency remains power-state-sensitive."
+  },
+  "decision": "Performance materiality passes. Cross-mode exactness fails by design, so promotion is conditional on a separate quality gate and limited to an opt-in latency-first frontier."
+}

@@ -1,0 +1,83 @@
+{
+  "schema_version": "sm89-exact-bf16-backbone-tensorcore-cold-stream-v1",
+  "status": "PASS",
+  "scope": {
+    "model": "/home/aden/models/Qwen3.5-0.8B",
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "dtype_contract": "exact BF16 weight bits; Tensor Core FP32 accumulation"
+  },
+  "protocol": {
+    "iterations_per_sample": 1,
+    "repeats": 1,
+    "warmup_pairs": 2,
+    "schedules": "16x64x4",
+    "architecture": "load block metadata once per output row/tile, reconstruct exact BF16, use padded-M=16 Tensor Core dot"
+  },
+  "groups": [
+    {
+      "group": "attention_qkv",
+      "weight_shape": [
+        5120,
+        1024
+      ],
+      "weights_per_decode_step": 6,
+      "dense_working_set_bytes": 62914560,
+      "packed_working_set_bytes": 48812032,
+      "packed_byte_fraction": 0.7758463541666667,
+      "weight_bit_exact": true,
+      "schedules": [
+        {
+          "block_n": 16,
+          "block_k": 64,
+          "num_warps": 4,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 3.0517578125e-05,
+          "median_dense_stream_us": 314.36800956726074,
+          "median_candidate_stream_us": 874.4959831237793,
+          "local_speedup": 0.3594847953952968,
+          "samples": {
+            "baseline_us": [
+              314.36800956726074
+            ],
+            "candidate_us": [
+              874.4959831237793
+            ],
+            "order": [
+              "baseline-candidate"
+            ]
+          }
+        }
+      ],
+      "best": {
+        "block_n": 16,
+        "block_k": 64,
+        "num_warps": 4,
+        "output_bit_exact": false,
+        "maximum_absolute_output_difference": 3.0517578125e-05,
+        "median_dense_stream_us": 314.36800956726074,
+        "median_candidate_stream_us": 874.4959831237793,
+        "local_speedup": 0.3594847953952968,
+        "samples": {
+          "baseline_us": [
+            314.36800956726074
+          ],
+          "candidate_us": [
+            874.4959831237793
+          ],
+          "order": [
+            "baseline-candidate"
+          ]
+        }
+      }
+    }
+  ],
+  "aggregate_best_per_group": {
+    "dense_stream_us": 314.36800956726074,
+    "candidate_stream_us": 874.4959831237793,
+    "local_speedup": 0.3594847953952968,
+    "observed_projection_saving_us": -560.1279735565186,
+    "current_frontier_tpot_us": 6656.8025689,
+    "optimistic_whole_step_speedup": 0.922386952422316
+  },
+  "decision": "MEASURED_REJECT_TENSORCORE_PADDING_OR_UNPACK_OVERHEAD"
+}

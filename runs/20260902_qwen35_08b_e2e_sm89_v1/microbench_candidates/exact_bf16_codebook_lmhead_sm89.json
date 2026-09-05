@@ -1,0 +1,456 @@
+{
+  "schema_version": "sm89-exact-bf16-codebook-lmhead-screen-v1",
+  "status": "PASS",
+  "scope": {
+    "model": "/home/aden/models/Qwen3.5-0.8B",
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "weight_shape": [
+      248320,
+      1024
+    ],
+    "dtype_contract": "exact BF16 codebook and fallback weights, FP32 reduction, BF16 logits"
+  },
+  "packing": {
+    "codebook_size": 4096,
+    "index_bits": 12,
+    "fallback_block_values": 128,
+    "blocks": 1986560,
+    "fallback_blocks": 20701,
+    "covered_value_fraction": 0.9999180980564393,
+    "passing_block_fraction": 0.9895794987678528,
+    "dense_bytes": 508559360,
+    "packed_bytes": 394681600,
+    "packed_byte_fraction": 0.7760777424291238,
+    "tensor_bytes": {
+      "packed_indices": 381419520,
+      "palette": 16384,
+      "fallback_slot": 7946240,
+      "fallback_weight": 5299456
+    }
+  },
+  "schedules": [
+    {
+      "block_n": 1,
+      "num_warps": 2,
+      "output_bit_exact": false,
+      "maximum_absolute_logit_difference": 0.0001220703125,
+      "samples": {
+        "baseline_us": [
+          2046.463966369629,
+          2047.8975296020508,
+          2047.69287109375
+        ],
+        "candidate_us": [
+          4584.550476074219,
+          4581.683349609375,
+          4340.73600769043
+        ],
+        "order": [
+          "baseline-candidate",
+          "candidate-baseline",
+          "baseline-candidate"
+        ]
+      },
+      "median_dense_us": 2047.69287109375,
+      "median_codebook_us": 4581.683349609375,
+      "local_speedup": 0.4469302469949898
+    },
+    {
+      "block_n": 1,
+      "num_warps": 4,
+      "output_bit_exact": true,
+      "maximum_absolute_logit_difference": 0.0,
+      "samples": {
+        "baseline_us": [
+          2047.8975296020508,
+          2048.089599609375,
+          2047.8815078735352
+        ],
+        "candidate_us": [
+          4685.107040405273,
+          4490.240097045898,
+          4435.763168334961
+        ],
+        "order": [
+          "baseline-candidate",
+          "candidate-baseline",
+          "baseline-candidate"
+        ]
+      },
+      "median_dense_us": 2047.8975296020508,
+      "median_codebook_us": 4490.240097045898,
+      "local_speedup": 0.4560775115231255
+    },
+    {
+      "block_n": 1,
+      "num_warps": 8,
+      "output_bit_exact": false,
+      "maximum_absolute_logit_difference": 6.103515625e-05,
+      "samples": {
+        "baseline_us": [
+          2048.819160461426,
+          2046.463966369629,
+          2048.102378845215
+        ],
+        "candidate_us": [
+          6037.401580810547,
+          6036.991882324219,
+          5947.6959228515625
+        ],
+        "order": [
+          "baseline-candidate",
+          "candidate-baseline",
+          "baseline-candidate"
+        ]
+      },
+      "median_dense_us": 2048.102378845215,
+      "median_codebook_us": 6036.991882324219,
+      "local_speedup": 0.33925875978761516
+    },
+    {
+      "block_n": 2,
+      "num_warps": 2,
+      "output_bit_exact": false,
+      "maximum_absolute_logit_difference": 0.0001220703125,
+      "samples": {
+        "baseline_us": [
+          2049.02400970459,
+          2048.819160461426,
+          2048.102378845215
+        ],
+        "candidate_us": [
+          4465.459060668945,
+          4463.206481933594,
+          4227.9937744140625
+        ],
+        "order": [
+          "baseline-candidate",
+          "candidate-baseline",
+          "baseline-candidate"
+        ]
+      },
+      "median_dense_us": 2048.819160461426,
+      "median_codebook_us": 4463.206481933594,
+      "local_speedup": 0.4590464655298261
+    },
+    {
+      "block_n": 2,
+      "num_warps": 4,
+      "output_bit_exact": true,
+      "maximum_absolute_logit_difference": 0.0,
+      "samples": {
+        "baseline_us": [
+          2047.0783233642578,
+          2046.566390991211,
+          2048.204803466797
+        ],
+        "candidate_us": [
+          4560.588836669922,
+          4388.147354125977,
+          4318.915176391602
+        ],
+        "order": [
+          "baseline-candidate",
+          "candidate-baseline",
+          "baseline-candidate"
+        ]
+      },
+      "median_dense_us": 2047.0783233642578,
+      "median_codebook_us": 4388.147354125977,
+      "local_speedup": 0.46650172798766265
+    },
+    {
+      "block_n": 2,
+      "num_warps": 8,
+      "output_bit_exact": true,
+      "maximum_absolute_logit_difference": 0.0,
+      "samples": {
+        "baseline_us": [
+          2048.204803466797,
+          2049.843215942383,
+          2046.873664855957
+        ],
+        "candidate_us": [
+          5175.807952880859,
+          5177.036666870117,
+          5175.2960205078125
+        ],
+        "order": [
+          "baseline-candidate",
+          "candidate-baseline",
+          "baseline-candidate"
+        ]
+      },
+      "median_dense_us": 2048.204803466797,
+      "median_codebook_us": 5175.807952880859,
+      "local_speedup": 0.39572658454739695
+    },
+    {
+      "block_n": 4,
+      "num_warps": 2,
+      "output_bit_exact": false,
+      "maximum_absolute_logit_difference": 0.0001220703125,
+      "samples": {
+        "baseline_us": [
+          2052.3008346557617,
+          2047.884750366211,
+          2047.2831726074219
+        ],
+        "candidate_us": [
+          4482.457733154297,
+          4418.150329589844,
+          4244.787216186523
+        ],
+        "order": [
+          "baseline-candidate",
+          "candidate-baseline",
+          "baseline-candidate"
+        ]
+      },
+      "median_dense_us": 2047.884750366211,
+      "median_codebook_us": 4418.150329589844,
+      "local_speedup": 0.46351631284495587
+    },
+    {
+      "block_n": 4,
+      "num_warps": 4,
+      "output_bit_exact": true,
+      "maximum_absolute_logit_difference": 0.0,
+      "samples": {
+        "baseline_us": [
+          2047.488021850586,
+          2046.873664855957,
+          2050.2527236938477
+        ],
+        "candidate_us": [
+          4458.291244506836,
+          4458.905410766602,
+          4458.598327636719
+        ],
+        "order": [
+          "baseline-candidate",
+          "candidate-baseline",
+          "baseline-candidate"
+        ]
+      },
+      "median_dense_us": 2047.488021850586,
+      "median_codebook_us": 4458.598327636719,
+      "local_speedup": 0.4592223545142398
+    },
+    {
+      "block_n": 4,
+      "num_warps": 8,
+      "output_bit_exact": true,
+      "maximum_absolute_logit_difference": 0.0,
+      "samples": {
+        "baseline_us": [
+          2047.7951049804688,
+          2045.849609375,
+          2047.8975296020508
+        ],
+        "candidate_us": [
+          4831.0272216796875,
+          4830.707168579102,
+          4796.006393432617
+        ],
+        "order": [
+          "baseline-candidate",
+          "candidate-baseline",
+          "baseline-candidate"
+        ]
+      },
+      "median_dense_us": 2047.7951049804688,
+      "median_codebook_us": 4830.707168579102,
+      "local_speedup": 0.4239120761242095
+    },
+    {
+      "block_n": 8,
+      "num_warps": 2,
+      "output_bit_exact": false,
+      "maximum_absolute_logit_difference": 0.0001220703125,
+      "samples": {
+        "baseline_us": [
+          2047.2831726074219,
+          2047.385597229004,
+          2048.7104415893555
+        ],
+        "candidate_us": [
+          4669.440078735352,
+          4673.638534545898,
+          4675.174331665039
+        ],
+        "order": [
+          "baseline-candidate",
+          "candidate-baseline",
+          "baseline-candidate"
+        ]
+      },
+      "median_dense_us": 2047.385597229004,
+      "median_codebook_us": 4673.638534545898,
+      "local_speedup": 0.4380710194199759
+    },
+    {
+      "block_n": 8,
+      "num_warps": 4,
+      "output_bit_exact": true,
+      "maximum_absolute_logit_difference": 0.0,
+      "samples": {
+        "baseline_us": [
+          2047.590446472168,
+          2047.7951049804688,
+          2047.1807479858398
+        ],
+        "candidate_us": [
+          4615.372848510742,
+          4534.476852416992,
+          4531.494522094727
+        ],
+        "order": [
+          "baseline-candidate",
+          "candidate-baseline",
+          "baseline-candidate"
+        ]
+      },
+      "median_dense_us": 2047.590446472168,
+      "median_codebook_us": 4534.476852416992,
+      "local_speedup": 0.45156045848613163
+    },
+    {
+      "block_n": 8,
+      "num_warps": 8,
+      "output_bit_exact": true,
+      "maximum_absolute_logit_difference": 0.0,
+      "samples": {
+        "baseline_us": [
+          2047.7951049804688,
+          2048.307228088379,
+          2046.2560653686523
+        ],
+        "candidate_us": [
+          4875.775909423828,
+          4875.775909423828,
+          4781.772613525391
+        ],
+        "order": [
+          "baseline-candidate",
+          "candidate-baseline",
+          "baseline-candidate"
+        ]
+      },
+      "median_dense_us": 2047.7951049804688,
+      "median_codebook_us": 4875.775909423828,
+      "local_speedup": 0.41999368777849705
+    },
+    {
+      "block_n": 16,
+      "num_warps": 2,
+      "output_bit_exact": false,
+      "maximum_absolute_logit_difference": 0.0001220703125,
+      "samples": {
+        "baseline_us": [
+          2746.0607528686523,
+          2051.4816284179688,
+          2047.0783233642578
+        ],
+        "candidate_us": [
+          9294.745635986328,
+          9212.416076660156,
+          8825.856018066406
+        ],
+        "order": [
+          "baseline-candidate",
+          "candidate-baseline",
+          "baseline-candidate"
+        ]
+      },
+      "median_dense_us": 2051.4816284179688,
+      "median_codebook_us": 9212.416076660156,
+      "local_speedup": 0.22268660157626177
+    },
+    {
+      "block_n": 16,
+      "num_warps": 4,
+      "output_bit_exact": true,
+      "maximum_absolute_logit_difference": 0.0,
+      "samples": {
+        "baseline_us": [
+          2048.409652709961,
+          2048.921585083008,
+          2048.512077331543
+        ],
+        "candidate_us": [
+          4994.348907470703,
+          4999.782562255859,
+          4993.632125854492
+        ],
+        "order": [
+          "baseline-candidate",
+          "candidate-baseline",
+          "baseline-candidate"
+        ]
+      },
+      "median_dense_us": 2048.512077331543,
+      "median_codebook_us": 4994.348907470703,
+      "local_speedup": 0.410165992661689
+    },
+    {
+      "block_n": 16,
+      "num_warps": 8,
+      "output_bit_exact": true,
+      "maximum_absolute_logit_difference": 0.0,
+      "samples": {
+        "baseline_us": [
+          2047.8975296020508,
+          2048.7136840820312,
+          2046.2591171264648
+        ],
+        "candidate_us": [
+          5802.495956420898,
+          5802.39372253418,
+          5649.100875854492
+        ],
+        "order": [
+          "baseline-candidate",
+          "candidate-baseline",
+          "baseline-candidate"
+        ]
+      },
+      "median_dense_us": 2047.8975296020508,
+      "median_codebook_us": 5802.39372253418,
+      "local_speedup": 0.35294011877353904
+    }
+  ],
+  "best": {
+    "block_n": 2,
+    "num_warps": 4,
+    "output_bit_exact": true,
+    "maximum_absolute_logit_difference": 0.0,
+    "samples": {
+      "baseline_us": [
+        2047.0783233642578,
+        2046.566390991211,
+        2048.204803466797
+      ],
+      "candidate_us": [
+        4560.588836669922,
+        4388.147354125977,
+        4318.915176391602
+      ],
+      "order": [
+        "baseline-candidate",
+        "candidate-baseline",
+        "baseline-candidate"
+      ]
+    },
+    "median_dense_us": 2047.0783233642578,
+    "median_codebook_us": 4388.147354125977,
+    "local_speedup": 0.46650172798766265
+  },
+  "projection": {
+    "strict_frontier_tpot_us": 8079.0,
+    "observed_lm_head_saving_us": -2341.0690307617188,
+    "projected_whole_step_speedup": 0.7753307560774783,
+    "minimum_saving_for_1_03x_us": 235.3106796116504
+  },
+  "decision": "MEASURED_REJECT_LOOKUP_OR_PACKING_OVERHEAD"
+}

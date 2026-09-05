@@ -42,6 +42,7 @@
         "downstream_layout": {"type": "string"},
         "call_frequency": {"type": "string"}
       }
-    }
+    },
+    "source_identity": {"type": "object"}
   }
 }

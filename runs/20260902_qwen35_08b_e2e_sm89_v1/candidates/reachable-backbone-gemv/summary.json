@@ -1,0 +1,101 @@
+{
+  "schema_version": "sm89-reachable-backbone-gemv-v1",
+  "candidate": "Reachable SM89 BF16 batch-1 backbone GEMV dispatch",
+  "scope": "Qwen3.5-0.8B, RTX 4060 Laptop GPU, batch=1 decode, BF16 weights and activations",
+  "mechanism": "Dispatch selected decode projection shapes through a runtime custom-op boundary so torch.compile cannot specialize the decode-only x.numel()==K guard away during prefill capture. Non-decode shapes fall back to torch.nn.functional.linear inside the implementation.",
+  "patch": {
+    "path": "candidates/reachable-backbone-gemv/vllm_utils_reachable_backbone_gemv.patch",
+    "sha256": "38a8c610495cf2f1ec407aa3a051051b42ea2ffcc0029b2b15eaa1fc22e8c2dc",
+    "base_installed_utils_sha256": "a2b0d1ac0600564dae318afc544d7876e13b2e847e44cb1d5632bec7d213dc23",
+    "candidate_installed_utils_sha256": "f99e568443d80351d7e533467f489fd5cb1d054c554a0032e3d568d7b78b7fa4"
+  },
+  "reachability": {
+    "status": "PASS",
+    "proof": "Fresh compilation and CUDA Graph capture logged the selected N/K custom op; selector and source hash are embedded in every trace.",
+    "correction": "Earlier shape-guard-only selective traces are RETRACTED_UNREACHABLE because prefill torch.compile specialized the Python decode guard to false. This patch supplies the missing runtime boundary."
+  },
+  "full_mlp_cssc": {
+    "selector": "VLLM_SM89_BF16_GEMV=mlp_gate_up,mlp_down",
+    "design": "control-candidate-candidate-control, independent processes, 1 warmup and 3 measured trials per process, six natural prompts, 64 generated tokens",
+    "control_mean_e2e_ms": 552.7193397499559,
+    "candidate_mean_e2e_ms": 526.8484167500749,
+    "e2e_speedup": 1.0491050597807028,
+    "control_mean_tpot_ms": 8.154345882274587,
+    "candidate_mean_tpot_ms": 7.717537014547849,
+    "tpot_speedup": 1.0565995170354656,
+    "control_repeat_exact_cases": "6/6",
+    "candidate_repeat_exact_cases": "6/6",
+    "cross_mode_exact_cases": "2/6",
+    "decision": "REJECT_STRICT_FRONTIER"
+  },
+  "shape_ablations": {
+    "mlp_gate_up_w4": {
+      "e2e_speedup": 1.0477801478552633,
+      "tpot_speedup": 1.0471130370455486,
+      "cross_mode_exact_cases": "2/6",
+      "decision": "REJECT_NUMERICAL_CONTRACT"
+    },
+    "mlp_down_w4": {
+      "e2e_speedup": 1.0368796864850738,
+      "tpot_speedup": 1.0360806441627586,
+      "cross_mode_exact_cases": "5/6",
+      "comparison": "comparisons/vllm_reachable_down4_vs_control.json",
+      "comparison_sha256": "4ebde160c2bff1eadbbb53650921a63ab0d84432b6c8322b0c746cee04948a0d",
+      "decision": "REJECT_STRICT_FRONTIER"
+    },
+    "mlp_down_w2": {
+      "variant_patch": "candidates/reachable-backbone-gemv/down_w2_variant.patch",
+      "variant_patch_sha256": "d97e6a44e307841fa1b6f345f140e5c6ff702ca12940ba540afa95b41167a016",
+      "e2e_speedup": 1.0158092262083755,
+      "tpot_speedup": 1.0215574778145353,
+      "cross_mode_exact_cases": "3/6",
+      "comparison": "comparisons/vllm_reachable_downw2_vs_control.json",
+      "comparison_sha256": "e78abeb8682b27ea971752b4aa4202c9de811a2cf941ce9fa66154e87669f1e1",
+      "decision": "REJECT_SLOWER_AND_NUMERICAL"
+    },
+    "mlp_down_w8": {
+      "variant_patch": "candidates/reachable-backbone-gemv/down_w8_variant.patch",
+      "variant_patch_sha256": "cbbe3f68c10570d920d0fa08f0cb5f68e1bb2321db583a4a5dafbe3a2d5bc5f5",
+      "e2e_speedup": 1.0190571189751099,
+      "tpot_speedup": 1.0185148676871996,
+      "cross_mode_exact_cases": "3/6",
+      "comparison": "comparisons/vllm_reachable_downw8_vs_control.json",
+      "comparison_sha256": "a2c9cbe572b9e258d91e4ca08067ad954cbe7e125e2c51bc2309fe171a17643b",
+      "decision": "REJECT_SLOWER_AND_NUMERICAL"
+    }
+  },
+  "task_quality_screen": {
+    "dataset": "official GSM8K test split",
+    "dataset_commit": "3101c7d5072418e28b9008a6636bde82a006892c",
+    "sample_count": 512,
+    "control_correct": 47,
+    "candidate_correct": 44,
+    "control_accuracy": 0.091796875,
+    "candidate_accuracy": 0.0859375,
+    "paired_control_only_correct": 3,
+    "paired_candidate_only_correct": 0,
+    "mcnemar_exact_two_sided_p": 0.25,
+    "answer_agreement_rate": 0.9375,
+    "token_exact_rate": 0.92578125,
+    "evidence": "comparisons/vllm_sm89_mlp_quality_gsm8k_n512.json",
+    "evidence_sha256": "9f97e17ccdad5dd0ea8e739fd5fb4ae113a66d48f2c4fc99c7098657dce676f9",
+    "decision": "NO_STATISTICALLY_DETECTED_REGRESSION_BUT_DIRECTIONALLY_CONCERNING"
+  },
+  "evidence": [
+    {"path": "traces/vllm_reachable_cssc_d.json", "sha256": "6fe7accfcd2b92f3db089126e5a061444dea1d1f3dad5dc52a548a753a2cafa7"},
+    {"path": "traces/vllm_reachable_mlp64_control2.json", "sha256": "ab5cdbf2cb45cce330022f63415f603b619157fd8dec081046c167b9d0afd6c7"},
+    {"path": "traces/vllm_reachable_mlp64.json", "sha256": "7a0ed0b1e04770c2c4f6e6a8ef9940eaf8d706bec3a2539922da647c37bd643e"},
+    {"path": "traces/vllm_reachable_mlp64_repeat.json", "sha256": "ef8ae61aa141ff8c708df7c2159c7d7bd22713e6d90f6d4557d2faa9933a0033"},
+    {"path": "traces/vllm_reachable_down64.json", "sha256": "054861ae84dd30f8ab9b9e3af9122cd149fc3751948725c2dcedc1e996283209"},
+    {"path": "traces/vllm_reachable_downw2_64.json", "sha256": "45e004b007de59909b11c7a531e9d1b8a650653625a55d2dddac9376bee2156a"},
+    {"path": "traces/vllm_reachable_downw8_64.json", "sha256": "86b949fd6689584698c0f567ff56a540ef88fee3a07cd866ed87450269af9398"},
+    {"path": "traces/vllm_sm89_mlp_quality_control_n512_t64.json", "sha256": "a9b755da8fc1af8cd5a203b5b06eed9ca1b641278719575806ccd4440b283cba"},
+    {"path": "traces/vllm_sm89_mlp_quality_candidate_n512_t64.json", "sha256": "14f6ff9eb3685b8f404079335f98cd41a76956fe956da66babfa455eea499080"}
+  ],
+  "decision": "MEASURED_REJECT_STRICT_RETAIN_AS_QUALITY_FRONTIER_EVIDENCE",
+  "stop_rule": "Do not continue block/warp/stage tuning for independent backbone GEMV substitution. Reopen only for an algorithm that preserves the stock reduction path or removes a producer-consumer materialization/weight read with a predicted whole-step gain of at least 3%.",
+  "restored_environment": {
+    "installed_utils_sha256": "a2b0d1ac0600564dae318afc544d7876e13b2e847e44cb1d5632bec7d213dc23",
+    "strict_candidate": "SM89 BF16 lm-head only"
+  }
+}

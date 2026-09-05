@@ -1,0 +1,57 @@
+{
+  "candidate_id": "triton-w4a16-all",
+  "opportunity_id": "sm89-w4-backbone-kernel",
+  "name": "Force the stock vLLM Triton W4A16 backend for every GPTQ projection",
+  "family": "alternate-w4-kernel",
+  "change_axes": ["instruction-mechanism", "packed-weight-layout", "cta-ownership"],
+  "hypothesis": "The already-shipped Triton W4A16 backend may outperform Marlin for SM89 M=1 projection shapes even though it is lower in vLLM's generic priority list.",
+  "expected_global_effect": "Replace all 96 decode Marlin projections while preserving the frozen GPTQ tensors and BF16 activation contract; screen end-to-end so repacking, graph capture and epilogues remain visible.",
+  "source_paths": [
+    "candidates/triton-w4a16-all/linear_backend_candidate.py",
+    "candidates/triton-w4a16-all/candidate_spec.json",
+    "operator.json",
+    "workload.json",
+    "models/round37_imported_evidence.json"
+  ],
+  "commands": {
+    "build": {
+      "argv": ["wsl", "-d", "Ubuntu", "--", "/home/aden/.venvs/qwen35-vllm-4060/bin/python", "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/triton-w4a16-all/linear_backend_candidate.py", "build"],
+      "cwd": "candidates/triton-w4a16-all",
+      "timeout_seconds": 30
+    },
+    "correctness": {
+      "argv": ["wsl", "-d", "Ubuntu", "--", "/home/aden/.venvs/qwen35-vllm-4060/bin/python", "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/triton-w4a16-all/linear_backend_candidate.py", "correctness"],
+      "cwd": "candidates/triton-w4a16-all",
+      "timeout_seconds": 30
+    },
+    "smoke": {
+      "argv": ["wsl", "-d", "Ubuntu", "--", "/home/aden/.venvs/qwen35-vllm-4060/bin/python", "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/triton-w4a16-all/linear_backend_candidate.py", "smoke"],
+      "cwd": "candidates/triton-w4a16-all",
+      "timeout_seconds": 360
+    }
+  },
+  "smoke_result_path": "candidates/triton-w4a16-all/smoke_result.json",
+  "predicted_global_gain_us": {"lower": 50.0, "upper": 350.0},
+  "dependency_contract": {
+    "status": "PROVEN_LEGAL",
+    "preserved_dependencies": [
+      "each projection consumes the same BF16 activation after all preceding layer dependencies",
+      "each projection produces the same logical output shape before its unchanged consumer",
+      "all recurrent and KV state transitions remain in stock vLLM"
+    ],
+    "changed_boundaries": [
+      "GPTQ qweight is losslessly repacked from K-packed checkpoint order to the Triton backend's N-packed order at load time",
+      "Marlin tensor-core implementation is replaced by Triton unpack-dequantize-dot for supported linear layers"
+    ],
+    "prohibited_rewrites": [
+      "no modification of GPTQ integer values or scales",
+      "no FP16 activation substitution",
+      "no output-head shortlist, speculative decode or skipped work"
+    ],
+    "numerical_ordering": "The alternative kernel may change floating-point accumulation order, so promotion requires exact greedy token identity on every frozen case; broader qualification remains mandatory.",
+    "evidence": [
+      {"path": "models/round37_imported_evidence.json", "sha256": "708cc8587a5e928ffa0d7355480d271768e57b9aedf95f0c8adf2ca52d51e8fc", "claim": "The checkpoint-derived six shapes sum to exactly the 96 observed Marlin calls per decode."}
+    ]
+  },
+  "development_budget": {"max_technical_attempts": 2, "max_wall_clock_minutes": 15}
+}

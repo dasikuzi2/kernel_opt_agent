@@ -1,0 +1,13 @@
+{
+  "schema_version": "resource-schedule-model-v1",
+  "status": "DRAFT",
+  "binary_identity": {},
+  "sass_control_flow": [],
+  "dynamic_instruction_method": null,
+  "resource_mapping": [],
+  "dependency_graph": {"nodes": [], "edges": []},
+  "workload_cases": [],
+  "coupled_resource_models": [],
+  "unknown_scheduler_or_cache_behavior": [],
+  "evidence": []
+}

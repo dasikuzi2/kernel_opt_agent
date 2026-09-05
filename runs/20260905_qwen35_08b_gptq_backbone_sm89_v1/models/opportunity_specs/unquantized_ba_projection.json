@@ -1,0 +1,16 @@
+{
+  "opportunity_id": "sm89-unquantized-gdn-ba",
+  "name": "Co-schedule the small unquantized GDN BA projection",
+  "model_scope": "CURRENT_SCHEDULE",
+  "source_model_term": "Eighteen BF16 GDN BA projections outside the GPTQ module list",
+  "affected_stages": ["gdn-projections", "bf16-gemv"],
+  "current_contribution_us": 88.97951041666667,
+  "optimistic_gain_ceiling_us": 40.0,
+  "likely_gain_interval_us": {"lower": 0.0, "upper": 18.0},
+  "confidence": "LOW",
+  "rewrite_families": ["cross-projection-fusion", "weight-stream-specialization"],
+  "implementation_budget_minutes": 30,
+  "hypothesis": "Preserve the BF16 BA weights but co-schedule their tiny projection with the QKVZ input read without perturbing the tile-friendly 8192-row W4 projection.",
+  "derivation": "The complete trace attributes about 0.089 ms per output decision to cuBLAS GEMV, matching the 18 BA calls excluded from GPTQ. The ceiling is below half this contribution because the BA dot products remain mandatory.",
+  "evidence": [{"path": "models/round37_imported_evidence.json", "sha256": "708cc8587a5e928ffa0d7355480d271768e57b9aedf95f0c8adf2ca52d51e8fc", "claim": "Checkpoint inventory proves 96 quantized calls and the profile identifies the separate cuBLAS residual."}]
+}

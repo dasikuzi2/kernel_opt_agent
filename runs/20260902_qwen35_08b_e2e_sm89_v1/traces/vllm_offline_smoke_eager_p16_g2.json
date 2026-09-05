@@ -1,0 +1,63 @@
+{
+  "captured_at": "2026-09-02T15:46:07.140701+00:00",
+  "claim_scope": "CORRECTNESS_AND_ENVIRONMENT_SMOKE_NOT_PRODUCTION_BASELINE",
+  "engine": {
+    "enforce_eager": true,
+    "free_gpu_bytes_after_init": 7440695296,
+    "free_gpu_bytes_before": 7440695296,
+    "gpu_memory_utilization": 0.7,
+    "initialization_seconds": 39.635673016000055,
+    "total_gpu_bytes": 8585216000
+  },
+  "environment": {
+    "compute_capability": "8.9",
+    "cuda": "13.0",
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "torch": "2.13.0+cu130",
+    "transformers": "5.16.1",
+    "triton": "3.7.1",
+    "vllm": "0.28.1rc1.dev312+g41848caa6"
+  },
+  "input": {
+    "new_tokens": 2,
+    "prompt_token_ids": [
+      25502,
+      24460,
+      1902,
+      20480,
+      50921,
+      1345,
+      17191,
+      3521,
+      37972,
+      13,
+      220,
+      25502,
+      24460,
+      1902,
+      20480,
+      50921
+    ],
+    "prompt_tokens": 16
+  },
+  "model": {
+    "config_sha256": "b90b86f35c8e6925ef74ee04d0e758f0a845c83a42089ad82bbaa948de9b4204",
+    "dtype": "bfloat16",
+    "language_model_only": true,
+    "max_model_len": 4096,
+    "path": "/mnt/d/models/Qwen3.5-0.8B",
+    "weight_sha256": "04b1c301231dd422b8860db31311ab2721511346a32cb1e079c4c4e5f1fe4696"
+  },
+  "output": {
+    "deterministic_repeat": true,
+    "first_request_seconds": 0.904363296999918,
+    "generated_token_ids": [
+      1345,
+      17191
+    ],
+    "request_metrics": null,
+    "warm_request_seconds": 0.15670001900002717
+  },
+  "schema_version": "qwen35-vllm-offline-smoke-v1",
+  "status": "PASS"
+}

@@ -1,0 +1,75 @@
+{
+  "schema_version": "strict-bf16-residual-certificate-v1",
+  "status": "BOUNDED_PORTFOLIO_OPTIMUM_NOT_GLOBAL_OPTIMUM",
+  "claim_scope": "Qwen3.5-0.8B, RTX 4060 Laptop SM89, batch=1 decode, BF16 weights and activations, natural prompts",
+  "incumbent": {
+    "candidate": "SM89-specialized M=1 BF16 lm_head GEMV inside vLLM",
+    "weighted_tpot_ms": 8.07912004068239,
+    "speedup_vs_same_source_stock_tpot": 1.19862159394227,
+    "speedup_vs_same_source_stock_e2e": 1.19279704423595,
+    "token_exact_cases": "6/6 per C-S-S-C pair"
+  },
+  "optimistic_weight_stream_bound": {
+    "mandatory_active_weight_bytes_per_token": 1541502656,
+    "calibrated_read_service_gbps": 248.8785,
+    "floor_ms": 6.193794870998321,
+    "incumbent_minus_floor_ms": 1.8853251696840694,
+    "absolute_optimistic_speedup_if_all_non_weight_work_vanished": 1.304389345942319,
+    "qualification": "This deliberately ignores mandatory compute, recurrent state, attention, synchronization and sampling. It rules out a strict-BF16 2x claim but is not an achievable latency prediction."
+  },
+  "lm_head_residual": {
+    "weight_bytes_per_invocation": 508559360,
+    "weight_stream_floor_ms": 2.0434037809184216,
+    "measured_candidate_ms": 2.0575395,
+    "raw_headroom_ms": 0.01413571908157829,
+    "fraction_of_stream_roof_achieved": 0.9931297945523873,
+    "schedules_screened_after_incumbent": 72,
+    "best_paired_speedup_vs_incumbent": 0.9985247324592953,
+    "decision": "CLOSE_LM_HEAD_SEARCH"
+  },
+  "backbone_projection_residual": {
+    "active_weight_bytes_per_token_excluding_lm_head": 1032943296,
+    "weight_stream_floor_ms": 4.1503910900799,
+    "profiled_cublas_projection_service_ms": 5.035625424731183,
+    "raw_projection_service_gap_ms": 0.8852343346512832,
+    "qualification": "The raw gap is an upper bound before accounting for mandatory arithmetic and is not wholly removable."
+  },
+  "screened_portfolio": [
+    {
+      "family": "lm_head_schedule_residual",
+      "result": "72 schedules; best paired speedup 0.9985x",
+      "decision": "REJECT"
+    },
+    {
+      "family": "normalization_epilogue_fusion",
+      "result": "0.9956x TPOT",
+      "decision": "REJECT"
+    },
+    {
+      "family": "independent_m1_backbone_projection_substitution",
+      "result": "1.0165x TPOT and 2/6 exact in the reachable full variant",
+      "decision": "REJECT_STRICT"
+    },
+    {
+      "family": "attention_layout_and_projection",
+      "result": "approximately 1.007x in bounded screening",
+      "decision": "REJECT_BELOW_PROMOTION_THRESHOLD"
+    },
+    {
+      "family": "late_half_segmented_gdn",
+      "result": "1.0026x TPOT and 3/6 cross-mode exact",
+      "decision": "REJECT"
+    },
+    {
+      "family": "mtp_m2_projection_replacement",
+      "result": "projected 0.9849x versus non-speculative at measured acceptance; still needs 0.6182 ms independent cycle saving to clear 1.03x",
+      "decision": "SCREEN_OUT_PROJECTION_ONLY_IMPLEMENTATION"
+    }
+  ],
+  "frontiers": {
+    "strict_token_exact": "The lm_head-only candidate is the best measured member of the bounded candidate portfolio.",
+    "limited_task_quality": "The lm_head plus segmented-GDN candidate remains a separate BF16 numerical frontier after a 512-example GSM8K screen found no detectable paired accuracy regression.",
+    "global_optimum": "NOT_PROVEN. Persistent cross-layer scheduling, state-layout redesign, broader batching and architecture changes remain outside this certificate."
+  },
+  "decision": "Retain the lm_head-only strict winner. Do not spend additional budget on lm_head launch tuning or MTP projection-only wiring; reopen search only for a mechanism with an independent whole-step saving above the recorded decision boundary."
+}

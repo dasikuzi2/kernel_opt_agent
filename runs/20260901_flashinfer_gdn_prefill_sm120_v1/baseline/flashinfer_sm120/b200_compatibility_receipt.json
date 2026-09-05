@@ -1,0 +1,21 @@
+{
+  "schema_version": "baseline-compatibility-receipt-v1",
+  "status": "TECHNICALLY_BLOCKED",
+  "claim_scope": "DISCOVERY_ONLY",
+  "timestamp": "2026-09-01T14:56:02+08:00",
+  "solution": "flashinfer_wrapper_123ca6",
+  "declared_target": "NVIDIA B200 / SM100",
+  "actual_target": "NVIDIA GeForce RTX 5090 / SM120",
+  "attempts": 1,
+  "decision": "Do not repair or include this architecture in the SM120 search frontier.",
+  "failure": {
+    "type": "cutlass.base_dsl.common.DSLUserCodeError",
+    "message": "tcgen05 MMA expects sm_100a/sm_100f/sm_103a/sm_103f/sm_110a/sm_110f, but got sm_120a",
+    "recommended_mechanism": "consumer Blackwell uses warp-level cute.nvgpu.warp.MmaF16BF16Op rather than datacenter tcgen05 MMA"
+  },
+  "command_budget": {
+    "timeout_seconds": 120,
+    "workloads": 1,
+    "actual_wall_time_seconds_lt": 2
+  }
+}

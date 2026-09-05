@@ -1,0 +1,253 @@
+{
+  "candidates": [
+    {
+      "candidate_id": "frozen-vllm",
+      "controls": {
+        "case_order": "rotated per iteration",
+        "dtype": "bfloat16",
+        "enable_prefix_caching": false,
+        "enforce_eager": false,
+        "engine_initialization_seconds": 40.83509174599999,
+        "gpu_memory_utilization": 0.7,
+        "language_model_only": true,
+        "max_model_len": 4096,
+        "sampling": "greedy temperature=0, ignore_eos=True, exact 128 tokens",
+        "trials": 3,
+        "warmups": 1
+      },
+      "cross_session_speedup_vs_frozen_baseline": 1.0,
+      "decision": "REFERENCE",
+      "exact_tokens_vs_frozen_baseline": true,
+      "trace": {
+        "path": "traces/vllm_discovery_baseline_w1_n3.json",
+        "sha256": "e335f6b3352a213ed22a913c1d02e0c31b4b56fce3beb6dd551ef67b07143571"
+      },
+      "weighted_median_end_to_end_ms": 936.152490899994,
+      "weighted_median_tpot_ms": 6.8148290984253,
+      "weighted_median_ttft_ms": 71.11868858337402
+    },
+    {
+      "candidate_id": "cuda-maxseq1-fastloop",
+      "controls": {
+        "case_order": "rotated per iteration",
+        "chunked_prefill": "default",
+        "dtype": "bfloat16",
+        "enable_prefix_caching": false,
+        "enforce_eager": false,
+        "engine_initialization_seconds": 25.596803195999996,
+        "gpu_memory_utilization": 0.7,
+        "kv_cache_dtype": "auto",
+        "kv_cache_memory_bytes": 536870912,
+        "language_model_only": true,
+        "max_model_len": 4096,
+        "max_num_batched_tokens": null,
+        "max_num_seqs": 1,
+        "quantization": "none",
+        "sampling": "greedy temperature=0, ignore_eos=True, exact 128 tokens",
+        "trials": 7,
+        "warmups": 1
+      },
+      "cross_session_speedup_vs_frozen_baseline": 0.9736958282647612,
+      "decision": "RETAIN_FAST_LOOP",
+      "exact_tokens_vs_frozen_baseline": true,
+      "trace": {
+        "path": "traces/vllm_confirm_fastloop_cuda_a_w1_n7.json",
+        "sha256": "71b5603be7d938d77d9d94121cb264a6130f0f75fd3fa47ba83f3bbb9b3daad0"
+      },
+      "weighted_median_end_to_end_ms": 961.4424379000639,
+      "weighted_median_tpot_ms": 6.956697066141707,
+      "weighted_median_ttft_ms": 78.45611572265625
+    },
+    {
+      "candidate_id": "triton-gdn-decode",
+      "controls": {
+        "case_order": "rotated per iteration",
+        "chunked_prefill": "default",
+        "dtype": "bfloat16",
+        "enable_prefix_caching": false,
+        "enforce_eager": false,
+        "engine_initialization_seconds": 24.933720546999893,
+        "gpu_memory_utilization": 0.7,
+        "kv_cache_dtype": "auto",
+        "kv_cache_memory_bytes": 536870912,
+        "language_model_only": true,
+        "max_model_len": 4096,
+        "max_num_batched_tokens": null,
+        "max_num_seqs": 1,
+        "quantization": "none",
+        "sampling": "greedy temperature=0, ignore_eos=True, exact 128 tokens",
+        "trials": 7,
+        "warmups": 1
+      },
+      "cross_session_speedup_vs_frozen_baseline": 0.9230607401756027,
+      "decision": "SCREENED_OUT",
+      "exact_tokens_vs_frozen_baseline": true,
+      "trace": {
+        "path": "traces/vllm_confirm_fastloop_triton_w1_n7.json",
+        "sha256": "e60c8f36c78415a85e20f633ab9bd8cb1b90e9469fa6e05172cf448f191f129a"
+      },
+      "weighted_median_end_to_end_ms": 1014.1829785999789,
+      "weighted_median_tpot_ms": 7.289588945668298,
+      "weighted_median_ttft_ms": 82.85677433013916
+    },
+    {
+      "candidate_id": "cuda-maxseq80",
+      "controls": {
+        "case_order": "rotated per iteration",
+        "chunked_prefill": "default",
+        "dtype": "bfloat16",
+        "enable_prefix_caching": false,
+        "enforce_eager": false,
+        "engine_initialization_seconds": 31.061597427999914,
+        "gpu_memory_utilization": 0.7,
+        "kv_cache_dtype": "auto",
+        "kv_cache_memory_bytes": 536870912,
+        "language_model_only": true,
+        "max_model_len": 4096,
+        "max_num_batched_tokens": null,
+        "max_num_seqs": 80,
+        "quantization": "none",
+        "sampling": "greedy temperature=0, ignore_eos=True, exact 128 tokens",
+        "trials": 7,
+        "warmups": 1
+      },
+      "cross_session_speedup_vs_frozen_baseline": 0.9754064817996263,
+      "decision": "INCONCLUSIVE_LATENCY",
+      "exact_tokens_vs_frozen_baseline": true,
+      "trace": {
+        "path": "traces/vllm_confirm_maxseq80_cache512m_repeat_w1_n7.json",
+        "sha256": "92426073669fdd643213ed875dcab80ed71f9917a9091866fa1c3a29d8dd606c"
+      },
+      "weighted_median_end_to_end_ms": 959.7562742999116,
+      "weighted_median_tpot_ms": 6.921959185826459,
+      "weighted_median_ttft_ms": 79.61146831512451
+    },
+    {
+      "candidate_id": "chunked-prefill-off",
+      "controls": {
+        "case_order": "rotated per iteration",
+        "chunked_prefill": "off",
+        "dtype": "bfloat16",
+        "enable_prefix_caching": false,
+        "enforce_eager": false,
+        "engine_initialization_seconds": 22.844288372999927,
+        "gpu_memory_utilization": 0.7,
+        "kv_cache_dtype": "auto",
+        "kv_cache_memory_bytes": 536870912,
+        "language_model_only": true,
+        "max_model_len": 4096,
+        "max_num_batched_tokens": null,
+        "max_num_seqs": 1,
+        "quantization": "none",
+        "sampling": "greedy temperature=0, ignore_eos=True, exact 128 tokens",
+        "trials": 3,
+        "warmups": 1
+      },
+      "cross_session_speedup_vs_frozen_baseline": 0.9669483001306657,
+      "decision": "SCREENED_OUT",
+      "exact_tokens_vs_frozen_baseline": true,
+      "trace": {
+        "path": "traces/vllm_screen_fastloop_chunkoff_w1_n3.json",
+        "sha256": "a9f69cd21b009869e6c35d73daf07e6a6a699be01a4b349bca0e51a66a8bdb60"
+      },
+      "weighted_median_end_to_end_ms": 968.1515451999758,
+      "weighted_median_tpot_ms": 7.0034397149608205,
+      "weighted_median_ttft_ms": 80.10857105255127
+    },
+    {
+      "candidate_id": "custom-ops-all",
+      "controls": {
+        "case_order": "rotated per iteration",
+        "chunked_prefill": "default",
+        "custom_ops": "all",
+        "dtype": "bfloat16",
+        "enable_prefix_caching": false,
+        "enforce_eager": false,
+        "engine_initialization_seconds": 97.88301919900005,
+        "gpu_memory_utilization": 0.7,
+        "kv_cache_dtype": "auto",
+        "kv_cache_memory_bytes": 536870912,
+        "language_model_only": true,
+        "max_model_len": 4096,
+        "max_num_batched_tokens": null,
+        "max_num_seqs": 1,
+        "quantization": "none",
+        "sampling": "greedy temperature=0, ignore_eos=True, exact 128 tokens",
+        "trials": 3,
+        "warmups": 1
+      },
+      "cross_session_speedup_vs_frozen_baseline": 0.9720163656942785,
+      "decision": "SCREENED_OUT",
+      "exact_tokens_vs_frozen_baseline": true,
+      "trace": {
+        "path": "traces/vllm_screen_fastloop_customops_all_w1_n3.json",
+        "sha256": "80cae76787242b14f0781903b7db8c7531731e4c5b4dd30ed461368fd92bc9b5"
+      },
+      "weighted_median_end_to_end_ms": 963.1036307000159,
+      "weighted_median_tpot_ms": 6.956827888975889,
+      "weighted_median_ttft_ms": 80.20005226135254
+    },
+    {
+      "candidate_id": "cuda-maxseq1-auto-profile",
+      "controls": {
+        "case_order": "rotated per iteration",
+        "chunked_prefill": "default",
+        "custom_ops": "default",
+        "dtype": "bfloat16",
+        "enable_prefix_caching": false,
+        "enforce_eager": false,
+        "engine_initialization_seconds": 26.40515554600006,
+        "gpu_memory_utilization": 0.7,
+        "kv_cache_dtype": "auto",
+        "kv_cache_memory_bytes": null,
+        "language_model_only": true,
+        "max_model_len": 4096,
+        "max_num_batched_tokens": null,
+        "max_num_seqs": 1,
+        "quantization": "none",
+        "sampling": "greedy temperature=0, ignore_eos=True, exact 128 tokens",
+        "trials": 3,
+        "warmups": 1
+      },
+      "cross_session_speedup_vs_frozen_baseline": 0.9629173123034377,
+      "decision": "REFERENCE_FAST_LOOP",
+      "exact_tokens_vs_frozen_baseline": true,
+      "trace": {
+        "path": "traces/vllm_confirm_maxseq1_autoprofile_w1_n3.json",
+        "sha256": "52fc6f50329d9f4030734d1ff593f57718129a786273fc77c0d89f490ff75fe3"
+      },
+      "weighted_median_end_to_end_ms": 972.2044447000144,
+      "weighted_median_tpot_ms": 7.0277261566926015,
+      "weighted_median_ttft_ms": 79.55408096313477
+    }
+  ],
+  "captured_at": "2026-09-04T15:58:49.973920+00:00",
+  "claim_scope": "DISCOVERY_ONLY_NOT_PAIRED_QUALIFICATION",
+  "conclusion": {
+    "fast_iteration_configuration": "cuda-maxseq1-fastloop",
+    "new_strict_bf16_speedup_claim": "NO_MEASURABLE_GAIN_OVER_FROZEN_VLLM",
+    "reason": "No candidate beat the frozen vLLM baseline across sessions. The mature fused CUDA GDN decode remains faster than the Triton alternative.",
+    "strict_bf16_inference_winner": "frozen-vllm"
+  },
+  "derived_comparisons": {
+    "cached_fixed_cache_init_speedup_vs_cached_auto_profile": 1.031580207255193,
+    "cuda_weighted_e2e_speedup_vs_triton_gdn": 1.054855640463623,
+    "cuda_weighted_tpot_speedup_vs_triton_gdn": 1.04785200165561,
+    "maxseq1_init_speedup_vs_maxseq80": 1.2134951849320739
+  },
+  "invalid_or_technical_paths": [
+    {
+      "candidate_id": "default-maxseq-with-512m-cache",
+      "reason": "max_num_seqs=256 exceeds the 80 Mamba cache blocks available under the fixed cache budget",
+      "status": "TECHNICAL_FAILURE"
+    },
+    {
+      "candidate_id": "fp8-kv-cache",
+      "performance_conclusion": "NONE",
+      "reason": "FlashInfer JIT failed: system nvcc 12.0 rejects a CUDA-13 flag; the venv nvcc 13.3 then conflicts with the installed CUDA 13.0 runtime headers",
+      "status": "TECHNICAL_FAILURE"
+    }
+  ],
+  "schema_version": "qwen35-sm89-vllm-candidate-search-v1",
+  "status": "PASS"
+}

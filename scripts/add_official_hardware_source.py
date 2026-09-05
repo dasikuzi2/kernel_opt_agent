@@ -78,7 +78,7 @@ def main() -> int:
         "content_type": headers.get("Content-Type"),
         "etag": headers.get("ETag"),
         "last_modified": headers.get("Last-Modified"),
-        "artifact_path": str(destination.relative_to(manifest_path.parent)),
+        "artifact_path": destination.relative_to(manifest_path.parent).as_posix(),
         "artifact_sha256": sha256(destination),
     }
     receipt_path.write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n")
@@ -113,9 +113,9 @@ def main() -> int:
             "requested_url": args.url,
             "final_url": final_url,
             "http_status": http_status,
-            "artifact_path": str(destination.relative_to(manifest_path.parent)),
+            "artifact_path": destination.relative_to(manifest_path.parent).as_posix(),
             "sha256": sha256(destination),
-            "receipt_path": str(receipt_path.relative_to(manifest_path.parent)),
+            "receipt_path": receipt_path.relative_to(manifest_path.parent).as_posix(),
             "receipt_sha256": sha256(receipt_path),
         },
     }

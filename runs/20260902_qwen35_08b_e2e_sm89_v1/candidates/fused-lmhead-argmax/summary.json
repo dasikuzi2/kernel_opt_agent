@@ -1,0 +1,34 @@
+{
+  "schema_version": "sm89-fused-lmhead-argmax-stop-v1",
+  "candidate": "BF16 lm-head with hierarchical greedy argmax and no full-logits materialization",
+  "scope": "Qwen3.5-0.8B vocabulary 248320, hidden size 1024, RTX 4060 Laptop SM89, batch=1 greedy decode",
+  "mechanism": "Keep the accepted per-row FP32 dot reduction, round each score to BF16 at the same observable boundary as the production path, reduce block-local maxima, then reduce the block winners to one token id without storing the full logits tensor.",
+  "correctness_screen": {
+    "random_input_argmax_exact_all_schedules": true,
+    "all_zero_tie_returns_token_zero_all_schedules": true,
+    "note": "The screen covers six bounded BLOCK_N/warp schedules and the critical first-index tie rule; it is not a full model-quality qualification."
+  },
+  "best_cuda_graph_result": {
+    "block_n": 16,
+    "num_warps": 8,
+    "baseline_us": 2085.1200103759766,
+    "candidate_us": 2052.3008346557617,
+    "local_speedup": 1.015991405921598,
+    "saving_us": 32.819175720214844,
+    "predicted_whole_step_speedup": 1.0040788513751993
+  },
+  "promotion_gate": {
+    "strict_frontier_tpot_ms": 8.079,
+    "minimum_saving_for_1_03x_us": 235.3,
+    "observed_fraction_of_required_saving": 0.1394771598810652,
+    "status": "FAIL"
+  },
+  "evidence": {
+    "benchmark": "microbench_candidates/fused_lmhead_argmax_sm89.json",
+    "benchmark_sha256": "d1f3261d0eaff29cf45e93306a0daafa1aedbb7cfebb39846660809df47ea95b",
+    "tool": "tools/benchmark_sm89_fused_lmhead_argmax.py",
+    "tool_sha256": "8cc3db44972ffa535d3a70946e5c5dddef07229086831339a8c1019a8ee703d3"
+  },
+  "decision": "MEASURED_REJECT_BELOW_MATERIALITY_GATE",
+  "stop_rule": "Do not modify the full vLLM model-runner/sampler boundary for this implementation. Reopen only if a method avoids a material fraction of lm-head weight reads, not merely the roughly 1.5 MiB logits cast/argmax traffic."
+}

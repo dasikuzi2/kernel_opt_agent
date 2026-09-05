@@ -1,0 +1,52 @@
+{
+  "schema_version": "optimization-method-v1",
+  "method_id": "kernelbench-profile-feedback",
+  "title": "Use execution and profiling feedback as a bounded candidate-generation loop",
+  "kind": "SEARCH_STRATEGY",
+  "source": {
+    "title": "KernelBench: Can LLMs Write Efficient GPU Kernels?",
+    "url": "https://arxiv.org/abs/2502.10517",
+    "version": "arXiv:2502.10517v1",
+    "evidence_tier": "PRIMARY_PREPRINT",
+    "claim_scope": "Benchmark evidence that execution and profiling feedback can improve iterative refinement; it does not identify a universally best search policy."
+  },
+  "opportunity_families": ["candidate-portfolio", "profile-feedback", "architecture-rewrite", "tile-retune"],
+  "applicability": {
+    "vendors": ["ANY"],
+    "architecture_affinity": [],
+    "required_capabilities": [],
+    "dtypes": ["any"],
+    "problem_signatures": ["candidate", "baseline", "profile", "kernel", "latency", "correctness"]
+  },
+  "implementation_recipe": [
+    "Generate several architecture-distinct candidates before giving any one candidate multiple tuning rounds.",
+    "Feed compile, correctness, timing, and a compact bottleneck summary back into the next proposal.",
+    "Stop a local line after bounded failures and return to a different opportunity or architecture family."
+  ],
+  "validation_recipe": [
+    "Track time to first correct candidate, time to first improvement, and best result at fixed wall-clock budgets.",
+    "Report correctness-plus-speed thresholds across all tasks or workload cases, not only successful examples.",
+    "Separate technical repair failures from causal performance failures."
+  ],
+  "expected_bottleneck_shifts": [
+    "Profiling should redirect search when an intended optimization moves the bottleneck elsewhere.",
+    "Portfolio-level progress can improve even when individual candidate lines terminate earlier."
+  ],
+  "failure_modes": [
+    "The agent repeatedly tunes launch parameters after the measured bottleneck has moved.",
+    "Feedback is too verbose or unstructured to change the next architecture decision.",
+    "The search overfits a public anchor input."
+  ],
+  "scope_limits": [
+    "Benchmark success rates do not predict success on a specific production operator.",
+    "More feedback rounds are not a substitute for architecture diversity."
+  ],
+  "candidate_archetypes": [
+    {
+      "family": "candidate-portfolio",
+      "name": "bounded architecture portfolio",
+      "change_axes": ["architecture family", "opportunity coverage", "wall-clock allocation"],
+      "template": "Give each distinct family one build/correctness/smoke attempt, halve the portfolio, and spend deeper analysis only on survivors."
+    }
+  ]
+}

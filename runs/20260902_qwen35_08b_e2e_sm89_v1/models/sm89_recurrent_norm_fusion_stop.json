@@ -1,0 +1,51 @@
+{
+  "schema_version": "bounded-architecture-stop-v1",
+  "device": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "model": "Qwen3.5-0.8B",
+  "dtype_contract": "BF16 inputs, BF16 recurrent state, bitwise-equal state transition and gated RMSNorm output",
+  "candidate": "one Triton program per value head; four sequential BV32 state slices followed by in-launch 128-wide gated RMSNorm",
+  "architectural_change": {
+    "stock": "64 recurrent programs plus a separate gated RMSNorm launch per GDN layer",
+    "candidate": "16 recurrent+norm programs per GDN layer",
+    "intended_gain": "load q/k and recurrent scalars once per head and remove one producer-consumer launch boundary",
+    "measured_cost": "four state slices become serial within each head, reducing parallelism"
+  },
+  "correctness": {
+    "state_equal": true,
+    "output_equal": true,
+    "max_state_abs": 0.0,
+    "max_output_abs": 0.0
+  },
+  "timing_us": {
+    "uncaptured_python_submission": {
+      "stock": 100.50355529785156,
+      "candidate": 23.259136199951172,
+      "speedup": 4.321035589363914,
+      "interpretation": "allocator and host-submission artifact; not representative of vLLM decode"
+    },
+    "cuda_graph_replay": {
+      "stock": 16.39833641052246,
+      "candidate": 21.966848373413086,
+      "speedup": 0.7465038284859149,
+      "interpretation": "production-relevant rejection"
+    },
+    "cache_evicted_paired_single_launch": {
+      "stock": 21.503999829292297,
+      "candidate": 24.57600086927414,
+      "speedup": 0.8749999621043888,
+      "interpretation": "independent confirmation that the candidate does not win"
+    }
+  },
+  "decision": "REJECT",
+  "closed_family": "single-program-per-head sequential recurrence plus gated normalization",
+  "reopen_conditions": [
+    "A design preserves four BV32 tiles of parallelism while providing an exact head-wide reduction boundary.",
+    "A CUDA or warp-specialized implementation demonstrates state and output equality before full-model integration.",
+    "The vLLM execution path no longer uses CUDA Graph replay, making host launch and allocation overhead material again."
+  ],
+  "claim_limit": "This rejects one ownership/dataflow design; it does not prove every recurrent-state layout or convolution-recurrence fusion is suboptimal.",
+  "evidence": {
+    "path": "microbench_candidates/gdn_recurrent_norm_fusion_sm89.json",
+    "sha256": "8be1c00ca85ccc99aba88cd18e9899599fd82b0308636df0c19a051c7bfa7f1a"
+  }
+}

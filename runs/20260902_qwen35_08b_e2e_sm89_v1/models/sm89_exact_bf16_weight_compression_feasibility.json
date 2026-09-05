@@ -1,0 +1,604 @@
+{
+  "schema_version": "sm89-exact-bf16-weight-compression-feasibility-v1",
+  "status": "PASS",
+  "scope": {
+    "model": "/home/aden/models/Qwen3.5-0.8B",
+    "config_sha256": "b90b86f35c8e6925ef74ee04d0e758f0a845c83a42089ad82bbaa948de9b4204",
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "tensor": "lm_head.weight",
+    "dtype": "bfloat16",
+    "weight_shape": [
+      248320,
+      1024
+    ],
+    "values": 254279680,
+    "dense_bytes": 508559360
+  },
+  "bit_statistics": {
+    "distinct_bf16_patterns": 5874,
+    "full_pattern_entropy_bits_per_value": 10.499084330484525,
+    "distinct_exponents": 33,
+    "exponent_values": [
+      91,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115,
+      116,
+      117,
+      118,
+      119,
+      120,
+      121,
+      122,
+      123,
+      124
+    ],
+    "exponent_histogram": {
+      "91": 1,
+      "93": 2,
+      "94": 2,
+      "95": 1,
+      "96": 6,
+      "97": 8,
+      "98": 24,
+      "99": 39,
+      "100": 77,
+      "101": 149,
+      "102": 286,
+      "103": 711,
+      "104": 1250,
+      "105": 2457,
+      "106": 5175,
+      "107": 10128,
+      "108": 20355,
+      "109": 40537,
+      "110": 81227,
+      "111": 162171,
+      "112": 326599,
+      "113": 652664,
+      "114": 1303384,
+      "115": 2606822,
+      "116": 5211448,
+      "117": 10393313,
+      "118": 20586926,
+      "119": 39620471,
+      "120": 68037825,
+      "121": 77392524,
+      "122": 26913182,
+      "123": 908998,
+      "124": 918
+    },
+    "exponent_entropy_bits_per_value": 2.5743016901278146,
+    "sign_mantissa_entropy_bits_per_value": 7.972176134283322
+  },
+  "global_exponent_palette": {
+    "index_bits": 6,
+    "packed_bits_per_value": 14,
+    "optimistic_total_byte_fraction": 0.8750000648891803
+  },
+  "block_local_base_delta": [
+    {
+      "block_size": 64,
+      "exponent_range": {
+        "min": 3,
+        "median": 8.0,
+        "p90": 10.0,
+        "p99": 14.0,
+        "max": 31
+      },
+      "base_delta_layouts": [
+        {
+          "delta_bits": 3,
+          "packed_bits_per_value": 11,
+          "passing_block_fraction": 0.47313295344716494,
+          "optimistic_total_byte_fraction": 0.856818865746567,
+          "optimistic_lm_head_saving_ms": 0.2945951837264385,
+          "optimistic_whole_step_speedup": 1.037844278487493
+        },
+        {
+          "delta_bits": 4,
+          "packed_bits_per_value": 12,
+          "passing_block_fraction": 0.9970078930412372,
+          "optimistic_total_byte_fraction": 0.7595137134040754,
+          "optimistic_lm_head_saving_ms": 0.49480053467111496,
+          "optimistic_whole_step_speedup": 1.0652409706433872
+        },
+        {
+          "delta_bits": 5,
+          "packed_bits_per_value": 13,
+          "passing_block_fraction": 1.0,
+          "optimistic_total_byte_fraction": 0.8212890625,
+          "optimistic_lm_head_saving_ms": 0.36769775390625004,
+          "optimistic_whole_step_speedup": 1.047682964844558
+        },
+        {
+          "delta_bits": 6,
+          "packed_bits_per_value": 14,
+          "passing_block_fraction": 1.0,
+          "optimistic_total_byte_fraction": 0.8837890625,
+          "optimistic_lm_head_saving_ms": 0.23910400390625,
+          "optimistic_whole_step_speedup": 1.0304983642672536
+        },
+        {
+          "delta_bits": 7,
+          "packed_bits_per_value": 15,
+          "passing_block_fraction": 1.0,
+          "optimistic_total_byte_fraction": 0.9462890625,
+          "optimistic_lm_head_saving_ms": 0.11051025390625001,
+          "optimistic_whole_step_speedup": 1.0138684063640069
+        },
+        {
+          "delta_bits": 8,
+          "packed_bits_per_value": 16,
+          "passing_block_fraction": 1.0,
+          "optimistic_total_byte_fraction": 1.0087890625,
+          "optimistic_lm_head_saving_ms": -0.018083496093750002,
+          "optimistic_whole_step_speedup": 0.9977666654786908
+        }
+      ]
+    },
+    {
+      "block_size": 128,
+      "exponent_range": {
+        "min": 4,
+        "median": 9.0,
+        "p90": 12.0,
+        "p99": 15.0,
+        "max": 31
+      },
+      "base_delta_layouts": [
+        {
+          "delta_bits": 3,
+          "packed_bits_per_value": 11,
+          "passing_block_fraction": 0.20501117509664948,
+          "optimistic_total_byte_fraction": 0.9372231139350183,
+          "optimistic_lm_head_saving_ms": 0.12916344307869979,
+          "optimistic_whole_step_speedup": 1.0162473079985836
+        },
+        {
+          "delta_bits": 4,
+          "packed_bits_per_value": 12,
+          "passing_block_fraction": 0.9933805170747423,
+          "optimistic_total_byte_fraction": 0.7560235446261376,
+          "optimistic_lm_head_saving_ms": 0.5019815569317219,
+          "optimistic_whole_step_speedup": 1.0662505391406236
+        },
+        {
+          "delta_bits": 5,
+          "packed_bits_per_value": 13,
+          "passing_block_fraction": 1.0,
+          "optimistic_total_byte_fraction": 0.81689453125,
+          "optimistic_lm_head_saving_ms": 0.376739501953125,
+          "optimistic_whole_step_speedup": 1.0489128486434156
+        },
+        {
+          "delta_bits": 6,
+          "packed_bits_per_value": 14,
+          "passing_block_fraction": 1.0,
+          "optimistic_total_byte_fraction": 0.87939453125,
+          "optimistic_lm_head_saving_ms": 0.24814575195312502,
+          "optimistic_whole_step_speedup": 1.0316882097524693
+        },
+        {
+          "delta_bits": 7,
+          "packed_bits_per_value": 15,
+          "passing_block_fraction": 1.0,
+          "optimistic_total_byte_fraction": 0.94189453125,
+          "optimistic_lm_head_saving_ms": 0.119552001953125,
+          "optimistic_whole_step_speedup": 1.0150201373239025
+        },
+        {
+          "delta_bits": 8,
+          "packed_bits_per_value": 16,
+          "passing_block_fraction": 1.0,
+          "optimistic_total_byte_fraction": 1.00439453125,
+          "optimistic_lm_head_saving_ms": -0.009041748046875001,
+          "optimistic_whole_step_speedup": 0.9988820843995941
+        }
+      ]
+    },
+    {
+      "block_size": 256,
+      "exponent_range": {
+        "min": 5,
+        "median": 10.0,
+        "p90": 13.0,
+        "p99": 16.0,
+        "max": 32
+      },
+      "base_delta_layouts": [
+        {
+          "delta_bits": 3,
+          "packed_bits_per_value": 11,
+          "passing_block_fraction": 0.03805472777061856,
+          "optimistic_total_byte_fraction": 0.9884263638368587,
+          "optimistic_lm_head_saving_ms": 0.023812756405663292,
+          "optimistic_whole_step_speedup": 1.002956201474348
+        },
+        {
+          "delta_bits": 4,
+          "packed_bits_per_value": 12,
+          "passing_block_fraction": 0.985144168814433,
+          "optimistic_total_byte_fraction": 0.7558822081261074,
+          "optimistic_lm_head_saving_ms": 0.5022723567805341,
+          "optimistic_whole_step_speedup": 1.0662914625458426
+        },
+        {
+          "delta_bits": 5,
+          "packed_bits_per_value": 13,
+          "passing_block_fraction": 0.9999989932345361,
+          "optimistic_total_byte_fraction": 0.8146974524271857,
+          "optimistic_lm_head_saving_ms": 0.3812599916310654,
+          "optimistic_whole_step_speedup": 1.0495288216043361
+        },
+        {
+          "delta_bits": 6,
+          "packed_bits_per_value": 14,
+          "passing_block_fraction": 1.0,
+          "optimistic_total_byte_fraction": 0.877197265625,
+          "optimistic_lm_head_saving_ms": 0.25266662597656253,
+          "optimistic_whole_step_speedup": 1.032284163464745
+        },
+        {
+          "delta_bits": 7,
+          "packed_bits_per_value": 15,
+          "passing_block_fraction": 1.0,
+          "optimistic_total_byte_fraction": 0.939697265625,
+          "optimistic_lm_head_saving_ms": 0.12407287597656251,
+          "optimistic_whole_step_speedup": 1.0155969846162223
+        },
+        {
+          "delta_bits": 8,
+          "packed_bits_per_value": 16,
+          "passing_block_fraction": 1.0,
+          "optimistic_total_byte_fraction": 1.002197265625,
+          "optimistic_lm_head_saving_ms": -0.0045208740234375005,
+          "optimistic_whole_step_speedup": 0.9994407295912396
+        }
+      ]
+    },
+    {
+      "block_size": 512,
+      "exponent_range": {
+        "min": 6,
+        "median": 11.0,
+        "p90": 14.0,
+        "p99": 17.0,
+        "max": 32
+      },
+      "base_delta_layouts": [
+        {
+          "delta_bits": 3,
+          "packed_bits_per_value": 11,
+          "passing_block_fraction": 0.0013551063144329896,
+          "optimistic_total_byte_fraction": 0.9996999229352499,
+          "optimistic_lm_head_saving_ms": 0.0006174085607233387,
+          "optimistic_whole_step_speedup": 1.0000764272493576
+        },
+        {
+          "delta_bits": 4,
+          "packed_bits_per_value": 12,
+          "passing_block_fraction": 0.966478737113402,
+          "optimistic_total_byte_fraction": 0.7594462129258618,
+          "optimistic_lm_head_saving_ms": 0.4949394169050394,
+          "optimistic_whole_step_speedup": 1.0652604777456907
+        },
+        {
+          "delta_bits": 5,
+          "packed_bits_per_value": 13,
+          "passing_block_fraction": 0.9999979864690721,
+          "optimistic_total_byte_fraction": 0.8135990083832102,
+          "optimistic_lm_head_saving_ms": 0.383520040251545,
+          "optimistic_whole_step_speedup": 1.0498370526929526
+        },
+        {
+          "delta_bits": 6,
+          "packed_bits_per_value": 14,
+          "passing_block_fraction": 1.0,
+          "optimistic_total_byte_fraction": 0.8760986328125,
+          "optimistic_lm_head_saving_ms": 0.25492706298828127,
+          "optimistic_whole_step_speedup": 1.0325823985845468
+        },
+        {
+          "delta_bits": 7,
+          "packed_bits_per_value": 15,
+          "passing_block_fraction": 1.0,
+          "optimistic_total_byte_fraction": 0.9385986328125,
+          "optimistic_lm_head_saving_ms": 0.12633331298828127,
+          "optimistic_whole_step_speedup": 1.015885654203842
+        },
+        {
+          "delta_bits": 8,
+          "packed_bits_per_value": 16,
+          "passing_block_fraction": 1.0,
+          "optimistic_total_byte_fraction": 1.0010986328125,
+          "optimistic_lm_head_saving_ms": -0.0022604370117187502,
+          "optimistic_whole_step_speedup": 0.9997202865778999
+        }
+      ]
+    },
+    {
+      "block_size": 1024,
+      "exponent_range": {
+        "min": 8,
+        "median": 12.0,
+        "p90": 15.0,
+        "p99": 18.0,
+        "max": 32
+      },
+      "base_delta_layouts": [
+        {
+          "delta_bits": 3,
+          "packed_bits_per_value": 11,
+          "passing_block_fraction": 0.0,
+          "optimistic_total_byte_fraction": 1.00006103515625,
+          "optimistic_lm_head_saving_ms": -0.000125579833984375,
+          "optimistic_whole_step_speedup": 0.9999844562591901
+        },
+        {
+          "delta_bits": 4,
+          "packed_bits_per_value": 12,
+          "passing_block_fraction": 0.9257248711340206,
+          "optimistic_total_byte_fraction": 0.7690818314699782,
+          "optimistic_lm_head_saving_ms": 0.47511413175051986,
+          "optimistic_whole_step_speedup": 1.0624830698385925
+        },
+        {
+          "delta_bits": 5,
+          "packed_bits_per_value": 13,
+          "passing_block_fraction": 0.9999959729381444,
+          "optimistic_total_byte_fraction": 0.8130500695140092,
+          "optimistic_lm_head_saving_ms": 0.3846494819749262,
+          "optimistic_whole_step_speedup": 1.0499911566380855
+        },
+        {
+          "delta_bits": 6,
+          "packed_bits_per_value": 14,
+          "passing_block_fraction": 1.0,
+          "optimistic_total_byte_fraction": 0.87554931640625,
+          "optimistic_lm_head_saving_ms": 0.25605728149414064,
+          "optimistic_whole_step_speedup": 1.0327315807756605
+        },
+        {
+          "delta_bits": 7,
+          "packed_bits_per_value": 15,
+          "passing_block_fraction": 1.0,
+          "optimistic_total_byte_fraction": 0.93804931640625,
+          "optimistic_lm_head_saving_ms": 0.12746353149414064,
+          "optimistic_whole_step_speedup": 1.0160300505441928
+        },
+        {
+          "delta_bits": 8,
+          "packed_bits_per_value": 16,
+          "passing_block_fraction": 1.0,
+          "optimistic_total_byte_fraction": 1.00054931640625,
+          "optimistic_lm_head_saving_ms": -0.0011302185058593751,
+          "optimistic_whole_step_speedup": 0.9998601237263145
+        }
+      ]
+    }
+  ],
+  "exact_pattern_codebook": [
+    {
+      "codebook_size": 256,
+      "index_bits": 8,
+      "block_size": 64,
+      "covered_value_fraction": 0.3345724642276764,
+      "passing_block_fraction": 0.0,
+      "fallback_blocks": 3973120,
+      "optimistic_total_byte_fraction": 1.5312510067654639,
+      "optimistic_lm_head_saving_ms": -1.093048946419942,
+      "optimistic_whole_step_speedup": 0.8808282693643297
+    },
+    {
+      "codebook_size": 256,
+      "index_bits": 8,
+      "block_size": 128,
+      "covered_value_fraction": 0.3345724642276764,
+      "passing_block_fraction": 0.0,
+      "fallback_blocks": 1986560,
+      "optimistic_total_byte_fraction": 1.5156260067654639,
+      "optimistic_lm_head_saving_ms": -1.060900508919942,
+      "optimistic_whole_step_speedup": 0.8839264707657842
+    },
+    {
+      "codebook_size": 256,
+      "index_bits": 8,
+      "block_size": 256,
+      "covered_value_fraction": 0.3345724642276764,
+      "passing_block_fraction": 0.0,
+      "fallback_blocks": 993280,
+      "optimistic_total_byte_fraction": 1.5078135067654639,
+      "optimistic_lm_head_saving_ms": -1.044826290169942,
+      "optimistic_whole_step_speedup": 0.8854837590128559
+    },
+    {
+      "codebook_size": 256,
+      "index_bits": 8,
+      "block_size": 512,
+      "covered_value_fraction": 0.3345724642276764,
+      "passing_block_fraction": 0.0,
+      "fallback_blocks": 496640,
+      "optimistic_total_byte_fraction": 1.5039072567654639,
+      "optimistic_lm_head_saving_ms": -1.036789180794942,
+      "optimistic_whole_step_speedup": 0.8862644626557139
+    },
+    {
+      "codebook_size": 256,
+      "index_bits": 8,
+      "block_size": 1024,
+      "covered_value_fraction": 0.3345724642276764,
+      "passing_block_fraction": 0.0,
+      "fallback_blocks": 248320,
+      "optimistic_total_byte_fraction": 1.5019541317654639,
+      "optimistic_lm_head_saving_ms": -1.032770626107442,
+      "optimistic_whole_step_speedup": 0.8866553309465118
+    },
+    {
+      "codebook_size": 1024,
+      "index_bits": 10,
+      "block_size": 64,
+      "covered_value_fraction": 0.8571875095367432,
+      "passing_block_fraction": 5.738563144329897e-05,
+      "fallback_blocks": 3972892,
+      "optimistic_total_byte_fraction": 1.6561966414304123,
+      "optimistic_lm_head_saving_ms": -1.3501245897430734,
+      "optimistic_whole_step_speedup": 0.8568133683150472
+    },
+    {
+      "codebook_size": 1024,
+      "index_bits": 10,
+      "block_size": 128,
+      "covered_value_fraction": 0.8571875095367432,
+      "passing_block_fraction": 0.0,
+      "fallback_blocks": 1986560,
+      "optimistic_total_byte_fraction": 1.6406290270618558,
+      "optimistic_lm_head_saving_ms": -1.3180942231797683,
+      "optimistic_whole_step_speedup": 0.8597338504993989
+    },
+    {
+      "codebook_size": 1024,
+      "index_bits": 10,
+      "block_size": 256,
+      "covered_value_fraction": 0.8571875095367432,
+      "passing_block_fraction": 0.0,
+      "fallback_blocks": 993280,
+      "optimistic_total_byte_fraction": 1.6328165270618558,
+      "optimistic_lm_head_saving_ms": -1.3020200044297683,
+      "optimistic_whole_step_speedup": 0.8612069898779721
+    },
+    {
+      "codebook_size": 1024,
+      "index_bits": 10,
+      "block_size": 512,
+      "covered_value_fraction": 0.8571875095367432,
+      "passing_block_fraction": 0.0,
+      "fallback_blocks": 496640,
+      "optimistic_total_byte_fraction": 1.6289102770618558,
+      "optimistic_lm_head_saving_ms": -1.2939828950547683,
+      "optimistic_whole_step_speedup": 0.8619454543401035
+    },
+    {
+      "codebook_size": 1024,
+      "index_bits": 10,
+      "block_size": 1024,
+      "covered_value_fraction": 0.8571875095367432,
+      "passing_block_fraction": 0.0,
+      "fallback_blocks": 248320,
+      "optimistic_total_byte_fraction": 1.6269571520618558,
+      "optimistic_lm_head_saving_ms": -1.2899643403672683,
+      "optimistic_whole_step_speedup": 0.8623151616866224
+    },
+    {
+      "codebook_size": 4096,
+      "index_bits": 12,
+      "block_size": 64,
+      "covered_value_fraction": 0.9999181032180786,
+      "passing_block_fraction": 0.994775138933634,
+      "fallback_blocks": 20759,
+      "optimistic_total_byte_fraction": 0.7864909693137887,
+      "optimistic_lm_head_saving_ms": 0.4392948306368798,
+      "optimistic_whole_step_speedup": 1.057501542389168
+    },
+    {
+      "codebook_size": 4096,
+      "index_bits": 12,
+      "block_size": 128,
+      "covered_value_fraction": 0.9999181032180786,
+      "passing_block_fraction": 0.9895799774484536,
+      "fallback_blocks": 20700,
+      "optimistic_total_byte_fraction": 0.7760611307989691,
+      "optimistic_lm_head_saving_ms": 0.4607542233811211,
+      "optimistic_whole_step_speedup": 1.0604803568815304
+    },
+    {
+      "codebook_size": 4096,
+      "index_bits": 12,
+      "block_size": 256,
+      "covered_value_fraction": 0.9999181032180786,
+      "passing_block_fraction": 0.9793109697164949,
+      "fallback_blocks": 20550,
+      "optimistic_total_byte_fraction": 0.7785176385309278,
+      "optimistic_lm_head_saving_ms": 0.45569995872261604,
+      "optimistic_whole_step_speedup": 1.0597772560774426
+    },
+    {
+      "codebook_size": 4096,
+      "index_bits": 12,
+      "block_size": 512,
+      "covered_value_fraction": 0.9999181032180786,
+      "passing_block_fraction": 0.9591011597938144,
+      "fallback_blocks": 20312,
+      "optimistic_total_byte_fraction": 0.7948211984536082,
+      "optimistic_lm_head_saving_ms": 0.4221553841817011,
+      "optimistic_whole_step_speedup": 1.0551343804613154
+    },
+    {
+      "codebook_size": 4096,
+      "index_bits": 12,
+      "block_size": 1024,
+      "covered_value_fraction": 0.9999181032180786,
+      "passing_block_fraction": 0.9199178479381444,
+      "fallback_blocks": 19886,
+      "optimistic_total_byte_fraction": 0.8320513853092784,
+      "optimistic_lm_head_saving_ms": 0.3455542747261598,
+      "optimistic_whole_step_speedup": 1.0446830930224087
+    }
+  ],
+  "best_base_delta_layout": {
+    "block_size": 256,
+    "delta_bits": 4,
+    "packed_bits_per_value": 12,
+    "passing_block_fraction": 0.985144168814433,
+    "optimistic_total_byte_fraction": 0.7558822081261074,
+    "optimistic_lm_head_saving_ms": 0.5022723567805341,
+    "optimistic_whole_step_speedup": 1.0662914625458426
+  },
+  "best_codebook_layout": {
+    "codebook_size": 4096,
+    "index_bits": 12,
+    "block_size": 128,
+    "covered_value_fraction": 0.9999181032180786,
+    "passing_block_fraction": 0.9895799774484536,
+    "fallback_blocks": 20700,
+    "optimistic_total_byte_fraction": 0.7760611307989691,
+    "optimistic_lm_head_saving_ms": 0.4607542233811211,
+    "optimistic_whole_step_speedup": 1.0604803568815304
+  },
+  "best_optimistic_layout": {
+    "family": "base_delta",
+    "block_size": 256,
+    "delta_bits": 4,
+    "packed_bits_per_value": 12,
+    "passing_block_fraction": 0.985144168814433,
+    "optimistic_total_byte_fraction": 0.7558822081261074,
+    "optimistic_lm_head_saving_ms": 0.5022723567805341,
+    "optimistic_whole_step_speedup": 1.0662914625458426
+  },
+  "materiality_gate": {
+    "minimum_whole_step_speedup": 1.03,
+    "passes": true,
+    "warning": "The projection assumes lm-head latency scales exactly with bytes and charges zero unpacking, alignment or instruction overhead."
+  },
+  "decision": "IMPLEMENT_EXACT_GPU_UNPACK_SCREEN"
+}

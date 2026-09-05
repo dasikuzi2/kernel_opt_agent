@@ -1,0 +1,33 @@
+{
+  "schema_version": "sm89-combined-bf16-frontier-v1",
+  "scope": "Qwen3.5-0.8B language model, RTX 4060 Laptop GPU, batch=1, 64 generated tokens, six natural prompts, BF16 weights and activations",
+  "design": "C-S-S-C process order, one warmup and three measured trials per process, independent fresh compile caches for the first control and candidate runs",
+  "control": {
+    "description": "same vLLM source with SM89 lm_head and segmented GDN projection disabled",
+    "mean_e2e_ms": 653.0632908333421,
+    "mean_tpot_ms": 9.750452873016006,
+    "repeat_exact_cases": "6/6"
+  },
+  "candidate": {
+    "description": "SM89 BF16 lm_head plus all-layer segmented GDN QKVZ+BA projection",
+    "mean_e2e_ms": 548.6253730000167,
+    "mean_tpot_ms": 8.125436337301667,
+    "repeat_exact_cases": "6/6"
+  },
+  "speedup": {
+    "e2e": 1.19036296809836,
+    "tpot": 1.19998892369038
+  },
+  "cross_mode_exact_generated_token_cases": "3/6",
+  "strict_frontier": "Keep the lm_head-only candidate: prior same-source C-S-S-C qualification is 1.1928x E2E / 1.1986x TPOT with 6/6 cross-mode exact cases.",
+  "relaxed_frontier": "The combined candidate reaches 1.1904x E2E / 1.2000x TPOT versus stock in this direct C-S-S-C run, but requires a task-quality gate because GDN reduction ordering changes some greedy continuations.",
+  "evidence": [
+    {"path": "traces/vllm_sm89_combined_stock_c1_w1_n3_t64.json", "sha256": "048a13fdd0722d8ae88ce2b200f486cf74300b6e35e6255eb2bd6680106b3f20"},
+    {"path": "traces/vllm_sm89_combined_stock_c2_w1_n3_t64.json", "sha256": "10f002b2e01f95d70fcdaea98a7b54f4d05f3f294d6c0ce374a5a8b629ddfb7e"},
+    {"path": "traces/vllm_sm89_combined_candidate_s1_w1_n3_t64.json", "sha256": "6b349853c61b8c252f2bdb1b4c4684148f1b2ab93e89d2b5998c93857c1b7d6b"},
+    {"path": "traces/vllm_sm89_combined_candidate_s2_w1_n3_t64.json", "sha256": "05bcd89b97528d86a48177a87bbf179c33ccc1e2d9a15d5c01a14ea57e98d451"},
+    {"path": "comparisons/vllm_sm89_combined_control_repeat.json", "sha256": "16d79c8ca71b7b8f9c3775819204fe34cd7ad01a598eb15bd32f2f650ad54558"},
+    {"path": "comparisons/vllm_sm89_combined_candidate_repeat.json", "sha256": "15a45247232c7240c6e69417068b855030a79e6954a0f142d04cb34e49a64493"}
+  ],
+  "status": "DISCOVERY_PASS_QUALITY_GATE_PENDING"
+}

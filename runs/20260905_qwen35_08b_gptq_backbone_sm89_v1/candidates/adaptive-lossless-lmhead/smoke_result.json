@@ -1,0 +1,42 @@
+{
+  "schema_version": "candidate-smoke-result-v3",
+  "status": "PASS",
+  "candidate_id": "adaptive-lossless-lmhead",
+  "claim_scope": "DISCOVERY_ONLY_NOT_PRODUCTION_ACCEPTANCE_OR_LIMIT_PROOF",
+  "objective": {
+    "direction": "minimize",
+    "baseline": 344440.4206666623,
+    "candidate": 304207.2740000018,
+    "unit": "us",
+    "speedup": 1.1322557022967843,
+    "reduction_percent": 11.680727421244432
+  },
+  "comparability": {
+    "status": "PASS",
+    "measurements_per_case": 3,
+    "control_graphics_clock_mhz": 2625.0,
+    "candidate_graphics_clock_mhz": 2625.0,
+    "contract_identity": "PASS",
+    "source_identity": "PASS"
+  },
+  "correctness_observation": {
+    "canonical_stock_token_matches": 6,
+    "paired_stock_token_matches": 6,
+    "case_count": 6,
+    "interpretation": "Cross-process stock output is not deterministic in this setup; token identity is an observation, not a proof of bitwise logit equality."
+  },
+  "raw": {
+    "baseline": {
+      "path": "raw/stock_marlin_power_matched_r43.json",
+      "sha256": "3cb213f7c05e1b67bb6d8aaab13ac51fb71dec29fb46d1c0d1d13170a017bdd6"
+    },
+    "candidate": {
+      "path": "candidates/adaptive-lossless-lmhead/raw_r44.json",
+      "sha256": "f657f7bbf34af004d5bc8d09d2cca804c800dc3800736ecadb7a2feb8d20db71"
+    },
+    "canonical": {
+      "path": "raw/stock_marlin_natural_b1_w1_n1_t64.json",
+      "sha256": "236133668faded7e40d9df2a22dd5d57556fa3dc9f759fd45e7b2a068cddd5ab"
+    }
+  }
+}

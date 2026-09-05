@@ -1,0 +1,87 @@
+{
+  "schema_version": "qwen35-sm89-serving-policy-v1",
+  "status": "BOUNDED_MEASURED_POLICY_NOT_GLOBAL_OPTIMUM",
+  "deployment_point": {
+    "model": "Qwen3.5-0.8B",
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU, SM89",
+    "engine": "vLLM 0.28.1rc1.dev312+g41848caa6",
+    "decode": "greedy"
+  },
+  "required_inputs": [
+    "numerical_contract",
+    "active_decode_batch",
+    "configured_max_num_seqs",
+    "candidate_prepack_ready",
+    "candidate_jit_ready"
+  ],
+  "routes": [
+    {
+      "when": {
+        "numerical_contract": "stock_token_identity"
+      },
+      "route": "stock_vllm_bf16",
+      "reason": "Exact weight reconstruction does not guarantee stock reduction-order or token identity."
+    },
+    {
+      "when": {
+        "numerical_contract": "bf16_weight_exact",
+        "active_decode_batch": 1,
+        "candidate_prepack_ready": true,
+        "candidate_jit_ready": true
+      },
+      "route": "exact_bf16_packed_lm_head",
+      "measured_conservative_speedup_over_stock": 1.0488783219120628,
+      "qualification": "Two candidate and two stock traces have distinct guarded VLLM_CACHE_ROOT values and cryptographically identical prompt-token workloads."
+    },
+    {
+      "when": {
+        "numerical_contract": "bf16_weight_exact",
+        "active_decode_batch_min": 2
+      },
+      "route": "stock_vllm_bf16",
+      "reason": "No material service gain is established beyond batch 1."
+    },
+    {
+      "when": {
+        "numerical_contract": "approximate_w4_greedy",
+        "active_decode_batch": 1
+      },
+      "route": "gptq_marlin_w4_scan_plus_bf16_top128_rerank",
+      "measured_conservative_speedup_over_stock_gptq": 1.4198914087888317,
+      "qualification": "Two production-pipeline candidate and two same-source stock traces use distinct guarded VLLM_CACHE_ROOT values; an older faster stock trace remains a veto-only envelope."
+    },
+    {
+      "when": {
+        "numerical_contract": "approximate_w4_greedy",
+        "active_decode_batch": 2
+      },
+      "route": "gptq_marlin_w4_scan_plus_bf16_top128_rerank",
+      "measured_conservative_speedup_over_stock_gptq": 1.1547272712531187,
+      "qualification": "Enable only when the approximate quality contract and operational complexity justify the smaller gain."
+    },
+    {
+      "when": {
+        "numerical_contract": "approximate_w4_greedy",
+        "active_decode_batch_min": 4
+      },
+      "route": "stock_vllm_gptq_marlin",
+      "reason": "Batched GEMM amortizes weight traffic and the specialization has no material advantage."
+    }
+  ],
+  "hard_gates": [
+    "Never enable a candidate unless source hashes and environment switches prove runtime reachability.",
+    "Use VLLM_CACHE_ROOT, not only TORCHINDUCTOR_CACHE_DIR, to isolate or intentionally share vLLM AOT caches.",
+    "Do not include engine initialization or first-use packing/JIT in steady-state throughput; report them separately.",
+    "Do not promote a weight-exact path as stock-token-exact without paired output evidence.",
+    "Do not extrapolate a batch-1 winner to higher concurrency."
+  ],
+  "evidence": {
+    "bf16_service_integration": "comparisons/vllm_bf16_exact_packed_service_integration.json",
+    "bf16_automatic_policy": "models/bf16_serving_policy_auto.json",
+    "quantized_automatic_policy": "models/gptq_serving_policy_auto.json",
+    "quantized_service_frontier": "comparisons/vllm_bf16_gptq_rerank_service_frontier.json",
+    "quantized_quality": "comparisons/vllm_gptq_marlin_w4_stock_vs_mv_rerank_quality_gsm8k_n512.json",
+    "strict_bf16_residual_bound": "models/sm89_strict_bf16_residual_certificate.json"
+  },
+  "global_optimum": "NOT_PROVEN. The policy is the best measured member of the bounded local portfolio. Both BF16 and GPTQ routes are automatically derived from two strictly guarded runs per implementation plus veto-only historical baseline envelopes. Architecture-level decoding, quantized tied-embedding formats, broader prompts, sampling, sequence lengths, power-locked repeats, other GPUs, and future vLLM releases remain open dimensions. A prepacked sidecar removes online conversion time but does not change the steady-state route or eliminate the dense tied weight."
+}

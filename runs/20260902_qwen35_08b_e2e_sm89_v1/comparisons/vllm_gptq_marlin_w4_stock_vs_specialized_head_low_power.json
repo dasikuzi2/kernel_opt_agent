@@ -1,0 +1,77 @@
+{
+  "schema_version": "vllm-gptq-marlin-w4-stock-vs-specialized-head-v1",
+  "status": "STOCK_BASELINE_PASS_HEAD_CANDIDATE_REJECT_QUALITY",
+  "claim_scope": "LOW_POWER_LOCAL_RTX4060_CONCURRENCY1_GREEDY_NOT_GLOBAL_OPTIMUM",
+  "workload": "Qwen3.5-0.8B, RTX 4060 Laptop SM89, vLLM 0.28.1, GPTQ Marlin W4A16 backbone, tied BF16 lm_head, six natural prompts, 128 generated tokens, batch/concurrency 1",
+  "checkpoint": {
+    "repository": "Vishva007/Qwen3.5-0.8B-W4A16-AutoRound-GPTQ",
+    "revision": "fbfcca655b989ac6a3ec883f512f902423746015",
+    "model_safetensors_bytes": 971213992,
+    "model_safetensors_sha256": "1140ac9c554a35a2069b5964a2668641cbf0b745c4c3692179e744878dd4d47b",
+    "weight_tensors": 923,
+    "qweight_tensors": 150,
+    "group_size": 128,
+    "bits": 4,
+    "lm_head_quantized": false,
+    "observed_model_memory_gib": 0.85
+  },
+  "metadata_repair": {
+    "failure_class": "TECHNICAL_CHECKPOINT_METADATA",
+    "symptom": "vLLM created full-attention fused QKV layers as unquantized and then failed while loading GPTQ g_idx tensors",
+    "root_cause": "modules_in_block_to_quantize listed linear_attn and MLP projections but omitted quantized self_attn q/k/v/o projections that are present in model.safetensors",
+    "repair": "add self_attn.q_proj, self_attn.k_proj, self_attn.v_proj, and self_attn.o_proj to quantization_config.modules_in_block_to_quantize",
+    "patch": "candidates/gptq-marlin-backbone-fair-baseline/quantization_config_self_attn_fix.patch"
+  },
+  "stock_vllm": {
+    "trace": "traces/vllm_gptq_marlin_w4_stock_natural_128_low_power.json",
+    "warmups": 2,
+    "trials": 5,
+    "weighted_tpot_ms": 7.687619650919247,
+    "weighted_e2e_ms": 1008.1026291663875,
+    "weighted_output_tokens_per_second": 130.08285836941303,
+    "median_measured_clock_mhz": 915.0,
+    "median_measured_power_w": 28.79,
+    "generation_sanity_cases": "6/6"
+  },
+  "comparison_to_prior_low_power_fp8_stock": {
+    "fp8_weighted_tpot_ms": 8.626,
+    "gptq_w4_speedup": 1.1220658253243931,
+    "boundary": "directional only: both runs are low-power screens but were not process-interleaved"
+  },
+  "specialized_w4_head_top128": {
+    "trace": "traces/vllm_gptq_marlin_w4_plus_w4_head_rerank_natural_128_low_power.json",
+    "warmups": 2,
+    "trials": 5,
+    "weighted_tpot_ms": 5.0493362742740695,
+    "weighted_e2e_ms": 679.8608059998514,
+    "weighted_output_tokens_per_second": 198.04974447072723,
+    "speedup_over_stock_tpot": 1.522501024557822,
+    "median_measured_clock_mhz": 825.0,
+    "median_measured_power_w": 23.835,
+    "complete_token_exact_cases_vs_stock": "2/6",
+    "common_prefix_tokens_by_case": [100, 77, 128, 128, 24, 0],
+    "decision": "REJECT_QUALITY"
+  },
+  "top512_screen": {
+    "trace": "traces/vllm_gptq_marlin_w4_plus_w4_head_rerank_k512_screen.json",
+    "warmups": 1,
+    "trials": 1,
+    "weighted_tpot_ms": 5.007322984249729,
+    "weighted_e2e_ms": 669.2652785004611,
+    "complete_token_exact_cases_vs_stock": "2/6",
+    "common_prefix_tokens_by_case": [100, 77, 128, 128, 24, 0],
+    "decision": "STOP_EXPANDING_SHORTLIST"
+  },
+  "rank_diagnostic": {
+    "mode": "eager diagnostic with full BF16 reference logits on every decoded token",
+    "generated_tokens_per_case": 16,
+    "maximum_zero_based_w4_rank_of_bf16_winner": 1,
+    "interpretation": "top-128 recall is sufficient in the eager diagnostic; compiled/CUDA-graph execution semantics or numerical behavior, not shortlist capacity, is the unresolved quality failure"
+  },
+  "conclusions": [
+    "Stock GPTQ-Marlin W4 is directionally about 1.12x faster than the prior low-power FP8 stock screen, but this is not a process-interleaved qualification and the 248320x1024 tied output head remains BF16.",
+    "Specializing the residual BF16 output head exposes a large 1.52x performance opportunity even on top of a W4 backbone, so using the same quantization does not make the stock runtime locally optimal.",
+    "The current specialized-head implementation fails the token-identity gate under compiled CUDA-graph execution and is therefore not a production winner despite its speed.",
+    "The next experiment must isolate compiled-no-CUDA-graph versus CUDA-graph behavior or add a certified fallback; increasing shortlist size further is unsupported by the rank evidence."
+  ]
+}

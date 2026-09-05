@@ -1,0 +1,57 @@
+{
+  "candidate_id": "exact-packed-bf16-lmhead",
+  "opportunity_id": "sm89-exact-lm-head",
+  "name": "Losslessly pack the BF16 tied output head and use an SM89 M=1 GEMV",
+  "family": "lossless-weight-layout",
+  "change_axes": ["weight-layout", "decode-shape-specialization", "cta-ownership"],
+  "hypothesis": "The GPTQ backbone leaves the 248320x1024 tied output head in dense BF16; lossless exponent-delta packing can reduce its memory traffic without changing a single stored BF16 weight bit.",
+  "expected_global_effect": "Retain stock GPTQ-Marlin for all 96 backbone projections and replace only the batch-1 BF16 output-head GEMV.",
+  "source_paths": [
+    "candidates/exact-packed-bf16-lmhead/exact_packed_candidate.py",
+    "candidates/exact-packed-bf16-lmhead/candidate_spec.json",
+    "../20260902_qwen35_08b_e2e_sm89_v1/candidates/exact-bf16-packed-lmhead/vllm_utils_exact_bf16_packed_lmhead.patch",
+    "operator.json",
+    "workload.json",
+    "models/round37_imported_evidence.json"
+  ],
+  "commands": {
+    "build": {
+      "argv": ["wsl", "-d", "Ubuntu", "--", "/home/aden/.venvs/qwen35-vllm-4060/bin/python", "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/exact-packed-bf16-lmhead/exact_packed_candidate.py", "build"],
+      "cwd": "candidates/exact-packed-bf16-lmhead",
+      "timeout_seconds": 30
+    },
+    "correctness": {
+      "argv": ["wsl", "-d", "Ubuntu", "--", "/home/aden/.venvs/qwen35-vllm-4060/bin/python", "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/exact-packed-bf16-lmhead/exact_packed_candidate.py", "correctness"],
+      "cwd": "candidates/exact-packed-bf16-lmhead",
+      "timeout_seconds": 30
+    },
+    "smoke": {
+      "argv": ["wsl", "-d", "Ubuntu", "--", "/home/aden/.venvs/qwen35-vllm-4060/bin/python", "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/exact-packed-bf16-lmhead/exact_packed_candidate.py", "smoke"],
+      "cwd": "candidates/exact-packed-bf16-lmhead",
+      "timeout_seconds": 420
+    }
+  },
+  "smoke_result_path": "candidates/exact-packed-bf16-lmhead/smoke_result.json",
+  "predicted_global_gain_us": {"lower": 20.0, "upper": 80.0},
+  "dependency_contract": {
+    "status": "PROVEN_LEGAL",
+    "preserved_dependencies": [
+      "all GPTQ checkpoint integers, group-128 scales, BF16 activations, recurrent state and KV state remain unchanged",
+      "the tied embedding/output tensor represents exactly the same BF16 values",
+      "sampling, scheduling, graph topology and output vocabulary remain stock vLLM"
+    ],
+    "changed_boundaries": [
+      "the output-head weight receives a lossless auxiliary exponent-delta layout at model load",
+      "the stock BF16 GEMM is replaced only for M=1,N=248320,K=1024 on SM89"
+    ],
+    "prohibited_rewrites": [
+      "no additional quantization or FP16 activation substitution",
+      "no shortlist, approximate logits, speculative decode, changed sampling or skipped vocabulary rows"
+    ],
+    "numerical_ordering": "Every BF16 weight bit is reconstructed exactly, but parallel FP32 accumulation order differs; any generated-token mismatch rejects the candidate under this run's strict identity contract.",
+    "evidence": [
+      {"path": "models/round37_imported_evidence.json", "sha256": "708cc8587a5e928ffa0d7355480d271768e57b9aedf95f0c8adf2ca52d51e8fc", "claim": "The output head costs 849.881 us per generated output in the node-attributed production profile."}
+    ]
+  },
+  "development_budget": {"max_technical_attempts": 2, "max_wall_clock_minutes": 12}
+}

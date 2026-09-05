@@ -1,0 +1,33 @@
+{
+  "schema_version": "vllm-sm89-int8-lmhead-qualification-v1",
+  "status": "LIMITED_TASK_QUALITY_PASS",
+  "scope": "Qwen3.5-0.8B, RTX 4060 Laptop SM89, max_num_seqs=1, batch-1 greedy decode, vLLM fp8_per_block backbone",
+  "protocol": "same patched source, C-S-S-C process order, fresh compile cache per process, six natural prompts, 128 output tokens, 3 warmups and 10 trials per case",
+  "source_sha256_both_paths": "cdfb6821ada873e424a2995890a2e3ead4b17c51b5a45fa02ee32d545d054756",
+  "control": "exact-packed BF16 lm-head",
+  "candidate": "symmetric INT8 lm-head, group_k=32, FP16 scales, FP32 reduction, BF16 logits",
+  "control_mean_e2e_ms": 629.2991618329324,
+  "candidate_mean_e2e_ms": 570.17081666739,
+  "e2e_speedup": 1.1037028613830915,
+  "control_mean_tpot_ms": 4.679806415029467,
+  "candidate_mean_tpot_ms": 4.20099190616713,
+  "tpot_speedup": 1.113976536864884,
+  "speedup_vs_native_vllm_fp8_tpot": 1.2185099596362297,
+  "cross_pair_e2e_speedup_range": [1.1028423725853844, 1.1045637587083896],
+  "cross_pair_tpot_speedup_range": [1.1103879602469098, 1.1175770938929153],
+  "graphics_clock_mhz": {
+    "control": [2610, 2610],
+    "candidate": [2610, 2610]
+  },
+  "natural_prompt_token_exact": "5/6",
+  "quality": {
+    "dataset": "GSM8K frozen 512-case subset",
+    "control_correct": 40,
+    "candidate_correct": 42,
+    "answer_agreement": "495/512",
+    "token_exact": "493/512",
+    "mcnemar_exact_two_sided_p": 0.625,
+    "qualification": "No detectable task-accuracy regression in this bounded screen; not proof of broad quality equivalence."
+  },
+  "decision": "PROMOTE only as a calibrated lossy max_num_seqs=1 latency point. Keep exact-packed BF16 for the strict same-output contract and native vLLM FP8 for multi-sequence service."
+}

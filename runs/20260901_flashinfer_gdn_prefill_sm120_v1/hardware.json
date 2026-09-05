@@ -1,0 +1,100 @@
+{
+  "captured_at": "2026-09-01T06:31:22.115022+00:00",
+  "competing_load": {
+    "gpu_utilization_percent": 0.0,
+    "memory_used_mib": 23349.0
+  },
+  "host": {
+    "hostname": "ubuntu24.04.03",
+    "platform": "Linux-7.0.0-30-generic-x86_64-with-glibc2.39",
+    "python": "3.12.3"
+  },
+  "power_clock": {
+    "memory_clock_current_mhz": 13801.0,
+    "memory_clock_max_mhz": 14001.0,
+    "policy": "observed-only; no clock or power mutation performed",
+    "power_draw_w": 64.11,
+    "power_limit_w": 575.0,
+    "sm_clock_current_mhz": 2400.0,
+    "sm_clock_max_mhz": 3090.0
+  },
+  "provenance": {
+    "field_authority": {
+      "cuda_device_properties": {
+        "api": "cudaGetDeviceProperties",
+        "authority": "VENDOR_OFFICIAL_TOOL",
+        "compile_command": [
+          "/usr/local/cuda/bin/nvcc",
+          "-O2",
+          "/home/oem/kernel_opt_agent_discovery/scripts/cuda_device_query.cu",
+          "-o",
+          "/tmp/kernel-opt-device-query-0shbzuk4/cuda_device_query"
+        ],
+        "run_command": [
+          "/tmp/kernel-opt-device-query-0shbzuk4/cuda_device_query",
+          "0"
+        ],
+        "source": "/home/oem/kernel_opt_agent_discovery/scripts/cuda_device_query.cu",
+        "status": "PASS"
+      },
+      "nvidia_smi": "VENDOR_OFFICIAL_TOOL",
+      "torch": "software version only; no hardware capacity field is accepted from torch"
+    },
+    "queries": [
+      "/usr/bin/nvidia-smi --query-gpu=index,name,uuid,compute_cap,driver_version,memory.total,memory.used,utilization.gpu,clocks.current.sm,clocks.max.sm,clocks.current.memory,clocks.max.memory,power.draw,power.limit --format=csv,noheader,nounits",
+      "cudaGetDeviceProperties via scripts/cuda_device_query.cu"
+    ]
+  },
+  "schema_version": "hardware-snapshot-v1",
+  "software": {
+    "driver": "580.173.02",
+    "nvcc": "Build cuda_13.2.r13.2/compiler.37434383_0"
+  },
+  "target": {
+    "architecture": "sm_120",
+    "compute_capability": "12.0",
+    "device_index": 0,
+    "device_name": "NVIDIA GeForce RTX 5090",
+    "max_threads_per_block": 1024,
+    "max_threads_per_sm": 1536,
+    "memory_bytes": 33645199360,
+    "registers_per_sm": 65536,
+    "shared_memory_per_block_bytes": 49152,
+    "shared_memory_per_block_optin_bytes": 101376,
+    "shared_memory_per_sm_bytes": 102400,
+    "sm_count": 170,
+    "uuid": "GPU-14f89acf-cf7c-3a09-80d5-e43035823f0d",
+    "vendor": "NVIDIA",
+    "warp_size": 32
+  },
+  "tools": {
+    "cuobjdump": {
+      "available": true,
+      "path": "/usr/local/cuda/bin/cuobjdump"
+    },
+    "ncu": {
+      "available": true,
+      "path": "/usr/local/cuda/bin/ncu"
+    },
+    "nsys": {
+      "available": true,
+      "path": "/usr/local/cuda/bin/nsys"
+    },
+    "nvcc": {
+      "available": true,
+      "path": "/usr/local/cuda/bin/nvcc"
+    },
+    "nvdisasm": {
+      "available": true,
+      "path": "/usr/local/cuda/bin/nvdisasm"
+    },
+    "nvidia-smi": {
+      "available": true,
+      "path": "/usr/bin/nvidia-smi"
+    },
+    "ptxas": {
+      "available": true,
+      "path": "/usr/local/cuda/bin/ptxas"
+    }
+  }
+}

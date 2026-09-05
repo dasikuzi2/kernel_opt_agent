@@ -1,0 +1,58 @@
+{
+  "schema_version": "optimization-method-v1",
+  "method_id": "tilelang-schedule-dataflow-separation",
+  "title": "Separate tiled dataflow from schedule choices",
+  "kind": "SEARCH_STRATEGY",
+  "source": {
+    "title": "TileLang: A Composable Tiled Programming Model for AI Systems",
+    "url": "https://arxiv.org/abs/2504.17577",
+    "version": "arXiv:2504.17577v2",
+    "evidence_tier": "PRIMARY_PREPRINT",
+    "claim_scope": "A tiled programming abstraction evaluated across AI kernels; individual schedules still require target-specific validation."
+  },
+  "opportunity_families": ["tile-retune", "layout-replan", "async-pipeline", "tensorize", "dataflow-rewrite"],
+  "applicability": {
+    "vendors": ["ANY"],
+    "architecture_affinity": [],
+    "required_capabilities": [],
+    "dtypes": ["float16", "bfloat16", "float32", "int8"],
+    "problem_signatures": ["tile", "layout", "thread", "pipeline", "shared memory", "tensor"]
+  },
+  "implementation_recipe": [
+    "Write one canonical tile-level dataflow before choosing thread binding, layout, tensorization, or pipeline depth.",
+    "Generate candidates by changing one schedule axis and at least one joint schedule combination.",
+    "Keep shape guards and tail handling explicit so specialization does not silently narrow correctness."
+  ],
+  "validation_recipe": [
+    "Use the same dataflow and correctness oracle across schedule candidates.",
+    "Screen anchor and edge shapes before expanding the schedule neighborhood.",
+    "Record compiled resource usage so a faster tile is not mistaken for a universally better schedule."
+  ],
+  "expected_bottleneck_shifts": [
+    "Larger tiles reduce redundant movement but may increase registers, shared memory, and tail waste.",
+    "Layout changes can move cost between global coalescing, shared-memory conflicts, and compute utilization."
+  ],
+  "failure_modes": [
+    "The search changes only scalar tile sizes and never explores a materially different ownership model.",
+    "A schedule wins the anchor shape but regresses weighted edge cases.",
+    "Compiler lowering does not preserve the intended tensorization or pipeline."
+  ],
+  "scope_limits": [
+    "A programming model's reported SOTA results are not a performance guarantee for a new operator.",
+    "Schedule separation does not replace a global opportunity model."
+  ],
+  "candidate_archetypes": [
+    {
+      "family": "layout-replan",
+      "name": "dataflow-fixed layout alternatives",
+      "change_axes": ["thread binding", "register layout", "shared layout"],
+      "template": "Hold tile dataflow fixed and implement coalesced, conflict-avoiding, and compute-native layouts as separate candidates."
+    },
+    {
+      "family": "tile-retune",
+      "name": "resource-bounded tile frontier",
+      "change_axes": ["tile shape", "warp count", "pipeline depth"],
+      "template": "Choose a few tile points that represent different register/shared-memory/parallelism regimes instead of a dense sweep."
+    }
+  ]
+}

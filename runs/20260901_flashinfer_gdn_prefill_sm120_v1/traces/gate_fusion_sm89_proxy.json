@@ -1,0 +1,446 @@
+{
+  "aggregate": {
+    "eager_mean_us": 142.13495127360025,
+    "fused_mean_us": 42.69718933105469,
+    "mean_case_speedup": 3.2998854631522754,
+    "median_case_speedup": 3.2849189107141905
+  },
+  "captured_at": "2026-09-02T10:00:38.259088+00:00",
+  "cases": [
+    {
+      "correctness": {
+        "atol": 1e-05,
+        "max_abs_beta": 5.960464477539063e-08,
+        "max_abs_g": 1.1920928955078125e-07,
+        "rtol": 1e-05,
+        "status": "PASS"
+      },
+      "eager_us": {
+        "median": 152.4121551513672,
+        "samples": [
+          161.2587890625,
+          157.60794067382812,
+          158.4005126953125,
+          144.36863708496094,
+          142.0912322998047,
+          129.21241760253906,
+          152.4121551513672,
+          150.391845703125,
+          157.22262573242188
+        ]
+      },
+      "expected_route": "CP",
+      "fused_us": {
+        "median": 44.866336822509766,
+        "samples": [
+          50.06233596801758,
+          49.087486267089844,
+          44.64543914794922,
+          42.25571060180664,
+          43.55686569213867,
+          41.608192443847656,
+          44.866336822509766,
+          47.17558288574219,
+          44.954559326171875
+        ]
+      },
+      "id": "77daf91d-0660-4c4b-8c32-336a69281cd9",
+      "num_seqs": 1,
+      "paired_speedup_samples": [
+        3.2211598988413264,
+        3.210755992194585,
+        3.5479662809541117,
+        3.416547373807233,
+        3.2622005748556404,
+        3.1054561617142515,
+        3.3970269459329008,
+        3.187917064371402,
+        3.4973677439851847
+      ],
+      "role": "CP_SHORTEST",
+      "speedup": 3.2622005748556404,
+      "total_seq_len": 6
+    },
+    {
+      "correctness": {
+        "atol": 1e-05,
+        "max_abs_beta": 1.1920928955078125e-07,
+        "max_abs_g": 1.1920928955078125e-07,
+        "rtol": 1e-05,
+        "status": "PASS"
+      },
+      "eager_us": {
+        "median": 142.5919952392578,
+        "samples": [
+          148.74009704589844,
+          136.26470947265625,
+          134.19129943847656,
+          142.5919952392578,
+          148.71466064453125,
+          144.13722229003906,
+          132.1748504638672,
+          132.2730255126953,
+          146.0102996826172
+        ]
+      },
+      "expected_route": "CP",
+      "fused_us": {
+        "median": 43.600894927978516,
+        "samples": [
+          45.087745666503906,
+          45.76377487182617,
+          43.600894927978516,
+          44.801025390625,
+          41.81708908081055,
+          43.27302551269531,
+          39.12713623046875,
+          41.71500778198242,
+          47.17875289916992
+        ]
+      },
+      "id": "73b8cc85-11ec-4ac4-8469-fce7b52ee44a",
+      "num_seqs": 1,
+      "paired_speedup_samples": [
+        3.298902946846571,
+        2.9775670790773363,
+        3.0777189243509437,
+        3.182784188441732,
+        3.556313074713155,
+        3.330879239025071,
+        3.3780864943788327,
+        3.1708738064727577,
+        3.0948316924499744
+      ],
+      "role": "CP_MEDIAN",
+      "speedup": 3.182784188441732,
+      "total_seq_len": 97
+    },
+    {
+      "correctness": {
+        "atol": 1e-05,
+        "max_abs_beta": 1.1920928955078125e-07,
+        "max_abs_g": 1.7881393432617188e-07,
+        "rtol": 1e-05,
+        "status": "PASS"
+      },
+      "eager_us": {
+        "median": 149.02476501464844,
+        "samples": [
+          155.80674743652344,
+          185.62867736816406,
+          161.7303009033203,
+          144.4833221435547,
+          149.02476501464844,
+          153.84780883789062,
+          138.99256896972656,
+          131.6420135498047,
+          146.693115234375
+        ]
+      },
+      "expected_route": "CP",
+      "fused_us": {
+        "median": 45.465824127197266,
+        "samples": [
+          49.101505279541016,
+          47.280128479003906,
+          47.18355178833008,
+          53.47340774536133,
+          45.299713134765625,
+          42.01567840576172,
+          41.46073532104492,
+          43.406494140625,
+          45.465824127197266
+        ]
+      },
+      "id": "07aa7922-1848-48a9-830a-54216b5553b3",
+      "num_seqs": 2,
+      "paired_speedup_samples": [
+        3.1731562311480292,
+        3.9261457897813834,
+        3.427683901984698,
+        2.7019658599575265,
+        3.2897507445864638,
+        3.661676180784768,
+        3.3523903494103195,
+        3.0327723110583658,
+        3.22644795404961
+      ],
+      "role": "CP_LONGEST",
+      "speedup": 3.2897507445864638,
+      "total_seq_len": 5709
+    },
+    {
+      "correctness": {
+        "atol": 1e-05,
+        "max_abs_beta": 1.1920928955078125e-07,
+        "max_abs_g": 1.7881393432617188e-07,
+        "rtol": 1e-05,
+        "status": "PASS"
+      },
+      "eager_us": {
+        "median": 142.09432983398438,
+        "samples": [
+          142.09432983398438,
+          155.26707458496094,
+          148.81382751464844,
+          128.58880615234375,
+          128.58470153808594,
+          129.73753356933594,
+          139.1288299560547,
+          160.2908172607422,
+          158.09024047851562
+        ]
+      },
+      "expected_route": "NON_CP",
+      "fused_us": {
+        "median": 41.330528259277344,
+        "samples": [
+          42.11609649658203,
+          43.81388854980469,
+          41.330528259277344,
+          39.791648864746094,
+          37.106689453125,
+          38.148094177246094,
+          42.19295883178711,
+          41.1165771484375,
+          44.55526351928711
+        ]
+      },
+      "id": "7ba9d519-7c0b-4eac-b2ad-ae403dce2f95",
+      "num_seqs": 13,
+      "paired_speedup_samples": [
+        3.3738722639102168,
+        3.543786678702662,
+        3.600578888832485,
+        3.2315525951041604,
+        3.4652701017836818,
+        3.4008916137865546,
+        3.2974418909734897,
+        3.898447496786184,
+        3.5481832670584796
+      ],
+      "role": "NON_CP_SHORTEST",
+      "speedup": 3.4652701017836818,
+      "total_seq_len": 3999
+    },
+    {
+      "correctness": {
+        "atol": 1e-05,
+        "max_abs_beta": 1.1920928955078125e-07,
+        "max_abs_g": 2.384185791015625e-07,
+        "rtol": 1e-05,
+        "status": "PASS"
+      },
+      "eager_us": {
+        "median": 136.99276733398438,
+        "samples": [
+          131.3791961669922,
+          128.6103057861328,
+          137.25184631347656,
+          150.62322998046875,
+          136.99276733398438,
+          136.87295532226562,
+          146.6439666748047,
+          137.09616088867188,
+          127.57504272460938
+        ]
+      },
+      "expected_route": "NON_CP",
+      "fused_us": {
+        "median": 41.236480712890625,
+        "samples": [
+          37.89516830444336,
+          37.1998405456543,
+          41.96249771118164,
+          43.566078186035156,
+          46.1025276184082,
+          41.236480712890625,
+          40.58214569091797,
+          42.69363021850586,
+          39.09120178222656
+        ]
+      },
+      "id": "c2931c92-bbe9-43d9-bc55-9aed77901266",
+      "num_seqs": 37,
+      "paired_speedup_samples": [
+        3.466911536360361,
+        3.45728110388788,
+        3.2708216574273035,
+        3.457351137673671,
+        2.971480619628429,
+        3.3192200924042194,
+        3.6135094430855266,
+        3.211161950553611,
+        3.2635231691089475
+      ],
+      "role": "NON_CP_MEDIAN",
+      "speedup": 3.3192200924042194,
+      "total_seq_len": 8192
+    },
+    {
+      "correctness": {
+        "atol": 1e-05,
+        "max_abs_beta": 1.1920928955078125e-07,
+        "max_abs_g": 1.1920928955078125e-07,
+        "rtol": 1e-05,
+        "status": "PASS"
+      },
+      "eager_us": {
+        "median": 129.69369506835938,
+        "samples": [
+          127.19206237792969,
+          134.7389373779297,
+          148.44927978515625,
+          126.87155151367188,
+          122.7694091796875,
+          129.69369506835938,
+          131.94854736328125,
+          129.0629119873047,
+          141.41952514648438
+        ]
+      },
+      "expected_route": "NON_CP",
+      "fused_us": {
+        "median": 39.68307113647461,
+        "samples": [
+          39.72403335571289,
+          36.22198486328125,
+          41.594879150390625,
+          39.7988166809082,
+          43.075584411621094,
+          39.539710998535156,
+          36.90700912475586,
+          39.68307113647461,
+          38.07334518432617
+        ]
+      },
+      "id": "9a5d694b-7d4c-4ee6-8315-a13053ab6f92",
+      "num_seqs": 57,
+      "paired_speedup_samples": [
+        3.2018919438259315,
+        3.719810990107185,
+        3.5689316285406765,
+        3.1878222041343536,
+        2.850092711605006,
+        3.280087076841917,
+        3.575162292811612,
+        3.252341824639595,
+        3.714397157954568
+      ],
+      "role": "NON_CP_LONGEST",
+      "speedup": 3.280087076841917,
+      "total_seq_len": 8192
+    }
+  ],
+  "claim_scope": "DISCOVERY_ONLY_SM89_PROXY_NOT_SM120_OPERATOR_QUALIFICATION",
+  "environment": {
+    "compute_capability": "8.9",
+    "cuda": "13.0",
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "memory_bytes": 8585216000,
+    "sm_count": 24,
+    "torch": "2.12.1+cu130",
+    "triton": "3.7.1"
+  },
+  "limitations": [
+    "synthetic values with frozen production shapes; tensor blobs are not present locally",
+    "isolated gate preprocessing only; the SM120 recurrent GDN kernel is not executed",
+    "SM89 result can reject a broken fusion but cannot establish SM120 speedup"
+  ],
+  "measurement": {
+    "design": "paired, alternating AB/BA trial order",
+    "iterations": 1000,
+    "statistic": "median trial microseconds per invocation",
+    "timer": "CUDA events",
+    "trials": 9,
+    "warmup": 100
+  },
+  "mechanism": {
+    "eager": {
+      "cuda_kernel_events": 27,
+      "kernel_name_counts": [
+        {
+          "count": 6,
+          "name": "void at::native::vectorized_elementwise_kernel<4, at::native::exp_kernel_cuda(at::TensorIteratorBase&)::{lambda()#2}::operator()() const::{lambda()#2}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul> >(int, at::native::exp_ker"
+        },
+        {
+          "count": 6,
+          "name": "void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul>, 4, TrivialOffsetCalcul"
+        },
+        {
+          "count": 3,
+          "name": "void at::native::vectorized_elementwise_kernel<4, at::native::neg_kernel_cuda(at::TensorIteratorBase&)::{lambda()#2}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul> >(int, at::native::neg_ker"
+        },
+        {
+          "count": 3,
+          "name": "void at::native::elementwise_kernel<128, 2, at::native::gpu_kernel_impl_nocast<at::native::CUDAFunctor_add<float> >(at::TensorIteratorBase&, at::native::CUDAFunctor_add<float> const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocas"
+        },
+        {
+          "count": 3,
+          "name": "void at::native::vectorized_elementwise_kernel<4, at::native::(anonymous namespace)::softplus_kernel(at::TensorIteratorBase&, c10::Scalar const&, c10::Scalar const&)::{lambda()#1}::operator()() const::{lambda()#2}::operator()() const::{lamb"
+        },
+        {
+          "count": 3,
+          "name": "void at::native::elementwise_kernel<128, 2, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float"
+        },
+        {
+          "count": 3,
+          "name": "void at::native::vectorized_elementwise_kernel<4, at::native::sigmoid_kernel_cuda(at::TensorIteratorBase&)::{lambda()#2}::operator()() const::{lambda()#2}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul> >(int, at::native::sig"
+        }
+      ],
+      "kernels_per_invocation": 9.0,
+      "repeats": 3,
+      "unique_kernel_names": 7
+    },
+    "fused": {
+      "cuda_kernel_events": 3,
+      "kernel_name_counts": [
+        {
+          "count": 3,
+          "name": "_prepare_gates"
+        }
+      ],
+      "kernels_per_invocation": 1.0,
+      "repeats": 3,
+      "unique_kernel_names": 1
+    },
+    "profile_case": "last screening case; launch topology is shape-invariant for this stage"
+  },
+  "numerical_stress": {
+    "atol": 1e-05,
+    "max_abs_beta": 1.1920928955078125e-07,
+    "max_abs_g": 8.64267349243164e-06,
+    "ranges": {
+      "A_log": [
+        -5.0,
+        5.0
+      ],
+      "a": [
+        -20.0,
+        20.0
+      ],
+      "b": [
+        -20.0,
+        20.0
+      ],
+      "dt_bias": [
+        -10.0,
+        10.0
+      ]
+    },
+    "rtol": 1e-05,
+    "status": "PASS"
+  },
+  "schema_version": "gate-fusion-proxy-screen-v1",
+  "source_identities": {
+    "candidate": {
+      "path": "/mnt/d/codes/kernel_opt_agent/runs/20260901_flashinfer_gdn_prefill_sm120_v1/candidates/gate_fusion_auto/main.py",
+      "sha256": "87372b15e7fcceaee00d6313c1ec816d7f45f62545cb35d0eb59301224cb80dc"
+    },
+    "screening_set": {
+      "path": "/mnt/d/codes/kernel_opt_agent/runs/20260901_flashinfer_gdn_prefill_sm120_v1/models/architecture_screening_set.json",
+      "sha256": "44a045e4b77be008e5303b3f60b5bcd8f108567899cf3e76f95314aa18c5484c"
+    }
+  },
+  "status": "PASS"
+}

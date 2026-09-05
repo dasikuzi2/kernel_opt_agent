@@ -1,0 +1,9 @@
+{
+  "schema_version": "operator-dag-v1",
+  "nodes": [],
+  "mathematical_edges": [],
+  "schedule_only_edges": [],
+  "resource_constraints": [],
+  "critical_paths": [],
+  "unproven_edges": []
+}

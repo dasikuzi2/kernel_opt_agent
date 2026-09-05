@@ -1,0 +1,53 @@
+{
+  "schema_version": "opportunity-closure-evidence-v1",
+  "opportunity_id": "sm89-recurrent-state-fusion",
+  "device": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "model": "Qwen3.5-0.8B",
+  "dtype": "BF16 inputs and recurrent state",
+  "decision": "CLOSE_CURRENT_SEARCH_BUDGET",
+  "reason": "The bounded schedule family, generic fused-kernel reuse, serial producer-consumer ownership, and four-warp parallel ownership all fail the materiality and strict-state gates under production-relevant CUDA Graph timing.",
+  "tested_families": [
+    {
+      "family": "BV/warp/stage schedule retuning",
+      "result": "Warm best projected only 33.9 us per whole step; cache-evicted replay was 0.750x; multiwarp variants changed recurrent state."
+    },
+    {
+      "family": "generic MTP fused recurrent+norm reuse",
+      "result": "Previously measured at 0.995621x and below the 50 us materiality floor."
+    },
+    {
+      "family": "one program per head with four sequential BV32 slices and gated RMSNorm",
+      "result": "Bitwise exact, but CUDA Graph replay was 0.7465x because tile parallelism was serialized."
+    },
+    {
+      "family": "one block per head with four CUDA warps and in-block gated RMSNorm",
+      "result": "CUDA Graph replay was 0.4611x; state differed at 10 BF16 elements by up to 0.00390625."
+    }
+  ],
+  "remaining_hypotheses": [
+    "Fuse causal convolution into recurrence without duplicating q/k work.",
+    "Use a compiler primitive that can preserve stock BV32 tensor layout per warp while exposing a head-wide synchronization boundary.",
+    "Change recurrent-state algorithm or persistent state ownership across multiple decode steps."
+  ],
+  "reopen_conditions": [
+    "A CUDA 13-compatible compiler toolchain or warp-specialized DSL becomes available and can express four stock-equivalent BV32 tiles plus an exact head-wide reduction.",
+    "A source-level design removes causal-convolution materialization and predicts at least 50 us per whole decode step without duplicated q/k computation.",
+    "The model shape, recurrent-state dtype, GPU architecture, or vLLM CUDA Graph execution contract changes.",
+    "A persistent multi-step state-owner design supplies a dependency proof and a whole-step predicted gain of at least 50 us."
+  ],
+  "claim_limit": "This closes the current SM89/Qwen3.5-0.8B recurrent search budget. It is not a proof that an unknown recurrent algorithm cannot improve performance.",
+  "evidence": [
+    {
+      "path": "models/sm89_recurrent_state_search_bound.json",
+      "sha256": "20826bc4722676a6eb353a7c2eb5a803daa6b35340bd33f0746475c19959747a"
+    },
+    {
+      "path": "models/sm89_recurrent_norm_fusion_stop.json",
+      "sha256": "b6b80c21aa2851e2ae2b0426c2cadce52a4b2b3b2cad889120ce45f0ce5f2dc0"
+    },
+    {
+      "path": "microbench_candidates/gdn_recurrent_norm_cuda_sm89.json",
+      "sha256": "6d8a94a72485f54ab3a4a8872af14f2c68741e16bac6d844d5f18cfcaab0ffd8"
+    }
+  ]
+}

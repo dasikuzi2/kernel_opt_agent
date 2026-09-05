@@ -1,0 +1,66 @@
+{
+  "schema_version": "ncu-access-receipt-v1",
+  "status": "TECHNICALLY_BLOCKED",
+  "claim_scope": "TOOL_ACCESS_ONLY_NO_PERFORMANCE_COUNTER_CLAIM",
+  "captured_at": "2026-09-02T13:50:00+00:00",
+  "environment": {
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "compute_capability": "8.9",
+    "execution_environment": "Ubuntu 24.04 under WSL2 on Windows WDDM",
+    "ncu": "2022.4.1.0 build 32308335",
+    "nsys": "2022.4.2.50-32196742v0"
+  },
+  "command": [
+    "/usr/bin/ncu",
+    "--set",
+    "basic",
+    "--kernel-name",
+    "regex:_prepare_gates",
+    "--launch-skip",
+    "10",
+    "--launch-count",
+    "1",
+    "--csv",
+    "--log-file",
+    "runs/20260901_flashinfer_gdn_prefill_sm120_v1/traces/gate_sm89_ncu_basic.csv",
+    "/home/aden/.venvs/kernel-opt-4060/bin/python",
+    "runs/20260901_flashinfer_gdn_prefill_sm120_v1/tools/launch_gate_for_ncu_sm89.py",
+    "--candidate",
+    "runs/20260901_flashinfer_gdn_prefill_sm120_v1/candidates/gate_fusion_auto/main.py",
+    "--warmup",
+    "10"
+  ],
+  "exit_code": 1,
+  "target_result": {
+    "status": "PASS",
+    "shape": [8192, 8],
+    "warmup_launches": 10,
+    "profile_target_launches": 1,
+    "live_output_sink": 1.1016793847084045
+  },
+  "source_identities": {
+    "runner": {
+      "path": "runs/20260901_flashinfer_gdn_prefill_sm120_v1/tools/launch_gate_for_ncu_sm89.py",
+      "sha256": "e052a3a8e8e779c586020b7c2cd4443d9233b0186869dd68d2f2d830f6f9e6fc"
+    },
+    "candidate": {
+      "path": "runs/20260901_flashinfer_gdn_prefill_sm120_v1/candidates/gate_fusion_auto/main.py",
+      "sha256": "87372b15e7fcceaee00d6313c1ec816d7f45f62545cb35d0eb59301224cb80dc"
+    },
+    "raw_log": {
+      "path": "runs/20260901_flashinfer_gdn_prefill_sm120_v1/traces/gate_sm89_ncu_basic.csv",
+      "sha256": "95c42b9a7854f65283f461cfc2f14f649b1534c597312ae9eabf727cbdfae454"
+    }
+  },
+  "error": {
+    "code": "ERR_NVGPUCTRPERM",
+    "message": "The user does not have permission to access NVIDIA GPU Performance Counters on target device 0.",
+    "classification": "EXTERNAL_PERMISSION_BLOCKER",
+    "repair_attempts_used": 1,
+    "repair_policy": "Do not mutate host-wide profiler permissions without explicit user action."
+  },
+  "official_resolution": {
+    "url": "https://developer.nvidia.com/nvidia-development-tools-solutions-err_nvgpuctrperm-permission-issue-performance-counters",
+    "windows_summary": "Use NVIDIA App System > Advanced > Developer > Manage GPU Performance Counters, or an administrator NVIDIA Control Panel Developer setting, to grant profiling access."
+  }
+}

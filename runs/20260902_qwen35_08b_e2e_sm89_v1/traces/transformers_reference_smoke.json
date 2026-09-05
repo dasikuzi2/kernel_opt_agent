@@ -1,0 +1,35 @@
+{
+  "captured_at": "2026-09-02T15:13:43.790777+00:00",
+  "claim_scope": "CORRECTNESS_AND_ENVIRONMENT_SMOKE_NOT_VLLM_BASELINE",
+  "environment": {
+    "compute_capability": "8.9",
+    "cuda": "13.0",
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "torch": "2.12.1+cu130"
+  },
+  "input": {
+    "new_tokens": 2,
+    "prompt_tokens": 16
+  },
+  "model": {
+    "config_sha256": "b90b86f35c8e6925ef74ee04d0e758f0a845c83a42089ad82bbaa948de9b4204",
+    "path": "/mnt/d/models/Qwen3.5-0.8B",
+    "weight_sha256": "04b1c301231dd422b8860db31311ab2721511346a32cb1e079c4c4e5f1fe4696"
+  },
+  "output": {
+    "deterministic_repeat": true,
+    "generated_token_ids": [
+      1345,
+      17191
+    ]
+  },
+  "peak_allocated_gpu_bytes": 1765669376,
+  "schema_version": "qwen35-transformers-reference-smoke-v1",
+  "status": "PASS",
+  "timing": {
+    "acceptance_use": "diagnostic only",
+    "first_generate_seconds": 0.9519642929999996,
+    "model_load_seconds": 17.077647407999997,
+    "warm_generate_seconds": 0.16972315100000301
+  }
+}

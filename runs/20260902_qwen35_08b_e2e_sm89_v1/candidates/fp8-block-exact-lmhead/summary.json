@@ -1,0 +1,83 @@
+{
+  "schema_version": "sm89-fp8-block-exact-lmhead-v1",
+  "candidate": "vLLM per-block FP8 weight-only backbone plus exact-packed BF16 lm_head",
+  "scope": "Qwen3.5-0.8B, RTX 4060 Laptop SM89, batch-1 greedy decode, 128 output tokens",
+  "precision_contract": {
+    "backbone": "FP8 E4M3, static 128x128 per-block weight scales, BF16 activations",
+    "lm_head": "losslessly packed BF16; every source weight bit is reconstructed",
+    "strict_bf16": false,
+    "cross_mode_generated_token_cases": "0/6",
+    "classification": "latency-first quantized frontier candidate"
+  },
+  "mechanism": "Keep vLLM's scheduler, CUDA graphs, recurrent/attention implementations, and Marlin FP8 weight-only backbone path. Add the exact-packed lm_head because vLLM's online per-block FP8 conversion quantized 164 backbone linear layers but left the tied embedding/output projection in BF16.",
+  "performance_qualification": {
+    "protocol": "C-S-S-C process order; six natural prompts; 3 warmups and 10 trials per case; 128 generated tokens; fixed 512 MiB KV cache; max_num_seqs=1; GPU telemetry enabled",
+    "control": "exact-packed BF16 lm_head with BF16 backbone",
+    "candidate": "exact-packed BF16 lm_head with vLLM fp8_per_block backbone",
+    "control_mean_e2e_ms": 1112.7884006249737,
+    "candidate_mean_e2e_ms": 995.9107070000451,
+    "e2e_speedup": 1.117357603250392,
+    "control_mean_tpot_ms": 8.393551044291765,
+    "candidate_mean_tpot_ms": 7.553913989173103,
+    "tpot_speedup": 1.111152583458337,
+    "cross_pair_tpot_speedup_range": [1.1027750476736884, 1.1196288015969056],
+    "all_six_cases_faster_in_every_cross_pair": true,
+    "control_repeat_token_exact_cases": "6/6",
+    "candidate_repeat_token_exact_cases": "6/6"
+  },
+  "quality_screen": {
+    "dataset": "GSM8K test, frozen random subset",
+    "sample_count": 512,
+    "max_generated_tokens": 64,
+    "control_correct": 45,
+    "candidate_correct": 40,
+    "control_accuracy": 0.087890625,
+    "candidate_accuracy": 0.078125,
+    "candidate_minus_control_accuracy": -0.009765625,
+    "answer_agreement_rate": 0.65234375,
+    "token_exact_rate": 0.607421875,
+    "paired_outcomes": {
+      "both_correct": 30,
+      "control_only_correct": 15,
+      "candidate_only_correct": 10,
+      "both_wrong": 457
+    },
+    "mcnemar_exact_two_sided_p": 0.42435622215270996,
+    "interpretation": "This bounded screen does not detect a statistically significant accuracy change, but it also does not establish quality equivalence. The point estimate is 0.98 percentage points lower and broader tasks are required before production defaulting."
+  },
+  "same_quantization_vllm_qualification": {
+    "protocol": "same patched source, C-S-S-C, fp8_per_block on both sides, stock BF16 lm_head versus exact-packed BF16 lm_head",
+    "native_vllm_fp8_mean_e2e_ms": 686.6492591254124,
+    "candidate_mean_e2e_ms": 629.6484284584949,
+    "e2e_speedup": 1.09052802816719,
+    "native_vllm_fp8_mean_tpot_ms": 5.118950478015837,
+    "candidate_mean_tpot_ms": 4.681179028547593,
+    "tpot_speedup": 1.0935173482574685,
+    "cross_pair_tpot_speedup_range": [1.093337120554188, 1.0936976114401473],
+    "natural_suite_token_exact_cases_each_pair": "6/6",
+    "gsm8k_token_exact": "512/512",
+    "gsm8k_answer_agreement": "512/512",
+    "interpretation": "This isolates a stable custom-kernel contribution beyond the same vLLM quantized baseline. It does not make the FP8 backbone strict-BF16-equivalent."
+  },
+  "decision": "PROMOTE_LIMITED_LATENCY_FIRST_DISCOVERY_FRONTIER",
+  "qualification": "Promoted only as an opt-in latency-first candidate for this GPU/model/batch-1 scope. The strict default remains exact-packed BF16. This is neither a global optimum nor proof of SOTA.",
+  "reopen_or_production_rules": [
+    "Run broader reasoning, code, instruction-following, and sampled-generation quality suites before enabling by default.",
+    "Repeat randomized BF16/FP8 process order under a locked GPU power mode.",
+    "Requalify every checkpoint, GPU architecture, batch size, context distribution, and vLLM version.",
+    "Compare against an offline calibrated FP8 checkpoint and other supported quantized vLLM baselines under the same quality target."
+  ],
+  "evidence": {
+    "performance_qualification": "comparisons/vllm_fp8block_exact_qualification.json",
+    "same_quantization_performance": "comparisons/vllm_fp8_native_vs_exact_qualification.json",
+    "same_quantization_quality": "comparisons/vllm_fp8_native_vs_exact_quality_gsm8k_n512.json",
+    "control_c1": "traces/vllm_fp8block_exact_c1_w3_n10_t128.json",
+    "candidate_s1": "traces/vllm_fp8block_exact_s1_w3_n10_t128.json",
+    "candidate_s2": "traces/vllm_fp8block_exact_s2_w3_n10_t128.json",
+    "control_c2": "traces/vllm_fp8block_exact_c2_w3_n10_t128.json",
+    "quality_control": "traces/vllm_fp8block_exact_quality_control_n512_t64.json",
+    "quality_candidate": "traces/vllm_fp8block_exact_quality_candidate_n512_t64.json",
+    "quality_comparison": "comparisons/vllm_fp8block_exact_quality_gsm8k_n512.json",
+    "vllm_patch": "candidates/exact-bf16-packed-lmhead/vllm_utils_exact_bf16_packed_lmhead.patch"
+  }
+}

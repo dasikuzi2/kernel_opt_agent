@@ -1,0 +1,62 @@
+{
+  "schema_version": "sm89-int8-groupwise-lmhead-v1",
+  "candidate": "groupwise symmetric INT8 lm-head on top of vLLM per-block FP8 backbone",
+  "scope": "Qwen3.5-0.8B, RTX 4060 Laptop SM89, max_num_seqs=1, batch-1 greedy decode",
+  "profile_trigger": {
+    "exact_packed_lmhead_gpu_kernel_time_percent": 90.17181786059825,
+    "exact_packed_lmhead_ms_per_generated_step": 1.5277796822916667,
+    "source": "models/nsys2025_fp8_exact_frontier_map.json"
+  },
+  "mechanism": "Quantize only the 248320x1024 tied output projection to signed INT8 with one FP16 scale per contiguous K group, then fuse dequantization with the M=1 FP32 reduction. Keep vLLM scheduling, CUDA graphs, Marlin FP8 backbone, attention and recurrent kernels unchanged.",
+  "screen": {
+    "groups": [32, 64, 128, 256, 1024],
+    "schedules_per_group": 4,
+    "group32_byte_fraction_vs_dense_bf16": 0.53125,
+    "group32_local_speedup_vs_exact_packed": 1.4594665936361855,
+    "group128_local_speedup_vs_exact_packed": 1.5253037609298783,
+    "group1024_local_speedup_vs_exact_packed": 1.5402039271864623,
+    "selection": "group32 retained because its smaller quantization groups gave the best output-stability/speed tradeoff"
+  },
+  "formal_performance": {
+    "control_mean_tpot_ms": 4.679806415029467,
+    "candidate_mean_tpot_ms": 4.20099190616713,
+    "tpot_speedup_vs_exact_packed": 1.113976536864884,
+    "tpot_speedup_vs_native_vllm_fp8": 1.2185099596362297,
+    "cross_pair_tpot_speedup_range": [1.1103879602469098, 1.1175770938929153],
+    "e2e_speedup_vs_exact_packed": 1.1037028613830915,
+    "graphics_clock_mhz_control": [2610, 2610],
+    "graphics_clock_mhz_candidate": [2610, 2610]
+  },
+  "execution_proof": {
+    "expected_kernel": "_sm89_int8_groupwise_lmhead_kernel",
+    "observed_instances": 192,
+    "expected_minimum_instances": 192,
+    "instances_per_generated_step": 1.0,
+    "kernel_ms_per_generated_step": 1.053068703125,
+    "kernel_gpu_time_percent": 86.24082469813,
+    "status": "PASS",
+    "source": "models/nsys2025_fp8_int8head_g32_frontier_map.json"
+  },
+  "quality": {
+    "strict_natural_prompt_token_exact": "5/6",
+    "gsm8k_control_correct": 40,
+    "gsm8k_candidate_correct": 42,
+    "gsm8k_answer_agreement": "495/512",
+    "gsm8k_token_exact": "493/512",
+    "gsm8k_mcnemar_exact_two_sided_p": 0.625,
+    "contract": "bounded task-quality pass, explicitly lossy and not a broad quality-equivalence claim"
+  },
+  "technical_repairs": [
+    "Reduced Triton BLOCK_N after the first schedule exceeded SM89 shared-memory capacity.",
+    "Pinned VLLM_USE_V2_MODEL_RUNNER=0 because WSL exposes no UVA to the V2 runner.",
+    "Pinned VLLM_USE_FLASHINFER_SAMPLER=0 because the system CUDA 12.0 nvcc cannot compile FlashInfer's CUDA-13-era --compress-mode=size option."
+  ],
+  "artifacts": {
+    "patch": "candidates/int8-groupwise-lmhead/vllm_utils_int8_groupwise_lmhead.patch",
+    "microbenchmark": "microbench_candidates/lossy_int8_lmhead_sm89.json",
+    "performance": "comparisons/vllm_fp8_exact_vs_int8head_g32_qualification.json",
+    "quality": "comparisons/vllm_fp8_exact_vs_int8head_g32_quality_gsm8k_n512.json",
+    "profile": "models/nsys2025_fp8_int8head_g32_frontier_map.json"
+  },
+  "decision": "PROMOTE only as a calibrated lossy max_num_seqs=1 latency policy point. Do not replace the strict exact head or the native multi-sequence vLLM path."
+}

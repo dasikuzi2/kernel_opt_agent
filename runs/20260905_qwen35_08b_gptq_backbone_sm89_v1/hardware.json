@@ -1,0 +1,102 @@
+{
+  "captured_at": "2026-09-05T11:47:34.941272+00:00",
+  "competing_load": {
+    "gpu_utilization_percent": 0.0,
+    "memory_used_mib": 226.0
+  },
+  "host": {
+    "hostname": "aden",
+    "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+    "python": "3.12.3"
+  },
+  "power_clock": {
+    "memory_clock_current_mhz": 405.0,
+    "memory_clock_max_mhz": 8001.0,
+    "policy": "observed-only; no clock or power mutation performed",
+    "power_draw_w": 2.07,
+    "power_limit_w": null,
+    "sm_clock_current_mhz": 210.0,
+    "sm_clock_max_mhz": 3105.0
+  },
+  "provenance": {
+    "field_authority": {
+      "cuda_device_properties": {
+        "api": "cudaGetDeviceProperties",
+        "authority": "VENDOR_OFFICIAL_TOOL",
+        "compile_command": [
+          "/usr/bin/nvcc",
+          "-O2",
+          "/mnt/d/codes/kernel_opt_agent/scripts/cuda_device_query.cu",
+          "-o",
+          "/tmp/kernel-opt-device-query-g6rm00oe/cuda_device_query"
+        ],
+        "run_command": [
+          "/tmp/kernel-opt-device-query-g6rm00oe/cuda_device_query",
+          "0"
+        ],
+        "source": "/mnt/d/codes/kernel_opt_agent/scripts/cuda_device_query.cu",
+        "status": "PASS"
+      },
+      "nvidia_smi": "VENDOR_OFFICIAL_TOOL",
+      "torch": "software version only; no hardware capacity field is accepted from torch"
+    },
+    "queries": [
+      "/usr/lib/wsl/lib/nvidia-smi --query-gpu=index,name,uuid,compute_cap,driver_version,memory.total,memory.used,utilization.gpu,clocks.current.sm,clocks.max.sm,clocks.current.memory,clocks.max.memory,power.draw,power.limit --format=csv,noheader,nounits",
+      "cudaGetDeviceProperties via scripts/cuda_device_query.cu"
+    ]
+  },
+  "schema_version": "hardware-snapshot-v1",
+  "software": {
+    "driver": "592.82",
+    "nvcc": "Build cuda_12.0.r12.0/compiler.32267302_0",
+    "torch": "2.13.0+cu130",
+    "torch_cuda_runtime": "13.0"
+  },
+  "target": {
+    "architecture": "sm_89",
+    "compute_capability": "8.9",
+    "device_index": 0,
+    "device_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "max_threads_per_block": 1024,
+    "max_threads_per_sm": 1536,
+    "memory_bytes": 8585216000,
+    "registers_per_sm": 65536,
+    "shared_memory_per_block_bytes": 49152,
+    "shared_memory_per_block_optin_bytes": 101376,
+    "shared_memory_per_sm_bytes": 102400,
+    "sm_count": 24,
+    "uuid": "GPU-44a7edbf-e229-1e53-38a4-1e69ee49dd19",
+    "vendor": "NVIDIA",
+    "warp_size": 32
+  },
+  "tools": {
+    "cuobjdump": {
+      "available": true,
+      "path": "/usr/bin/cuobjdump"
+    },
+    "ncu": {
+      "available": true,
+      "path": "/usr/bin/ncu"
+    },
+    "nsys": {
+      "available": true,
+      "path": "/usr/bin/nsys"
+    },
+    "nvcc": {
+      "available": true,
+      "path": "/usr/bin/nvcc"
+    },
+    "nvdisasm": {
+      "available": true,
+      "path": "/usr/bin/nvdisasm"
+    },
+    "nvidia-smi": {
+      "available": true,
+      "path": "/usr/lib/wsl/lib/nvidia-smi"
+    },
+    "ptxas": {
+      "available": true,
+      "path": "/usr/bin/ptxas"
+    }
+  }
+}

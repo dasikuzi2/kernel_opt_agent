@@ -1,0 +1,101 @@
+{
+  "binary": {
+    "path": "D:\\tools\\llama-b10700\\bin\\llama-perplexity.exe",
+    "sha256": "bbb33ab673d5a29fe4e8eb94e03d356c7468fad24983c5e3d24eda589bc1c712"
+  },
+  "captured_at": "2026-09-04T17:28:08.964450+00:00",
+  "claim_scope": "DISCOVERY_QUALITY_SCREEN_NOT_TASK_QUALIFICATION",
+  "controls": {
+    "chunks": 8,
+    "context_size": 512,
+    "flash_attention": true,
+    "gpu_layers": "all"
+  },
+  "corpus": {
+    "path": "D:\\codes\\kernel_opt_agent\\runs\\20260902_qwen35_08b_e2e_sm89_v1\\REPORT.zh-CN.md",
+    "sha256": "7f5964d0de51c7afff24540254288b8c5e069f085a2280b677a10d192c7f7266",
+    "size_bytes": 14053
+  },
+  "results": [
+    {
+      "command": [
+        "D:\\tools\\llama-b10700\\bin\\llama-perplexity.exe",
+        "-m",
+        "D:\\models\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-BF16.gguf",
+        "-f",
+        "D:\\codes\\kernel_opt_agent\\runs\\20260902_qwen35_08b_e2e_sm89_v1\\REPORT.zh-CN.md",
+        "-ngl",
+        "all",
+        "-fa",
+        "on",
+        "-c",
+        "512",
+        "--chunks",
+        "8",
+        "--ppl-output-type",
+        "1"
+      ],
+      "label": "bf16",
+      "model_path": "D:\\models\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-BF16.gguf",
+      "model_sha256": "e649f1a67950f9b0140f04347a3be786c007f34b2ab2cb4094b348a68414d170",
+      "model_size_bytes": 1516744608,
+      "perplexity": 25.4609,
+      "relative_perplexity_vs_bf16": 1.0,
+      "reported_error": 2.05365
+    },
+    {
+      "command": [
+        "D:\\tools\\llama-b10700\\bin\\llama-perplexity.exe",
+        "-m",
+        "D:\\models\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q8_0.gguf",
+        "-f",
+        "D:\\codes\\kernel_opt_agent\\runs\\20260902_qwen35_08b_e2e_sm89_v1\\REPORT.zh-CN.md",
+        "-ngl",
+        "all",
+        "-fa",
+        "on",
+        "-c",
+        "512",
+        "--chunks",
+        "8",
+        "--ppl-output-type",
+        "1"
+      ],
+      "label": "q8_0",
+      "model_path": "D:\\models\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q8_0.gguf",
+      "model_sha256": "37ae482d336108d23516fa35e8e0c4126688d81018b87178a18d752a1357814f",
+      "model_size_bytes": 833592096,
+      "perplexity": 25.4991,
+      "relative_perplexity_vs_bf16": 1.0015003397366158,
+      "reported_error": 2.05568
+    },
+    {
+      "command": [
+        "D:\\tools\\llama-b10700\\bin\\llama-perplexity.exe",
+        "-m",
+        "D:\\models\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf",
+        "-f",
+        "D:\\codes\\kernel_opt_agent\\runs\\20260902_qwen35_08b_e2e_sm89_v1\\REPORT.zh-CN.md",
+        "-ngl",
+        "all",
+        "-fa",
+        "on",
+        "-c",
+        "512",
+        "--chunks",
+        "8",
+        "--ppl-output-type",
+        "1"
+      ],
+      "label": "q4_0",
+      "model_path": "D:\\models\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf",
+      "model_sha256": "57d1997790d1744fba5b40a7317df71ea5e2acee28c47e78f0cce39c0703f8cf",
+      "model_size_bytes": 563036064,
+      "perplexity": 27.9038,
+      "relative_perplexity_vs_bf16": 1.0959471189156709,
+      "reported_error": 2.28261
+    }
+  ],
+  "schema_version": "llamacpp-quantization-quality-screen-v1",
+  "status": "PASS"
+}

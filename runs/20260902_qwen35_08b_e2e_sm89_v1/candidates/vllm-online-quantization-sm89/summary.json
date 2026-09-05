@@ -1,0 +1,41 @@
+{
+  "schema_version": "vllm-online-quantization-sm89-v1",
+  "scope": "Qwen3.5-0.8B, RTX 4060 Laptop SM89, vLLM online quantization discovery screens",
+  "baseline": "adjacent BF16 vLLM: 355.521 ms E2E, 9.997 ms TPOT",
+  "screens": [
+    {
+      "mode": "fp8 per-tensor dynamic",
+      "e2e_speedup": 1.025218,
+      "tpot_speedup": 1.015599,
+      "token_exact_cases": "1/6",
+      "decision": "REJECT_BELOW_3_PERCENT_MATERIALITY"
+    },
+    {
+      "mode": "fp8 per-channel weight-only",
+      "e2e_speedup": 1.010112,
+      "tpot_speedup": 1.009697,
+      "token_exact_cases": "0/6",
+      "decision": "REJECT_BELOW_3_PERCENT_MATERIALITY"
+    },
+    {
+      "mode": "fp8 per-block 128x128 weight-only",
+      "e2e_speedup": 1.12150,
+      "tpot_speedup": 1.10835,
+      "token_exact_cases": "0/6",
+      "selected_kernel": "MarlinFP8ScaledMMLinearKernel",
+      "decision": "ADVANCE_TO_HYBRID_QUALIFICATION"
+    },
+    {
+      "mode": "fp8 per-tensor plus vLLM norm/activation quantization fusions",
+      "speedup_vs_unfused_fp8_tpot": 1.0141,
+      "speedup_vs_exact_packed_bf16_tpot": 0.94463,
+      "decision": "REJECT_SLOWER_THAN_INCUMBENT"
+    },
+    {
+      "mode": "int8 per-channel weight-only",
+      "result": "vLLM reported zero quantized layers because this shorthand targets MoE weights and the active text model is dense",
+      "decision": "TECHNICAL_NO_OP_NOT_A_PERFORMANCE_RESULT"
+    }
+  ],
+  "conclusion": "Quantization is not a standalone advantage over vLLM because vLLM already supplies the baseline implementations. The useful agent action is to select the best supported quantized path for the frozen hardware/workload/quality target, identify layers it leaves expensive, and optimize those residual bottlenecks."
+}

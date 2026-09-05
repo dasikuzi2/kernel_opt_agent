@@ -3,6 +3,12 @@
 For a human review of the framework boundary, execution flow, directory
 ownership and contract map, start with [REVIEW.md](REVIEW.md). This README is
 the operator quick start; `AGENTS.md` contains mandatory agent policy.
+The design rationale and validation report for opportunity-driven search is
+available in
+[skill/kernel-optimizer/references/opportunity_driven_search_design.md](skill/kernel-optimizer/references/opportunity_driven_search_design.md).
+The transfer-aware method-learning layer and its two-device validation are
+documented in
+[skill/kernel-optimizer/references/method_learning_design.md](skill/kernel-optimizer/references/method_learning_design.md).
 
 This repository turns GPU-kernel optimization into a reproducible loop driven
 by workload contracts, hardware evidence and falsifiable microbenchmarks.
@@ -10,6 +16,13 @@ by workload contracts, hardware evidence and falsifiable microbenchmarks.
 It deliberately contains no application-specific algorithm, workload or
 performance result.  Hardware facts are separated from empirical measurements;
 measurements are keyed by device and software environment.
+
+The workflow has two lanes. Fast discovery first compiles conditional model
+terms into a ranked opportunity map, then writes and repairs a diverse set of
+run-local production candidates linked to those opportunities. It uses cheap
+anchor/edge screening and successive halving. Only survivors enter the evidence-closed
+qualification and limit-certification lane. A technical build failure never
+counts as a causal performance rejection.
 
 ## Start a run
 
@@ -40,11 +53,56 @@ python3 scripts/kernel_opt.py new-run --operator operator.json --workload worklo
 python3 scripts/kernel_opt.py next --run runs/<run-id>
 ```
 
-The run is intentionally blocked until `hardware_evidence.json` archives exact
+After a correct discovery baseline is present, quantify several global
+opportunities before managing the production-candidate portfolio:
+
+```bash
+python3 scripts/kernel_opt.py opportunity init --run runs/<run-id> --if-missing
+python3 scripts/kernel_opt.py opportunity add --run runs/<run-id> --spec opportunity-spec.json
+python3 scripts/kernel_opt.py opportunity rank --run runs/<run-id>
+python3 scripts/kernel_opt.py opportunity close --run runs/<run-id> --opportunity-id <id> --disposition AT_MEASURED_ROOF --reason <reason> --evidence <result.json> --evidence-claim <claim> --reopen-condition <condition>
+python3 scripts/kernel_opt.py opportunity reopen --run runs/<run-id> --opportunity-id <id> --reason <changed-condition>
+python3 scripts/kernel_opt.py method recommend --run runs/<run-id>
+python3 scripts/kernel_opt.py candidate init --run runs/<run-id> --if-missing
+python3 scripts/kernel_opt.py candidate add --run runs/<run-id> --spec candidate-spec.json
+python3 scripts/kernel_opt.py candidate run --run runs/<run-id> --candidate-id <id>
+python3 scripts/kernel_opt.py candidate promote --run runs/<run-id> --candidate-id <id>
+```
+
+The default opportunity map requires 4--12 quantified opportunities across at
+least four rewrite families. Each opportunity states the current global
+contribution, a conditional optimistic gain ceiling, a likely gain interval,
+confidence, implementation cost and hash-bound model evidence. Absolute-global-optimum labels are
+rejected: a decomposition-specific minimum is not a semantic lower bound.
+Candidates must bind to a ranked opportunity, stay below its gain ceiling and
+cover at least three opportunities by default.
+Measured dead ends can be marked `CLOSED` only with hash-bound run-local evidence,
+a global stop reason and explicit reopen conditions. Closed opportunities score
+zero and are excluded from method matching, candidate registration and next-action
+routing; they return to the search budget only through an explicit audited reopen.
+
+If that portfolio is still narrow, `method recommend` matches reusable method
+cards against the frozen operator, workload, hardware and opportunity map. The
+receipt is hash-bound to all four inputs and the card library. Literature and
+vendor guidance remain discovery priors only: they cannot increase a gain
+estimate, prove a hardware capability, accept a candidate or support a limit
+claim. Unverified hard capabilities fail closed.
+
+Discovery then requires 6--12 candidates across at least four architecture families
+by default. The default discovery budget is two hours overall, twenty minutes
+per candidate and eight technical repairs per candidate; expiry stops further
+measurement for plan review. Candidates are ranked by weighted screening gain
+and at most two are promoted by default. Screening records prediction-versus-
+observation residuals. Its timing is a routing signal, not
+production acceptance evidence.
+
+Strict qualification is intentionally blocked until `hardware_evidence.json` archives exact
 vendor-official documents for the programming model, ISA, target-architecture
 tuning guide and device specification. If the agent cannot find one of those
 official documents, the developer must provide its location; inferred hardware
-facts and neighboring-device values are forbidden.
+facts and neighboring-device values are forbidden. Discovery-only production
+implementation and cheap screening may proceed after a correct baseline; those
+results cannot support a production acceptance or limit claim.
 
 After the exact launched binary is archived inside the run, disassemble it with
 a hash-bound tool/architecture receipt, classify every static instruction site,
@@ -72,7 +130,7 @@ python3 scripts/kernel_opt.py next --run runs/<run-id>
 Use `scripts/kernel_opt.py hardware-discover` to create a hardware snapshot,
 then use the selected microbenchmarks and analysis commands to build evidence. `runs/` is
 for generated artifacts; reusable knowledge belongs in `hardware/`,
-`microbench/`, `schemas/` or the skill references.
+`knowledge/`, `microbench/`, `schemas/` or the skill references.
 
 Each run designates one `GLOBAL_SCHEDULER` and an independent
 `GLOBAL_SUPERVISOR`. The scheduler maintains the global resource balance,

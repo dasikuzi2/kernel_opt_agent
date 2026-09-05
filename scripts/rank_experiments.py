@@ -164,7 +164,7 @@ def main() -> int:
                 "ranking_score": score,
                 "benefit_derivation": {
                     "method": "candidate decision sensitivity from the frozen decision contract",
-                    "decision_contract_identity": {"path": str(decision_path.relative_to(run)), "sha256": sha256(decision_path)},
+                    "decision_contract_identity": {"path": decision_path.relative_to(run).as_posix(), "sha256": sha256(decision_path)},
                     "top_two_candidate_ids": decision["top_two_candidate_ids"],
                     "quantity_id": need["quantity_id"],
                     "decision_boundary": need["decision_boundary"],

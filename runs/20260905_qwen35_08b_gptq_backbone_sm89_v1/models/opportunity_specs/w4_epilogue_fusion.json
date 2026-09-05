@@ -1,0 +1,16 @@
+{
+  "opportunity_id": "sm89-w4-epilogue-fusion",
+  "name": "Remove post-Marlin activation and normalization materializations",
+  "model_scope": "CURRENT_SCHEDULE",
+  "source_model_term": "Marlin projections plus adjacent non-Marlin pointwise launches",
+  "affected_stages": ["projection-epilogues", "activation", "normalization"],
+  "current_contribution_us": 2773.206135416667,
+  "optimistic_gain_ceiling_us": 180.0,
+  "likely_gain_interval_us": {"lower": 20.0, "upper": 90.0},
+  "confidence": "LOW",
+  "rewrite_families": ["epilogue-fusion", "materialization-elimination", "producer-consumer-fusion"],
+  "implementation_budget_minutes": 60,
+  "hypothesis": "A W4 projection that emits directly into its activation or normalization consumer can save launch and intermediate traffic even when the standalone GEMM is not faster.",
+  "derivation": "The ceiling is limited to a small fraction of the 2.773 ms all-backbone-Marlin contribution because mathematical dependencies prevent eliminating the projection itself and earlier BF16 fusion attempts transferred poorly end to end.",
+  "evidence": [{"path": "models/round37_imported_evidence.json", "sha256": "708cc8587a5e928ffa0d7355480d271768e57b9aedf95f0c8adf2ca52d51e8fc", "claim": "Current-schedule Marlin and non-Marlin component times."}]
+}

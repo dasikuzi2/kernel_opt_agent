@@ -1,0 +1,54 @@
+{
+  "schema_version": "discovery-baseline-smoke-v1",
+  "status": "CORRECTNESS_PASS_PERFORMANCE_NOT_COMPARABLE",
+  "claim_scope": "DISCOVERY_ONLY",
+  "timestamp": "2026-09-01T14:57:25.747343+08:00",
+  "solution": "flashinfer_sm120_current_0618_fixedalpha",
+  "workload_uuid": "77daf91d-0660-4c4b-8c32-336a69281cd9",
+  "axes": {
+    "total_seq_len": 6,
+    "num_seqs": 1,
+    "len_cu_seqlens": 2
+  },
+  "correctness": {
+    "atol": 0.01,
+    "rtol": 0.01,
+    "required_matched_ratio": 1.0,
+    "max_absolute_error": 0.0009673088788986206,
+    "max_relative_error": 78.1713638305664,
+    "status": "PASS",
+    "note": "Large relative error occurs near zero; the frozen absolute/relative acceptance rule passes all elements."
+  },
+  "observed_smoke_only": {
+    "candidate_latency_ms": 0.15187199413776398,
+    "sequential_reference_latency_ms": 0.6860799789428711,
+    "speedup": 4.517488447017585,
+    "admissible_as_performance_evidence": false,
+    "reason": "unrelated process PID 4260 occupied approximately 30 GiB and clocks/load were not qualification-controlled"
+  },
+  "command": [
+    "/home/oem/fi-bench-5090/.venv/bin/flashinfer-bench",
+    "run",
+    "--local",
+    "/home/oem/fi-bench-5090/smoke-dataset",
+    "--definitions",
+    "gdn_prefill_qk4_v8_d128_k_last",
+    "--solutions",
+    "flashinfer_sm120_current_0618_fixedalpha",
+    "--use-isolated-runner",
+    "--timeout",
+    "120",
+    "--warmup-runs",
+    "1",
+    "--iterations",
+    "1",
+    "--num-trials",
+    "1",
+    "--atol",
+    "0.01",
+    "--rtol",
+    "0.01",
+    "--required-matched-ratio",
+    "1.0"
+  ]
+}

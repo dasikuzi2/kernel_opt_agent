@@ -1,0 +1,147 @@
+{
+  "schema_version": "sm89-vllm-marlin-int4-recall-lmhead-screen-v1",
+  "status": "PASS",
+  "scope": {
+    "model": "/home/aden/models/Qwen3.5-0.8B",
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "weight_shape_kn": [
+      1024,
+      248320
+    ],
+    "control": "exact-packed BF16 lm-head",
+    "candidate": "vLLM Marlin GPTQ uint4b8 scan for shortlist recall"
+  },
+  "control_weight_bit_exact": true,
+  "exact_samples_us": [
+    2958.131217956543,
+    2956.2368392944336,
+    2948.6528396606445,
+    2956.697654724121,
+    2818.508720397949
+  ],
+  "results": [
+    {
+      "candidate": "w4a16",
+      "group_size": 128,
+      "median_exact_packed_us": 2956.2368392944336,
+      "median_candidate_us": 893.9519882202148,
+      "speedup_vs_exact_packed": 3.30693021353424,
+      "candidate_samples_us": [
+        893.9519882202148,
+        895.6416130065918,
+        896.3071823120117,
+        891.2384033203125,
+        889.7536277770996
+      ],
+      "quality": {
+        "random_vectors": 8,
+        "top1_equal": 5,
+        "exact_winner_recalled_in_topk": 8,
+        "shortlist": 128,
+        "exact_winner_approximate_ranks": [
+          1,
+          1,
+          1,
+          1,
+          2,
+          1,
+          1,
+          3
+        ],
+        "maximum_rank": 3,
+        "maximum_abs_logit_errors": [
+          0.008026123046875,
+          0.0081787109375,
+          0.008087158203125,
+          0.008056640625,
+          0.009495258331298828,
+          0.0078125,
+          0.00830078125,
+          0.0086669921875
+        ]
+      }
+    },
+    {
+      "candidate": "w4a8_int8",
+      "group_size": 128,
+      "median_exact_packed_us": 2956.2368392944336,
+      "median_candidate_us": 2573.8752365112305,
+      "speedup_vs_exact_packed": 1.1485548317802212,
+      "candidate_samples_us": [
+        2560.8192443847656,
+        2573.8752365112305,
+        2575.5136489868164,
+        2569.523239135742,
+        2576.8447875976562
+      ],
+      "quality": {
+        "random_vectors": 8,
+        "top1_equal": 1,
+        "exact_winner_recalled_in_topk": 8,
+        "shortlist": 128,
+        "exact_winner_approximate_ranks": [
+          5,
+          21,
+          1,
+          58,
+          2,
+          2,
+          1,
+          26
+        ],
+        "maximum_rank": 58,
+        "maximum_abs_logit_errors": [
+          119807.953125,
+          109567.953125,
+          132095.9375,
+          112639.9453125,
+          126463.9453125,
+          123391.9375,
+          98815.9453125,
+          139263.9375
+        ]
+      }
+    }
+  ],
+  "best_speed": {
+    "candidate": "w4a16",
+    "group_size": 128,
+    "median_exact_packed_us": 2956.2368392944336,
+    "median_candidate_us": 893.9519882202148,
+    "speedup_vs_exact_packed": 3.30693021353424,
+    "candidate_samples_us": [
+      893.9519882202148,
+      895.6416130065918,
+      896.3071823120117,
+      891.2384033203125,
+      889.7536277770996
+    ],
+    "quality": {
+      "random_vectors": 8,
+      "top1_equal": 5,
+      "exact_winner_recalled_in_topk": 8,
+      "shortlist": 128,
+      "exact_winner_approximate_ranks": [
+        1,
+        1,
+        1,
+        1,
+        2,
+        1,
+        1,
+        3
+      ],
+      "maximum_rank": 3,
+      "maximum_abs_logit_errors": [
+        0.008026123046875,
+        0.0081787109375,
+        0.008087158203125,
+        0.008056640625,
+        0.009495258331298828,
+        0.0078125,
+        0.00830078125,
+        0.0086669921875
+      ]
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "schema_version": "production-validation-v1",
+  "status": "INCOMPLETE",
+  "correctness": {"status": "UNKNOWN", "evidence": []},
+  "source_and_binary_identities": [],
+  "cases": [],
+  "p4_status": "PENDING",
+  "end_to_end_evidence": [],
+  "unexplained_residuals": []
+}

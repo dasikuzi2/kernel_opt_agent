@@ -1,0 +1,65 @@
+{
+  "active_parameter_groups": [
+    "embedding_and_lm_head",
+    "full_attention",
+    "gated_delta_net",
+    "mlp",
+    "normalization"
+  ],
+  "assumptions": [
+    "every active dense BF16/F32 language weight is consumed at least once per generated token",
+    "vision and dormant MTP weights are excluded",
+    "the calibrated model-sized read-only stream is an optimistic service ceiling",
+    "all activation, recurrent-state, KV-cache, synchronization, launch and arithmetic costs are ignored in the floor"
+  ],
+  "calibrated_read_decimal_gb_per_second": 248.87854507708926,
+  "captured_at": "2026-09-02T16:05:04.005144+00:00",
+  "cases": [
+    {
+      "case_id": "prompt-128-generate-128",
+      "effective_weight_gb_per_second": 237.26348478436208,
+      "fraction_of_calibrated_read_service": 0.9533304074518378,
+      "maximum_exact_bf16_speedup_ignoring_all_non_weight_work": 1.0489542683033741,
+      "observed_tpot_ms": 6.497007566929235,
+      "two_x_feasible_under_bound": false,
+      "two_x_target_tpot_ms": 3.2485037834646175,
+      "weight": 0.2,
+      "weight_stream_floor_ms": 6.193794870998321
+    },
+    {
+      "case_id": "prompt-512-generate-128",
+      "effective_weight_gb_per_second": 223.63107480872432,
+      "fraction_of_calibrated_read_service": 0.8985550551955187,
+      "maximum_exact_bf16_speedup_ignoring_all_non_weight_work": 1.112897862204345,
+      "observed_tpot_ms": 6.893061070866269,
+      "two_x_feasible_under_bound": false,
+      "two_x_target_tpot_ms": 3.4465305354331344,
+      "weight": 0.3,
+      "weight_stream_floor_ms": 6.193794870998321
+    },
+    {
+      "case_id": "prompt-2048-generate-128",
+      "effective_weight_gb_per_second": 223.5675872136773,
+      "fraction_of_calibrated_read_service": 0.8982999605065516,
+      "maximum_exact_bf16_speedup_ignoring_all_non_weight_work": 1.1132138973223373,
+      "observed_tpot_ms": 6.895018527559145,
+      "two_x_feasible_under_bound": false,
+      "two_x_target_tpot_ms": 3.4475092637795726,
+      "weight": 0.5,
+      "weight_stream_floor_ms": 6.193794870998321
+    }
+  ],
+  "claim_scope": "CONSERVATIVE_EXACT_BF16_BATCH1_DECODE_BOUND",
+  "decision": "REJECT_EXACT_BF16_2X_AS_PHYSICALLY_INFEASIBLE",
+  "mandatory_weight_bytes_per_token": 1541502656,
+  "schema_version": "qwen35-batch1-bandwidth-bound-v1",
+  "source_identities": {
+    "baseline": "/mnt/d/codes/kernel_opt_agent/runs/20260902_qwen35_08b_e2e_sm89_v1/traces/vllm_discovery_baseline_w1_n3.json",
+    "inventory": "/mnt/d/codes/kernel_opt_agent/runs/20260902_qwen35_08b_e2e_sm89_v1/traces/model_snapshot_inventory.json",
+    "memory_stream": "/mnt/d/codes/kernel_opt_agent/runs/20260902_qwen35_08b_e2e_sm89_v1/traces/sm89_memory_stream_model_sized.json"
+  },
+  "status": "PASS",
+  "two_x_feasible_for_every_case": false,
+  "weight_stream_floor_ms": 6.193794870998321,
+  "weighted_geometric_maximum_exact_bf16_speedup": 1.0999608122769045
+}

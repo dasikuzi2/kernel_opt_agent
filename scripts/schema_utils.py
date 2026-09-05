@@ -111,6 +111,6 @@ def validate_instance(instance, schema: dict, *, root: dict | None = None, path:
 
 
 def validate_json_file(instance_path: Path, schema_path: Path) -> list[str]:
-    instance = json.loads(instance_path.read_text())
-    schema = json.loads(schema_path.read_text())
+    instance = json.loads(instance_path.read_text(encoding="utf-8"))
+    schema = json.loads(schema_path.read_text(encoding="utf-8"))
     return validate_instance(instance, schema)

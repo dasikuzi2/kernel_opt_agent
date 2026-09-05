@@ -1,0 +1,12 @@
+diff --git a/vllm/model_executor/layers/utils.py b/vllm/model_executor/layers/utils.py
+--- a/vllm/model_executor/layers/utils.py
++++ b/vllm/model_executor/layers/utils.py
+@@ -70,7 +70,7 @@ def sm89_bf16_gemv_impl(
+         (8192, 1024): (2, 4),
+         (5120, 1024): (8, 4),
+         (7168, 1024): (4, 4),
+-        (1024, 3584): (4, 4),
++        (1024, 3584): (4, 8),
+     }
+     schedule = schedules.get((n, k))
+     if schedule is None:

@@ -1,0 +1,19 @@
+{
+  "captured_at": "2026-09-02T15:10:02.290680+00:00",
+  "cdn_host": "cdn-lfs-cn-1.modelscope.cn",
+  "chunk_bytes": 16777216,
+  "duration_seconds": 779.231182196,
+  "modelscope_linked_etag": "04b1c301231dd422b8860db31311ab2721511346a32cb1e079c4c4e5f1fe4696",
+  "output": {
+    "path": "/mnt/d/models/Qwen3.5-0.8B/model.safetensors-00001-of-00001.safetensors.parallel",
+    "sha256": "04b1c301231dd422b8860db31311ab2721511346a32cb1e079c4c4e5f1fe4696"
+  },
+  "prefix_bytes_reused": 404750336,
+  "schema_version": "modelscope-range-download-receipt-v1",
+  "source": "ModelScope official model repository CDN",
+  "source_url": "https://www.modelscope.cn/models/Qwen/Qwen3.5-0.8B/resolve/master/model.safetensors-00001-of-00001.safetensors",
+  "status": "PASS",
+  "total_bytes": 1746942600,
+  "verification": "every range checked for status 206, exact Content-Range and exact length; whole object checked by SHA-256",
+  "workers": 8
+}

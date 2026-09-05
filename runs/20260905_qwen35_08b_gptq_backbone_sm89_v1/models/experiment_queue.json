@@ -1,0 +1,12 @@
+{
+  "schema_version": "experiment-request-queue-v2",
+  "status": "DRAFT",
+  "ranking_policy": {
+    "primary": "candidate_specific_decision_value_us",
+    "secondary": ["decision_flip_probability", "expected_uncertainty_reduction", "experiment_cost"],
+    "issued_by_role": "GLOBAL_SCHEDULER"
+  },
+  "requests": [],
+  "catalog_snapshot": {},
+  "promotion_review": []
+}

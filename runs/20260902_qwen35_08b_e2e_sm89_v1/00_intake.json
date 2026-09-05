@@ -1,0 +1,31 @@
+{
+  "created_at": "2026-09-02T14:43:28.641627+00:00",
+  "operator": "qwen35_08b_text_generation_end_to_end",
+  "run_id": "20260902_qwen35_08b_e2e_sm89_v1",
+  "schema_version": "optimization-intake-v1",
+  "source_identities": {
+    "hardware.json": {
+      "sha256": "98c782ba320961df252c8535fc727954f40d9da122df971e6167949843ae592a",
+      "source": "D:\\codes\\kernel_opt_intake_qwen35\\hardware.json"
+    },
+    "operator.json": {
+      "sha256": "5d2f090045d64a47bc76442056765efd7ed08bca46f94cabaa72181df0dd610f",
+      "source": "D:\\codes\\kernel_opt_intake_qwen35\\operator.json"
+    },
+    "workload.json": {
+      "sha256": "69f7742daf1c75283811964ed838ac1b0d609947ef81adc9d3a450e162ead6e5",
+      "source": "D:\\codes\\kernel_opt_intake_qwen35\\workload.json"
+    }
+  },
+  "status": "READY",
+  "target": {
+    "compute_capability": "8.9",
+    "device_index": 0,
+    "device_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "memory_bytes": 8585740288,
+    "uuid": "GPU-44a7edbf-e229-1e53-38a4-1e69ee49dd19",
+    "vendor": "NVIDIA"
+  },
+  "user_confirmation_required_for_reuse": true,
+  "workload": "qwen35_08b_sm89_batch1_prefill_decode_v1"
+}

@@ -1,0 +1,1096 @@
+{
+  "claim_scope": "DISCOVERY_PRIOR_ONLY",
+  "evaluation_guards": [
+    {
+      "architecture_affinity_hits": [],
+      "candidate_archetypes": [
+        {
+          "change_axes": [
+            "test distribution",
+            "baseline parity",
+            "memory accounting"
+          ],
+          "family": "evaluation-guard",
+          "name": "held-out verification harness",
+          "template": "Seal public smoke cases for discovery and reserve separate correctness, numerical, and memory cases for finalist verification."
+        }
+      ],
+      "claim_boundary": "DISCOVERY_PRIOR_ONLY",
+      "context_signature_hits": [
+        "baseline",
+        "correctness",
+        "kernel",
+        "memory"
+      ],
+      "expected_bottleneck_shifts": [
+        "A candidate that appears faster under a weak harness may disappear after realistic numerical and memory constraints are restored."
+      ],
+      "failure_modes": [
+        "Baseline and candidate use different numerical modes.",
+        "Visible tests let the generator specialize away required generality.",
+        "Latency improves by excessive temporary memory or invalid cached outputs."
+      ],
+      "family_hits": [],
+      "implementation_recipe": [
+        "Freeze baseline numerical modes, compilation settings, and measurement semantics before search.",
+        "Keep hidden or held-out shape/value cases unavailable to candidate generation.",
+        "Treat peak memory and prohibited fallback paths as first-class acceptance checks."
+      ],
+      "kind": "EVALUATION_GUARD",
+      "method_id": "kernelbench-verified-evaluation",
+      "missing_required_capabilities": [],
+      "opportunity_signature_hits": [
+        "kernel"
+      ],
+      "score": 7.0,
+      "source": {
+        "claim_scope": "Evaluation study of LLM-generated kernels; use as a harness-design warning rather than a transformation recipe.",
+        "evidence_tier": "PRIMARY_PREPRINT",
+        "title": "KernelBench-Verified: Do LLM-Generated Kernels Actually Beat PyTorch?",
+        "url": "https://arxiv.org/abs/2607.16241",
+        "version": "arXiv:2607.16241v1"
+      },
+      "title": "Guard kernel search against benchmark and correctness reward hacking",
+      "transfer_status": "DIRECT",
+      "validation_recipe": [
+        "Rerun finalists on held-out distributions and adversarial numerical cases.",
+        "Verify that the candidate performs the required work and does not exploit harness gaps.",
+        "Report geometric or workload-weighted aggregate results with failures included."
+      ]
+    }
+  ],
+  "generated_at": "2026-09-05T06:01:03.888438+00:00",
+  "input_identities": [
+    {
+      "path": "operator.json",
+      "sha256": "1ecddd93460efc715c58fccbe8598465942550496fffaf01d5f99e7148f9dbea"
+    },
+    {
+      "path": "workload.json",
+      "sha256": "f212c52a98408deaf54c5517b457cf696f4b9235e3e515d1fb7a57f4b699bb73"
+    },
+    {
+      "path": "hardware.json",
+      "sha256": "965f9aab2d1db1219985f2d1dbe7b74bc34bb5b63e940dff647a2a2538ef5ea3"
+    },
+    {
+      "path": "models/opportunity_map.json",
+      "sha256": "2da621ef7942e2c1aa9b9a8847889ce82c234ceaca414e7ff16db937e8ff3f75"
+    }
+  ],
+  "library_identity": {
+    "cards": [
+      {
+        "path": "knowledge/methods/cuda-grid-stride-thread-reuse.json",
+        "sha256": "5cd7fa5b8f0aedaeaf324ba26a84d202c9c682dd913e11b4f2966558eecbadd0"
+      },
+      {
+        "path": "knowledge/methods/cuda-launch-occupancy-frontier.json",
+        "sha256": "56e507159f6c2ba6ed2e3c44ebdfd645fdd7dda7de3bf408904773f431e5e2c4"
+      },
+      {
+        "path": "knowledge/methods/cuda-vectorized-memory-access.json",
+        "sha256": "9a99310b163b13e6a2b281a20b4e9e07d1add966cd82450561477bebdf896a51"
+      },
+      {
+        "path": "knowledge/methods/flashattention3-async-pipeline.json",
+        "sha256": "c24d0bb179f1898a2a96bfbfaf6446bff53ca49ed901e8b8ff416dad9c31383c"
+      },
+      {
+        "path": "knowledge/methods/kernelbench-profile-feedback.json",
+        "sha256": "28664055c653b16633d329d63ec8ae7ae9abee891c7ef5f75276005ea6c92b18"
+      },
+      {
+        "path": "knowledge/methods/kernelbench-verified-evaluation.json",
+        "sha256": "3c7021f4b9f3f3578a4271df1372ac312db51d9e3dacc5db970bcb5f0cc58be1"
+      },
+      {
+        "path": "knowledge/methods/korch-fission-orchestration.json",
+        "sha256": "b3160060d967df1cf81287daff070934631c9ff8c9a558e0fd5c2dc4f260e756"
+      },
+      {
+        "path": "knowledge/methods/tilelang-schedule-dataflow-separation.json",
+        "sha256": "98f80a3f60209cdd76d304d0b95494a453c432126b3fb8fda2b45392c109fe0b"
+      },
+      {
+        "path": "knowledge/methods/triton-dynamic-extent-specialization-control.json",
+        "sha256": "05319b7ffc3bc4204a6ce7da8b79daa425cd91d47d6b3fa77671edbc620b8c57"
+      }
+    ],
+    "sha256": "32d6b6631bd64938f359709eeff22f31359e2e7210a0ce216179e6d971fd5822"
+  },
+  "policy": {
+    "hardware_requirement_policy": "FAIL_CLOSED",
+    "literature_claim_policy": "HYPOTHESIS_NOT_PERFORMANCE_EVIDENCE",
+    "max_matches_per_opportunity": 3,
+    "score_formula": "12*family_hits + 3*opportunity_signature_hits + min(2,context_signature_hits) + evidence_weight - 4*missing_capabilities - 2*adaptation - 100*incompatible"
+  },
+  "recommendations": [
+    {
+      "matches": [
+        {
+          "architecture_affinity_hits": [],
+          "candidate_archetypes": [
+            {
+              "change_axes": [
+                "mathematical decomposition",
+                "fusion boundary",
+                "intermediate ownership"
+              ],
+              "family": "operator-fission",
+              "name": "fission then selective refusion",
+              "template": "Split a compound stage into legal primitives, then fuse each primitive with the consumer that removes the most weighted materialization."
+            },
+            {
+              "change_axes": [
+                "launch count",
+                "materialized bytes",
+                "duplicated compute"
+              ],
+              "family": "cross-stage-fusion",
+              "name": "weighted orchestration frontier",
+              "template": "Implement a small Pareto set spanning minimal launches, minimal bytes, and minimal duplicated work."
+            }
+          ],
+          "claim_boundary": "DISCOVERY_PRIOR_ONLY",
+          "context_signature_hits": [
+            "fusion",
+            "operator"
+          ],
+          "expected_bottleneck_shifts": [
+            "Removing launches and intermediates can shift the kernel toward register pressure or redundant computation.",
+            "Fission can expose better fusion boundaries while increasing the orchestration search space."
+          ],
+          "failure_modes": [
+            "Greedy fusion creates a large kernel whose occupancy or instruction cache behavior regresses.",
+            "Fission duplicates expensive work or violates numerical ordering constraints.",
+            "A locally faster stage produces an incompatible downstream layout."
+          ],
+          "family_hits": [],
+          "implementation_recipe": [
+            "Decompose compound operators into legal primitive regions before selecting fusion boundaries.",
+            "Enumerate orchestration alternatives that include fission-plus-refusion, not only greedy adjacent fusion.",
+            "Score each alternative on weighted end-to-end latency and materialized bytes under explicit compatibility constraints."
+          ],
+          "kind": "ORCHESTRATION",
+          "method_id": "korch-fission-orchestration",
+          "missing_required_capabilities": [],
+          "opportunity_signature_hits": [
+            "fusion"
+          ],
+          "score": 8.0,
+          "source": {
+            "claim_scope": "Tensor-program orchestration evaluated on V100 and A100; reported speedups do not transfer directly to other workloads or devices.",
+            "evidence_tier": "PEER_REVIEWED_PRIMARY",
+            "title": "Optimal Kernel Orchestration for Tensor Programs with Korch",
+            "url": "https://arxiv.org/abs/2406.09465",
+            "version": "ASPLOS 2024 / arXiv:2406.09465v1"
+          },
+          "title": "Explore fission before choosing global kernel orchestration",
+          "transfer_status": "DIRECT",
+          "validation_recipe": [
+            "Preserve an unfused and a greedily fused control alongside the selected orchestration.",
+            "Check every workload case because the best fusion boundary may be shape dependent.",
+            "Attribute gains to removed launches/materializations and record any duplicated compute."
+          ]
+        },
+        {
+          "architecture_affinity_hits": [],
+          "candidate_archetypes": [
+            {
+              "change_axes": [
+                "architecture family",
+                "opportunity coverage",
+                "wall-clock allocation"
+              ],
+              "family": "candidate-portfolio",
+              "name": "bounded architecture portfolio",
+              "template": "Give each distinct family one build/correctness/smoke attempt, halve the portfolio, and spend deeper analysis only on survivors."
+            }
+          ],
+          "claim_boundary": "DISCOVERY_PRIOR_ONLY",
+          "context_signature_hits": [
+            "baseline",
+            "correctness",
+            "kernel"
+          ],
+          "expected_bottleneck_shifts": [
+            "Profiling should redirect search when an intended optimization moves the bottleneck elsewhere.",
+            "Portfolio-level progress can improve even when individual candidate lines terminate earlier."
+          ],
+          "failure_modes": [
+            "The agent repeatedly tunes launch parameters after the measured bottleneck has moved.",
+            "Feedback is too verbose or unstructured to change the next architecture decision.",
+            "The search overfits a public anchor input."
+          ],
+          "family_hits": [],
+          "implementation_recipe": [
+            "Generate several architecture-distinct candidates before giving any one candidate multiple tuning rounds.",
+            "Feed compile, correctness, timing, and a compact bottleneck summary back into the next proposal.",
+            "Stop a local line after bounded failures and return to a different opportunity or architecture family."
+          ],
+          "kind": "SEARCH_STRATEGY",
+          "method_id": "kernelbench-profile-feedback",
+          "missing_required_capabilities": [],
+          "opportunity_signature_hits": [
+            "kernel"
+          ],
+          "score": 7.0,
+          "source": {
+            "claim_scope": "Benchmark evidence that execution and profiling feedback can improve iterative refinement; it does not identify a universally best search policy.",
+            "evidence_tier": "PRIMARY_PREPRINT",
+            "title": "KernelBench: Can LLMs Write Efficient GPU Kernels?",
+            "url": "https://arxiv.org/abs/2502.10517",
+            "version": "arXiv:2502.10517v1"
+          },
+          "title": "Use execution and profiling feedback as a bounded candidate-generation loop",
+          "transfer_status": "DIRECT",
+          "validation_recipe": [
+            "Track time to first correct candidate, time to first improvement, and best result at fixed wall-clock budgets.",
+            "Report correctness-plus-speed thresholds across all tasks or workload cases, not only successful examples.",
+            "Separate technical repair failures from causal performance failures."
+          ]
+        },
+        {
+          "architecture_affinity_hits": [],
+          "candidate_archetypes": [
+            {
+              "change_axes": [
+                "grid size",
+                "thread reuse",
+                "loop stride"
+              ],
+              "family": "persistent-grid",
+              "name": "SM-scaled bounded grid",
+              "template": "Launch a bounded grid scaled by discovered SM count and process remaining elements through a coalesced grid-stride loop."
+            },
+            {
+              "change_axes": [
+                "grid size",
+                "thread reuse",
+                "memory instruction width"
+              ],
+              "family": "persistent-vector",
+              "name": "bounded grid plus vector access",
+              "template": "Combine a validated bounded grid with the best aligned vector width only after both axes have independent controls."
+            }
+          ],
+          "claim_boundary": "DISCOVERY_PRIOR_ONLY",
+          "context_signature_hits": [],
+          "expected_bottleneck_shifts": [
+            "Thread creation or per-thread setup may shift to loop/control overhead or insufficient memory concurrency.",
+            "Combining reuse with vectorization can increase register pressure."
+          ],
+          "failure_modes": [
+            "The grid is too small to saturate memory latency.",
+            "Grid-stride loop control adds work without amortizing meaningful setup.",
+            "The persistent-vector combination consumes too many registers."
+          ],
+          "family_hits": [],
+          "implementation_recipe": [
+            "Implement a grid-stride candidate whose grid size is a small multiple of the discovered SM count.",
+            "Preserve unit-stride addressing within a warp and keep the monolithic-grid control.",
+            "Vary thread reuse independently from vector access width before testing their combination."
+          ],
+          "kind": "TRANSFORMATION",
+          "method_id": "cuda-grid-stride-thread-reuse",
+          "missing_required_capabilities": [],
+          "opportunity_signature_hits": [
+            "persistent"
+          ],
+          "score": 5.5,
+          "source": {
+            "claim_scope": "General CUDA design pattern; thread reuse and launch amortization do not guarantee lower latency for a memory-streaming kernel.",
+            "evidence_tier": "VENDOR_OFFICIAL_GUIDANCE",
+            "title": "CUDA Pro Tip: Write Flexible Kernels with Grid-Stride Loops",
+            "url": "https://developer.nvidia.com/blog/cuda-pro-tip-write-flexible-kernels-grid-stride-loops/",
+            "version": "2013-04-22"
+          },
+          "title": "Use bounded grids and grid-stride loops as a thread-reuse candidate",
+          "transfer_status": "DIRECT",
+          "validation_recipe": [
+            "Measure enough work to expose reuse while retaining a small edge case that detects underfilled grids.",
+            "Compare bounded-grid scalar, bounded-grid vector, and monolithic controls.",
+            "Reject persistence when repeated loop overhead or reduced parallelism dominates."
+          ]
+        }
+      ],
+      "opportunity_id": "sm89-decode-graph-compaction",
+      "opportunity_priority_rank": 1
+    },
+    {
+      "matches": [
+        {
+          "architecture_affinity_hits": [],
+          "candidate_archetypes": [
+            {
+              "change_axes": [
+                "mathematical decomposition",
+                "fusion boundary",
+                "intermediate ownership"
+              ],
+              "family": "operator-fission",
+              "name": "fission then selective refusion",
+              "template": "Split a compound stage into legal primitives, then fuse each primitive with the consumer that removes the most weighted materialization."
+            },
+            {
+              "change_axes": [
+                "launch count",
+                "materialized bytes",
+                "duplicated compute"
+              ],
+              "family": "cross-stage-fusion",
+              "name": "weighted orchestration frontier",
+              "template": "Implement a small Pareto set spanning minimal launches, minimal bytes, and minimal duplicated work."
+            }
+          ],
+          "claim_boundary": "DISCOVERY_PRIOR_ONLY",
+          "context_signature_hits": [
+            "fusion",
+            "operator"
+          ],
+          "expected_bottleneck_shifts": [
+            "Removing launches and intermediates can shift the kernel toward register pressure or redundant computation.",
+            "Fission can expose better fusion boundaries while increasing the orchestration search space."
+          ],
+          "failure_modes": [
+            "Greedy fusion creates a large kernel whose occupancy or instruction cache behavior regresses.",
+            "Fission duplicates expensive work or violates numerical ordering constraints.",
+            "A locally faster stage produces an incompatible downstream layout."
+          ],
+          "family_hits": [],
+          "implementation_recipe": [
+            "Decompose compound operators into legal primitive regions before selecting fusion boundaries.",
+            "Enumerate orchestration alternatives that include fission-plus-refusion, not only greedy adjacent fusion.",
+            "Score each alternative on weighted end-to-end latency and materialized bytes under explicit compatibility constraints."
+          ],
+          "kind": "ORCHESTRATION",
+          "method_id": "korch-fission-orchestration",
+          "missing_required_capabilities": [],
+          "opportunity_signature_hits": [
+            "fusion",
+            "operator"
+          ],
+          "score": 11.0,
+          "source": {
+            "claim_scope": "Tensor-program orchestration evaluated on V100 and A100; reported speedups do not transfer directly to other workloads or devices.",
+            "evidence_tier": "PEER_REVIEWED_PRIMARY",
+            "title": "Optimal Kernel Orchestration for Tensor Programs with Korch",
+            "url": "https://arxiv.org/abs/2406.09465",
+            "version": "ASPLOS 2024 / arXiv:2406.09465v1"
+          },
+          "title": "Explore fission before choosing global kernel orchestration",
+          "transfer_status": "DIRECT",
+          "validation_recipe": [
+            "Preserve an unfused and a greedily fused control alongside the selected orchestration.",
+            "Check every workload case because the best fusion boundary may be shape dependent.",
+            "Attribute gains to removed launches/materializations and record any duplicated compute."
+          ]
+        },
+        {
+          "architecture_affinity_hits": [],
+          "candidate_archetypes": [
+            {
+              "change_axes": [
+                "architecture family",
+                "opportunity coverage",
+                "wall-clock allocation"
+              ],
+              "family": "candidate-portfolio",
+              "name": "bounded architecture portfolio",
+              "template": "Give each distinct family one build/correctness/smoke attempt, halve the portfolio, and spend deeper analysis only on survivors."
+            }
+          ],
+          "claim_boundary": "DISCOVERY_PRIOR_ONLY",
+          "context_signature_hits": [
+            "baseline",
+            "correctness",
+            "kernel"
+          ],
+          "expected_bottleneck_shifts": [
+            "Profiling should redirect search when an intended optimization moves the bottleneck elsewhere.",
+            "Portfolio-level progress can improve even when individual candidate lines terminate earlier."
+          ],
+          "failure_modes": [
+            "The agent repeatedly tunes launch parameters after the measured bottleneck has moved.",
+            "Feedback is too verbose or unstructured to change the next architecture decision.",
+            "The search overfits a public anchor input."
+          ],
+          "family_hits": [],
+          "implementation_recipe": [
+            "Generate several architecture-distinct candidates before giving any one candidate multiple tuning rounds.",
+            "Feed compile, correctness, timing, and a compact bottleneck summary back into the next proposal.",
+            "Stop a local line after bounded failures and return to a different opportunity or architecture family."
+          ],
+          "kind": "SEARCH_STRATEGY",
+          "method_id": "kernelbench-profile-feedback",
+          "missing_required_capabilities": [],
+          "opportunity_signature_hits": [
+            "baseline",
+            "candidate"
+          ],
+          "score": 10.0,
+          "source": {
+            "claim_scope": "Benchmark evidence that execution and profiling feedback can improve iterative refinement; it does not identify a universally best search policy.",
+            "evidence_tier": "PRIMARY_PREPRINT",
+            "title": "KernelBench: Can LLMs Write Efficient GPU Kernels?",
+            "url": "https://arxiv.org/abs/2502.10517",
+            "version": "arXiv:2502.10517v1"
+          },
+          "title": "Use execution and profiling feedback as a bounded candidate-generation loop",
+          "transfer_status": "DIRECT",
+          "validation_recipe": [
+            "Track time to first correct candidate, time to first improvement, and best result at fixed wall-clock budgets.",
+            "Report correctness-plus-speed thresholds across all tasks or workload cases, not only successful examples.",
+            "Separate technical repair failures from causal performance failures."
+          ]
+        },
+        {
+          "architecture_affinity_hits": [],
+          "candidate_archetypes": [
+            {
+              "change_axes": [
+                "threads per block",
+                "resident blocks",
+                "tail waves"
+              ],
+              "family": "occupancy-128",
+              "name": "smaller-block latency-hiding point",
+              "template": "Implement a 128-thread point and compare it with the current schedule using compiled resource usage and edge-size timing."
+            },
+            {
+              "change_axes": [
+                "elements per thread",
+                "register use",
+                "grid size"
+              ],
+              "family": "thread-coarsening",
+              "name": "lower-occupancy ILP point",
+              "template": "Process multiple independent elements per thread while preserving coalescing, then test whether extra ILP offsets reduced residency."
+            }
+          ],
+          "claim_boundary": "DISCOVERY_PRIOR_ONLY",
+          "context_signature_hits": [
+            "launch"
+          ],
+          "expected_bottleneck_shifts": [
+            "More resident warps can hide latency but reduce registers available for instruction-level parallelism.",
+            "Larger blocks can improve amortization while worsening tail waves or resource granularity."
+          ],
+          "failure_modes": [
+            "The search maximizes occupancy as if it were the objective.",
+            "Block size variants compile to materially different register spilling.",
+            "The anchor size hides a partial-wave regression."
+          ],
+          "family_hits": [],
+          "implementation_recipe": [
+            "Choose a few block sizes that occupy different resource regimes rather than sweeping every multiple of a warp.",
+            "Pair block-size candidates with compiled register/shared-memory usage and active-block estimates.",
+            "Include an ILP or coarsening point because lower occupancy can still win when it exposes useful independent work."
+          ],
+          "kind": "SEARCH_STRATEGY",
+          "method_id": "cuda-launch-occupancy-frontier",
+          "missing_required_capabilities": [],
+          "opportunity_signature_hits": [
+            "launch"
+          ],
+          "score": 6.5,
+          "source": {
+            "claim_scope": "General NVIDIA CUDA guidance; exact resource limits require official target-device evidence and compiled-kernel resource data.",
+            "evidence_tier": "VENDOR_OFFICIAL_GUIDANCE",
+            "title": "CUDA C++ Best Practices Guide, Execution Configuration Optimizations",
+            "url": "https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/",
+            "version": "CUDA 13.3 documentation"
+          },
+          "title": "Treat block size, occupancy, registers, and latency hiding as a joint frontier",
+          "transfer_status": "DIRECT",
+          "validation_recipe": [
+            "Measure the same candidate over anchor and edge sizes to expose wave and tail effects.",
+            "Record final register/shared-memory use and distinguish theoretical occupancy from achieved activity.",
+            "Stop when adjacent frontier points no longer change the weighted objective materially."
+          ]
+        }
+      ],
+      "opportunity_id": "sm89-decode-projection-fusion",
+      "opportunity_priority_rank": 2
+    },
+    {
+      "matches": [
+        {
+          "architecture_affinity_hits": [],
+          "candidate_archetypes": [],
+          "claim_boundary": "DISCOVERY_PRIOR_ONLY",
+          "context_signature_hits": [
+            "attention"
+          ],
+          "expected_bottleneck_shifts": [
+            "Movement stalls may shift to shared-memory capacity, barriers, or tensor-core issue pressure.",
+            "Interleaving can expose non-matmul dependency latency after matrix work is hidden."
+          ],
+          "failure_modes": [
+            "Architecture-specific instructions are absent or compile to a different mechanism.",
+            "Extra buffering reduces occupancy enough to erase overlap gains.",
+            "The operator lacks enough independent work between producer and consumer roles."
+          ],
+          "family_hits": [
+            "attention-fusion"
+          ],
+          "implementation_recipe": [
+            "Split producer and consumer warp roles only after identifying independent movement and compute stages.",
+            "Double-buffer tiles and express a concrete overlap schedule rather than merely increasing pipeline depth.",
+            "Interleave non-matmul work with matrix operations only when dependencies allow it."
+          ],
+          "kind": "TRANSFORMATION",
+          "method_id": "flashattention3-async-pipeline",
+          "missing_required_capabilities": [
+            "asynchronous tensor core",
+            "tensor memory accelerator"
+          ],
+          "opportunity_signature_hits": [
+            "attention"
+          ],
+          "score": 10.0,
+          "source": {
+            "claim_scope": "Attention on NVIDIA Hopper H100; reported techniques and results do not establish transfer to other operators or architectures.",
+            "evidence_tier": "PRIMARY_PREPRINT",
+            "title": "FlashAttention-3: Fast and Accurate Attention with Asynchrony and Low-precision",
+            "url": "https://arxiv.org/abs/2407.08608",
+            "version": "arXiv:2407.08608v2"
+          },
+          "title": "Overlap data movement and compute with warp-specialized asynchronous pipelines",
+          "transfer_status": "BLOCKED_UNVERIFIED_CAPABILITY",
+          "validation_recipe": [
+            "Compare an otherwise identical non-overlapped candidate and report GPU-active time.",
+            "Audit the final binary for the expected asynchronous movement and compute instruction classes.",
+            "Measure register and shared-memory growth and test edge sequence lengths."
+          ]
+        },
+        {
+          "architecture_affinity_hits": [],
+          "candidate_archetypes": [
+            {
+              "change_axes": [
+                "mathematical decomposition",
+                "fusion boundary",
+                "intermediate ownership"
+              ],
+              "family": "operator-fission",
+              "name": "fission then selective refusion",
+              "template": "Split a compound stage into legal primitives, then fuse each primitive with the consumer that removes the most weighted materialization."
+            },
+            {
+              "change_axes": [
+                "launch count",
+                "materialized bytes",
+                "duplicated compute"
+              ],
+              "family": "cross-stage-fusion",
+              "name": "weighted orchestration frontier",
+              "template": "Implement a small Pareto set spanning minimal launches, minimal bytes, and minimal duplicated work."
+            }
+          ],
+          "claim_boundary": "DISCOVERY_PRIOR_ONLY",
+          "context_signature_hits": [
+            "fusion",
+            "operator"
+          ],
+          "expected_bottleneck_shifts": [
+            "Removing launches and intermediates can shift the kernel toward register pressure or redundant computation.",
+            "Fission can expose better fusion boundaries while increasing the orchestration search space."
+          ],
+          "failure_modes": [
+            "Greedy fusion creates a large kernel whose occupancy or instruction cache behavior regresses.",
+            "Fission duplicates expensive work or violates numerical ordering constraints.",
+            "A locally faster stage produces an incompatible downstream layout."
+          ],
+          "family_hits": [],
+          "implementation_recipe": [
+            "Decompose compound operators into legal primitive regions before selecting fusion boundaries.",
+            "Enumerate orchestration alternatives that include fission-plus-refusion, not only greedy adjacent fusion.",
+            "Score each alternative on weighted end-to-end latency and materialized bytes under explicit compatibility constraints."
+          ],
+          "kind": "ORCHESTRATION",
+          "method_id": "korch-fission-orchestration",
+          "missing_required_capabilities": [],
+          "opportunity_signature_hits": [
+            "fusion"
+          ],
+          "score": 8.0,
+          "source": {
+            "claim_scope": "Tensor-program orchestration evaluated on V100 and A100; reported speedups do not transfer directly to other workloads or devices.",
+            "evidence_tier": "PEER_REVIEWED_PRIMARY",
+            "title": "Optimal Kernel Orchestration for Tensor Programs with Korch",
+            "url": "https://arxiv.org/abs/2406.09465",
+            "version": "ASPLOS 2024 / arXiv:2406.09465v1"
+          },
+          "title": "Explore fission before choosing global kernel orchestration",
+          "transfer_status": "DIRECT",
+          "validation_recipe": [
+            "Preserve an unfused and a greedily fused control alongside the selected orchestration.",
+            "Check every workload case because the best fusion boundary may be shape dependent.",
+            "Attribute gains to removed launches/materializations and record any duplicated compute."
+          ]
+        },
+        {
+          "architecture_affinity_hits": [],
+          "candidate_archetypes": [
+            {
+              "change_axes": [
+                "thread binding",
+                "register layout",
+                "shared layout"
+              ],
+              "family": "layout-replan",
+              "name": "dataflow-fixed layout alternatives",
+              "template": "Hold tile dataflow fixed and implement coalesced, conflict-avoiding, and compute-native layouts as separate candidates."
+            },
+            {
+              "change_axes": [
+                "tile shape",
+                "warp count",
+                "pipeline depth"
+              ],
+              "family": "tile-retune",
+              "name": "resource-bounded tile frontier",
+              "template": "Choose a few tile points that represent different register/shared-memory/parallelism regimes instead of a dense sweep."
+            }
+          ],
+          "claim_boundary": "DISCOVERY_PRIOR_ONLY",
+          "context_signature_hits": [
+            "layout"
+          ],
+          "expected_bottleneck_shifts": [
+            "Larger tiles reduce redundant movement but may increase registers, shared memory, and tail waste.",
+            "Layout changes can move cost between global coalescing, shared-memory conflicts, and compute utilization."
+          ],
+          "failure_modes": [
+            "The search changes only scalar tile sizes and never explores a materially different ownership model.",
+            "A schedule wins the anchor shape but regresses weighted edge cases.",
+            "Compiler lowering does not preserve the intended tensorization or pipeline."
+          ],
+          "family_hits": [],
+          "implementation_recipe": [
+            "Write one canonical tile-level dataflow before choosing thread binding, layout, tensorization, or pipeline depth.",
+            "Generate candidates by changing one schedule axis and at least one joint schedule combination.",
+            "Keep shape guards and tail handling explicit so specialization does not silently narrow correctness."
+          ],
+          "kind": "SEARCH_STRATEGY",
+          "method_id": "tilelang-schedule-dataflow-separation",
+          "missing_required_capabilities": [],
+          "opportunity_signature_hits": [
+            "layout"
+          ],
+          "score": 6.0,
+          "source": {
+            "claim_scope": "A tiled programming abstraction evaluated across AI kernels; individual schedules still require target-specific validation.",
+            "evidence_tier": "PRIMARY_PREPRINT",
+            "title": "TileLang: A Composable Tiled Programming Model for AI Systems",
+            "url": "https://arxiv.org/abs/2504.17577",
+            "version": "arXiv:2504.17577v2"
+          },
+          "title": "Separate tiled dataflow from schedule choices",
+          "transfer_status": "DIRECT",
+          "validation_recipe": [
+            "Use the same dataflow and correctness oracle across schedule candidates.",
+            "Screen anchor and edge shapes before expanding the schedule neighborhood.",
+            "Record compiled resource usage so a faster tile is not mistaken for a universally better schedule."
+          ]
+        }
+      ],
+      "opportunity_id": "sm89-attention-kv-layout",
+      "opportunity_priority_rank": 3
+    },
+    {
+      "matches": [
+        {
+          "architecture_affinity_hits": [],
+          "candidate_archetypes": [
+            {
+              "change_axes": [
+                "memory instruction width",
+                "alignment guard",
+                "tail path"
+              ],
+              "family": "boundary-vector4",
+              "name": "aligned vector4 interior with scalar tail",
+              "template": "Use 128-bit accesses only for the aligned interior, preserve a scalar fallback, and compare final instruction counts."
+            },
+            {
+              "change_axes": [
+                "memory instruction width",
+                "register pressure"
+              ],
+              "family": "boundary-vector2",
+              "name": "aligned vector2 conservative path",
+              "template": "Use 64-bit accesses as a lower-pressure point between scalar and vector4 candidates."
+            }
+          ],
+          "claim_boundary": "DISCOVERY_PRIOR_ONLY",
+          "context_signature_hits": [
+            "memory"
+          ],
+          "expected_bottleneck_shifts": [
+            "Memory-instruction issue pressure may shift to bandwidth, register pressure, or tail handling.",
+            "Wider accesses can reduce instruction count without reducing mandatory bytes."
+          ],
+          "failure_modes": [
+            "Pointers or offsets do not satisfy vector alignment.",
+            "The compiler scalarizes the access.",
+            "Extra registers or insufficient parallelism offset the instruction reduction."
+          ],
+          "family_hits": [],
+          "implementation_recipe": [
+            "Create separate scalar, 64-bit, and 128-bit access candidates instead of assuming the widest access wins.",
+            "Guard alignment and handle the remainder with a correct scalar tail.",
+            "Keep arithmetic and launch geometry constant for the first attribution test."
+          ],
+          "kind": "TRANSFORMATION",
+          "method_id": "cuda-vectorized-memory-access",
+          "missing_required_capabilities": [],
+          "opportunity_signature_hits": [
+            "bandwidth",
+            "load",
+            "memory"
+          ],
+          "score": 12.5,
+          "source": {
+            "claim_scope": "General NVIDIA CUDA guidance; benefit depends on alignment, instruction pressure, register use, and workload.",
+            "evidence_tier": "VENDOR_OFFICIAL_GUIDANCE",
+            "title": "CUDA Pro Tip: Increase Performance with Vectorized Memory Access",
+            "url": "https://developer.nvidia.com/blog/cuda-pro-tip-increase-performance-with-vectorized-memory-access/",
+            "version": "updated 2025-08-04"
+          },
+          "title": "Use aligned vector loads and stores to reduce memory instruction pressure",
+          "transfer_status": "DIRECT",
+          "validation_recipe": [
+            "Test aligned anchor sizes and deliberately unaligned or non-divisible edge sizes.",
+            "Audit final instructions for the intended access width.",
+            "Record register use and achieved bandwidth because fewer instructions may still reduce parallelism."
+          ]
+        },
+        {
+          "architecture_affinity_hits": [],
+          "candidate_archetypes": [
+            {
+              "change_axes": [
+                "architecture family",
+                "opportunity coverage",
+                "wall-clock allocation"
+              ],
+              "family": "candidate-portfolio",
+              "name": "bounded architecture portfolio",
+              "template": "Give each distinct family one build/correctness/smoke attempt, halve the portfolio, and spend deeper analysis only on survivors."
+            }
+          ],
+          "claim_boundary": "DISCOVERY_PRIOR_ONLY",
+          "context_signature_hits": [
+            "baseline",
+            "correctness",
+            "kernel"
+          ],
+          "expected_bottleneck_shifts": [
+            "Profiling should redirect search when an intended optimization moves the bottleneck elsewhere.",
+            "Portfolio-level progress can improve even when individual candidate lines terminate earlier."
+          ],
+          "failure_modes": [
+            "The agent repeatedly tunes launch parameters after the measured bottleneck has moved.",
+            "Feedback is too verbose or unstructured to change the next architecture decision.",
+            "The search overfits a public anchor input."
+          ],
+          "family_hits": [],
+          "implementation_recipe": [
+            "Generate several architecture-distinct candidates before giving any one candidate multiple tuning rounds.",
+            "Feed compile, correctness, timing, and a compact bottleneck summary back into the next proposal.",
+            "Stop a local line after bounded failures and return to a different opportunity or architecture family."
+          ],
+          "kind": "SEARCH_STRATEGY",
+          "method_id": "kernelbench-profile-feedback",
+          "missing_required_capabilities": [],
+          "opportunity_signature_hits": [
+            "candidate",
+            "kernel"
+          ],
+          "score": 10.0,
+          "source": {
+            "claim_scope": "Benchmark evidence that execution and profiling feedback can improve iterative refinement; it does not identify a universally best search policy.",
+            "evidence_tier": "PRIMARY_PREPRINT",
+            "title": "KernelBench: Can LLMs Write Efficient GPU Kernels?",
+            "url": "https://arxiv.org/abs/2502.10517",
+            "version": "arXiv:2502.10517v1"
+          },
+          "title": "Use execution and profiling feedback as a bounded candidate-generation loop",
+          "transfer_status": "DIRECT",
+          "validation_recipe": [
+            "Track time to first correct candidate, time to first improvement, and best result at fixed wall-clock budgets.",
+            "Report correctness-plus-speed thresholds across all tasks or workload cases, not only successful examples.",
+            "Separate technical repair failures from causal performance failures."
+          ]
+        },
+        {
+          "architecture_affinity_hits": [],
+          "candidate_archetypes": [
+            {
+              "change_axes": [
+                "mathematical decomposition",
+                "fusion boundary",
+                "intermediate ownership"
+              ],
+              "family": "operator-fission",
+              "name": "fission then selective refusion",
+              "template": "Split a compound stage into legal primitives, then fuse each primitive with the consumer that removes the most weighted materialization."
+            },
+            {
+              "change_axes": [
+                "launch count",
+                "materialized bytes",
+                "duplicated compute"
+              ],
+              "family": "cross-stage-fusion",
+              "name": "weighted orchestration frontier",
+              "template": "Implement a small Pareto set spanning minimal launches, minimal bytes, and minimal duplicated work."
+            }
+          ],
+          "claim_boundary": "DISCOVERY_PRIOR_ONLY",
+          "context_signature_hits": [
+            "fusion",
+            "operator"
+          ],
+          "expected_bottleneck_shifts": [
+            "Removing launches and intermediates can shift the kernel toward register pressure or redundant computation.",
+            "Fission can expose better fusion boundaries while increasing the orchestration search space."
+          ],
+          "failure_modes": [
+            "Greedy fusion creates a large kernel whose occupancy or instruction cache behavior regresses.",
+            "Fission duplicates expensive work or violates numerical ordering constraints.",
+            "A locally faster stage produces an incompatible downstream layout."
+          ],
+          "family_hits": [],
+          "implementation_recipe": [
+            "Decompose compound operators into legal primitive regions before selecting fusion boundaries.",
+            "Enumerate orchestration alternatives that include fission-plus-refusion, not only greedy adjacent fusion.",
+            "Score each alternative on weighted end-to-end latency and materialized bytes under explicit compatibility constraints."
+          ],
+          "kind": "ORCHESTRATION",
+          "method_id": "korch-fission-orchestration",
+          "missing_required_capabilities": [],
+          "opportunity_signature_hits": [
+            "operator"
+          ],
+          "score": 8.0,
+          "source": {
+            "claim_scope": "Tensor-program orchestration evaluated on V100 and A100; reported speedups do not transfer directly to other workloads or devices.",
+            "evidence_tier": "PEER_REVIEWED_PRIMARY",
+            "title": "Optimal Kernel Orchestration for Tensor Programs with Korch",
+            "url": "https://arxiv.org/abs/2406.09465",
+            "version": "ASPLOS 2024 / arXiv:2406.09465v1"
+          },
+          "title": "Explore fission before choosing global kernel orchestration",
+          "transfer_status": "DIRECT",
+          "validation_recipe": [
+            "Preserve an unfused and a greedily fused control alongside the selected orchestration.",
+            "Check every workload case because the best fusion boundary may be shape dependent.",
+            "Attribute gains to removed launches/materializations and record any duplicated compute."
+          ]
+        }
+      ],
+      "opportunity_id": "sm89-lm-head-residual",
+      "opportunity_priority_rank": 4
+    },
+    {
+      "matches": [
+        {
+          "architecture_affinity_hits": [],
+          "candidate_archetypes": [
+            {
+              "change_axes": [
+                "mathematical decomposition",
+                "fusion boundary",
+                "intermediate ownership"
+              ],
+              "family": "operator-fission",
+              "name": "fission then selective refusion",
+              "template": "Split a compound stage into legal primitives, then fuse each primitive with the consumer that removes the most weighted materialization."
+            },
+            {
+              "change_axes": [
+                "launch count",
+                "materialized bytes",
+                "duplicated compute"
+              ],
+              "family": "cross-stage-fusion",
+              "name": "weighted orchestration frontier",
+              "template": "Implement a small Pareto set spanning minimal launches, minimal bytes, and minimal duplicated work."
+            }
+          ],
+          "claim_boundary": "DISCOVERY_PRIOR_ONLY",
+          "context_signature_hits": [
+            "fusion",
+            "operator"
+          ],
+          "expected_bottleneck_shifts": [
+            "Removing launches and intermediates can shift the kernel toward register pressure or redundant computation.",
+            "Fission can expose better fusion boundaries while increasing the orchestration search space."
+          ],
+          "failure_modes": [
+            "Greedy fusion creates a large kernel whose occupancy or instruction cache behavior regresses.",
+            "Fission duplicates expensive work or violates numerical ordering constraints.",
+            "A locally faster stage produces an incompatible downstream layout."
+          ],
+          "family_hits": [],
+          "implementation_recipe": [
+            "Decompose compound operators into legal primitive regions before selecting fusion boundaries.",
+            "Enumerate orchestration alternatives that include fission-plus-refusion, not only greedy adjacent fusion.",
+            "Score each alternative on weighted end-to-end latency and materialized bytes under explicit compatibility constraints."
+          ],
+          "kind": "ORCHESTRATION",
+          "method_id": "korch-fission-orchestration",
+          "missing_required_capabilities": [],
+          "opportunity_signature_hits": [
+            "fusion",
+            "materialization"
+          ],
+          "score": 11.0,
+          "source": {
+            "claim_scope": "Tensor-program orchestration evaluated on V100 and A100; reported speedups do not transfer directly to other workloads or devices.",
+            "evidence_tier": "PEER_REVIEWED_PRIMARY",
+            "title": "Optimal Kernel Orchestration for Tensor Programs with Korch",
+            "url": "https://arxiv.org/abs/2406.09465",
+            "version": "ASPLOS 2024 / arXiv:2406.09465v1"
+          },
+          "title": "Explore fission before choosing global kernel orchestration",
+          "transfer_status": "DIRECT",
+          "validation_recipe": [
+            "Preserve an unfused and a greedily fused control alongside the selected orchestration.",
+            "Check every workload case because the best fusion boundary may be shape dependent.",
+            "Attribute gains to removed launches/materializations and record any duplicated compute."
+          ]
+        },
+        {
+          "architecture_affinity_hits": [],
+          "candidate_archetypes": [
+            {
+              "change_axes": [
+                "architecture family",
+                "opportunity coverage",
+                "wall-clock allocation"
+              ],
+              "family": "candidate-portfolio",
+              "name": "bounded architecture portfolio",
+              "template": "Give each distinct family one build/correctness/smoke attempt, halve the portfolio, and spend deeper analysis only on survivors."
+            }
+          ],
+          "claim_boundary": "DISCOVERY_PRIOR_ONLY",
+          "context_signature_hits": [
+            "baseline",
+            "correctness",
+            "kernel"
+          ],
+          "expected_bottleneck_shifts": [
+            "Profiling should redirect search when an intended optimization moves the bottleneck elsewhere.",
+            "Portfolio-level progress can improve even when individual candidate lines terminate earlier."
+          ],
+          "failure_modes": [
+            "The agent repeatedly tunes launch parameters after the measured bottleneck has moved.",
+            "Feedback is too verbose or unstructured to change the next architecture decision.",
+            "The search overfits a public anchor input."
+          ],
+          "family_hits": [],
+          "implementation_recipe": [
+            "Generate several architecture-distinct candidates before giving any one candidate multiple tuning rounds.",
+            "Feed compile, correctness, timing, and a compact bottleneck summary back into the next proposal.",
+            "Stop a local line after bounded failures and return to a different opportunity or architecture family."
+          ],
+          "kind": "SEARCH_STRATEGY",
+          "method_id": "kernelbench-profile-feedback",
+          "missing_required_capabilities": [],
+          "opportunity_signature_hits": [
+            "kernel"
+          ],
+          "score": 7.0,
+          "source": {
+            "claim_scope": "Benchmark evidence that execution and profiling feedback can improve iterative refinement; it does not identify a universally best search policy.",
+            "evidence_tier": "PRIMARY_PREPRINT",
+            "title": "KernelBench: Can LLMs Write Efficient GPU Kernels?",
+            "url": "https://arxiv.org/abs/2502.10517",
+            "version": "arXiv:2502.10517v1"
+          },
+          "title": "Use execution and profiling feedback as a bounded candidate-generation loop",
+          "transfer_status": "DIRECT",
+          "validation_recipe": [
+            "Track time to first correct candidate, time to first improvement, and best result at fixed wall-clock budgets.",
+            "Report correctness-plus-speed thresholds across all tasks or workload cases, not only successful examples.",
+            "Separate technical repair failures from causal performance failures."
+          ]
+        },
+        {
+          "architecture_affinity_hits": [],
+          "candidate_archetypes": [
+            {
+              "change_axes": [
+                "threads per block",
+                "resident blocks",
+                "tail waves"
+              ],
+              "family": "occupancy-128",
+              "name": "smaller-block latency-hiding point",
+              "template": "Implement a 128-thread point and compare it with the current schedule using compiled resource usage and edge-size timing."
+            },
+            {
+              "change_axes": [
+                "elements per thread",
+                "register use",
+                "grid size"
+              ],
+              "family": "thread-coarsening",
+              "name": "lower-occupancy ILP point",
+              "template": "Process multiple independent elements per thread while preserving coalescing, then test whether extra ILP offsets reduced residency."
+            }
+          ],
+          "claim_boundary": "DISCOVERY_PRIOR_ONLY",
+          "context_signature_hits": [
+            "launch"
+          ],
+          "expected_bottleneck_shifts": [
+            "More resident warps can hide latency but reduce registers available for instruction-level parallelism.",
+            "Larger blocks can improve amortization while worsening tail waves or resource granularity."
+          ],
+          "failure_modes": [
+            "The search maximizes occupancy as if it were the objective.",
+            "Block size variants compile to materially different register spilling.",
+            "The anchor size hides a partial-wave regression."
+          ],
+          "family_hits": [],
+          "implementation_recipe": [
+            "Choose a few block sizes that occupy different resource regimes rather than sweeping every multiple of a warp.",
+            "Pair block-size candidates with compiled register/shared-memory usage and active-block estimates.",
+            "Include an ILP or coarsening point because lower occupancy can still win when it exposes useful independent work."
+          ],
+          "kind": "SEARCH_STRATEGY",
+          "method_id": "cuda-launch-occupancy-frontier",
+          "missing_required_capabilities": [],
+          "opportunity_signature_hits": [
+            "launch"
+          ],
+          "score": 6.5,
+          "source": {
+            "claim_scope": "General NVIDIA CUDA guidance; exact resource limits require official target-device evidence and compiled-kernel resource data.",
+            "evidence_tier": "VENDOR_OFFICIAL_GUIDANCE",
+            "title": "CUDA C++ Best Practices Guide, Execution Configuration Optimizations",
+            "url": "https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/",
+            "version": "CUDA 13.3 documentation"
+          },
+          "title": "Treat block size, occupancy, registers, and latency hiding as a joint frontier",
+          "transfer_status": "DIRECT",
+          "validation_recipe": [
+            "Measure the same candidate over anchor and edge sizes to expose wave and tail effects.",
+            "Record final register/shared-memory use and distinguish theoretical occupancy from achieved activity.",
+            "Stop when adjacent frontier points no longer change the weighted objective materially."
+          ]
+        }
+      ],
+      "opportunity_id": "sm89-normalization-epilogue-fusion",
+      "opportunity_priority_rank": 5
+    }
+  ],
+  "schema_version": "method-match-receipt-v1"
+}

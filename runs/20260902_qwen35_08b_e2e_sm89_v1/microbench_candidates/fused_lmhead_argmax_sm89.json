@@ -1,0 +1,1003 @@
+{
+  "schema_version": "sm89-fused-lmhead-argmax-screen-v1",
+  "scope": {
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "compute_capability": [
+      8,
+      9
+    ],
+    "dtype": "bfloat16",
+    "shape": [
+      1,
+      248320,
+      1024
+    ],
+    "baseline": "accepted BLOCK_N=4/8-warp lm-head, BF16 logits materialization, FP32 torch.argmax",
+    "candidate": "same BF16-rounded row scores with two-level hierarchical argmax",
+    "strict_frontier_tpot_ms": 8.079,
+    "minimum_whole_step_saving_for_1.03x_us": 235.3
+  },
+  "candidates": [
+    {
+      "block_n": 4,
+      "num_warps": 4,
+      "random_argmax_exact": true,
+      "all_zero_tie_returns_first_token": true,
+      "direct": {
+        "baseline_us": [
+          2098.9952087402344,
+          2100.9408950805664,
+          2101.19686126709,
+          2120.2943801879883,
+          2097.25284576416,
+          2106.982421875,
+          2096.076774597168,
+          2097.817611694336,
+          2099.550437927246
+        ],
+        "candidate_us": [
+          2063.7184143066406,
+          2081.380844116211,
+          2066.8399810791016,
+          2070.167922973633,
+          2068.3263778686523,
+          2073.139190673828,
+          2063.667106628418,
+          2063.607978820801,
+          2064.4287109375
+        ],
+        "orders": [
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ]
+        ],
+        "baseline_median_us": 2099.550437927246,
+        "candidate_median_us": 2066.8399810791016,
+        "speedup": 1.015826313187084,
+        "saving_us": 32.71045684814453
+      },
+      "cuda_graph": {
+        "baseline_us": [
+          2086.9632720947266,
+          2087.5776290893555,
+          2087.6800537109375,
+          2085.1200103759766,
+          2085.4272842407227,
+          2084.249687194824,
+          2084.761619567871,
+          2091.16153717041,
+          2084.351921081543
+        ],
+        "candidate_us": [
+          2058.086395263672,
+          2057.6704025268555,
+          2057.779121398926,
+          2056.857681274414,
+          2057.0112228393555,
+          2056.755256652832,
+          2057.6255798339844,
+          2056.0895919799805,
+          2056.4992904663086
+        ],
+        "orders": [
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ]
+        ],
+        "baseline_median_us": 2085.4272842407227,
+        "candidate_median_us": 2057.0112228393555,
+        "speedup": 1.013814247139665,
+        "saving_us": 28.416061401367188
+      },
+      "predicted_whole_step_speedup": 1.003529689475707,
+      "passes_3pct_materiality_floor": false
+    },
+    {
+      "block_n": 4,
+      "num_warps": 8,
+      "random_argmax_exact": true,
+      "all_zero_tie_returns_first_token": true,
+      "direct": {
+        "baseline_us": [
+          2091.8272018432617,
+          2095.257568359375,
+          2106.879997253418,
+          2099.5071411132812,
+          2094.8944091796875,
+          2095.7183837890625,
+          2099.0463256835938,
+          2094.643211364746,
+          2093.824005126953
+        ],
+        "candidate_us": [
+          2063.4111404418945,
+          2063.564872741699,
+          2063.9232635498047,
+          2063.355255126953,
+          2063.667106628418,
+          2063.5135650634766,
+          2071.39835357666,
+          2061.465644836426,
+          2063.9232635498047
+        ],
+        "orders": [
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ]
+        ],
+        "baseline_median_us": 2095.257568359375,
+        "candidate_median_us": 2063.564872741699,
+        "speedup": 1.0153582259692027,
+        "saving_us": 31.69269561767578
+      },
+      "cuda_graph": {
+        "baseline_us": [
+          2085.5295181274414,
+          2086.0368728637695,
+          2084.454345703125,
+          2082.6623916625977,
+          2082.6623916625977,
+          2082.406425476074,
+          2081.1264038085938,
+          2081.328010559082,
+          2080.512046813965
+        ],
+        "candidate_us": [
+          2056.243133544922,
+          2057.472038269043,
+          2055.7823181152344,
+          2055.936050415039,
+          2055.116844177246,
+          2055.936050415039,
+          2054.2415618896484,
+          2054.7584533691406,
+          2053.990364074707
+        ],
+        "orders": [
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ]
+        ],
+        "baseline_median_us": 2082.6623916625977,
+        "candidate_median_us": 2055.7823181152344,
+        "speedup": 1.0130753501041916,
+        "saving_us": 26.88007354736328
+      },
+      "predicted_whole_step_speedup": 1.0033382604572316,
+      "passes_3pct_materiality_floor": false
+    },
+    {
+      "block_n": 8,
+      "num_warps": 4,
+      "random_argmax_exact": true,
+      "all_zero_tie_returns_first_token": true,
+      "direct": {
+        "baseline_us": [
+          2099.9168395996094,
+          2100.0192642211914,
+          2103.80802154541,
+          2098.993682861328,
+          2099.9168395996094,
+          2095.9232330322266,
+          2104.3712615966797,
+          2094.3872451782227,
+          2095.667266845703
+        ],
+        "candidate_us": [
+          2061.105537414551,
+          2060.897636413574,
+          2063.257598876953,
+          2066.94393157959,
+          2064.486312866211,
+          2064.2303466796875,
+          2059.2639923095703,
+          2063.76953125,
+          2059.4175338745117
+        ],
+        "orders": [
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ]
+        ],
+        "baseline_median_us": 2099.9168395996094,
+        "candidate_median_us": 2063.257598876953,
+        "speedup": 1.0177676508946871,
+        "saving_us": 36.65924072265625
+      },
+      "cuda_graph": {
+        "baseline_us": [
+          2087.731170654297,
+          2084.347152709961,
+          2085.887908935547,
+          2085.990333557129,
+          2083.635139465332,
+          2083.937644958496,
+          2085.478401184082,
+          2081.7920684814453,
+          2082.3551177978516
+        ],
+        "candidate_us": [
+          2053.376007080078,
+          2053.990364074707,
+          2053.5295486450195,
+          2053.273582458496,
+          2053.376007080078,
+          2052.9151916503906,
+          2052.9151916503906,
+          2052.6079177856445,
+          2052.761650085449
+        ],
+        "orders": [
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ]
+        ],
+        "baseline_median_us": 2084.347152709961,
+        "candidate_median_us": 2053.273582458496,
+        "speedup": 1.0151336726469051,
+        "saving_us": 31.073570251464844
+      },
+      "predicted_whole_step_speedup": 1.003861065396498,
+      "passes_3pct_materiality_floor": false
+    },
+    {
+      "block_n": 8,
+      "num_warps": 8,
+      "random_argmax_exact": true,
+      "all_zero_tie_returns_first_token": true,
+      "direct": {
+        "baseline_us": [
+          2089.1103744506836,
+          2098.7903594970703,
+          2099.502372741699,
+          2101.299285888672,
+          2100.6336212158203,
+          2094.4896697998047,
+          2095.0016021728516,
+          2097.3567962646484,
+          2096.076774597168
+        ],
+        "candidate_us": [
+          2059.878349304199,
+          2061.414337158203,
+          2059.724807739258,
+          2064.179229736328,
+          2074.57275390625,
+          2059.929656982422,
+          2058.7520599365234,
+          2063.155174255371,
+          2069.2480087280273
+        ],
+        "orders": [
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ]
+        ],
+        "baseline_median_us": 2097.3567962646484,
+        "candidate_median_us": 2061.414337158203,
+        "speedup": 1.017435824743508,
+        "saving_us": 35.94245910644531
+      },
+      "cuda_graph": {
+        "baseline_us": [
+          2087.526321411133,
+          2085.5295181274414,
+          2088.2944107055664,
+          2084.454345703125,
+          2087.321662902832,
+          2086.3487243652344,
+          2084.761619567871,
+          2084.147262573242,
+          2083.4239959716797
+        ],
+        "candidate_us": [
+          2053.171157836914,
+          2055.471992492676,
+          2052.96630859375,
+          2053.47843170166,
+          2053.2224655151367,
+          2053.273582458496,
+          2052.6079177856445,
+          2053.27205657959,
+          2055.8847427368164
+        ],
+        "orders": [
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ]
+        ],
+        "baseline_median_us": 2085.5295181274414,
+        "candidate_median_us": 2053.27205657959,
+        "speedup": 1.0157102715368305,
+        "saving_us": 32.25746154785156
+      },
+      "predicted_whole_step_speedup": 1.004008760239775,
+      "passes_3pct_materiality_floor": false
+    },
+    {
+      "block_n": 16,
+      "num_warps": 4,
+      "random_argmax_exact": true,
+      "all_zero_tie_returns_first_token": true,
+      "direct": {
+        "baseline_us": [
+          2097.715187072754,
+          2103.7567138671875,
+          2097.407913208008,
+          2096.998405456543,
+          2104.0639877319336,
+          2096.2303161621094,
+          2120.6527709960938,
+          2099.7119903564453,
+          2098.329544067383
+        ],
+        "candidate_us": [
+          2087.2703552246094,
+          2088.7039184570312,
+          2083.020782470703,
+          2081.228828430176,
+          2082.6623916625977,
+          2078.668785095215,
+          2084.556770324707,
+          2077.849578857422,
+          2079.795265197754
+        ],
+        "orders": [
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ]
+        ],
+        "baseline_median_us": 2098.329544067383,
+        "candidate_median_us": 2082.6623916625977,
+        "speedup": 1.0075226558406705,
+        "saving_us": 15.667152404785156
+      },
+      "cuda_graph": {
+        "baseline_us": [
+          2086.2464904785156,
+          2086.8528366088867,
+          2089.3184661865234,
+          2086.809539794922,
+          2085.8367919921875,
+          2086.2464904785156,
+          2084.1983795166016,
+          2082.815933227539,
+          2083.072090148926
+        ],
+        "candidate_us": [
+          2068.7360763549805,
+          2067.865562438965,
+          2068.4799194335938,
+          2067.2000885009766,
+          2065.2544021606445,
+          2064.6400451660156,
+          2064.7424697875977,
+          2062.8992080688477,
+          2062.0800018310547
+        ],
+        "orders": [
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ]
+        ],
+        "baseline_median_us": 2086.2464904785156,
+        "candidate_median_us": 2065.2544021606445,
+        "speedup": 1.0101644079760388,
+        "saving_us": 20.992088317871094
+      },
+      "predicted_whole_step_speedup": 1.002605121333703,
+      "passes_3pct_materiality_floor": false
+    },
+    {
+      "block_n": 16,
+      "num_warps": 8,
+      "random_argmax_exact": true,
+      "all_zero_tie_returns_first_token": true,
+      "direct": {
+        "baseline_us": [
+          2096.7424392700195,
+          2104.0063858032227,
+          2101.094436645508,
+          2096.4351654052734,
+          2096.281623840332,
+          2096.486473083496,
+          2098.1216430664062,
+          2095.667266845703,
+          2097.5616455078125
+        ],
+        "candidate_us": [
+          2056.7039489746094,
+          2061.67049407959,
+          2058.8544845581055,
+          2064.9471282958984,
+          2058.086395263672,
+          2058.393669128418,
+          2057.823944091797,
+          2062.387275695801,
+          2061.1072540283203
+        ],
+        "orders": [
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ]
+        ],
+        "baseline_median_us": 2096.7424392700195,
+        "candidate_median_us": 2058.8544845581055,
+        "speedup": 1.0184024441727586,
+        "saving_us": 37.88795471191406
+      },
+      "cuda_graph": {
+        "baseline_us": [
+          2087.628746032715,
+          2085.887908935547,
+          2087.116813659668,
+          2085.1200103759766,
+          2084.5056533813477,
+          2084.761619567871,
+          2087.628746032715,
+          2083.3248138427734,
+          2084.351921081543
+        ],
+        "candidate_us": [
+          2052.9151916503906,
+          2051.737594604492,
+          2053.5295486450195,
+          2052.0959854125977,
+          2052.505683898926,
+          2067.148780822754,
+          2052.3008346557617,
+          2050.764846801758,
+          2050.764846801758
+        ],
+        "orders": [
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ]
+        ],
+        "baseline_median_us": 2085.1200103759766,
+        "candidate_median_us": 2052.3008346557617,
+        "speedup": 1.015991405921598,
+        "saving_us": 32.819175720214844
+      },
+      "predicted_whole_step_speedup": 1.0040788513751993,
+      "passes_3pct_materiality_floor": false
+    }
+  ],
+  "best": {
+    "block_n": 16,
+    "num_warps": 8,
+    "random_argmax_exact": true,
+    "all_zero_tie_returns_first_token": true,
+    "direct": {
+      "baseline_us": [
+        2096.7424392700195,
+        2104.0063858032227,
+        2101.094436645508,
+        2096.4351654052734,
+        2096.281623840332,
+        2096.486473083496,
+        2098.1216430664062,
+        2095.667266845703,
+        2097.5616455078125
+      ],
+      "candidate_us": [
+        2056.7039489746094,
+        2061.67049407959,
+        2058.8544845581055,
+        2064.9471282958984,
+        2058.086395263672,
+        2058.393669128418,
+        2057.823944091797,
+        2062.387275695801,
+        2061.1072540283203
+      ],
+      "orders": [
+        [
+          "baseline",
+          "candidate"
+        ],
+        [
+          "candidate",
+          "baseline"
+        ],
+        [
+          "baseline",
+          "candidate"
+        ],
+        [
+          "candidate",
+          "baseline"
+        ],
+        [
+          "baseline",
+          "candidate"
+        ],
+        [
+          "candidate",
+          "baseline"
+        ],
+        [
+          "baseline",
+          "candidate"
+        ],
+        [
+          "candidate",
+          "baseline"
+        ],
+        [
+          "baseline",
+          "candidate"
+        ]
+      ],
+      "baseline_median_us": 2096.7424392700195,
+      "candidate_median_us": 2058.8544845581055,
+      "speedup": 1.0184024441727586,
+      "saving_us": 37.88795471191406
+    },
+    "cuda_graph": {
+      "baseline_us": [
+        2087.628746032715,
+        2085.887908935547,
+        2087.116813659668,
+        2085.1200103759766,
+        2084.5056533813477,
+        2084.761619567871,
+        2087.628746032715,
+        2083.3248138427734,
+        2084.351921081543
+      ],
+      "candidate_us": [
+        2052.9151916503906,
+        2051.737594604492,
+        2053.5295486450195,
+        2052.0959854125977,
+        2052.505683898926,
+        2067.148780822754,
+        2052.3008346557617,
+        2050.764846801758,
+        2050.764846801758
+      ],
+      "orders": [
+        [
+          "baseline",
+          "candidate"
+        ],
+        [
+          "candidate",
+          "baseline"
+        ],
+        [
+          "baseline",
+          "candidate"
+        ],
+        [
+          "candidate",
+          "baseline"
+        ],
+        [
+          "baseline",
+          "candidate"
+        ],
+        [
+          "candidate",
+          "baseline"
+        ],
+        [
+          "baseline",
+          "candidate"
+        ],
+        [
+          "candidate",
+          "baseline"
+        ],
+        [
+          "baseline",
+          "candidate"
+        ]
+      ],
+      "baseline_median_us": 2085.1200103759766,
+      "candidate_median_us": 2052.3008346557617,
+      "speedup": 1.015991405921598,
+      "saving_us": 32.819175720214844
+    },
+    "predicted_whole_step_speedup": 1.0040788513751993,
+    "passes_3pct_materiality_floor": false
+  },
+  "decision": "STOP_BELOW_MATERIALITY_OR_CORRECTNESS_GATE"
+}

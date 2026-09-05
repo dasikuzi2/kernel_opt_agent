@@ -1,0 +1,53 @@
+{
+  "schema_version": "vllm-runtime-orchestration-audit-v1",
+  "status": "ASYNC_SCHEDULING_ALREADY_ACTIVE",
+  "scope": "Qwen3.5-0.8B, local RTX 4060 Laptop SM89, vLLM 0.28.1rc1.dev312+g41848caa6, V1 model runner compatibility path",
+  "method": "Read-only EngineArgs.create_engine_config construction with the same model, dtype and compatibility environment as the benchmark. No model weights were loaded and no performance claim is derived from this configuration probe.",
+  "environment": {
+    "VLLM_USE_V2_MODEL_RUNNER": "0",
+    "VLLM_USE_FLASHINFER_SAMPLER": "0",
+    "model": "/home/aden/models/Qwen3.5-0.8B",
+    "dtype": "bfloat16",
+    "max_model_len": 4096,
+    "language_model_only": true,
+    "enable_prefix_caching": false
+  },
+  "observed_config": {
+    "use_v2_model_runner": false,
+    "async_scheduling": true,
+    "scheduler_class": "vllm.v1.core.sched.async_scheduler.AsyncScheduler",
+    "distributed_executor_backend": "uni",
+    "max_concurrent_batches": 2
+  },
+  "source_identity": {
+    "vllm_config_vllm_py_sha256": "81eb103bc0642af8e308f488d6ff1840034f657ff8fe1faebd5f7053858db7da",
+    "vllm_config_scheduler_py_sha256": "f1f70b83527ee2ccc78bf186d418739d2616de1f96834ad0bbb65f42b6a41787",
+    "benchmark_vllm_offline_py_sha256": "a453936945e2487232f9c4f881a32bc1c8ede8f161dccb3c30faaadc549f2bc7"
+  },
+  "related_profile": {
+    "path": "vllm_fp8_rerank_decode_cadence_bound.json",
+    "sha256": "4bc86a18b42af66d82c6f2d2ab48975e45cace3fefdb12eb1b776734c328219e",
+    "weighted_tpot_ms": 4.2601278763213095,
+    "standalone_kernel_ms_per_generated_step": 1.1928250885416667,
+    "graph_replay_ms_per_generated_step": 2.8241959270833337,
+    "observed_gpu_activity_ms_per_generated_step_upper_bound": 4.017021015625001,
+    "outside_observed_gpu_activity_ms_per_token_lower_bound": 0.24310686069630894,
+    "within_request_gpu_busy_union_mean_ms": 3.9666572944444445,
+    "within_request_graph_trace_start_cadence_mean_ms": 4.308937338888889,
+    "within_request_gpu_idle_mean_ms": 0.34228004444444443,
+    "within_request_gpu_idle_fraction_of_graph_trace_start_cadence": 0.07943490877792747,
+    "graph_launch_start_cadence_median_ms": 4.249069
+  },
+  "interpretation": [
+    "The current benchmark did not leave vLLM's async scheduler disabled: vLLM automatically selected AsyncScheduler and a two-batch in-flight queue even on the V1 model-runner compatibility path.",
+    "The original KERNEL-table-only interpretation omitted 186 CUDA Graph replay bodies totaling 542.246 ms and falsely assigned roughly 72% of TPOT outside kernels. The corrected conservative decomposition leaves only 0.243 ms/token (5.71%) outside observed GPU activity; direct interval unions find 3.967 ms GPU-busy and 0.342 ms GPU-idle on average between adjacent within-request graph starts.",
+    "A no-async versus async benchmark would measure the value of an already-enabled vLLM feature, not produce a candidate that beats stock vLLM.",
+    "The V2 runner remains unavailable in this WSL environment because its UVA precondition failed. That is an environment limitation, not evidence that a V2 runner would achieve a particular speedup."
+  ],
+  "decision": {
+    "async_toggle_search": "CLOSE_AS_ALREADY_ENABLED",
+    "kernel_only_search": "DO_NOT_REOPEN_FROM_OUTSIDE_KERNEL_FRACTION_ALONE",
+    "next_architecture_gate": "Only reopen runtime orchestration for a mechanism that changes the dependency chain, such as device-resident multi-token execution or a runner path that is demonstrably available, and require a predicted whole-step gain of at least 3% before implementation."
+  },
+  "global_optimum_proven": false
+}

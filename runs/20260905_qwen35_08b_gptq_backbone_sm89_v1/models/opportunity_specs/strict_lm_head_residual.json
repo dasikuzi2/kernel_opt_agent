@@ -1,0 +1,16 @@
+{
+  "opportunity_id": "sm89-stock-token-exact-lm-head",
+  "name": "Reduce the output head without changing stock GPTQ token identity",
+  "model_scope": "CURRENT_SCHEDULE",
+  "source_model_term": "One clearly separated full-vocabulary Marlin-class output-head launch per token decision",
+  "affected_stages": ["lm-head", "sampling-boundary"],
+  "current_contribution_us": 849.8807447916666,
+  "optimistic_gain_ceiling_us": 80.0,
+  "likely_gain_interval_us": {"lower": 0.0, "upper": 20.0},
+  "confidence": "LOW",
+  "rewrite_families": ["exact-reduction-specialization", "lossless-weight-layout"],
+  "implementation_budget_minutes": 30,
+  "hypothesis": "A stock-token-exact output-head schedule may save a small residual, but approximate shortlist and W4-only rewrites are forbidden by this run's contract.",
+  "derivation": "The output-head stratum is 0.850 ms per decision, but earlier approximate candidates changed broad-input behavior; the likely interval is therefore capped at 20 us until an exact reduction-order mechanism exists.",
+  "evidence": [{"path": "models/round37_imported_evidence.json", "sha256": "708cc8587a5e928ffa0d7355480d271768e57b9aedf95f0c8adf2ca52d51e8fc", "claim": "The duration stratum is separated by 21.1x and the new operator contract forbids approximate replacement."}]
+}

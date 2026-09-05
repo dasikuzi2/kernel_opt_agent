@@ -1,0 +1,239 @@
+{
+  "schema_version": "serving-policy-v1",
+  "status": "BOUNDED_MEASURED_POLICY_NOT_GLOBAL_OPTIMUM",
+  "deployment_point": {
+    "model": "Qwen3.5-0.8B-W4A16-AutoRound-GPTQ-g128",
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU, SM89",
+    "engine": "vLLM 0.28.1rc1.dev312+g41848caa6",
+    "decode": "greedy, 64 generated tokens",
+    "scope": "steady-state service after engine initialization"
+  },
+  "policy_input": {
+    "path": "gptq_serving_policy_spec.json",
+    "sha256": "c884d56b23e86c56dc2d118970b82b3f54bc80abd1c70fb65fb64778e6b23b7b"
+  },
+  "identity": {
+    "model": "/home/aden/models/Qwen3.5-0.8B-W4A16-AutoRound-GPTQ-g128",
+    "workload_identity": {
+      "harness_sha256": "36af89e52a4d868addc706f36eb927d3276f1b6abc5c5e1d6157813c31e46d64",
+      "prompt_token_ids_sha256": [
+        "1a27d458b872af262ee4fbf54ed5f0905fa226dd11ef651d2cb87471b77d3661",
+        "7f91dbb7096b79e8f0a26e548f74e96de812d6317de7facbae3f1036bf8ab0ef",
+        "30128ca05fabd8b0db235be1db9331bf298cacdea88eebd80808186011403ef9",
+        "bae053209ffcf1cf3764f548d02f2832ffa86aed6454e18d07e01f93dcc48536",
+        "441471a4c957b7af9d6b33ffa13da05a8fc637dca0ba1c71974b579c74915d88",
+        "061d29e0385385bee10b9b5dc6a7dcc429f194c69f8eaf11377baffc126f7242"
+      ],
+      "prompt_count": 6,
+      "request_selection": "prompt[(iteration + request_index) % prompt_count]"
+    },
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "vllm": "0.28.1rc1.dev312+g41848caa6",
+    "torch": "2.13.0+cu130",
+    "cuda": "13.0",
+    "controls": {
+      "quantization": "gptq_marlin",
+      "new_tokens": 64,
+      "warmups": 1,
+      "trials": 3,
+      "ignore_eos": true,
+      "sampling": "greedy",
+      "case_order": "batch sizes forward/reverse by trial"
+    },
+    "batch_sizes": [
+      1,
+      2,
+      4,
+      8
+    ]
+  },
+  "global_optimum_proven": false,
+  "routes": [
+    {
+      "numerical_contract": "stock_gptq_token_identity",
+      "active_decode_batch": 1,
+      "route": "stock_vllm_gptq_marlin",
+      "reason": "The 512-case quality authority shows only 457/512 sequence identity, so rerank is inadmissible under stock-token identity."
+    },
+    {
+      "numerical_contract": "stock_gptq_token_identity",
+      "active_decode_batch": 2,
+      "route": "stock_vllm_gptq_marlin",
+      "reason": "The 512-case quality authority shows only 457/512 sequence identity, so rerank is inadmissible under stock-token identity."
+    },
+    {
+      "numerical_contract": "stock_gptq_token_identity",
+      "active_decode_batch": 4,
+      "route": "stock_vllm_gptq_marlin",
+      "reason": "The 512-case quality authority shows only 457/512 sequence identity, so rerank is inadmissible under stock-token identity."
+    },
+    {
+      "numerical_contract": "stock_gptq_token_identity",
+      "active_decode_batch": 8,
+      "route": "stock_vllm_gptq_marlin",
+      "reason": "The 512-case quality authority shows only 457/512 sequence identity, so rerank is inadmissible under stock-token identity."
+    },
+    {
+      "numerical_contract": "approximate_w4_greedy_quality_bounded",
+      "active_decode_batch": 1,
+      "route": "gptq_marlin_w4_scan_plus_bf16_top128_rerank",
+      "reason": "candidate clears conservative speedup and numerical-contract gates",
+      "measured_conservative_speedup_over_baseline": 1.4198914087888317
+    },
+    {
+      "numerical_contract": "approximate_w4_greedy_quality_bounded",
+      "active_decode_batch": 2,
+      "route": "gptq_marlin_w4_scan_plus_bf16_top128_rerank",
+      "reason": "candidate clears conservative speedup and numerical-contract gates",
+      "measured_conservative_speedup_over_baseline": 1.1547272712531187
+    },
+    {
+      "numerical_contract": "approximate_w4_greedy_quality_bounded",
+      "active_decode_batch": 4,
+      "route": "stock_vllm_gptq_marlin",
+      "reason": "gptq_marlin_w4_scan_plus_bf16_top128_rerank: speedup below threshold"
+    },
+    {
+      "numerical_contract": "approximate_w4_greedy_quality_bounded",
+      "active_decode_batch": 8,
+      "route": "stock_vllm_gptq_marlin",
+      "reason": "gptq_marlin_w4_scan_plus_bf16_top128_rerank: speedup below threshold"
+    }
+  ],
+  "evidence": {
+    "contract:stock_gptq_token_identity": {
+      "contract_inputs": [
+        {
+          "path": "../comparisons/vllm_gptq_marlin_w4_stock_vs_mv_rerank_quality_gsm8k_n512.json",
+          "sha256": "18363dc90488e7a5110e4d25fb5a16b5777860a8ead5b14d3e54d72728dc61f9"
+        }
+      ]
+    },
+    "contract:approximate_w4_greedy_quality_bounded": {
+      "contract_inputs": [
+        {
+          "path": "../comparisons/vllm_gptq_marlin_w4_stock_vs_mv_rerank_quality_gsm8k_n512.json",
+          "sha256": "18363dc90488e7a5110e4d25fb5a16b5777860a8ead5b14d3e54d72728dc61f9"
+        }
+      ]
+    },
+    "approximate_w4_greedy_quality_bounded:gptq_marlin_w4_scan_plus_bf16_top128_rerank": {
+      "baseline_inputs": [
+        {
+          "path": "../traces/vllm_gptq_prod_stock_a_service_curve.json",
+          "sha256": "94d195bc05e0b64bc5799e5a67af11ccaeee222ffad65dd456ac0ff77289beec"
+        },
+        {
+          "path": "../traces/vllm_gptq_prod_stock_b_service_curve.json",
+          "sha256": "d6ec9e48fdff1c487a71439c2129211626b5ac58c912d2a447868d1fc85f6455"
+        }
+      ],
+      "baseline_challenger_inputs": [
+        {
+          "path": "../traces/vllm_gptq_stock_service_curve_b1_b2_b4_b8.json",
+          "sha256": "fe097dc4cc627977fd2c615efb7fc4141433303a46309f56c4d4197b6118f1ee",
+          "use": "BASELINE_ENVELOPE_VETO_ONLY"
+        },
+        {
+          "path": "../traces/vllm_gptq_stock_service_curve_repeat_same_cache_b1_b2_b4_b8.json",
+          "sha256": "b8f3461560b9bfc138004b999ac89ec17e0c9b7a3f3e5dac1e8d9518e3a321e8",
+          "use": "BASELINE_ENVELOPE_VETO_ONLY"
+        }
+      ],
+      "candidate_inputs": [
+        {
+          "path": "../traces/vllm_gptq_prod_candidate_a_service_curve.json",
+          "sha256": "ed5eb8402ee1208be1f1e50a396ea2fbc8528d3ec51926b55ae73c1a2787f63a"
+        },
+        {
+          "path": "../traces/vllm_gptq_prod_candidate_b_service_curve.json",
+          "sha256": "7c7c270ab0621cd17f675857e1652ef442d629290fc90e741eb2d8f8d2e77b4b"
+        }
+      ],
+      "candidate_lifecycle_inputs": [
+        {
+          "path": "../candidates/marlin-w4-bf16-shortlist-rerank/vllm_utils_marlin_w4_bf16_shortlist_rerank.patch",
+          "sha256": "2d2f2e53e23f587609c63474345212aa8c90ed64187bf923ebb5a43e10906078"
+        },
+        {
+          "path": "../comparisons/vllm_gptq_marlin_w4_stock_vs_mv_rerank_quality_gsm8k_n512.json",
+          "sha256": "18363dc90488e7a5110e4d25fb5a16b5777860a8ead5b14d3e54d72728dc61f9"
+        }
+      ],
+      "by_batch": {
+        "1": {
+          "baseline_conservative_tps": 124.66996985778368,
+          "candidate_conservative_tps": 177.01781913502967,
+          "conservative_speedup": 1.4198914087888317,
+          "correctness": {
+            "exact_requests": 8,
+            "request_count": 12,
+            "exact_tokens": 684,
+            "token_count": 768,
+            "all_requests_exact": false,
+            "token_identity_fraction": 0.890625
+          }
+        },
+        "2": {
+          "baseline_conservative_tps": 281.75677657121946,
+          "candidate_conservative_tps": 325.3522337671589,
+          "conservative_speedup": 1.1547272712531187,
+          "correctness": {
+            "exact_requests": 20,
+            "request_count": 24,
+            "exact_tokens": 1476,
+            "token_count": 1536,
+            "all_requests_exact": false,
+            "token_identity_fraction": 0.9609375
+          }
+        },
+        "4": {
+          "baseline_conservative_tps": 546.7468912392798,
+          "candidate_conservative_tps": 483.26187479126884,
+          "conservative_speedup": 0.8838859123567889,
+          "correctness": {
+            "exact_requests": 39,
+            "request_count": 48,
+            "exact_tokens": 2907,
+            "token_count": 3072,
+            "all_requests_exact": false,
+            "token_identity_fraction": 0.9462890625
+          }
+        },
+        "8": {
+          "baseline_conservative_tps": 928.5315857812509,
+          "candidate_conservative_tps": 894.0121933891626,
+          "conservative_speedup": 0.9628236745839461,
+          "correctness": {
+            "exact_requests": 76,
+            "request_count": 96,
+            "exact_tokens": 5837,
+            "token_count": 6144,
+            "all_requests_exact": false,
+            "token_identity_fraction": 0.9500325520833334
+          }
+        }
+      }
+    }
+  },
+  "hard_gates": [
+    "all qualification traces PASS and share model, hardware, software, workload and batch identities",
+    "qualification-trace guarded source hashes are present and identical",
+    "VLLM_CACHE_ROOT expected/actual identity is proven and roots are isolated",
+    "runtime switches match the intended implementation",
+    "candidate prepack and JIT lifecycle requirements are ready before service",
+    "candidate selection uses minimum candidate throughput over maximum baseline throughput",
+    "older or less-qualified baseline evidence may raise the bar or veto a candidate but can never promote one",
+    "stock-token identity is checked from paired measured generated token IDs"
+  ],
+  "limitations": [
+    "The result selects only among stock GPTQ-Marlin and one top-128 rerank implementation; it is not a theoretical or global optimum proof.",
+    "The rerank implementation remains an opt-in approximate greedy mode because the GSM8K-512 comparison is not token-identical.",
+    "The implementation now uses vLLM production GPTQ quantization, row packing, Marlin repacking and scale permutation APIs; no test helper is imported.",
+    "The dense tied weight must remain available to the input embedding and BF16 shortlist rerank; a prepacked sidecar removes online conversion time but cannot remove the roughly 0.14 GiB packed-representation overhead.",
+    "Removing the dense tied table requires a separate quantized-embedding/output candidate and a new quality contract; it is not merely a checkpoint-format change.",
+    "Online load-time packing adds roughly two to three seconds before service; the separately screened SHA-bound sidecar removes most of that conversion cost while retaining the same steady-state tensors.",
+    "Two guarded runs per implementation do not fully characterize power, clock, prompt-distribution, sampling, or long-horizon variance.",
+    "The result applies only to the frozen model, GPU, software stack, decode mode, output length, and batch points."
+  ]
+}

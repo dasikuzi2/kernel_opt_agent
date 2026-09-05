@@ -1,0 +1,31 @@
+{
+  "schema_version": "sm89-exact-vocab-pruning-stop-v1",
+  "candidate": "Certified exact vocabulary pruning for the BF16 lm-head",
+  "scope": "Qwen3.5-0.8B, vocabulary 248320, hidden size 1024, RTX 4060 Laptop SM89, 192 real autoregressive decode states",
+  "mechanism": "Cluster vocabulary rows offline and use blockwise L2 residual bounds to skip clusters that provably cannot contain the top-1 token. Also evaluate the stronger but non-executable oracle test that knows the true top-1 score and filters each row by its individual norm bound.",
+  "correctness": {
+    "all_empirical_cluster_bounds_valid": true,
+    "maximum_observed_bound_violation": 0.0,
+    "all_true_winner_clusters_survive": true
+  },
+  "measured_feasibility": {
+    "queries": 192,
+    "clusters": 256,
+    "executable_median_surviving_row_fraction": 0.9997342139175258,
+    "executable_median_total_byte_fraction": 1.0018282860824743,
+    "oracle_row_norm_median_surviving_row_fraction": 1.0,
+    "oracle_row_norm_p90_surviving_row_fraction": 1.0,
+    "oracle_row_norm_median_total_byte_fraction": 1.001953125,
+    "optimistic_whole_step_speedup": 0.999534602311072,
+    "oracle_row_norm_optimistic_whole_step_speedup": 0.9995028398536622
+  },
+  "interpretation": "The certified cluster index skips only about 0.027% of rows and costs more bytes than dense scoring. Even an oracle supplied with the true winning score cannot eliminate one row using the per-row Cauchy-Schwarz norm bound. No GPU implementation can recover a material gain from these bounds on this workload.",
+  "evidence": {
+    "analysis": "models/sm89_exact_vocab_pruning_feasibility.json",
+    "analysis_sha256": "631bb981554c153f37b56624da2bd44f6743fae40ab639b86d710f51ab25bb6d",
+    "tool": "tools/analyze_exact_vocab_pruning.py",
+    "tool_sha256": "7ddc0b4aeb434bcb260d556157e174460309819e0d63d8eb2a2519b8aed4594f"
+  },
+  "decision": "MEASURED_REJECT_EXACT_BOUNDS_TOO_LOOSE",
+  "stop_rule": "Do not implement these cluster or row-norm bounds on GPU. Reopen only for a materially tighter certified index whose p90 total-byte fraction is at most 0.75 on a larger hidden-state corpus."
+}

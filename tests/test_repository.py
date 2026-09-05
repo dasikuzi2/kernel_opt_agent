@@ -205,6 +205,12 @@ def main():
 
     cli_help = run([sys.executable, str(ROOT / "scripts/kernel_opt.py"), "--help"])
     assert "new-run" in cli_help.stdout and "experiment-execute" in cli_help.stdout
+    with tempfile.TemporaryDirectory() as temporary:
+        failed_cli = run([
+            sys.executable, str(ROOT / "scripts/kernel_opt.py"), "candidate", "status",
+            "--run", str(Path(temporary) / "missing-run"),
+        ], expected=1)
+        assert "candidate pool is missing" in failed_cli.stderr
 
     report_fixture = ROOT / "tests/fixtures/human_review_report.json"
     run([
@@ -231,6 +237,22 @@ def main():
 
     with tempfile.TemporaryDirectory() as temporary:
         root = Path(temporary)
+        invalid_operator = json.loads((ROOT / "tests/fixtures/operator.json").read_text())
+        invalid_operator["inputs"][0]["shape"] = "[invalid-string-shape]"
+        invalid_operator_path = root / "invalid-operator.json"
+        invalid_operator_path.write_text(json.dumps(invalid_operator))
+        invalid = run([
+            sys.executable, str(ROOT / "scripts/new_run.py"),
+            "--root", str(root), "--run-id", "invalid-intake",
+            "--operator", str(invalid_operator_path),
+            "--workload", str(ROOT / "tests/fixtures/workload.json"),
+            "--hardware", str(ROOT / "tests/fixtures/hardware.json"),
+            "--test-legacy-contract",
+        ], expected=1)
+        assert "intake schema validation failed" in invalid.stderr
+        assert not (root / "runs/invalid-intake").exists()
+        invalid_operator_path.unlink()
+
         complete = run([
             sys.executable, str(ROOT / "scripts/new_run.py"),
             "--root", str(root), "--run-id", "self-test",
@@ -1217,7 +1239,9 @@ def main():
             sys.executable, str(ROOT / "scripts/optimizer_step.py"),
             "--run", str(strict_run),
         ])
-        assert json.loads(next_action.stdout)["action"] == "DISCOVER_FINAL_BINARY_RESOURCES"
+        assert (strict_run / "models/candidate_pool.json").is_file()
+        assert (strict_run / "models/opportunity_map.json").is_file()
+        assert json.loads(next_action.stdout)["action"] == "CAPTURE_DISCOVERY_BASELINE"
         strict_gate = run([
             sys.executable, str(ROOT / "scripts/advance_run.py"),
             "--run", str(strict_run), "--to", "BASELINE", "--check-only",

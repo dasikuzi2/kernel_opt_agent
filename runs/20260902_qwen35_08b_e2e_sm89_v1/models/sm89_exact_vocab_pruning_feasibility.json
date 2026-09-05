@@ -1,0 +1,725 @@
+{
+  "schema_version": "qwen35-exact-vocab-pruning-feasibility-v1",
+  "status": "PASS",
+  "scope": {
+    "model": "/home/aden/models/Qwen3.5-0.8B",
+    "config_sha256": "b90b86f35c8e6925ef74ee04d0e758f0a845c83a42089ad82bbaa948de9b4204",
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "dtype": "bfloat16 model and hidden states; FP32 offline index construction and conservative bounds",
+    "weight_shape": [
+      248320,
+      1024
+    ],
+    "queries": 192,
+    "cases": 6,
+    "generated_tokens_per_case": 32
+  },
+  "index": {
+    "clusters": 256,
+    "block_dims": 64,
+    "blocks": 16,
+    "kmeans_iterations": 4,
+    "mean_squared_objective_by_iteration": [
+      0.3537987237124099,
+      0.3142565864877602,
+      0.3083447603835273,
+      0.3057313742096891
+    ],
+    "final_mean_squared_objective": 0.30256813334435534,
+    "minimum_cluster_rows": 1,
+    "median_cluster_rows": 146.0,
+    "maximum_cluster_rows": 68820,
+    "maximum_block_radius": 0.34724774956703186
+  },
+  "correctness": {
+    "all_empirical_group_bounds_valid": true,
+    "maximum_observed_bound_violation": 0.0,
+    "all_true_winner_clusters_survive_executable_bound": true,
+    "representative_seed_top1_hit_rate": 0.0
+  },
+  "distributions": {
+    "top1_margin_bf16": {
+      "min": 0.0,
+      "p10": 0.25,
+      "median": 2.1875,
+      "p90": 8.406250000000002,
+      "max": 12.0,
+      "mean": 3.2366536458333335
+    },
+    "oracle_surviving_row_fraction": {
+      "min": 0.9996778350515464,
+      "p10": 0.9997261597938144,
+      "median": 0.9997342139175258,
+      "p90": 0.9997342139175258,
+      "max": 0.9997342139175258,
+      "mean": 0.9997325359750859
+    },
+    "executable_surviving_row_fraction": {
+      "min": 0.9997342139175258,
+      "p10": 0.9997342139175258,
+      "median": 0.9997342139175258,
+      "p90": 0.9997382409793815,
+      "max": 0.9997422680412371,
+      "mean": 0.9997351577601482
+    },
+    "executable_total_byte_fraction": {
+      "min": 1.0018282860824743,
+      "p10": 1.0018282860824743,
+      "median": 1.0018282860824743,
+      "p90": 1.0018323131443299,
+      "max": 1.0018363402061856,
+      "mean": 1.0018292299250968
+    },
+    "oracle_row_norm_surviving_fraction": {
+      "min": 1.0,
+      "p10": 1.0,
+      "median": 1.0,
+      "p90": 1.0,
+      "max": 1.0,
+      "mean": 1.0
+    },
+    "oracle_row_norm_total_byte_fraction": {
+      "min": 1.001953125,
+      "p10": 1.001953125,
+      "median": 1.001953125,
+      "p90": 1.001953125,
+      "max": 1.001953125,
+      "mean": 1.001953125
+    },
+    "surviving_cluster_fraction": {
+      "min": 0.7421875,
+      "p10": 0.7421875,
+      "median": 0.7421875,
+      "p90": 0.74609375,
+      "max": 0.75,
+      "mean": 0.74310302734375
+    },
+    "bound_violation": {
+      "min": 0.0,
+      "p10": 0.0,
+      "median": 0.0,
+      "p90": 0.0,
+      "max": 0.0,
+      "mean": 0.0
+    }
+  },
+  "per_case": {
+    "zh-explanation": {
+      "top1_margin_bf16": {
+        "min": 0.0,
+        "p10": 0.25,
+        "median": 1.1875,
+        "p90": 4.175000000000002,
+        "max": 6.625,
+        "mean": 1.73046875
+      },
+      "oracle_surviving_row_fraction": {
+        "min": 0.9997342139175258,
+        "p10": 0.9997342139175258,
+        "median": 0.9997342139175258,
+        "p90": 0.9997342139175258,
+        "max": 0.9997342139175258,
+        "mean": 0.9997342139175258
+      },
+      "executable_surviving_row_fraction": {
+        "min": 0.9997342139175258,
+        "p10": 0.9997342139175258,
+        "median": 0.9997342139175258,
+        "p90": 0.9997382409793815,
+        "max": 0.9997382409793815,
+        "mean": 0.9997353465286727
+      },
+      "executable_total_byte_fraction": {
+        "min": 1.0018282860824743,
+        "p10": 1.0018282860824743,
+        "median": 1.0018282860824743,
+        "p90": 1.0018323131443299,
+        "max": 1.0018323131443299,
+        "mean": 1.0018294186936212
+      },
+      "oracle_row_norm_surviving_fraction": {
+        "min": 1.0,
+        "p10": 1.0,
+        "median": 1.0,
+        "p90": 1.0,
+        "max": 1.0,
+        "mean": 1.0
+      },
+      "oracle_row_norm_total_byte_fraction": {
+        "min": 1.001953125,
+        "p10": 1.001953125,
+        "median": 1.001953125,
+        "p90": 1.001953125,
+        "max": 1.001953125,
+        "mean": 1.001953125
+      },
+      "surviving_cluster_fraction": {
+        "min": 0.7421875,
+        "p10": 0.7421875,
+        "median": 0.7421875,
+        "p90": 0.74609375,
+        "max": 0.74609375,
+        "mean": 0.7432861328125
+      },
+      "bound_violation": {
+        "min": 0.0,
+        "p10": 0.0,
+        "median": 0.0,
+        "p90": 0.0,
+        "max": 0.0,
+        "mean": 0.0
+      }
+    },
+    "python-code": {
+      "top1_margin_bf16": {
+        "min": 0.0,
+        "p10": 0.1375,
+        "median": 3.6875,
+        "p90": 8.9875,
+        "max": 10.5,
+        "mean": 4.37109375
+      },
+      "oracle_surviving_row_fraction": {
+        "min": 0.9997342139175258,
+        "p10": 0.9997342139175258,
+        "median": 0.9997342139175258,
+        "p90": 0.9997342139175258,
+        "max": 0.9997342139175258,
+        "mean": 0.9997342139175258
+      },
+      "executable_surviving_row_fraction": {
+        "min": 0.9997342139175258,
+        "p10": 0.9997342139175258,
+        "median": 0.9997342139175258,
+        "p90": 0.9997382409793815,
+        "max": 0.9997382409793815,
+        "mean": 0.9997348431459407
+      },
+      "executable_total_byte_fraction": {
+        "min": 1.0018282860824743,
+        "p10": 1.0018282860824743,
+        "median": 1.0018282860824743,
+        "p90": 1.0018323131443299,
+        "max": 1.0018323131443299,
+        "mean": 1.0018289153108892
+      },
+      "oracle_row_norm_surviving_fraction": {
+        "min": 1.0,
+        "p10": 1.0,
+        "median": 1.0,
+        "p90": 1.0,
+        "max": 1.0,
+        "mean": 1.0
+      },
+      "oracle_row_norm_total_byte_fraction": {
+        "min": 1.001953125,
+        "p10": 1.001953125,
+        "median": 1.001953125,
+        "p90": 1.001953125,
+        "max": 1.001953125,
+        "mean": 1.001953125
+      },
+      "surviving_cluster_fraction": {
+        "min": 0.7421875,
+        "p10": 0.7421875,
+        "median": 0.7421875,
+        "p90": 0.74609375,
+        "max": 0.74609375,
+        "mean": 0.7427978515625
+      },
+      "bound_violation": {
+        "min": 0.0,
+        "p10": 0.0,
+        "median": 0.0,
+        "p90": 0.0,
+        "max": 0.0,
+        "mean": 0.0
+      }
+    },
+    "reasoning": {
+      "top1_margin_bf16": {
+        "min": 0.125,
+        "p10": 0.2625,
+        "median": 3.0,
+        "p90": 9.450000000000001,
+        "max": 11.375,
+        "mean": 3.97265625
+      },
+      "oracle_surviving_row_fraction": {
+        "min": 0.9997181056701031,
+        "p10": 0.9997261597938144,
+        "median": 0.9997342139175258,
+        "p90": 0.9997342139175258,
+        "max": 0.9997342139175258,
+        "mean": 0.9997324520779639
+      },
+      "executable_surviving_row_fraction": {
+        "min": 0.9997342139175258,
+        "p10": 0.9997342139175258,
+        "median": 0.9997342139175258,
+        "p90": 0.9997382409793815,
+        "max": 0.9997382409793815,
+        "mean": 0.9997350948373067
+      },
+      "executable_total_byte_fraction": {
+        "min": 1.0018282860824743,
+        "p10": 1.0018282860824743,
+        "median": 1.0018282860824743,
+        "p90": 1.0018323131443299,
+        "max": 1.0018323131443299,
+        "mean": 1.0018291670022552
+      },
+      "oracle_row_norm_surviving_fraction": {
+        "min": 1.0,
+        "p10": 1.0,
+        "median": 1.0,
+        "p90": 1.0,
+        "max": 1.0,
+        "mean": 1.0
+      },
+      "oracle_row_norm_total_byte_fraction": {
+        "min": 1.001953125,
+        "p10": 1.001953125,
+        "median": 1.001953125,
+        "p90": 1.001953125,
+        "max": 1.001953125,
+        "mean": 1.001953125
+      },
+      "surviving_cluster_fraction": {
+        "min": 0.7421875,
+        "p10": 0.7421875,
+        "median": 0.7421875,
+        "p90": 0.74609375,
+        "max": 0.74609375,
+        "mean": 0.7430419921875
+      },
+      "bound_violation": {
+        "min": 0.0,
+        "p10": 0.0,
+        "median": 0.0,
+        "p90": 0.0,
+        "max": 0.0,
+        "mean": 0.0
+      }
+    },
+    "editing": {
+      "top1_margin_bf16": {
+        "min": 0.125,
+        "p10": 0.25,
+        "median": 1.625,
+        "p90": 8.100000000000001,
+        "max": 12.0,
+        "mean": 3.015625
+      },
+      "oracle_surviving_row_fraction": {
+        "min": 0.9996778350515464,
+        "p10": 0.9997261597938144,
+        "median": 0.9997342139175258,
+        "p90": 0.9997342139175258,
+        "max": 0.9997342139175258,
+        "mean": 0.9997314453125
+      },
+      "executable_surviving_row_fraction": {
+        "min": 0.9997342139175258,
+        "p10": 0.9997342139175258,
+        "median": 0.9997342139175258,
+        "p90": 0.9997382409793815,
+        "max": 0.9997382409793815,
+        "mean": 0.9997352206829897
+      },
+      "executable_total_byte_fraction": {
+        "min": 1.0018282860824743,
+        "p10": 1.0018282860824743,
+        "median": 1.0018282860824743,
+        "p90": 1.0018323131443299,
+        "max": 1.0018323131443299,
+        "mean": 1.0018292928479382
+      },
+      "oracle_row_norm_surviving_fraction": {
+        "min": 1.0,
+        "p10": 1.0,
+        "median": 1.0,
+        "p90": 1.0,
+        "max": 1.0,
+        "mean": 1.0
+      },
+      "oracle_row_norm_total_byte_fraction": {
+        "min": 1.001953125,
+        "p10": 1.001953125,
+        "median": 1.001953125,
+        "p90": 1.001953125,
+        "max": 1.001953125,
+        "mean": 1.001953125
+      },
+      "surviving_cluster_fraction": {
+        "min": 0.7421875,
+        "p10": 0.7421875,
+        "median": 0.7421875,
+        "p90": 0.74609375,
+        "max": 0.74609375,
+        "mean": 0.7431640625
+      },
+      "bound_violation": {
+        "min": 0.0,
+        "p10": 0.0,
+        "median": 0.0,
+        "p90": 0.0,
+        "max": 0.0,
+        "mean": 0.0
+      }
+    },
+    "systems-design": {
+      "top1_margin_bf16": {
+        "min": 0.0,
+        "p10": 0.1375,
+        "median": 2.8125,
+        "p90": 7.3625,
+        "max": 9.375,
+        "mean": 3.39453125
+      },
+      "oracle_surviving_row_fraction": {
+        "min": 0.9997181056701031,
+        "p10": 0.9997261597938144,
+        "median": 0.9997342139175258,
+        "p90": 0.9997342139175258,
+        "max": 0.9997342139175258,
+        "mean": 0.999731697003866
+      },
+      "executable_surviving_row_fraction": {
+        "min": 0.9997342139175258,
+        "p10": 0.9997342139175258,
+        "median": 0.9997342139175258,
+        "p90": 0.9997342139175258,
+        "max": 0.9997382409793815,
+        "mean": 0.9997344656088918
+      },
+      "executable_total_byte_fraction": {
+        "min": 1.0018282860824743,
+        "p10": 1.0018282860824743,
+        "median": 1.0018282860824743,
+        "p90": 1.0018282860824743,
+        "max": 1.0018323131443299,
+        "mean": 1.0018285377738403
+      },
+      "oracle_row_norm_surviving_fraction": {
+        "min": 1.0,
+        "p10": 1.0,
+        "median": 1.0,
+        "p90": 1.0,
+        "max": 1.0,
+        "mean": 1.0
+      },
+      "oracle_row_norm_total_byte_fraction": {
+        "min": 1.001953125,
+        "p10": 1.001953125,
+        "median": 1.001953125,
+        "p90": 1.001953125,
+        "max": 1.001953125,
+        "mean": 1.001953125
+      },
+      "surviving_cluster_fraction": {
+        "min": 0.7421875,
+        "p10": 0.7421875,
+        "median": 0.7421875,
+        "p90": 0.7421875,
+        "max": 0.74609375,
+        "mean": 0.742431640625
+      },
+      "bound_violation": {
+        "min": 0.0,
+        "p10": 0.0,
+        "median": 0.0,
+        "p90": 0.0,
+        "max": 0.0,
+        "mean": 0.0
+      }
+    },
+    "translation": {
+      "top1_margin_bf16": {
+        "min": 0.0,
+        "p10": 0.375,
+        "median": 2.1875,
+        "p90": 7.4750000000000005,
+        "max": 10.0,
+        "mean": 2.935546875
+      },
+      "oracle_surviving_row_fraction": {
+        "min": 0.9996778350515464,
+        "p10": 0.9997261597938144,
+        "median": 0.9997342139175258,
+        "p90": 0.9997342139175258,
+        "max": 0.9997342139175258,
+        "mean": 0.999731193621134
+      },
+      "executable_surviving_row_fraction": {
+        "min": 0.9997342139175258,
+        "p10": 0.9997342139175258,
+        "median": 0.9997342139175258,
+        "p90": 0.9997382409793815,
+        "max": 0.9997422680412371,
+        "mean": 0.9997359757570876
+      },
+      "executable_total_byte_fraction": {
+        "min": 1.0018282860824743,
+        "p10": 1.0018282860824743,
+        "median": 1.0018282860824743,
+        "p90": 1.0018323131443299,
+        "max": 1.0018363402061856,
+        "mean": 1.0018300479220361
+      },
+      "oracle_row_norm_surviving_fraction": {
+        "min": 1.0,
+        "p10": 1.0,
+        "median": 1.0,
+        "p90": 1.0,
+        "max": 1.0,
+        "mean": 1.0
+      },
+      "oracle_row_norm_total_byte_fraction": {
+        "min": 1.001953125,
+        "p10": 1.001953125,
+        "median": 1.001953125,
+        "p90": 1.001953125,
+        "max": 1.001953125,
+        "mean": 1.001953125
+      },
+      "surviving_cluster_fraction": {
+        "min": 0.7421875,
+        "p10": 0.7421875,
+        "median": 0.7421875,
+        "p90": 0.74609375,
+        "max": 0.75,
+        "mean": 0.743896484375
+      },
+      "bound_violation": {
+        "min": 0.0,
+        "p10": 0.0,
+        "median": 0.0,
+        "p90": 0.0,
+        "max": 0.0,
+        "mean": 0.0
+      }
+    }
+  },
+  "generated_token_ids": {
+    "zh-explanation": [
+      95826,
+      105994,
+      96342,
+      98319,
+      112777,
+      98682,
+      104362,
+      3709,
+      98144,
+      98325,
+      98142,
+      332,
+      2005,
+      121966,
+      828,
+      95793,
+      2005,
+      96547,
+      96458,
+      828,
+      109514,
+      96919,
+      95772,
+      99499,
+      99451,
+      96844,
+      100977,
+      332,
+      3709,
+      98404,
+      98662,
+      99494
+    ],
+    "python-code": [
+      71093,
+      12305,
+      198,
+      1445,
+      18904,
+      1120,
+      1697,
+      11,
+      2488,
+      11,
+      23846,
+      11,
+      11906,
+      11,
+      51338,
+      198,
+      1445,
+      795,
+      8588,
+      1120,
+      795,
+      1005,
+      271,
+      31,
+      673,
+      1005,
+      198,
+      1005,
+      39245,
+      25,
+      198,
+      262
+    ],
+    "reasoning": [
+      1206,
+      7995,
+      3315,
+      279,
+      1534,
+      3240,
+      16327,
+      279,
+      3889,
+      3240,
+      11,
+      567,
+      668,
+      2649,
+      264,
+      2923,
+      13909,
+      28253,
+      21261,
+      3018,
+      383,
+      279,
+      2574,
+      10766,
+      321,
+      4673,
+      13,
+      271,
+      13962,
+      14392,
+      220,
+      16
+    ],
+    "editing": [
+      7730,
+      2015,
+      12698,
+      5081,
+      20554,
+      888,
+      279,
+      1483,
+      1330,
+      5381,
+      11,
+      33731,
+      12103,
+      21066,
+      321,
+      874,
+      19088,
+      25045,
+      13,
+      50275,
+      11,
+      279,
+      4800,
+      17602,
+      4021,
+      3482,
+      381,
+      54488,
+      7463,
+      13,
+      248046,
+      198
+    ],
+    "systems-design": [
+      8160,
+      369,
+      264,
+      2790,
+      364,
+      264,
+      2972,
+      33,
+      12705,
+      21966,
+      15377,
+      5283,
+      55804,
+      20703,
+      332,
+      39445,
+      364,
+      449,
+      36928,
+      8057,
+      13,
+      1061,
+      2790,
+      43195,
+      4603,
+      21094,
+      2022,
+      11,
+      6925,
+      11,
+      321,
+      14588
+    ],
+    "translation": [
+      118267,
+      121966,
+      9616,
+      8068,
+      21473,
+      3588,
+      3574,
+      7313,
+      129555,
+      99127,
+      99574,
+      96768,
+      141614,
+      9616,
+      43494,
+      10885,
+      7313,
+      96936,
+      99396,
+      97865,
+      103838,
+      98001,
+      95865,
+      3709,
+      97558,
+      98846,
+      111667,
+      1710,
+      248046,
+      198,
+      248044,
+      248045
+    ]
+  },
+  "reference_top_token_ids_sha256": "2ce7737fa09b7909fbf6932bc6c2ace0d6f8caff82810d7061d9d03ef128ffdf",
+  "optimistic_projection": {
+    "strict_frontier_tpot_ms": 8.079,
+    "lm_head_ms": 2.0575,
+    "median_total_byte_fraction": 1.0018282860824743,
+    "optimistic_saving_ms": -0.0037616986146909084,
+    "optimistic_whole_step_speedup": 0.999534602311072,
+    "oracle_row_norm_median_total_byte_fraction": 1.001953125,
+    "oracle_row_norm_p90_total_byte_fraction": 1.001953125,
+    "oracle_row_norm_optimistic_saving_ms": -0.0040185546875,
+    "oracle_row_norm_optimistic_whole_step_speedup": 0.9995028398536622,
+    "warning": "This assumes latency scales with bytes and charges zero cost for bound evaluation, indexing, gathers and irregular surviving groups."
+  },
+  "decision": "STOP_EXACT_NORM_AND_CLUSTER_BOUNDS_TOO_LOOSE",
+  "reopen_condition": "Use a materially tighter certified index whose p90 total byte fraction is <=0.75 on a larger hidden-state corpus."
+}

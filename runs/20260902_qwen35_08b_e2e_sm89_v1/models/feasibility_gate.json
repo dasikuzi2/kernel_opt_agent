@@ -1,0 +1,38 @@
+{
+  "bound": {
+    "claim_scope": "CONSERVATIVE_EXACT_BF16_BATCH1_DECODE_BOUND",
+    "maximum_speedup": 1.0999608122769045,
+    "optimistic_latency_floor_ms": 6.193794870998321
+  },
+  "decision": "TARGET_INFEASIBLE",
+  "evidence": [
+    {
+      "path": "models/bandwidth_bound.json",
+      "sha256": "9f1a29d6e3d53a1ed668cf2302181d3581dd7f90f24c92bfdd787606fa48a9d5"
+    }
+  ],
+  "required_reframe_options": [
+    "reduce mandatory weight bytes with a separately accepted quantization contract",
+    "amortize weight reads across multiple useful tokens or requests",
+    "change the model or hardware target",
+    "replace the 2x goal with the measured exact-BF16 headroom"
+  ],
+  "residual_search_policy": {
+    "status": "AUTHORIZED",
+    "objective_mode": "BEST_FEASIBLE_WITHIN_FROZEN_CONTRACT",
+    "minimum_likely_gain_us": 50.0,
+    "max_total_wall_clock_minutes": 120.0,
+    "stop_conditions": [
+      "no ranked opportunity has a likely-gain midpoint of at least 50 us per decode step",
+      "every implemented architecture family fails correctness or runtime reachability",
+      "the bounded candidate portfolio produces no survivor above measurement noise"
+    ],
+    "authorization": "The active user objective asks for the best feasible BF16 vLLM-derived solution after the 2x target was shown infeasible."
+  },
+  "schema_version": "optimization-feasibility-gate-v1",
+  "status": "VALID",
+  "target": {
+    "metric": "batch1_tpot_ms",
+    "speedup": 2.0
+  }
+}

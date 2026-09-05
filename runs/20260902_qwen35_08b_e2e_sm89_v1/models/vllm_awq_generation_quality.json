@@ -1,0 +1,65 @@
+{
+  "schema_version": "generation-quality-sanity-v1",
+  "status": "FAIL",
+  "claim_scope": "CHEAP_DEGENERATION_GATE_NOT_SEMANTIC_QUALITY_QUALIFICATION",
+  "source": {
+    "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\traces\\vllm_natural_awq_int4_marlin_qualitygate_w1_n1.json",
+    "sha256": "1c97d321f302fc5bdce6674c2b31470cd81723f568bbb888ae3429791ed19860"
+  },
+  "cases": [
+    {
+      "case_id": "zh-explanation",
+      "status": "FAIL",
+      "generated_tokens": 128,
+      "distinct_token_count": 3,
+      "distinct_token_fraction": 0.0234375,
+      "minimum_distinct_tokens": 8,
+      "reason": "degenerate low-diversity token cycle"
+    },
+    {
+      "case_id": "python-code",
+      "status": "FAIL",
+      "generated_tokens": 128,
+      "distinct_token_count": 2,
+      "distinct_token_fraction": 0.015625,
+      "minimum_distinct_tokens": 8,
+      "reason": "degenerate low-diversity token cycle"
+    },
+    {
+      "case_id": "reasoning",
+      "status": "FAIL",
+      "generated_tokens": 128,
+      "distinct_token_count": 3,
+      "distinct_token_fraction": 0.0234375,
+      "minimum_distinct_tokens": 8,
+      "reason": "degenerate low-diversity token cycle"
+    },
+    {
+      "case_id": "editing",
+      "status": "FAIL",
+      "generated_tokens": 128,
+      "distinct_token_count": 3,
+      "distinct_token_fraction": 0.0234375,
+      "minimum_distinct_tokens": 8,
+      "reason": "degenerate low-diversity token cycle"
+    },
+    {
+      "case_id": "systems-design",
+      "status": "FAIL",
+      "generated_tokens": 128,
+      "distinct_token_count": 3,
+      "distinct_token_fraction": 0.0234375,
+      "minimum_distinct_tokens": 8,
+      "reason": "degenerate low-diversity token cycle"
+    },
+    {
+      "case_id": "translation",
+      "status": "FAIL",
+      "generated_tokens": 128,
+      "distinct_token_count": 3,
+      "distinct_token_fraction": 0.0234375,
+      "minimum_distinct_tokens": 8,
+      "reason": "degenerate low-diversity token cycle"
+    }
+  ]
+}

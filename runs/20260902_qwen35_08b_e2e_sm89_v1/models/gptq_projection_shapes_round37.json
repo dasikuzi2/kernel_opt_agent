@@ -1,0 +1,1376 @@
+{
+  "schema_version": "gptq-projection-shape-inventory-v1",
+  "status": "PASS",
+  "claim_scope": "CHECKPOINT_AND_VLLM_SHARED_INPUT_FUSION_LAYOUT",
+  "model": {
+    "path": "/home/aden/models/Qwen3.5-0.8B-W4A16-AutoRound-GPTQ-g128",
+    "config_sha256": "365faf6722f1f1cfdb5b8445ce190d4f703738bc68a04d2c4c313f08c8e03ef9",
+    "weights_sha256": "1140ac9c554a35a2069b5964a2668641cbf0b745c4c3692179e744878dd4d47b",
+    "quantization_config": {
+      "autoround_version": "0.12.0",
+      "batch_size": 4,
+      "bits": 4,
+      "damp_percent": 0.01,
+      "data_type": "int",
+      "desc_act": false,
+      "dynamic": {
+        "-:.*model\\.language_model\\.layers\\.0\\.linear_attn\\.in_proj_a.*": {},
+        "-:.*model\\.language_model\\.layers\\.0\\.linear_attn\\.in_proj_b.*": {},
+        "-:.*model\\.language_model\\.layers\\.10\\.linear_attn\\.in_proj_a.*": {},
+        "-:.*model\\.language_model\\.layers\\.10\\.linear_attn\\.in_proj_b.*": {},
+        "-:.*model\\.language_model\\.layers\\.12\\.linear_attn\\.in_proj_a.*": {},
+        "-:.*model\\.language_model\\.layers\\.12\\.linear_attn\\.in_proj_b.*": {},
+        "-:.*model\\.language_model\\.layers\\.13\\.linear_attn\\.in_proj_a.*": {},
+        "-:.*model\\.language_model\\.layers\\.13\\.linear_attn\\.in_proj_b.*": {},
+        "-:.*model\\.language_model\\.layers\\.14\\.linear_attn\\.in_proj_a.*": {},
+        "-:.*model\\.language_model\\.layers\\.14\\.linear_attn\\.in_proj_b.*": {},
+        "-:.*model\\.language_model\\.layers\\.16\\.linear_attn\\.in_proj_a.*": {},
+        "-:.*model\\.language_model\\.layers\\.16\\.linear_attn\\.in_proj_b.*": {},
+        "-:.*model\\.language_model\\.layers\\.17\\.linear_attn\\.in_proj_a.*": {},
+        "-:.*model\\.language_model\\.layers\\.17\\.linear_attn\\.in_proj_b.*": {},
+        "-:.*model\\.language_model\\.layers\\.18\\.linear_attn\\.in_proj_a.*": {},
+        "-:.*model\\.language_model\\.layers\\.18\\.linear_attn\\.in_proj_b.*": {},
+        "-:.*model\\.language_model\\.layers\\.1\\.linear_attn\\.in_proj_a.*": {},
+        "-:.*model\\.language_model\\.layers\\.1\\.linear_attn\\.in_proj_b.*": {},
+        "-:.*model\\.language_model\\.layers\\.20\\.linear_attn\\.in_proj_a.*": {},
+        "-:.*model\\.language_model\\.layers\\.20\\.linear_attn\\.in_proj_b.*": {},
+        "-:.*model\\.language_model\\.layers\\.21\\.linear_attn\\.in_proj_a.*": {},
+        "-:.*model\\.language_model\\.layers\\.21\\.linear_attn\\.in_proj_b.*": {},
+        "-:.*model\\.language_model\\.layers\\.22\\.linear_attn\\.in_proj_a.*": {},
+        "-:.*model\\.language_model\\.layers\\.22\\.linear_attn\\.in_proj_b.*": {},
+        "-:.*model\\.language_model\\.layers\\.2\\.linear_attn\\.in_proj_a.*": {},
+        "-:.*model\\.language_model\\.layers\\.2\\.linear_attn\\.in_proj_b.*": {},
+        "-:.*model\\.language_model\\.layers\\.4\\.linear_attn\\.in_proj_a.*": {},
+        "-:.*model\\.language_model\\.layers\\.4\\.linear_attn\\.in_proj_b.*": {},
+        "-:.*model\\.language_model\\.layers\\.5\\.linear_attn\\.in_proj_a.*": {},
+        "-:.*model\\.language_model\\.layers\\.5\\.linear_attn\\.in_proj_b.*": {},
+        "-:.*model\\.language_model\\.layers\\.6\\.linear_attn\\.in_proj_a.*": {},
+        "-:.*model\\.language_model\\.layers\\.6\\.linear_attn\\.in_proj_b.*": {},
+        "-:.*model\\.language_model\\.layers\\.8\\.linear_attn\\.in_proj_a.*": {},
+        "-:.*model\\.language_model\\.layers\\.8\\.linear_attn\\.in_proj_b.*": {},
+        "-:.*model\\.language_model\\.layers\\.9\\.linear_attn\\.in_proj_a.*": {},
+        "-:.*model\\.language_model\\.layers\\.9\\.linear_attn\\.in_proj_b.*": {}
+      },
+      "group_size": 128,
+      "iters": 1000,
+      "lm_head": false,
+      "modules_in_block_to_quantize": [
+        [
+          "linear_attn.out_proj",
+          "linear_attn.in_proj_qkv",
+          "linear_attn.in_proj_z",
+          "self_attn.q_proj",
+          "self_attn.k_proj",
+          "self_attn.v_proj",
+          "self_attn.o_proj",
+          "mlp.gate_proj",
+          "mlp.up_proj",
+          "mlp.down_proj"
+        ]
+      ],
+      "nsamples": 512,
+      "provider": "auto-round",
+      "quant_method": "gptq",
+      "sym": true,
+      "true_sequential": false
+    },
+    "hidden_size": 1024,
+    "intermediate_size": 3584,
+    "num_hidden_layers": 24,
+    "layer_types": [
+      "linear_attention",
+      "linear_attention",
+      "linear_attention",
+      "full_attention",
+      "linear_attention",
+      "linear_attention",
+      "linear_attention",
+      "full_attention",
+      "linear_attention",
+      "linear_attention",
+      "linear_attention",
+      "full_attention",
+      "linear_attention",
+      "linear_attention",
+      "linear_attention",
+      "full_attention",
+      "linear_attention",
+      "linear_attention",
+      "linear_attention",
+      "full_attention",
+      "linear_attention",
+      "linear_attention",
+      "linear_attention",
+      "full_attention"
+    ]
+  },
+  "packing": {
+    "qweight_pack_factor": 8,
+    "shape_rule": "qweight[packed_K, N] -> decode GEMM [M=1,N,K=packed_K*pack_factor]"
+  },
+  "projection_groups": [
+    {
+      "projection": "full_attention_out",
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        2048
+      ],
+      "calls_per_decode": 6
+    },
+    {
+      "projection": "full_attention_qkv",
+      "decode_shape_m_n_k": [
+        1,
+        5120,
+        1024
+      ],
+      "calls_per_decode": 6
+    },
+    {
+      "projection": "linear_attention_out",
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        2048
+      ],
+      "calls_per_decode": 18
+    },
+    {
+      "projection": "linear_attention_qkvz",
+      "decode_shape_m_n_k": [
+        1,
+        8192,
+        1024
+      ],
+      "calls_per_decode": 18
+    },
+    {
+      "projection": "mlp_down",
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        3584
+      ],
+      "calls_per_decode": 24
+    },
+    {
+      "projection": "mlp_gate_up",
+      "decode_shape_m_n_k": [
+        1,
+        7168,
+        1024
+      ],
+      "calls_per_decode": 24
+    }
+  ],
+  "calls_per_decode": 96,
+  "per_layer_projection_groups": [
+    {
+      "layer": 0,
+      "projection": "mlp_gate_up",
+      "members": [
+        "mlp.gate_proj",
+        "mlp.up_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        7168,
+        1024
+      ]
+    },
+    {
+      "layer": 0,
+      "projection": "mlp_down",
+      "members": [
+        "mlp.down_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        3584
+      ]
+    },
+    {
+      "layer": 0,
+      "projection": "linear_attention_qkvz",
+      "members": [
+        "linear_attn.in_proj_qkv",
+        "linear_attn.in_proj_z"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        8192,
+        1024
+      ]
+    },
+    {
+      "layer": 0,
+      "projection": "linear_attention_out",
+      "members": [
+        "linear_attn.out_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        2048
+      ]
+    },
+    {
+      "layer": 1,
+      "projection": "mlp_gate_up",
+      "members": [
+        "mlp.gate_proj",
+        "mlp.up_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        7168,
+        1024
+      ]
+    },
+    {
+      "layer": 1,
+      "projection": "mlp_down",
+      "members": [
+        "mlp.down_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        3584
+      ]
+    },
+    {
+      "layer": 1,
+      "projection": "linear_attention_qkvz",
+      "members": [
+        "linear_attn.in_proj_qkv",
+        "linear_attn.in_proj_z"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        8192,
+        1024
+      ]
+    },
+    {
+      "layer": 1,
+      "projection": "linear_attention_out",
+      "members": [
+        "linear_attn.out_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        2048
+      ]
+    },
+    {
+      "layer": 2,
+      "projection": "mlp_gate_up",
+      "members": [
+        "mlp.gate_proj",
+        "mlp.up_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        7168,
+        1024
+      ]
+    },
+    {
+      "layer": 2,
+      "projection": "mlp_down",
+      "members": [
+        "mlp.down_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        3584
+      ]
+    },
+    {
+      "layer": 2,
+      "projection": "linear_attention_qkvz",
+      "members": [
+        "linear_attn.in_proj_qkv",
+        "linear_attn.in_proj_z"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        8192,
+        1024
+      ]
+    },
+    {
+      "layer": 2,
+      "projection": "linear_attention_out",
+      "members": [
+        "linear_attn.out_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        2048
+      ]
+    },
+    {
+      "layer": 3,
+      "projection": "mlp_gate_up",
+      "members": [
+        "mlp.gate_proj",
+        "mlp.up_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        7168,
+        1024
+      ]
+    },
+    {
+      "layer": 3,
+      "projection": "mlp_down",
+      "members": [
+        "mlp.down_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        3584
+      ]
+    },
+    {
+      "layer": 3,
+      "projection": "full_attention_qkv",
+      "members": [
+        "self_attn.q_proj",
+        "self_attn.k_proj",
+        "self_attn.v_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        5120,
+        1024
+      ]
+    },
+    {
+      "layer": 3,
+      "projection": "full_attention_out",
+      "members": [
+        "self_attn.o_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        2048
+      ]
+    },
+    {
+      "layer": 4,
+      "projection": "mlp_gate_up",
+      "members": [
+        "mlp.gate_proj",
+        "mlp.up_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        7168,
+        1024
+      ]
+    },
+    {
+      "layer": 4,
+      "projection": "mlp_down",
+      "members": [
+        "mlp.down_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        3584
+      ]
+    },
+    {
+      "layer": 4,
+      "projection": "linear_attention_qkvz",
+      "members": [
+        "linear_attn.in_proj_qkv",
+        "linear_attn.in_proj_z"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        8192,
+        1024
+      ]
+    },
+    {
+      "layer": 4,
+      "projection": "linear_attention_out",
+      "members": [
+        "linear_attn.out_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        2048
+      ]
+    },
+    {
+      "layer": 5,
+      "projection": "mlp_gate_up",
+      "members": [
+        "mlp.gate_proj",
+        "mlp.up_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        7168,
+        1024
+      ]
+    },
+    {
+      "layer": 5,
+      "projection": "mlp_down",
+      "members": [
+        "mlp.down_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        3584
+      ]
+    },
+    {
+      "layer": 5,
+      "projection": "linear_attention_qkvz",
+      "members": [
+        "linear_attn.in_proj_qkv",
+        "linear_attn.in_proj_z"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        8192,
+        1024
+      ]
+    },
+    {
+      "layer": 5,
+      "projection": "linear_attention_out",
+      "members": [
+        "linear_attn.out_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        2048
+      ]
+    },
+    {
+      "layer": 6,
+      "projection": "mlp_gate_up",
+      "members": [
+        "mlp.gate_proj",
+        "mlp.up_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        7168,
+        1024
+      ]
+    },
+    {
+      "layer": 6,
+      "projection": "mlp_down",
+      "members": [
+        "mlp.down_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        3584
+      ]
+    },
+    {
+      "layer": 6,
+      "projection": "linear_attention_qkvz",
+      "members": [
+        "linear_attn.in_proj_qkv",
+        "linear_attn.in_proj_z"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        8192,
+        1024
+      ]
+    },
+    {
+      "layer": 6,
+      "projection": "linear_attention_out",
+      "members": [
+        "linear_attn.out_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        2048
+      ]
+    },
+    {
+      "layer": 7,
+      "projection": "mlp_gate_up",
+      "members": [
+        "mlp.gate_proj",
+        "mlp.up_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        7168,
+        1024
+      ]
+    },
+    {
+      "layer": 7,
+      "projection": "mlp_down",
+      "members": [
+        "mlp.down_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        3584
+      ]
+    },
+    {
+      "layer": 7,
+      "projection": "full_attention_qkv",
+      "members": [
+        "self_attn.q_proj",
+        "self_attn.k_proj",
+        "self_attn.v_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        5120,
+        1024
+      ]
+    },
+    {
+      "layer": 7,
+      "projection": "full_attention_out",
+      "members": [
+        "self_attn.o_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        2048
+      ]
+    },
+    {
+      "layer": 8,
+      "projection": "mlp_gate_up",
+      "members": [
+        "mlp.gate_proj",
+        "mlp.up_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        7168,
+        1024
+      ]
+    },
+    {
+      "layer": 8,
+      "projection": "mlp_down",
+      "members": [
+        "mlp.down_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        3584
+      ]
+    },
+    {
+      "layer": 8,
+      "projection": "linear_attention_qkvz",
+      "members": [
+        "linear_attn.in_proj_qkv",
+        "linear_attn.in_proj_z"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        8192,
+        1024
+      ]
+    },
+    {
+      "layer": 8,
+      "projection": "linear_attention_out",
+      "members": [
+        "linear_attn.out_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        2048
+      ]
+    },
+    {
+      "layer": 9,
+      "projection": "mlp_gate_up",
+      "members": [
+        "mlp.gate_proj",
+        "mlp.up_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        7168,
+        1024
+      ]
+    },
+    {
+      "layer": 9,
+      "projection": "mlp_down",
+      "members": [
+        "mlp.down_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        3584
+      ]
+    },
+    {
+      "layer": 9,
+      "projection": "linear_attention_qkvz",
+      "members": [
+        "linear_attn.in_proj_qkv",
+        "linear_attn.in_proj_z"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        8192,
+        1024
+      ]
+    },
+    {
+      "layer": 9,
+      "projection": "linear_attention_out",
+      "members": [
+        "linear_attn.out_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        2048
+      ]
+    },
+    {
+      "layer": 10,
+      "projection": "mlp_gate_up",
+      "members": [
+        "mlp.gate_proj",
+        "mlp.up_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        7168,
+        1024
+      ]
+    },
+    {
+      "layer": 10,
+      "projection": "mlp_down",
+      "members": [
+        "mlp.down_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        3584
+      ]
+    },
+    {
+      "layer": 10,
+      "projection": "linear_attention_qkvz",
+      "members": [
+        "linear_attn.in_proj_qkv",
+        "linear_attn.in_proj_z"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        8192,
+        1024
+      ]
+    },
+    {
+      "layer": 10,
+      "projection": "linear_attention_out",
+      "members": [
+        "linear_attn.out_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        2048
+      ]
+    },
+    {
+      "layer": 11,
+      "projection": "mlp_gate_up",
+      "members": [
+        "mlp.gate_proj",
+        "mlp.up_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        7168,
+        1024
+      ]
+    },
+    {
+      "layer": 11,
+      "projection": "mlp_down",
+      "members": [
+        "mlp.down_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        3584
+      ]
+    },
+    {
+      "layer": 11,
+      "projection": "full_attention_qkv",
+      "members": [
+        "self_attn.q_proj",
+        "self_attn.k_proj",
+        "self_attn.v_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        5120,
+        1024
+      ]
+    },
+    {
+      "layer": 11,
+      "projection": "full_attention_out",
+      "members": [
+        "self_attn.o_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        2048
+      ]
+    },
+    {
+      "layer": 12,
+      "projection": "mlp_gate_up",
+      "members": [
+        "mlp.gate_proj",
+        "mlp.up_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        7168,
+        1024
+      ]
+    },
+    {
+      "layer": 12,
+      "projection": "mlp_down",
+      "members": [
+        "mlp.down_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        3584
+      ]
+    },
+    {
+      "layer": 12,
+      "projection": "linear_attention_qkvz",
+      "members": [
+        "linear_attn.in_proj_qkv",
+        "linear_attn.in_proj_z"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        8192,
+        1024
+      ]
+    },
+    {
+      "layer": 12,
+      "projection": "linear_attention_out",
+      "members": [
+        "linear_attn.out_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        2048
+      ]
+    },
+    {
+      "layer": 13,
+      "projection": "mlp_gate_up",
+      "members": [
+        "mlp.gate_proj",
+        "mlp.up_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        7168,
+        1024
+      ]
+    },
+    {
+      "layer": 13,
+      "projection": "mlp_down",
+      "members": [
+        "mlp.down_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        3584
+      ]
+    },
+    {
+      "layer": 13,
+      "projection": "linear_attention_qkvz",
+      "members": [
+        "linear_attn.in_proj_qkv",
+        "linear_attn.in_proj_z"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        8192,
+        1024
+      ]
+    },
+    {
+      "layer": 13,
+      "projection": "linear_attention_out",
+      "members": [
+        "linear_attn.out_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        2048
+      ]
+    },
+    {
+      "layer": 14,
+      "projection": "mlp_gate_up",
+      "members": [
+        "mlp.gate_proj",
+        "mlp.up_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        7168,
+        1024
+      ]
+    },
+    {
+      "layer": 14,
+      "projection": "mlp_down",
+      "members": [
+        "mlp.down_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        3584
+      ]
+    },
+    {
+      "layer": 14,
+      "projection": "linear_attention_qkvz",
+      "members": [
+        "linear_attn.in_proj_qkv",
+        "linear_attn.in_proj_z"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        8192,
+        1024
+      ]
+    },
+    {
+      "layer": 14,
+      "projection": "linear_attention_out",
+      "members": [
+        "linear_attn.out_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        2048
+      ]
+    },
+    {
+      "layer": 15,
+      "projection": "mlp_gate_up",
+      "members": [
+        "mlp.gate_proj",
+        "mlp.up_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        7168,
+        1024
+      ]
+    },
+    {
+      "layer": 15,
+      "projection": "mlp_down",
+      "members": [
+        "mlp.down_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        3584
+      ]
+    },
+    {
+      "layer": 15,
+      "projection": "full_attention_qkv",
+      "members": [
+        "self_attn.q_proj",
+        "self_attn.k_proj",
+        "self_attn.v_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        5120,
+        1024
+      ]
+    },
+    {
+      "layer": 15,
+      "projection": "full_attention_out",
+      "members": [
+        "self_attn.o_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        2048
+      ]
+    },
+    {
+      "layer": 16,
+      "projection": "mlp_gate_up",
+      "members": [
+        "mlp.gate_proj",
+        "mlp.up_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        7168,
+        1024
+      ]
+    },
+    {
+      "layer": 16,
+      "projection": "mlp_down",
+      "members": [
+        "mlp.down_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        3584
+      ]
+    },
+    {
+      "layer": 16,
+      "projection": "linear_attention_qkvz",
+      "members": [
+        "linear_attn.in_proj_qkv",
+        "linear_attn.in_proj_z"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        8192,
+        1024
+      ]
+    },
+    {
+      "layer": 16,
+      "projection": "linear_attention_out",
+      "members": [
+        "linear_attn.out_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        2048
+      ]
+    },
+    {
+      "layer": 17,
+      "projection": "mlp_gate_up",
+      "members": [
+        "mlp.gate_proj",
+        "mlp.up_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        7168,
+        1024
+      ]
+    },
+    {
+      "layer": 17,
+      "projection": "mlp_down",
+      "members": [
+        "mlp.down_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        3584
+      ]
+    },
+    {
+      "layer": 17,
+      "projection": "linear_attention_qkvz",
+      "members": [
+        "linear_attn.in_proj_qkv",
+        "linear_attn.in_proj_z"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        8192,
+        1024
+      ]
+    },
+    {
+      "layer": 17,
+      "projection": "linear_attention_out",
+      "members": [
+        "linear_attn.out_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        2048
+      ]
+    },
+    {
+      "layer": 18,
+      "projection": "mlp_gate_up",
+      "members": [
+        "mlp.gate_proj",
+        "mlp.up_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        7168,
+        1024
+      ]
+    },
+    {
+      "layer": 18,
+      "projection": "mlp_down",
+      "members": [
+        "mlp.down_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        3584
+      ]
+    },
+    {
+      "layer": 18,
+      "projection": "linear_attention_qkvz",
+      "members": [
+        "linear_attn.in_proj_qkv",
+        "linear_attn.in_proj_z"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        8192,
+        1024
+      ]
+    },
+    {
+      "layer": 18,
+      "projection": "linear_attention_out",
+      "members": [
+        "linear_attn.out_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        2048
+      ]
+    },
+    {
+      "layer": 19,
+      "projection": "mlp_gate_up",
+      "members": [
+        "mlp.gate_proj",
+        "mlp.up_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        7168,
+        1024
+      ]
+    },
+    {
+      "layer": 19,
+      "projection": "mlp_down",
+      "members": [
+        "mlp.down_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        3584
+      ]
+    },
+    {
+      "layer": 19,
+      "projection": "full_attention_qkv",
+      "members": [
+        "self_attn.q_proj",
+        "self_attn.k_proj",
+        "self_attn.v_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        5120,
+        1024
+      ]
+    },
+    {
+      "layer": 19,
+      "projection": "full_attention_out",
+      "members": [
+        "self_attn.o_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        2048
+      ]
+    },
+    {
+      "layer": 20,
+      "projection": "mlp_gate_up",
+      "members": [
+        "mlp.gate_proj",
+        "mlp.up_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        7168,
+        1024
+      ]
+    },
+    {
+      "layer": 20,
+      "projection": "mlp_down",
+      "members": [
+        "mlp.down_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        3584
+      ]
+    },
+    {
+      "layer": 20,
+      "projection": "linear_attention_qkvz",
+      "members": [
+        "linear_attn.in_proj_qkv",
+        "linear_attn.in_proj_z"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        8192,
+        1024
+      ]
+    },
+    {
+      "layer": 20,
+      "projection": "linear_attention_out",
+      "members": [
+        "linear_attn.out_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        2048
+      ]
+    },
+    {
+      "layer": 21,
+      "projection": "mlp_gate_up",
+      "members": [
+        "mlp.gate_proj",
+        "mlp.up_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        7168,
+        1024
+      ]
+    },
+    {
+      "layer": 21,
+      "projection": "mlp_down",
+      "members": [
+        "mlp.down_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        3584
+      ]
+    },
+    {
+      "layer": 21,
+      "projection": "linear_attention_qkvz",
+      "members": [
+        "linear_attn.in_proj_qkv",
+        "linear_attn.in_proj_z"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        8192,
+        1024
+      ]
+    },
+    {
+      "layer": 21,
+      "projection": "linear_attention_out",
+      "members": [
+        "linear_attn.out_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        2048
+      ]
+    },
+    {
+      "layer": 22,
+      "projection": "mlp_gate_up",
+      "members": [
+        "mlp.gate_proj",
+        "mlp.up_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        7168,
+        1024
+      ]
+    },
+    {
+      "layer": 22,
+      "projection": "mlp_down",
+      "members": [
+        "mlp.down_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        3584
+      ]
+    },
+    {
+      "layer": 22,
+      "projection": "linear_attention_qkvz",
+      "members": [
+        "linear_attn.in_proj_qkv",
+        "linear_attn.in_proj_z"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        8192,
+        1024
+      ]
+    },
+    {
+      "layer": 22,
+      "projection": "linear_attention_out",
+      "members": [
+        "linear_attn.out_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        2048
+      ]
+    },
+    {
+      "layer": 23,
+      "projection": "mlp_gate_up",
+      "members": [
+        "mlp.gate_proj",
+        "mlp.up_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        7168,
+        1024
+      ]
+    },
+    {
+      "layer": 23,
+      "projection": "mlp_down",
+      "members": [
+        "mlp.down_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        3584
+      ]
+    },
+    {
+      "layer": 23,
+      "projection": "full_attention_qkv",
+      "members": [
+        "self_attn.q_proj",
+        "self_attn.k_proj",
+        "self_attn.v_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        5120,
+        1024
+      ]
+    },
+    {
+      "layer": 23,
+      "projection": "full_attention_out",
+      "members": [
+        "self_attn.o_proj"
+      ],
+      "decode_shape_m_n_k": [
+        1,
+        1024,
+        2048
+      ]
+    }
+  ]
+}

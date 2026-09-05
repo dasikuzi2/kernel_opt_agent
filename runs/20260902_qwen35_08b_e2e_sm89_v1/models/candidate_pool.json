@@ -1,0 +1,243 @@
+{
+  "candidates": [
+    {
+      "attempts": [
+        {
+          "attempt": 1,
+          "completed_at": "2026-09-05T05:56:37.229363+00:00",
+          "improvement_percent": 8.564728789277979,
+          "smoke_result": {
+            "path": "candidates/int8-bf16-shortlist-rerank/discovery_smoke.json",
+            "sha256": "adb41b5a472b51a3d5911d70e551dee4509fcf9271fab738dbb43056c6ded874"
+          },
+          "source_after": [
+            {
+              "path": "candidates/int8-bf16-shortlist-rerank/vllm_utils_int8_bf16_shortlist_rerank.patch",
+              "sha256": "b4e0b9261ded2c6766886721b54ab9c28af0ffcbab1a347ffc0563d3c9b5e9dd"
+            },
+            {
+              "path": "candidates/int8-bf16-shortlist-rerank/verify_candidate.py",
+              "sha256": "17bd7d0b3d070fd96d6f2e2d3d98d5fabdacf577ba811ce8b126a5c176ac0cd4"
+            }
+          ],
+          "source_before": [
+            {
+              "path": "candidates/int8-bf16-shortlist-rerank/vllm_utils_int8_bf16_shortlist_rerank.patch",
+              "sha256": "b4e0b9261ded2c6766886721b54ab9c28af0ffcbab1a347ffc0563d3c9b5e9dd"
+            },
+            {
+              "path": "candidates/int8-bf16-shortlist-rerank/verify_candidate.py",
+              "sha256": "17bd7d0b3d070fd96d6f2e2d3d98d5fabdacf577ba811ce8b126a5c176ac0cd4"
+            }
+          ],
+          "stages": [
+            {
+              "argv": [
+                "C:\\Users\\aden\\AppData\\Local\\Programs\\Python\\Python314\\python.exe",
+                "verify_candidate.py",
+                "--stage",
+                "build"
+              ],
+              "cwd": "candidates/int8-bf16-shortlist-rerank",
+              "duration_seconds": 0.177726,
+              "exit_code": 0,
+              "stage": "build",
+              "stderr": {
+                "path": "candidates/int8-bf16-shortlist-rerank/attempts/attempt-01/build.stderr.txt",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "stdout": {
+                "path": "candidates/int8-bf16-shortlist-rerank/attempts/attempt-01/build.stdout.txt",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "timed_out": false
+            },
+            {
+              "argv": [
+                "C:\\Users\\aden\\AppData\\Local\\Programs\\Python\\Python314\\python.exe",
+                "verify_candidate.py",
+                "--stage",
+                "correctness"
+              ],
+              "cwd": "candidates/int8-bf16-shortlist-rerank",
+              "duration_seconds": 0.178176,
+              "exit_code": 0,
+              "stage": "correctness",
+              "stderr": {
+                "path": "candidates/int8-bf16-shortlist-rerank/attempts/attempt-01/correctness.stderr.txt",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "stdout": {
+                "path": "candidates/int8-bf16-shortlist-rerank/attempts/attempt-01/correctness.stdout.txt",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "timed_out": false
+            },
+            {
+              "argv": [
+                "C:\\Users\\aden\\AppData\\Local\\Programs\\Python\\Python314\\python.exe",
+                "verify_candidate.py",
+                "--stage",
+                "smoke",
+                "--output",
+                "discovery_smoke.json"
+              ],
+              "cwd": "candidates/int8-bf16-shortlist-rerank",
+              "duration_seconds": 0.18897,
+              "exit_code": 0,
+              "stage": "smoke",
+              "stderr": {
+                "path": "candidates/int8-bf16-shortlist-rerank/attempts/attempt-01/smoke.stderr.txt",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "stdout": {
+                "path": "candidates/int8-bf16-shortlist-rerank/attempts/attempt-01/smoke.stdout.txt",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "timed_out": false
+            }
+          ],
+          "started_at": "2026-09-05T05:56:36.679849+00:00",
+          "status": "VALID_SCREEN"
+        }
+      ],
+      "candidate_id": "int8-bf16-shortlist-rerank",
+      "change_axes": [
+        "algorithmic decomposition",
+        "weight precision",
+        "candidate-set size"
+      ],
+      "commands": {
+        "build": {
+          "argv": [
+            "{python}",
+            "verify_candidate.py",
+            "--stage",
+            "build"
+          ],
+          "cwd": "candidates/int8-bf16-shortlist-rerank",
+          "timeout_seconds": 30
+        },
+        "correctness": {
+          "argv": [
+            "{python}",
+            "verify_candidate.py",
+            "--stage",
+            "correctness"
+          ],
+          "cwd": "candidates/int8-bf16-shortlist-rerank",
+          "timeout_seconds": 30
+        },
+        "smoke": {
+          "argv": [
+            "{python}",
+            "verify_candidate.py",
+            "--stage",
+            "smoke",
+            "--output",
+            "discovery_smoke.json"
+          ],
+          "cwd": "candidates/int8-bf16-shortlist-rerank",
+          "timeout_seconds": 30
+        }
+      },
+      "created_at": "2026-09-05T05:56:36.304035+00:00",
+      "dependency_contract": {
+        "changed_boundaries": [
+          "Full-vocabulary BF16 evaluation is decomposed into an INT8 recall stage and a BF16 shortlist rerank stage.",
+          "The supported output boundary is greedy argmax rather than complete full-vocabulary logits."
+        ],
+        "evidence": [
+          {
+            "claim": "Nsight observes both the full-vocabulary INT8 scan and exact BF16 rerank kernels once per generated step.",
+            "path": "models/nsys2025_int8_bf16_rerank_g1024k128_map.json",
+            "sha256": "35cb1b15f97a01703ad2b6be2334337d39cfed6265e6c46bbed6dddf2ff81a98"
+          },
+          {
+            "claim": "The frozen 512-case quality gate records 512/512 token and answer agreement.",
+            "path": "comparisons/vllm_fp8_exact_vs_int8head_g1024_rerank_k128_quality_gsm8k_n512.json",
+            "sha256": "0306094ecd0b69a8cfb6c0ae89544383c9fdf8bc7dbf0d05f70316f29c5a3c53"
+          }
+        ],
+        "numerical_ordering": "Within the recalled shortlist, each token row is recomputed from original BF16 weights with FP32 reduction before greedy selection; shortlist recall remains an empirically qualified, non-certified boundary.",
+        "preserved_dependencies": [
+          "Approximate scores depend on every hidden-state element and every quantized vocabulary row.",
+          "Final shortlist scores depend on the original BF16 tied-embedding rows and the same hidden state."
+        ],
+        "prohibited_rewrites": [
+          "Do not claim full-logit, logprob, stochastic-sampling or all-input mathematical equivalence.",
+          "Do not enable the candidate for max_num_seqs greater than one without a new service-curve qualification."
+        ],
+        "status": "PROVEN_LEGAL"
+      },
+      "development_budget": {
+        "max_technical_attempts": 8,
+        "max_wall_clock_minutes": 20.0
+      },
+      "expected_global_effect": "Reduce batch-1 greedy TPOT while retaining bounded token identity against the exact FP8-backbone control.",
+      "family": "weight-stream-specialization",
+      "hypothesis": "A lossy low-byte scan can recall a small candidate set while exact BF16 recomputation preserves the measured greedy winner at negligible cost.",
+      "name": "INT8 vocabulary scan with exact BF16 shortlist rerank",
+      "opportunity_id": "sm89-lm-head-residual",
+      "predicted_global_gain_us": {
+        "lower": 100.0,
+        "upper": 200.0
+      },
+      "prediction_check": {
+        "claim_scope": "DISCOVERY_ONLY",
+        "observed_global_gain_us": 400.0742598436009,
+        "predicted_midpoint_us": 150.0,
+        "residual_us": 250.07425984360088
+      },
+      "screening": {
+        "improvement_percent": 8.564728789277979,
+        "objective": {
+          "baseline": 4671.184221786991,
+          "candidate": 4271.10996194339,
+          "direction": "minimize",
+          "unit": "us_weighted"
+        },
+        "result": {
+          "path": "candidates/int8-bf16-shortlist-rerank/discovery_smoke.json",
+          "sha256": "adb41b5a472b51a3d5911d70e551dee4509fcf9271fab738dbb43056c6ded874"
+        },
+        "status": "PASS",
+        "threshold_percent": 1.0
+      },
+      "smoke_result_path": "candidates/int8-bf16-shortlist-rerank/discovery_smoke.json",
+      "source_paths": [
+        "candidates/int8-bf16-shortlist-rerank/vllm_utils_int8_bf16_shortlist_rerank.patch",
+        "candidates/int8-bf16-shortlist-rerank/verify_candidate.py"
+      ],
+      "status": "QUALIFICATION_READY"
+    }
+  ],
+  "created_at": "2026-09-02T14:43:28.641627+00:00",
+  "discovery_started_at": "2026-09-05T05:56:36.304051+00:00",
+  "events": [
+    {
+      "at": "2026-09-05T05:56:36.304053+00:00",
+      "candidate_id": "int8-bf16-shortlist-rerank",
+      "event": "ADDED"
+    },
+    {
+      "at": "2026-09-05T05:56:37.229472+00:00",
+      "candidate_id": "int8-bf16-shortlist-rerank",
+      "event": "QUALIFICATION_READY",
+      "improvement_percent": 8.564728789277979
+    }
+  ],
+  "policy": {
+    "max_candidate_wall_clock_minutes": 20.0,
+    "max_candidates": 12,
+    "max_promotions": 2,
+    "max_technical_attempts_per_candidate": 8,
+    "max_total_wall_clock_minutes": 120.0,
+    "min_candidates": 6,
+    "min_families": 4,
+    "promotion_threshold_percent": 1.0,
+    "screening_claim_scope": "DISCOVERY_ONLY_NOT_PRODUCTION_ACCEPTANCE"
+  },
+  "schema_version": "candidate-pool-v1",
+  "status": "ACTIVE"
+}

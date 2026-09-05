@@ -1,0 +1,835 @@
+{
+  "schema_version": "sm89-gdn-segmented-projection-screen-v1",
+  "status": "PASS",
+  "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "dtype": "bfloat16",
+  "shapes": {
+    "x": [
+      1,
+      1024
+    ],
+    "main": [
+      8192,
+      1024
+    ],
+    "tail": [
+      32,
+      1024
+    ]
+  },
+  "l2_bytes": 33554432,
+  "eviction_bytes": 67108864,
+  "best_schedule": {
+    "block_n": 4,
+    "num_warps": 4,
+    "num_stages": 1
+  },
+  "best_warm": {
+    "baseline_us": [
+      91.1353588104248,
+      90.84927558898926,
+      90.99264144897461,
+      91.1359977722168,
+      90.99264144897461,
+      92.34432220458984,
+      90.25535583496094,
+      91.4022445678711,
+      91.1359977722168
+    ],
+    "candidate_us": [
+      50.1145601272583,
+      58.14271926879883,
+      51.34335994720459,
+      50.09407997131348,
+      53.002238273620605,
+      50.93376159667969,
+      54.25151824951172,
+      50.62528133392334,
+      52.695040702819824
+    ],
+    "order": [
+      [
+        "baseline",
+        "candidate"
+      ],
+      [
+        "candidate",
+        "baseline"
+      ],
+      [
+        "baseline",
+        "candidate"
+      ],
+      [
+        "candidate",
+        "baseline"
+      ],
+      [
+        "baseline",
+        "candidate"
+      ],
+      [
+        "candidate",
+        "baseline"
+      ],
+      [
+        "baseline",
+        "candidate"
+      ],
+      [
+        "candidate",
+        "baseline"
+      ],
+      [
+        "baseline",
+        "candidate"
+      ]
+    ],
+    "baseline_median_us": 91.1353588104248,
+    "candidate_median_us": 51.34335994720459,
+    "speedup": 1.7750174297930166,
+    "iterations_per_sample": 50,
+    "cache_state": "warm"
+  },
+  "best_cold": {
+    "baseline_us": [
+      116.73600226640701,
+      115.7120019197464,
+      114.68800157308578,
+      113.66400122642517,
+      111.61600053310394,
+      111.61600053310394,
+      107.51999914646149,
+      111.61600053310394,
+      112.64000087976456,
+      109.56799983978271,
+      109.56799983978271,
+      112.64000087976456,
+      115.7120019197464,
+      110.59200018644333,
+      111.61600053310394,
+      109.56799983978271,
+      107.51999914646149,
+      108.5439994931221,
+      109.56799983978271,
+      114.68800157308578,
+      106.49599879980087
+    ],
+    "candidate_us": [
+      103.42399775981903,
+      103.42399775981903,
+      99.32799637317657,
+      101.3759970664978,
+      97.28000313043594,
+      98.30400347709656,
+      97.28000313043594,
+      97.28000313043594,
+      99.32799637317657,
+      99.32799637317657,
+      102.39999741315842,
+      103.42399775981903,
+      102.39999741315842,
+      106.49599879980087,
+      100.35199671983719,
+      99.32799637317657,
+      98.30400347709656,
+      97.28000313043594,
+      97.28000313043594,
+      96.25600278377533,
+      97.28000313043594
+    ],
+    "order": [
+      [
+        "baseline",
+        "candidate"
+      ],
+      [
+        "candidate",
+        "baseline"
+      ],
+      [
+        "baseline",
+        "candidate"
+      ],
+      [
+        "candidate",
+        "baseline"
+      ],
+      [
+        "baseline",
+        "candidate"
+      ],
+      [
+        "candidate",
+        "baseline"
+      ],
+      [
+        "baseline",
+        "candidate"
+      ],
+      [
+        "candidate",
+        "baseline"
+      ],
+      [
+        "baseline",
+        "candidate"
+      ],
+      [
+        "candidate",
+        "baseline"
+      ],
+      [
+        "baseline",
+        "candidate"
+      ],
+      [
+        "candidate",
+        "baseline"
+      ],
+      [
+        "baseline",
+        "candidate"
+      ],
+      [
+        "candidate",
+        "baseline"
+      ],
+      [
+        "baseline",
+        "candidate"
+      ],
+      [
+        "candidate",
+        "baseline"
+      ],
+      [
+        "baseline",
+        "candidate"
+      ],
+      [
+        "candidate",
+        "baseline"
+      ],
+      [
+        "baseline",
+        "candidate"
+      ],
+      [
+        "candidate",
+        "baseline"
+      ],
+      [
+        "baseline",
+        "candidate"
+      ]
+    ],
+    "baseline_median_us": 111.61600053310394,
+    "candidate_median_us": 99.32799637317657,
+    "speedup": 1.1237113866040465,
+    "iterations_per_sample": 1,
+    "cache_state": "cold"
+  },
+  "schedules": [
+    {
+      "block_n": 1,
+      "num_warps": 4,
+      "num_stages": 1,
+      "correct": true,
+      "main_max_abs": 3.814697265625e-06,
+      "tail_max_abs": 0.0,
+      "warm": {
+        "baseline_us": [
+          91.19744300842285,
+          92.0576000213623,
+          90.27584075927734,
+          102.48191833496094,
+          90.11199951171875,
+          95.49823760986328,
+          91.36128425598145,
+          92.2815990447998,
+          89.9891185760498
+        ],
+        "candidate_us": [
+          58.59327793121338,
+          58.675198554992676,
+          59.12576198577881,
+          61.21471881866455,
+          59.61728096008301,
+          59.43295955657959,
+          60.86656093597412,
+          59.88351821899414,
+          61.21471881866455
+        ],
+        "order": [
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ]
+        ],
+        "baseline_median_us": 91.36128425598145,
+        "candidate_median_us": 59.61728096008301,
+        "speedup": 1.5324631178190224,
+        "iterations_per_sample": 50,
+        "cache_state": "warm"
+      }
+    },
+    {
+      "block_n": 1,
+      "num_warps": 8,
+      "num_stages": 1,
+      "correct": true,
+      "main_max_abs": 3.814697265625e-06,
+      "tail_max_abs": 0.0,
+      "warm": {
+        "baseline_us": [
+          90.76607704162598,
+          91.8496036529541,
+          90.56256294250488,
+          93.2249641418457,
+          89.88672256469727,
+          91.48415565490723,
+          91.89375877380371,
+          91.52511596679688,
+          90.03007888793945
+        ],
+        "candidate_us": [
+          113.13152313232422,
+          117.06368446350098,
+          115.2409553527832,
+          114.5241641998291,
+          114.38079833984375,
+          114.21695709228516,
+          113.5206413269043,
+          113.23328018188477,
+          114.41984176635742
+        ],
+        "order": [
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ]
+        ],
+        "baseline_median_us": 91.48415565490723,
+        "candidate_median_us": 114.38079833984375,
+        "speedup": 0.7998209225913346,
+        "iterations_per_sample": 50,
+        "cache_state": "warm"
+      }
+    },
+    {
+      "block_n": 2,
+      "num_warps": 4,
+      "num_stages": 1,
+      "correct": true,
+      "main_max_abs": 3.814697265625e-06,
+      "tail_max_abs": 0.0,
+      "warm": {
+        "baseline_us": [
+          90.62399864196777,
+          91.75040245056152,
+          91.21664047241211,
+          90.60352325439453,
+          89.88672256469727,
+          90.1529598236084,
+          90.66495895385742,
+          91.56607627868652,
+          90.00960350036621
+        ],
+        "candidate_us": [
+          56.87295913696289,
+          51.15903854370117,
+          49.643521308898926,
+          51.916799545288086,
+          49.78687763214111,
+          55.68511962890625,
+          54.7430419921875,
+          51.30239963531494,
+          50.380802154541016
+        ],
+        "order": [
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ]
+        ],
+        "baseline_median_us": 90.62399864196777,
+        "candidate_median_us": 51.30239963531494,
+        "speedup": 1.766467051954137,
+        "iterations_per_sample": 50,
+        "cache_state": "warm"
+      }
+    },
+    {
+      "block_n": 2,
+      "num_warps": 8,
+      "num_stages": 1,
+      "correct": true,
+      "main_max_abs": 3.814697265625e-06,
+      "tail_max_abs": 0.0,
+      "warm": {
+        "baseline_us": [
+          91.2179183959961,
+          90.66495895385742,
+          91.48415565490723,
+          91.0540771484375,
+          91.25887870788574,
+          89.9891185760498,
+          90.78720092773438,
+          92.46720314025879,
+          90.99264144897461
+        ],
+        "candidate_us": [
+          77.57696151733398,
+          77.55775928497314,
+          77.41439819335938,
+          78.58176231384277,
+          77.57823944091797,
+          77.98783779144287,
+          79.40095901489258,
+          79.3395185470581,
+          79.585280418396
+        ],
+        "order": [
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ]
+        ],
+        "baseline_median_us": 91.0540771484375,
+        "candidate_median_us": 77.98783779144287,
+        "speedup": 1.167542013306443,
+        "iterations_per_sample": 50,
+        "cache_state": "warm"
+      }
+    },
+    {
+      "block_n": 4,
+      "num_warps": 4,
+      "num_stages": 1,
+      "correct": true,
+      "main_max_abs": 3.814697265625e-06,
+      "tail_max_abs": 0.0,
+      "warm": {
+        "baseline_us": [
+          91.1353588104248,
+          90.84927558898926,
+          90.99264144897461,
+          91.1359977722168,
+          90.99264144897461,
+          92.34432220458984,
+          90.25535583496094,
+          91.4022445678711,
+          91.1359977722168
+        ],
+        "candidate_us": [
+          50.1145601272583,
+          58.14271926879883,
+          51.34335994720459,
+          50.09407997131348,
+          53.002238273620605,
+          50.93376159667969,
+          54.25151824951172,
+          50.62528133392334,
+          52.695040702819824
+        ],
+        "order": [
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ]
+        ],
+        "baseline_median_us": 91.1353588104248,
+        "candidate_median_us": 51.34335994720459,
+        "speedup": 1.7750174297930166,
+        "iterations_per_sample": 50,
+        "cache_state": "warm"
+      }
+    },
+    {
+      "block_n": 4,
+      "num_warps": 8,
+      "num_stages": 1,
+      "correct": true,
+      "main_max_abs": 3.814697265625e-06,
+      "tail_max_abs": 0.0,
+      "warm": {
+        "baseline_us": [
+          91.75040245056152,
+          95.53919792175293,
+          90.33727645874023,
+          91.09503746032715,
+          90.13248443603516,
+          92.3033618927002,
+          91.66848182678223,
+          91.72991752624512,
+          90.27584075927734
+        ],
+        "candidate_us": [
+          59.43295955657959,
+          60.90752124786377,
+          61.41952037811279,
+          63.3241605758667,
+          61.870079040527344,
+          59.26591873168945,
+          60.76416015625,
+          59.39199924468994,
+          61.07135772705078
+        ],
+        "order": [
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ]
+        ],
+        "baseline_median_us": 91.66848182678223,
+        "candidate_median_us": 60.90752124786377,
+        "speedup": 1.5050437113297785,
+        "iterations_per_sample": 50,
+        "cache_state": "warm"
+      }
+    },
+    {
+      "block_n": 8,
+      "num_warps": 4,
+      "num_stages": 1,
+      "correct": true,
+      "main_max_abs": 3.814697265625e-06,
+      "tail_max_abs": 0.0,
+      "warm": {
+        "baseline_us": [
+          90.76736450195312,
+          90.58303833007812,
+          90.84927558898926,
+          91.68895721435547,
+          91.09503746032715,
+          110.4691219329834,
+          91.03360176086426,
+          92.42624282836914,
+          91.85279846191406
+        ],
+        "candidate_us": [
+          55.78752040863037,
+          52.96127796173096,
+          69.89823818206787,
+          64.24320220947266,
+          56.053757667541504,
+          53.41184139251709,
+          55.09119987487793,
+          53.637118339538574,
+          55.56096076965332
+        ],
+        "order": [
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ]
+        ],
+        "baseline_median_us": 91.09503746032715,
+        "candidate_median_us": 55.56096076965332,
+        "speedup": 1.6395511560354816,
+        "iterations_per_sample": 50,
+        "cache_state": "warm"
+      }
+    },
+    {
+      "block_n": 8,
+      "num_warps": 8,
+      "num_stages": 1,
+      "correct": true,
+      "main_max_abs": 3.814697265625e-06,
+      "tail_max_abs": 0.0,
+      "warm": {
+        "baseline_us": [
+          90.70591926574707,
+          91.3203239440918,
+          90.46015739440918,
+          92.81536102294922,
+          91.91424369812012,
+          93.65504264831543,
+          89.88672256469727,
+          90.05056381225586,
+          90.33727645874023
+        ],
+        "candidate_us": [
+          51.03616237640381,
+          56.68863773345947,
+          52.101120948791504,
+          50.54463863372803,
+          51.0975980758667,
+          50.40128231048584,
+          52.03968048095703,
+          51.34335994720459,
+          51.99872016906738
+        ],
+        "order": [
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ]
+        ],
+        "baseline_median_us": 90.70591926574707,
+        "candidate_median_us": 51.34335994720459,
+        "speedup": 1.7666533580782064,
+        "iterations_per_sample": 50,
+        "cache_state": "warm"
+      }
+    }
+  ]
+}

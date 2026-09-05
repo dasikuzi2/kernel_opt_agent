@@ -1,0 +1,27 @@
+{
+  "schema_version": "discovery-baseline-plan-v1",
+  "baseline_id": "flashinfer-main-sm120-wrapper",
+  "claim_scope": "DISCOVERY_ONLY",
+  "source": {
+    "project": "flashinfer-ai/flashinfer",
+    "api": "flashinfer.gdn_prefill.chunk_gated_delta_rule",
+    "architecture_path": "SM120",
+    "wrapper": "main.py"
+  },
+  "compatibility_attempt": {
+    "candidate": "contest baseline flashinfer_wrapper_123ca6",
+    "target": "NVIDIA B200 / SM100",
+    "budget": "one smallest-workload attempt, 120 second timeout",
+    "on_incompatible": "record TECHNICALLY_BLOCKED and do not repair"
+  },
+  "screening": {
+    "first_case": "77daf91d-0660-4c4b-8c32-336a69281cd9",
+    "warmup_runs": 1,
+    "iterations": 5,
+    "num_trials": 3,
+    "atol": 0.01,
+    "rtol": 0.01,
+    "required_matched_ratio": 1.0,
+    "competing_load_policy": "do not record latency while any unrelated compute process is present"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "schema_version": "candidate-pool-v1",
+  "status": "ACTIVE",
+  "created_at": null,
+  "discovery_started_at": null,
+  "policy": {
+    "min_candidates": 6,
+    "max_candidates": 12,
+    "min_families": 4,
+    "max_promotions": 2,
+    "max_technical_attempts_per_candidate": 8,
+    "max_candidate_wall_clock_minutes": 20.0,
+    "max_total_wall_clock_minutes": 120.0,
+    "promotion_threshold_percent": 1.0,
+    "screening_claim_scope": "DISCOVERY_ONLY_NOT_PRODUCTION_ACCEPTANCE"
+  },
+  "candidates": [],
+  "events": []
+}

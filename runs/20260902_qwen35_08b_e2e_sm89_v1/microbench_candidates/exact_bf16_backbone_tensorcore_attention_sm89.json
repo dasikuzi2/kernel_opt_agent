@@ -1,0 +1,305 @@
+{
+  "schema_version": "sm89-exact-bf16-backbone-tensorcore-cold-stream-v1",
+  "status": "PASS",
+  "scope": {
+    "model": "/home/aden/models/Qwen3.5-0.8B",
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "dtype_contract": "exact BF16 weight bits; Tensor Core FP32 accumulation"
+  },
+  "protocol": {
+    "iterations_per_sample": 5,
+    "repeats": 5,
+    "warmup_pairs": 100,
+    "schedules": "16x32x4,16x64x4,16x128x4,32x32x4,32x64x4,32x128x4,32x64x8",
+    "architecture": "load block metadata once per output row/tile, reconstruct exact BF16, use padded-M=16 Tensor Core dot"
+  },
+  "groups": [
+    {
+      "group": "attention_qkv",
+      "weight_shape": [
+        5120,
+        1024
+      ],
+      "weights_per_decode_step": 6,
+      "dense_working_set_bytes": 62914560,
+      "packed_working_set_bytes": 48812032,
+      "packed_byte_fraction": 0.7758463541666667,
+      "weight_bit_exact": true,
+      "schedules": [
+        {
+          "block_n": 16,
+          "block_k": 32,
+          "num_warps": 4,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 3.0517578125e-05,
+          "median_dense_stream_us": 312.93439865112305,
+          "median_candidate_stream_us": 1243.5456275939941,
+          "local_speedup": 0.25164689715212696,
+          "samples": {
+            "baseline_us": [
+              312.5119924545288,
+              313.34400177001953,
+              312.93439865112305,
+              312.93439865112305,
+              312.7295970916748
+            ],
+            "candidate_us": [
+              1243.5456275939941,
+              1240.8831596374512,
+              1245.798397064209,
+              1243.9552307128906,
+              1241.2927627563477
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 16,
+          "block_k": 64,
+          "num_warps": 4,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 3.0517578125e-05,
+          "median_dense_stream_us": 313.34400177001953,
+          "median_candidate_stream_us": 856.0640335083008,
+          "local_speedup": 0.3660286958743971,
+          "samples": {
+            "baseline_us": [
+              313.34400177001953,
+              313.34400177001953,
+              315.5967950820923,
+              313.1392002105713,
+              312.7295970916748
+            ],
+            "candidate_us": [
+              856.2687873840332,
+              856.0640335083008,
+              856.2687873840332,
+              855.4495811462402,
+              855.4495811462402
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 16,
+          "block_k": 128,
+          "num_warps": 4,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 3.0517578125e-05,
+          "median_dense_stream_us": 313.34400177001953,
+          "median_candidate_stream_us": 762.6751899719238,
+          "local_speedup": 0.4108485576691627,
+          "samples": {
+            "baseline_us": [
+              313.5488033294678,
+              313.12639713287354,
+              313.34400177001953,
+              312.93439865112305,
+              313.95840644836426
+            ],
+            "candidate_us": [
+              762.6560211181641,
+              763.0847930908203,
+              762.8799915313721,
+              762.4703884124756,
+              762.6751899719238
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 32,
+          "block_k": 32,
+          "num_warps": 4,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 3.0517578125e-05,
+          "median_dense_stream_us": 313.1392002105713,
+          "median_candidate_stream_us": 838.2464408874512,
+          "local_speedup": 0.37356460455597157,
+          "samples": {
+            "baseline_us": [
+              313.34400177001953,
+              313.5488033294678,
+              312.3199939727783,
+              313.1392002105713,
+              312.52479553222656
+            ],
+            "candidate_us": [
+              838.8607978820801,
+              836.1984252929688,
+              838.4511947631836,
+              836.8127822875977,
+              838.2464408874512
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 32,
+          "block_k": 64,
+          "num_warps": 4,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 3.0517578125e-05,
+          "median_dense_stream_us": 317.6448106765747,
+          "median_candidate_stream_us": 727.4496078491211,
+          "local_speedup": 0.4366554153706504,
+          "samples": {
+            "baseline_us": [
+              316.82560443878174,
+              317.6448106765747,
+              317.84958839416504,
+              320.1024055480957,
+              313.1135940551758
+            ],
+            "candidate_us": [
+              733.7984085083008,
+              727.020788192749,
+              728.0640125274658,
+              727.4496078491211,
+              726.6176223754883
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 32,
+          "block_k": 128,
+          "num_warps": 4,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 3.0517578125e-05,
+          "median_dense_stream_us": 312.71040439605713,
+          "median_candidate_stream_us": 690.7904148101807,
+          "local_speedup": 0.4526849210581266,
+          "samples": {
+            "baseline_us": [
+              313.34400177001953,
+              312.52479553222656,
+              312.52479553222656,
+              313.753604888916,
+              312.71040439605713
+            ],
+            "candidate_us": [
+              691.4048194885254,
+              690.7904148101807,
+              690.5856132507324,
+              690.3808116912842,
+              690.9952163696289
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 32,
+          "block_k": 64,
+          "num_warps": 8,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 3.0517578125e-05,
+          "median_dense_stream_us": 313.753604888916,
+          "median_candidate_stream_us": 825.1392364501953,
+          "local_speedup": 0.3802432256629865,
+          "samples": {
+            "baseline_us": [
+              313.753604888916,
+              314.572811126709,
+              317.63200759887695,
+              312.93439865112305,
+              312.91520595550537
+            ],
+            "candidate_us": [
+              824.3200302124023,
+              825.3439903259277,
+              823.5008239746094,
+              825.1392364501953,
+              826.5727996826172
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        }
+      ],
+      "best": {
+        "block_n": 32,
+        "block_k": 128,
+        "num_warps": 4,
+        "output_bit_exact": false,
+        "maximum_absolute_output_difference": 3.0517578125e-05,
+        "median_dense_stream_us": 312.71040439605713,
+        "median_candidate_stream_us": 690.7904148101807,
+        "local_speedup": 0.4526849210581266,
+        "samples": {
+          "baseline_us": [
+            313.34400177001953,
+            312.52479553222656,
+            312.52479553222656,
+            313.753604888916,
+            312.71040439605713
+          ],
+          "candidate_us": [
+            691.4048194885254,
+            690.7904148101807,
+            690.5856132507324,
+            690.3808116912842,
+            690.9952163696289
+          ],
+          "order": [
+            "baseline-candidate",
+            "candidate-baseline",
+            "baseline-candidate",
+            "candidate-baseline",
+            "baseline-candidate"
+          ]
+        }
+      }
+    }
+  ],
+  "aggregate_best_per_group": {
+    "dense_stream_us": 312.71040439605713,
+    "candidate_stream_us": 690.7904148101807,
+    "local_speedup": 0.4526849210581266,
+    "observed_projection_saving_us": -378.08001041412354,
+    "current_frontier_tpot_us": 6656.8025689,
+    "optimistic_whole_step_speedup": 0.9462563864923833
+  },
+  "decision": "MEASURED_REJECT_TENSORCORE_PADDING_OR_UNPACK_OVERHEAD"
+}

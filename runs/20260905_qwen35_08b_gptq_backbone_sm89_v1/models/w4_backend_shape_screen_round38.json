@@ -1,0 +1,245 @@
+{
+  "schema_version": "w4a16-backend-shape-screen-v1",
+  "status": "PASS",
+  "claim_scope": "ATOMIC_SCREEN_ONLY_REQUIRES_END_TO_END_CAUSAL_VALIDATION",
+  "device": {
+    "name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "compute_capability": "8.9"
+  },
+  "controls": {
+    "m": 1,
+    "group_size": 128,
+    "activation_dtype": "bfloat16",
+    "weight_type": "uint4b8/symmetric-groupwise",
+    "iterations": 100,
+    "repeats": 7,
+    "warmups": 40,
+    "inventory": {
+      "path": "/mnt/d/codes/kernel_opt_agent/runs/20260902_qwen35_08b_e2e_sm89_v1/models/gptq_projection_shapes_round37.json",
+      "sha256": "2f980dad3b70f489dde2e2542b2f6d78d400151280a7472f073c6ac099a5bef2"
+    }
+  },
+  "results": [
+    {
+      "name": "linear_attention_qkvz",
+      "m": 1,
+      "n": 8192,
+      "k": 1024,
+      "calls": 18,
+      "marlin_median_us": 42.50624179840088,
+      "humming_median_us": 64.32640075683594,
+      "humming_speedup_vs_marlin": 0.6607899913300179,
+      "weighted_decode_us_marlin": 765.1123523712158,
+      "weighted_decode_us_humming": 1157.8752136230469,
+      "marlin_samples_us": [
+        60.600318908691406,
+        57.31232166290283,
+        53.544960021972656,
+        41.41024112701416,
+        40.960001945495605,
+        41.594882011413574,
+        42.50624179840088
+      ],
+      "humming_samples_us": [
+        64.08192157745361,
+        64.27552223205566,
+        63.95904064178467,
+        66.17087841033936,
+        64.32640075683594,
+        64.72576141357422,
+        64.7270393371582
+      ],
+      "numerical_sanity": {
+        "both_finite": true,
+        "marlin_shape": [
+          1,
+          8192
+        ],
+        "humming_shape": [
+          1,
+          8192
+        ]
+      }
+    },
+    {
+      "name": "attention_out",
+      "m": 1,
+      "n": 1024,
+      "k": 2048,
+      "calls": 24,
+      "marlin_median_us": 53.780479431152344,
+      "humming_median_us": 39.914560317993164,
+      "humming_speedup_vs_marlin": 1.347390000107518,
+      "weighted_decode_us_marlin": 1290.7315063476562,
+      "weighted_decode_us_humming": 957.9494476318359,
+      "marlin_samples_us": [
+        58.23488235473633,
+        77.74271965026855,
+        60.9984016418457,
+        53.780479431152344,
+        47.34975814819336,
+        47.9420804977417,
+        44.32896137237549
+      ],
+      "humming_samples_us": [
+        45.6601619720459,
+        39.485440254211426,
+        39.914560317993164,
+        44.89120006561279,
+        40.867838859558105,
+        37.99040079116821,
+        39.59808111190796
+      ],
+      "numerical_sanity": {
+        "both_finite": true,
+        "marlin_shape": [
+          1,
+          1024
+        ],
+        "humming_shape": [
+          1,
+          1024
+        ]
+      }
+    },
+    {
+      "name": "full_attention_qkv",
+      "m": 1,
+      "n": 5120,
+      "k": 1024,
+      "calls": 6,
+      "marlin_median_us": 34.897921085357666,
+      "humming_median_us": 42.5164794921875,
+      "humming_speedup_vs_marlin": 0.8208092838865042,
+      "weighted_decode_us_marlin": 209.387526512146,
+      "weighted_decode_us_humming": 255.098876953125,
+      "marlin_samples_us": [
+        34.897921085357666,
+        33.45407962799072,
+        41.93280220031738,
+        34.90783929824829,
+        33.97631883621216,
+        35.22559881210327,
+        34.02751922607422
+      ],
+      "humming_samples_us": [
+        42.5164794921875,
+        44.69759941101074,
+        40.31455993652344,
+        39.925758838653564,
+        38.07136058807373,
+        51.48672103881836,
+        45.72159767150879
+      ],
+      "numerical_sanity": {
+        "both_finite": true,
+        "marlin_shape": [
+          1,
+          5120
+        ],
+        "humming_shape": [
+          1,
+          5120
+        ]
+      }
+    },
+    {
+      "name": "mlp_gate_up",
+      "m": 1,
+      "n": 7168,
+      "k": 1024,
+      "calls": 24,
+      "marlin_median_us": 38.46143960952759,
+      "humming_median_us": 63.897600173950195,
+      "humming_speedup_vs_marlin": 0.6019230691735363,
+      "weighted_decode_us_marlin": 923.0745506286621,
+      "weighted_decode_us_humming": 1533.5424041748047,
+      "marlin_samples_us": [
+        38.17471981048584,
+        38.02112102508545,
+        38.03999900817871,
+        40.38656234741211,
+        38.46143960952759,
+        38.5536003112793,
+        41.799678802490234
+      ],
+      "humming_samples_us": [
+        62.904319763183594,
+        63.897600173950195,
+        65.75039863586426,
+        69.3452787399292,
+        64.8806381225586,
+        62.84287929534912,
+        62.24832057952881
+      ],
+      "numerical_sanity": {
+        "both_finite": true,
+        "marlin_shape": [
+          1,
+          7168
+        ],
+        "humming_shape": [
+          1,
+          7168
+        ]
+      }
+    },
+    {
+      "name": "mlp_down",
+      "m": 1,
+      "n": 1024,
+      "k": 3584,
+      "calls": 24,
+      "marlin_median_us": 50.31007766723633,
+      "humming_median_us": 40.417280197143555,
+      "humming_speedup_vs_marlin": 1.2447665310935974,
+      "weighted_decode_us_marlin": 1207.4418640136719,
+      "weighted_decode_us_humming": 970.0147247314453,
+      "marlin_samples_us": [
+        44.46303844451904,
+        42.42432117462158,
+        50.31007766723633,
+        51.70176029205322,
+        50.6060791015625,
+        59.996161460876465,
+        46.76608085632324
+      ],
+      "humming_samples_us": [
+        39.58751916885376,
+        41.93215847015381,
+        39.50592041015625,
+        40.75520038604736,
+        37.90751934051514,
+        41.256961822509766,
+        40.417280197143555
+      ],
+      "numerical_sanity": {
+        "both_finite": true,
+        "marlin_shape": [
+          1,
+          1024
+        ],
+        "humming_shape": [
+          1,
+          1024
+        ]
+      }
+    }
+  ],
+  "projection_weighted_summary": {
+    "marlin_us_per_decode": 4395.747799873352,
+    "humming_us_per_decode": 4874.480667114258,
+    "oracle_per_shape_us_per_decode": 3825.538601875305,
+    "oracle_speedup_vs_marlin": 1.1490533117921033,
+    "humming_global_speedup_vs_marlin": 0.901787923691916,
+    "humming_winning_shapes": [
+      "attention_out",
+      "mlp_down"
+    ]
+  },
+  "warnings": [
+    "Random tensors and isolated hot-cache launches rank shapes but cannot qualify whole-model speedup.",
+    "Marlin and Humming independently quantize the same dense random weight; only latency and basic finite/shape sanity are claimed.",
+    "A mixed backend is worth implementing only if the weighted oracle margin can plausibly clear the 3% whole-model gate."
+  ]
+}

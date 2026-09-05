@@ -1,0 +1,135 @@
+{
+  "schema_version": "sm89-vllm-marlin-int4-recall-lmhead-screen-v1",
+  "status": "PASS",
+  "scope": {
+    "model": "/home/aden/models/Qwen3.5-0.8B",
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "weight_shape_kn": [
+      1024,
+      248320
+    ],
+    "batch_size": 2,
+    "control": "torch BF16 linear",
+    "candidate": "vLLM Marlin GPTQ uint4b8 scan for shortlist recall"
+  },
+  "control_weight_bit_exact": true,
+  "exact_samples_us": [
+    3305.34912109375,
+    3184.5989990234375,
+    3032.7194213867188,
+    2942.3822021484375,
+    2842.2756958007812,
+    2733.936767578125,
+    2608.1280517578125,
+    2541.793212890625,
+    2451.4968872070312
+  ],
+  "results": [
+    {
+      "candidate": "w4a16",
+      "batch_size": 2,
+      "group_size": 128,
+      "control": "torch BF16 linear",
+      "median_control_us": 2842.2756958007812,
+      "speedup_vs_control": 3.5391268983336475,
+      "median_exact_packed_us": 2842.2756958007812,
+      "median_candidate_us": 803.1008148193359,
+      "speedup_vs_exact_packed": 3.5391268983336475,
+      "candidate_samples_us": [
+        844.8409271240234,
+        844.2265319824219,
+        845.8035278320312,
+        804.8230743408203,
+        803.1008148193359,
+        801.4643096923828,
+        802.7750396728516,
+        802.6112365722656,
+        766.1363220214844
+      ],
+      "quality": {
+        "random_vectors": 8,
+        "top1_equal": 5,
+        "exact_winner_recalled_in_topk": 8,
+        "shortlist": 128,
+        "exact_winner_approximate_ranks": [
+          1,
+          1,
+          1,
+          1,
+          2,
+          1,
+          1,
+          3
+        ],
+        "maximum_rank": 3,
+        "maximum_abs_logit_errors": [
+          0.008026123046875,
+          0.0081787109375,
+          0.008087158203125,
+          0.008056640625,
+          0.009495258331298828,
+          0.0078125,
+          0.00830078125,
+          0.0086669921875
+        ],
+        "measured_batch_exact_winner_approximate_ranks": [
+          1,
+          1
+        ]
+      }
+    }
+  ],
+  "best_speed": {
+    "candidate": "w4a16",
+    "batch_size": 2,
+    "group_size": 128,
+    "control": "torch BF16 linear",
+    "median_control_us": 2842.2756958007812,
+    "speedup_vs_control": 3.5391268983336475,
+    "median_exact_packed_us": 2842.2756958007812,
+    "median_candidate_us": 803.1008148193359,
+    "speedup_vs_exact_packed": 3.5391268983336475,
+    "candidate_samples_us": [
+      844.8409271240234,
+      844.2265319824219,
+      845.8035278320312,
+      804.8230743408203,
+      803.1008148193359,
+      801.4643096923828,
+      802.7750396728516,
+      802.6112365722656,
+      766.1363220214844
+    ],
+    "quality": {
+      "random_vectors": 8,
+      "top1_equal": 5,
+      "exact_winner_recalled_in_topk": 8,
+      "shortlist": 128,
+      "exact_winner_approximate_ranks": [
+        1,
+        1,
+        1,
+        1,
+        2,
+        1,
+        1,
+        3
+      ],
+      "maximum_rank": 3,
+      "maximum_abs_logit_errors": [
+        0.008026123046875,
+        0.0081787109375,
+        0.008087158203125,
+        0.008056640625,
+        0.009495258331298828,
+        0.0078125,
+        0.00830078125,
+        0.0086669921875
+      ],
+      "measured_batch_exact_winner_approximate_ranks": [
+        1,
+        1
+      ]
+    }
+  }
+}

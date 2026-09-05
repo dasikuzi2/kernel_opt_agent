@@ -1,0 +1,90 @@
+{
+  "schema_version": "candidate-smoke-result-v3",
+  "status": "PASS",
+  "candidate_id": "hybrid-humming-two-shapes",
+  "claim_scope": "DISCOVERY_ONLY_NOT_PRODUCTION_ACCEPTANCE",
+  "cases": [
+    {
+      "case_id": "zh-explanation",
+      "role": "ANCHOR",
+      "correctness": "PASS",
+      "baseline_end_to_end_us": 533355.751002091,
+      "candidate_end_to_end_us": 548915.2730006026
+    },
+    {
+      "case_id": "python-code",
+      "role": "EDGE",
+      "correctness": "PASS",
+      "baseline_end_to_end_us": 534250.5299995537,
+      "candidate_end_to_end_us": 553464.1420017579
+    },
+    {
+      "case_id": "reasoning",
+      "role": "EDGE",
+      "correctness": "PASS",
+      "baseline_end_to_end_us": 546634.810998512,
+      "candidate_end_to_end_us": 557798.9239973249
+    },
+    {
+      "case_id": "editing",
+      "role": "EDGE",
+      "correctness": "PASS",
+      "baseline_end_to_end_us": 534515.4110036674,
+      "candidate_end_to_end_us": 560508.4159979015
+    },
+    {
+      "case_id": "systems-design",
+      "role": "EDGE",
+      "correctness": "FAIL",
+      "baseline_end_to_end_us": 534957.5060026837,
+      "candidate_end_to_end_us": 561453.2539984793
+    },
+    {
+      "case_id": "translation",
+      "role": "EDGE",
+      "correctness": "FAIL",
+      "baseline_end_to_end_us": 529689.9519962608,
+      "candidate_end_to_end_us": 559615.7149993815
+    }
+  ],
+  "correctness_gate": {
+    "status": "FAIL",
+    "exact_cases": 4,
+    "required_exact_cases": 6
+  },
+  "reachability": {
+    "status": "PASS",
+    "expected_path": "MarlinLinearKernel+HummingLinearKernel(shape-routed)",
+    "observed_path": "MarlinLinearKernel+HummingLinearKernel(shape-routed)",
+    "compile_cache_policy": "FRESH",
+    "execution_proof": {
+      "kind": "INSTRUMENTED_CALL_COUNT",
+      "scope": "shape-selector sentinels plus vLLM backend-selection logs",
+      "observed_count": 48,
+      "minimum_count": 2,
+      "evidence_index": 0
+    },
+    "evidence": [
+      {
+        "path": "candidates/hybrid-humming-two-shapes/smoke_execution.log",
+        "sha256": "444419a4b5729d96e04fca4415d555bb7368fe71d372a6df1a82a33cc02c36cc"
+      }
+    ]
+  },
+  "objective": {
+    "direction": "minimize",
+    "baseline": 535567.3268337947,
+    "candidate": 556959.2873325746,
+    "unit": "us"
+  },
+  "raw": {
+    "baseline": {
+      "path": "raw/stock_marlin_natural_b1_w1_n1_t64.json",
+      "sha256": "236133668faded7e40d9df2a22dd5d57556fa3dc9f759fd45e7b2a068cddd5ab"
+    },
+    "candidate": {
+      "path": "candidates/hybrid-humming-two-shapes/raw.json",
+      "sha256": "2ddef77b621d595488c1163dbf9869198df7cfa687a07eb94ce9b027ff70a447"
+    }
+  }
+}

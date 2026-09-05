@@ -1,0 +1,39 @@
+{
+  "schema_version": "sm89-exact-lmhead-segmented-gdn-composition-v1",
+  "candidate": "Exact-packed BF16 lm_head plus all-layer segmented GDN projection",
+  "scope": "Qwen3.5-0.8B, RTX 4060 Laptop SM89, batch-1 decode, 128 generated tokens",
+  "question": "Does the earlier limited-quality segmented-GDN local winner compose with the current exact-packed strict lm_head frontier?",
+  "protocol": {
+    "source": "Same patched vLLM source and compile environment on both sides; exact-packed lm_head enabled throughout, segmented GDN toggled off/on.",
+    "qualification": "3 warmups x 10 trials per case, six natural prompts, fixed 512 MiB KV cache.",
+    "memory_note": "Fixed KV allocation was required because prototype load-time construction temporarily retains dense tied weights plus packed storage, causing automatic memory profiling to observe a misleading peak."
+  },
+  "control": {
+    "weighted_e2e_ms": 881.1124139169806,
+    "weighted_tpot_ms": 6.654830790682838
+  },
+  "candidate_result": {
+    "weighted_e2e_ms": 902.116354249756,
+    "weighted_tpot_ms": 6.7902804415998155,
+    "e2e_speedup": 0.9767170385130161,
+    "tpot_speedup": 0.9800524216809718,
+    "exact_generated_token_cases": "2/6"
+  },
+  "interpretation": "The candidate regressed every prompt. Earlier standalone gains cannot be multiplied: the kernels share memory bandwidth, scheduling, power and reduction-path effects with the packed lm_head frontier.",
+  "decision": "MEASURED_REJECT_NONCOMPOSABLE",
+  "reopen_condition": "Reopen only after a single-run profile predicts independent resource savings and a same-source interleaved screen crosses 1.03x with the required numerical contract.",
+  "evidence": {
+    "comparison": {
+      "path": "comparisons/vllm_exact_gdn_qualification.json",
+      "sha256": "c1483d386babbe2014eb882e93c1d397399b9abcf81f2b0c7755d7697bc88d23"
+    },
+    "control_trace": {
+      "path": "traces/vllm_exact_gdn_control_w3_n10.json",
+      "sha256": "1a84cba4b184d3289c4d74150fee2bdd54ac439ba4be8fee4de925957c4e1da3"
+    },
+    "candidate_trace": {
+      "path": "traces/vllm_exact_gdn_candidate_w3_n10.json",
+      "sha256": "21d3e1b3f8b6094e0fef1aa45fa1731f31cbe7c994f195f954a1ad4f1a4609a3"
+    }
+  }
+}

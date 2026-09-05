@@ -1,0 +1,129 @@
+{
+  "attempt": 2,
+  "completed_at": "2026-09-05T12:02:23.090475+00:00",
+  "improvement_percent": -61.17034586537953,
+  "smoke_result": {
+    "path": "candidates/triton-w4a16-all/smoke_result.json",
+    "sha256": "c0af2fbf5a046bd4758ebebb77c02daed32a7f75a255717d87730c8fdbd4909d"
+  },
+  "source_after": [
+    {
+      "path": "candidates/triton-w4a16-all/linear_backend_candidate.py",
+      "sha256": "3efa7918bac69fae07db57952ee27c248d7853ba72cf5fcb049c8d91b1e8dc43"
+    },
+    {
+      "path": "candidates/triton-w4a16-all/candidate_spec.json",
+      "sha256": "158aa31e9c1cd5750f6351fe87f77eb23211c3fdf9b4c827bda76ace66c72771"
+    },
+    {
+      "path": "operator.json",
+      "sha256": "3739a30f2f23abc09e80e66dd4201f5e4c0855a6efa80d93d8364d44c409cbdb"
+    },
+    {
+      "path": "workload.json",
+      "sha256": "39c468849a21eee105f95872c3306a4832fb38fbb543be256c19cd7d7d549339"
+    },
+    {
+      "path": "models/round37_imported_evidence.json",
+      "sha256": "708cc8587a5e928ffa0d7355480d271768e57b9aedf95f0c8adf2ca52d51e8fc"
+    }
+  ],
+  "source_before": [
+    {
+      "path": "candidates/triton-w4a16-all/linear_backend_candidate.py",
+      "sha256": "3efa7918bac69fae07db57952ee27c248d7853ba72cf5fcb049c8d91b1e8dc43"
+    },
+    {
+      "path": "candidates/triton-w4a16-all/candidate_spec.json",
+      "sha256": "158aa31e9c1cd5750f6351fe87f77eb23211c3fdf9b4c827bda76ace66c72771"
+    },
+    {
+      "path": "operator.json",
+      "sha256": "3739a30f2f23abc09e80e66dd4201f5e4c0855a6efa80d93d8364d44c409cbdb"
+    },
+    {
+      "path": "workload.json",
+      "sha256": "39c468849a21eee105f95872c3306a4832fb38fbb543be256c19cd7d7d549339"
+    },
+    {
+      "path": "models/round37_imported_evidence.json",
+      "sha256": "708cc8587a5e928ffa0d7355480d271768e57b9aedf95f0c8adf2ca52d51e8fc"
+    }
+  ],
+  "stages": [
+    {
+      "argv": [
+        "wsl",
+        "-d",
+        "Ubuntu",
+        "--",
+        "/home/aden/.venvs/qwen35-vllm-4060/bin/python",
+        "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/triton-w4a16-all/linear_backend_candidate.py",
+        "build"
+      ],
+      "cwd": "candidates/triton-w4a16-all",
+      "duration_seconds": 0.279679,
+      "exit_code": 0,
+      "stage": "build",
+      "stderr": {
+        "path": "candidates/triton-w4a16-all/attempts/attempt-02/build.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "path": "candidates/triton-w4a16-all/attempts/attempt-02/build.stdout.txt",
+        "sha256": "e6746e44395a76e682781c1078a31f4ac54eb4fbfb85db114103d2f20c605ba8"
+      },
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "wsl",
+        "-d",
+        "Ubuntu",
+        "--",
+        "/home/aden/.venvs/qwen35-vllm-4060/bin/python",
+        "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/triton-w4a16-all/linear_backend_candidate.py",
+        "correctness"
+      ],
+      "cwd": "candidates/triton-w4a16-all",
+      "duration_seconds": 0.271298,
+      "exit_code": 0,
+      "stage": "correctness",
+      "stderr": {
+        "path": "candidates/triton-w4a16-all/attempts/attempt-02/correctness.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "path": "candidates/triton-w4a16-all/attempts/attempt-02/correctness.stdout.txt",
+        "sha256": "ee0bc30ac4ea45ace9b87b42359b9ec08100cc2dfafc4b657f3b326bebc2f60c"
+      },
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "wsl",
+        "-d",
+        "Ubuntu",
+        "--",
+        "/home/aden/.venvs/qwen35-vllm-4060/bin/python",
+        "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/triton-w4a16-all/linear_backend_candidate.py",
+        "smoke"
+      ],
+      "cwd": "candidates/triton-w4a16-all",
+      "duration_seconds": 0.30657,
+      "exit_code": 0,
+      "stage": "smoke",
+      "stderr": {
+        "path": "candidates/triton-w4a16-all/attempts/attempt-02/smoke.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "path": "candidates/triton-w4a16-all/attempts/attempt-02/smoke.stdout.txt",
+        "sha256": "b5abcea8a278790105bda1bcae712bf2a9e0fb5ff24cd4e903522118b1dd7b63"
+      },
+      "timed_out": false
+    }
+  ],
+  "started_at": "2026-09-05T12:02:22.224320+00:00",
+  "status": "VALID_SCREEN"
+}

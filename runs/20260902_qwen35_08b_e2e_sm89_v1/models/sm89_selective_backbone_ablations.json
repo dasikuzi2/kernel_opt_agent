@@ -1,0 +1,61 @@
+{
+  "schema_version": "qwen35-sm89-selective-backbone-ablations-v1",
+  "status": "RETRACTED_UNREACHABLE",
+  "decision": "DO_NOT_USE_FOR_CAUSAL_DECISIONS",
+  "baseline": "lm_head-only SM89 Triton GEMV",
+  "experimental_source_sha256": "e7b34a7bb26f653c0c7b6557b3f94630273aeed67c0064895d2607d33f93c14c",
+  "controls": {
+    "fresh_vllm_cache_root_per_candidate": true,
+    "dtype": "bfloat16",
+    "batch_size": 1,
+    "prompt_suite": "six natural requests",
+    "generated_tokens_per_request": 128,
+    "lm_head_candidate_enabled": true
+  },
+  "reachability_audit": {
+    "status": "FAIL",
+    "finding": "The Python x.numel()==x.shape[-1] branch was evaluated while torch.compile captured a dynamic graph. A fresh cache and a changed source hash therefore did not prove that the decode graph called the candidate custom op.",
+    "runtime_kernel_count_available": false,
+    "replacement_evidence": "sm89_nsys_operator_map.json",
+    "disposition": "Retain raw timings as historical records, but retract every performance attribution and rejection below."
+  },
+  "candidates": [
+    {
+      "candidate": "gdn_qkvz",
+      "selector": "VLLM_SM89_BF16_GEMV=gdn_qkvz",
+      "e2e_speedup_vs_lm_head_only": 0.9759057651733614,
+      "tpot_speedup_vs_lm_head_only": 0.9761752233234365,
+      "exact_generated_token_cases": "6/6",
+      "decision": "RETRACTED_UNREACHABLE",
+      "trace": "../traces/vllm_sm89_selective_gdnqkvz_w1_n1.json",
+      "trace_sha256": "37bc8fe1f2088b4ea5af07fafed95a844da4499fb40dee37da359a978acf8e5b",
+      "comparison": "../comparisons/vllm_sm89_selective_gdnqkvz_vs_lmhead.json",
+      "comparison_sha256": "9db39291020713f4a9224589ac2c015e6933f6d3051bb64fceb357e8e9d86134"
+    },
+    {
+      "candidate": "mlp_gate_up_and_down",
+      "selector": "VLLM_SM89_BF16_GEMV=mlp_gate_up,mlp_down",
+      "e2e_speedup_vs_lm_head_only": 0.9899620581233828,
+      "tpot_speedup_vs_lm_head_only": 0.9894669663270121,
+      "exact_generated_token_cases": "2/6",
+      "decision": "RETRACTED_UNREACHABLE",
+      "trace": "../traces/vllm_sm89_selective_mlp_w1_n1.json",
+      "trace_sha256": "68bcde5deda2066c8002f8478d530a0cac3f2ab257678cd88d1737592bb5ff07",
+      "comparison": "../comparisons/vllm_sm89_selective_mlp_vs_lmhead.json",
+      "comparison_sha256": "85b7eed2d0593ba0f1c144fb44f613288174d9788ba63ae2fd7b27322b26bbfd"
+    },
+    {
+      "candidate": "gdn_qkvz_attention_qkv_mlp_gate_up_mlp_down",
+      "selector": "VLLM_SM89_BF16_GEMV=gdn_qkvz,attention_qkv,mlp_gate_up,mlp_down",
+      "e2e_speedup_vs_lm_head_only": 0.9892835752170298,
+      "tpot_speedup_vs_lm_head_only": 0.9897858345835326,
+      "exact_generated_token_cases": "6/6",
+      "decision": "RETRACTED_UNREACHABLE",
+      "trace": "../traces/vllm_sm89_selective_gemv_all_w1_n3.json",
+      "trace_sha256": "ec16ca31a4645bddd5bbe1704bf92a27266577069628da8848b6f3f98416f732",
+      "comparison": "../comparisons/vllm_sm89_selective_gemv_all_vs_lmhead.json",
+      "comparison_sha256": "dfd3d44bc35f58fdb7159151cbaa752a6b9a8365d4dd3e701838b3323acb8be8"
+    }
+  ],
+  "lesson": "A fresh cache and source hash are insufficient reachability proofs for a compiled graph. Promotion now requires an Nsight kernel-instance count or an instrumented runtime call count bound to evidence."
+}

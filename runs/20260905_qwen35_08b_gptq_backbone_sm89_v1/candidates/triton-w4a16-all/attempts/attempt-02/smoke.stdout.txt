@@ -1,0 +1,1 @@
+{"status": "PASS", "objective": {"direction": "minimize", "baseline": 535567.3268337947, "candidate": 863175.7129999945, "unit": "us"}, "exact_cases": 5}

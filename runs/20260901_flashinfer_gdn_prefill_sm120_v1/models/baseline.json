@@ -1,0 +1,18 @@
+{
+  "schema_version": "production-baseline-v1",
+  "status": "INCOMPLETE",
+  "correctness": {"status": "UNKNOWN", "evidence": []},
+  "source_identities": [],
+  "measurement_methods": {
+    "cpu_dispatch": null,
+    "gpu_active": null,
+    "end_to_end": null
+  },
+  "environment_controls": {
+    "competing_load": null,
+    "clock_power_policy": null,
+    "thermal_policy": null,
+    "warmup_and_cold_start": null
+  },
+  "cases": []
+}

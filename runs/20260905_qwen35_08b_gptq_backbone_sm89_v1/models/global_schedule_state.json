@@ -1,0 +1,50 @@
+{
+  "schema_version": "global-schedule-state-v2",
+  "status": "DRAFT",
+  "owner": {
+    "role": "GLOBAL_SCHEDULER",
+    "owner_id": null,
+    "exclusive_authority": [
+      "RANK_EXPERIMENTS",
+      "CLOSE_RESOURCE_MODEL",
+      "ACCEPT_GLOBAL_CANDIDATE",
+      "AUTHORIZE_LIMIT_REPORT"
+    ]
+  },
+  "supervisor": {
+    "role": "GLOBAL_SUPERVISOR",
+    "owner_id": null,
+    "exclusive_authority": [
+      "VETO_EXPERIMENT",
+      "APPROVE_EXPERIMENT_DISPATCH",
+      "ENFORCE_BUDGET",
+      "HALT_AND_REPLAN"
+    ],
+    "must_be_distinct_from": [
+      "GLOBAL_SCHEDULER",
+      "MICROARCHITECTURE_ANALYST",
+      "EXPERIMENT_AGENT"
+    ]
+  },
+  "material_resources": [],
+  "stage_assignments": [],
+  "owned_artifacts": {
+    "resource_balance": "models/resource_balance.json",
+    "tradeoff_frontier": "models/tradeoff_frontier.json",
+    "experiment_queue": "models/experiment_queue.json",
+    "schedule_model": "models/schedule_model.json"
+  },
+  "decision_policy": {
+    "objective": null,
+    "ranking": "weighted benefit, critical-path relevance, uncertainty, experiment cost",
+    "local_speedup_is_not_global_acceptance": true,
+    "candidate_driven_experiments_only": true,
+    "unknown_does_not_imply_measure": true,
+    "supervisor_approval_required": true
+  },
+  "human_report_gate": {
+    "status": "BLOCKED",
+    "requires": ["validated resource balance", "validated tradeoff frontier", "validated production model"]
+  },
+  "revision_history": []
+}

@@ -1,0 +1,36 @@
+{
+  "schema_version": "tool-identity-v1",
+  "tool": "NVIDIA Nsight Systems CLI",
+  "vendor": "NVIDIA",
+  "version_output": "NVIDIA Nsight Systems version 2025.5.1.121-255136380782v0",
+  "package": {
+    "name": "nsight-systems-cli-2025.5.1",
+    "version": "2025.5.1.121-255136380782v0",
+    "architecture": "amd64",
+    "filename": "NsightSystems-linux-cli-public-2025.5.1.121-3638078.deb",
+    "bytes": 196140272,
+    "sha256": "506a8a3fdd94cec84c4c216d159ce3a6496170e8cf22b95b603b4bef4e0fb6e2"
+  },
+  "official_sources": [
+    {
+      "url": "https://developer.download.nvidia.com/devtools/repos/ubuntu2404/amd64/Packages.gz",
+      "locator": "Package: nsight-systems-cli-2025.5.1; Version: 2025.5.1.121-255136380782v0",
+      "purpose": "Exact official repository stanza binds filename, byte length and SHA256."
+    },
+    {
+      "url": "https://docs.nvidia.com/nsight-systems/InstallationGuide/",
+      "locator": "Getting Started Guide > Finding the Right Package > Linux CLI only",
+      "purpose": "Vendor installation guidance for the standalone Linux CLI."
+    }
+  ],
+  "local_installation": {
+    "method": "Downloaded official .deb, extracted under the user-owned tools directory; no sudo and no system package changes.",
+    "package_path": "/home/aden/tools/nsys2025/nsys-cli.deb",
+    "binary_path": "/home/aden/tools/nsys2025/root/opt/nvidia/nsight-systems-cli/2025.5.1/target-linux-x64/nsys"
+  },
+  "queries": [
+    "sha256sum /home/aden/tools/nsys2025/nsys-cli.deb",
+    "dpkg-deb -f /home/aden/tools/nsys2025/nsys-cli.deb Package Version Architecture",
+    "/home/aden/tools/nsys2025/root/opt/nvidia/nsight-systems-cli/2025.5.1/target-linux-x64/nsys --version"
+  ]
+}

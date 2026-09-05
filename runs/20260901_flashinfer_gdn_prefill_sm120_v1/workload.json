@@ -1,0 +1,2434 @@
+{
+  "cases": [
+    {
+      "boundary": true,
+      "id": "77daf91d-0660-4c4b-8c32-336a69281cd9",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 2,
+        "num_seqs": 1,
+        "total_seq_len": 6,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_77daf91d-0660-4c4b-8c32-336a69281cd9.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "ba08a83e-e151-4e16-bc70-abee6851604c",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 2,
+        "num_seqs": 1,
+        "total_seq_len": 134,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_ba08a83e-e151-4e16-bc70-abee6851604c.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "c7846f96-c9ff-44d3-94ab-5eab99a1431b",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 2,
+        "num_seqs": 1,
+        "total_seq_len": 134,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_c7846f96-c9ff-44d3-94ab-5eab99a1431b.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "d0ce7b5d-49e2-4a0b-b2ce-a087139b7d6b",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 33,
+        "num_seqs": 32,
+        "total_seq_len": 8192,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_d0ce7b5d-49e2-4a0b-b2ce-a087139b7d6b.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "5b8a0e4b-5ed7-45d0-aec3-c2c154e515b1",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 35,
+        "num_seqs": 34,
+        "total_seq_len": 8192,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_5b8a0e4b-5ed7-45d0-aec3-c2c154e515b1.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "5d3fc66a-6bba-4602-8319-a1da07045354",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 35,
+        "num_seqs": 34,
+        "total_seq_len": 8192,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_5d3fc66a-6bba-4602-8319-a1da07045354.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "4b6143dd-0e5f-499f-93cb-076d9635bcd0",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 16,
+        "num_seqs": 15,
+        "total_seq_len": 4124,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_4b6143dd-0e5f-499f-93cb-076d9635bcd0.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "5835a2bc-8d60-43fc-b1ed-d4729ea62693",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 33,
+        "num_seqs": 32,
+        "total_seq_len": 8192,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_5835a2bc-8d60-43fc-b1ed-d4729ea62693.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "cc310f94-60ea-4dcd-9e63-135dea91b83a",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 26,
+        "num_seqs": 25,
+        "total_seq_len": 8192,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_cc310f94-60ea-4dcd-9e63-135dea91b83a.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "d49df0b2-7838-4865-9a51-7ec7877fe27f",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 49,
+        "num_seqs": 48,
+        "total_seq_len": 8192,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_d49df0b2-7838-4865-9a51-7ec7877fe27f.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "e9e1e445-b41a-404b-a20f-bc869acc6cf0",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 39,
+        "num_seqs": 38,
+        "total_seq_len": 8192,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_e9e1e445-b41a-404b-a20f-bc869acc6cf0.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "b8c8dc3c-3dfe-4334-a784-c477213e2f1a",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 39,
+        "num_seqs": 38,
+        "total_seq_len": 8192,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_b8c8dc3c-3dfe-4334-a784-c477213e2f1a.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "a9540651-862b-44af-ad75-57e2d9caf37a",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 21,
+        "num_seqs": 20,
+        "total_seq_len": 8192,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_a9540651-862b-44af-ad75-57e2d9caf37a.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "06f21bb1-6cbd-4d55-b620-fb4d62181a71",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 57,
+        "num_seqs": 56,
+        "total_seq_len": 8192,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_06f21bb1-6cbd-4d55-b620-fb4d62181a71.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "c2931c92-bbe9-43d9-bc55-9aed77901266",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 38,
+        "num_seqs": 37,
+        "total_seq_len": 8192,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_c2931c92-bbe9-43d9-bc55-9aed77901266.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "618df04a-540c-42fd-b2ce-285dfdf78422",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 36,
+        "num_seqs": 35,
+        "total_seq_len": 8192,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_618df04a-540c-42fd-b2ce-285dfdf78422.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "26244fb4-d295-4d4b-bf61-235d17fd0149",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 44,
+        "num_seqs": 43,
+        "total_seq_len": 8192,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_26244fb4-d295-4d4b-bf61-235d17fd0149.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "a2629e02-611f-4264-8ee7-5c431f5fee4f",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 44,
+        "num_seqs": 43,
+        "total_seq_len": 8192,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_a2629e02-611f-4264-8ee7-5c431f5fee4f.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": true,
+      "id": "9a5d694b-7d4c-4ee6-8315-a13053ab6f92",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 58,
+        "num_seqs": 57,
+        "total_seq_len": 8192,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_9a5d694b-7d4c-4ee6-8315-a13053ab6f92.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "410794d4-6f70-4bb4-aed1-4669be9a610f",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 40,
+        "num_seqs": 39,
+        "total_seq_len": 8192,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_410794d4-6f70-4bb4-aed1-4669be9a610f.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "7ba9d519-7c0b-4eac-b2ad-ae403dce2f95",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 14,
+        "num_seqs": 13,
+        "total_seq_len": 3999,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_7ba9d519-7c0b-4eac-b2ad-ae403dce2f95.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "043e74e4-0297-4988-808a-0090be48a90e",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 3,
+        "num_seqs": 2,
+        "total_seq_len": 32,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_043e74e4-0297-4988-808a-0090be48a90e.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "ef9515b6-ad88-4a3e-bd89-31384ddd53ad",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 2,
+        "num_seqs": 1,
+        "total_seq_len": 16,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_ef9515b6-ad88-4a3e-bd89-31384ddd53ad.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "f622a11d-8b79-40b6-9949-5509afe827c8",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 2,
+        "num_seqs": 1,
+        "total_seq_len": 16,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_f622a11d-8b79-40b6-9949-5509afe827c8.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "1cf8e175-9f87-4add-984a-6c87a380fe9d",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 3,
+        "num_seqs": 2,
+        "total_seq_len": 40,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_1cf8e175-9f87-4add-984a-6c87a380fe9d.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "9343fd82-a06d-493a-9918-1044b0c1cbd1",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 2,
+        "num_seqs": 1,
+        "total_seq_len": 49,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_9343fd82-a06d-493a-9918-1044b0c1cbd1.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "f4926229-e4ba-49a3-8b2f-df2ec79c333b",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 2,
+        "num_seqs": 1,
+        "total_seq_len": 1377,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_f4926229-e4ba-49a3-8b2f-df2ec79c333b.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "109addb1-15e0-4ff2-9b39-df3e79746af0",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 3,
+        "num_seqs": 2,
+        "total_seq_len": 3271,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_109addb1-15e0-4ff2-9b39-df3e79746af0.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "c5257f65-c411-4dbb-9dc1-ad4abcf00254",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 3,
+        "num_seqs": 2,
+        "total_seq_len": 983,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_c5257f65-c411-4dbb-9dc1-ad4abcf00254.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "f5619793-6267-4a96-8a23-6c6a937183e7",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 3,
+        "num_seqs": 2,
+        "total_seq_len": 983,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_f5619793-6267-4a96-8a23-6c6a937183e7.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "fdf5f1f4-1135-4d3f-99e4-8965958317fc",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 3,
+        "num_seqs": 2,
+        "total_seq_len": 46,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_fdf5f1f4-1135-4d3f-99e4-8965958317fc.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "87bff084-1b7a-478e-99fd-5952c989d80e",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 4,
+        "num_seqs": 3,
+        "total_seq_len": 202,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_87bff084-1b7a-478e-99fd-5952c989d80e.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "e92dafeb-3d50-4bce-90c3-6d0172e189d3",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 4,
+        "num_seqs": 3,
+        "total_seq_len": 239,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_e92dafeb-3d50-4bce-90c3-6d0172e189d3.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "1d0cc342-9e3d-41e3-9ade-532551f86c17",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 4,
+        "num_seqs": 3,
+        "total_seq_len": 294,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_1d0cc342-9e3d-41e3-9ade-532551f86c17.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "1b441950-6f77-4565-bada-12294714fb26",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 3,
+        "num_seqs": 2,
+        "total_seq_len": 91,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_1b441950-6f77-4565-bada-12294714fb26.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "19c6ab20-df55-4b2c-b9a7-d76870b50e3e",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 3,
+        "num_seqs": 2,
+        "total_seq_len": 91,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_19c6ab20-df55-4b2c-b9a7-d76870b50e3e.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "25d9c14d-90ad-442d-8b0f-9452ad198832",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 3,
+        "num_seqs": 2,
+        "total_seq_len": 132,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_25d9c14d-90ad-442d-8b0f-9452ad198832.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "3215fe5f-4a3b-4eb6-af20-4e17368d87a9",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 3,
+        "num_seqs": 2,
+        "total_seq_len": 341,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_3215fe5f-4a3b-4eb6-af20-4e17368d87a9.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "6f1ad833-3d8a-4613-b5bd-a5d69263db1d",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 2,
+        "num_seqs": 1,
+        "total_seq_len": 2107,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_6f1ad833-3d8a-4613-b5bd-a5d69263db1d.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "e44ba4d3-b2d7-4a2a-b860-0fcbdda6c351",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 4,
+        "num_seqs": 3,
+        "total_seq_len": 1592,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_e44ba4d3-b2d7-4a2a-b860-0fcbdda6c351.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "fc7a2bcb-25d4-4840-a095-959499223267",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 4,
+        "num_seqs": 3,
+        "total_seq_len": 139,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_fc7a2bcb-25d4-4840-a095-959499223267.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "5d26ac5b-3c04-409d-a80d-5f1ac455916c",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 4,
+        "num_seqs": 3,
+        "total_seq_len": 139,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_5d26ac5b-3c04-409d-a80d-5f1ac455916c.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "ed66c791-0393-45d5-946b-4cd5d3e8b395",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 2,
+        "num_seqs": 1,
+        "total_seq_len": 116,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_ed66c791-0393-45d5-946b-4cd5d3e8b395.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "ba95d412-06d5-47d9-99b8-185146c2f869",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 3,
+        "num_seqs": 2,
+        "total_seq_len": 185,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_ba95d412-06d5-47d9-99b8-185146c2f869.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "078a41ea-3a59-4b4f-b3c2-95cb6e538a6e",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 3,
+        "num_seqs": 2,
+        "total_seq_len": 81,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_078a41ea-3a59-4b4f-b3c2-95cb6e538a6e.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "d2b5a221-f890-4cdd-83bc-bdbff1f0d0b0",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 4,
+        "num_seqs": 3,
+        "total_seq_len": 82,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_d2b5a221-f890-4cdd-83bc-bdbff1f0d0b0.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "aaa378be-7365-4381-b2d3-35951ef88c7a",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 4,
+        "num_seqs": 3,
+        "total_seq_len": 1800,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_aaa378be-7365-4381-b2d3-35951ef88c7a.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "c2bb4f66-6955-4e0f-b223-b802c1cd2348",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 4,
+        "num_seqs": 3,
+        "total_seq_len": 1800,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_c2bb4f66-6955-4e0f-b223-b802c1cd2348.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "f2f01c2c-3327-4cae-a0d6-a12ec0e94fc3",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 3,
+        "num_seqs": 2,
+        "total_seq_len": 35,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_f2f01c2c-3327-4cae-a0d6-a12ec0e94fc3.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "15856e8c-d105-478d-b0de-4ef8141b5a77",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 6,
+        "num_seqs": 5,
+        "total_seq_len": 3028,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_15856e8c-d105-478d-b0de-4ef8141b5a77.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "a39aa135-dd03-4abb-862d-020cf52fc7dd",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 2,
+        "num_seqs": 1,
+        "total_seq_len": 61,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_a39aa135-dd03-4abb-862d-020cf52fc7dd.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "339a7ff4-0a55-40d0-99d1-f33e3b1ffe4a",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 2,
+        "num_seqs": 1,
+        "total_seq_len": 16,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_339a7ff4-0a55-40d0-99d1-f33e3b1ffe4a.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "d8f4a9ae-d391-4f70-8069-f5deb510a2d1",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 2,
+        "num_seqs": 1,
+        "total_seq_len": 35,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_d8f4a9ae-d391-4f70-8069-f5deb510a2d1.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "d3dc3577-8a65-4937-a63a-4aa7204181a7",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 2,
+        "num_seqs": 1,
+        "total_seq_len": 35,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_d3dc3577-8a65-4937-a63a-4aa7204181a7.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "ce832e76-c4c2-421f-ad75-ebda2032c401",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 3,
+        "num_seqs": 2,
+        "total_seq_len": 461,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_ce832e76-c4c2-421f-ad75-ebda2032c401.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "6fbc155c-fcd0-4423-b1bf-970eef91d99b",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 5,
+        "num_seqs": 4,
+        "total_seq_len": 832,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_6fbc155c-fcd0-4423-b1bf-970eef91d99b.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "a87ded8a-8202-405c-8ced-17521a8c8379",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 4,
+        "num_seqs": 3,
+        "total_seq_len": 2857,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_a87ded8a-8202-405c-8ced-17521a8c8379.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "62447caf-853a-4bf8-a62e-d12885248881",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 2,
+        "num_seqs": 1,
+        "total_seq_len": 30,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_62447caf-853a-4bf8-a62e-d12885248881.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "fd072ba6-2190-4ce6-b96c-5212d4caf6a0",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 3,
+        "num_seqs": 2,
+        "total_seq_len": 114,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_fd072ba6-2190-4ce6-b96c-5212d4caf6a0.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "35ea9bbe-0189-4089-878c-4fc21461297e",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 3,
+        "num_seqs": 2,
+        "total_seq_len": 114,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_35ea9bbe-0189-4089-878c-4fc21461297e.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "1aa8cf18-0fca-4e32-a7ff-7ed29d24a3d2",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 3,
+        "num_seqs": 2,
+        "total_seq_len": 35,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_1aa8cf18-0fca-4e32-a7ff-7ed29d24a3d2.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "d5f5c00c-c159-45c8-aa2a-2bb8a00e2fe8",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 2,
+        "num_seqs": 1,
+        "total_seq_len": 31,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_d5f5c00c-c159-45c8-aa2a-2bb8a00e2fe8.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "d5aa60dc-f159-4d02-a1d4-f68bd2a62f33",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 4,
+        "num_seqs": 3,
+        "total_seq_len": 255,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_d5aa60dc-f159-4d02-a1d4-f68bd2a62f33.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "28b70283-08fd-4eb9-8831-147abbf8d0f2",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 2,
+        "num_seqs": 1,
+        "total_seq_len": 24,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_28b70283-08fd-4eb9-8831-147abbf8d0f2.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "73b8cc85-11ec-4ac4-8469-fce7b52ee44a",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 2,
+        "num_seqs": 1,
+        "total_seq_len": 97,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_73b8cc85-11ec-4ac4-8469-fce7b52ee44a.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "2683c087-e726-4a48-af25-674a95a889f2",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 2,
+        "num_seqs": 1,
+        "total_seq_len": 97,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_2683c087-e726-4a48-af25-674a95a889f2.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "4b94d568-35ce-45a5-91eb-f8dc4b7077a7",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 3,
+        "num_seqs": 2,
+        "total_seq_len": 574,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_4b94d568-35ce-45a5-91eb-f8dc4b7077a7.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "a0eb2dc2-9de3-47fc-8ab4-0beee6150015",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 2,
+        "num_seqs": 1,
+        "total_seq_len": 92,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_a0eb2dc2-9de3-47fc-8ab4-0beee6150015.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "f3d30cb9-65d2-452a-92ef-10fb8b78473d",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 3,
+        "num_seqs": 2,
+        "total_seq_len": 85,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_f3d30cb9-65d2-452a-92ef-10fb8b78473d.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "7a7deca8-255f-4400-9fc6-367d4671ddcc",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 2,
+        "num_seqs": 1,
+        "total_seq_len": 79,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_7a7deca8-255f-4400-9fc6-367d4671ddcc.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "977d19f8-5d0f-4c19-91e0-b05b500b34fc",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 2,
+        "num_seqs": 1,
+        "total_seq_len": 30,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_977d19f8-5d0f-4c19-91e0-b05b500b34fc.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "02c1e5f0-0d21-4c3c-a22d-40ad45a93549",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 2,
+        "num_seqs": 1,
+        "total_seq_len": 30,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_02c1e5f0-0d21-4c3c-a22d-40ad45a93549.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "5a91aa02-8cee-49f9-aa2b-145d6e254ee4",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 5,
+        "num_seqs": 4,
+        "total_seq_len": 401,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_5a91aa02-8cee-49f9-aa2b-145d6e254ee4.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "8e7ef744-5f4e-40e7-aae3-471e013657bd",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 2,
+        "num_seqs": 1,
+        "total_seq_len": 12,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_8e7ef744-5f4e-40e7-aae3-471e013657bd.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "85d7becb-2969-4cc8-9120-1ec26a78d258",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 2,
+        "num_seqs": 1,
+        "total_seq_len": 18,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_85d7becb-2969-4cc8-9120-1ec26a78d258.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "e286a4f4-4a93-43bd-9465-b2915f0f8f96",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 4,
+        "num_seqs": 3,
+        "total_seq_len": 1796,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_e286a4f4-4a93-43bd-9465-b2915f0f8f96.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "08d4f2c4-dd07-4cc0-9d93-975c91b17577",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 4,
+        "num_seqs": 3,
+        "total_seq_len": 973,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_08d4f2c4-dd07-4cc0-9d93-975c91b17577.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "9c1ef562-578a-4df4-986e-e0c1aaa4727a",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 4,
+        "num_seqs": 3,
+        "total_seq_len": 973,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_9c1ef562-578a-4df4-986e-e0c1aaa4727a.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "bfd8f7b6-3953-46c3-af04-409b2fbe353c",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 3,
+        "num_seqs": 2,
+        "total_seq_len": 248,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_bfd8f7b6-3953-46c3-af04-409b2fbe353c.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "c358edcd-3fda-43bb-98a2-ac32da9038b6",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 3,
+        "num_seqs": 2,
+        "total_seq_len": 2040,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_c358edcd-3fda-43bb-98a2-ac32da9038b6.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "f203fdcd-6b72-4687-9fcf-a010066eab5c",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 2,
+        "num_seqs": 1,
+        "total_seq_len": 48,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_f203fdcd-6b72-4687-9fcf-a010066eab5c.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "33a38713-868b-43f7-8d75-fbe472e30387",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 3,
+        "num_seqs": 2,
+        "total_seq_len": 118,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_33a38713-868b-43f7-8d75-fbe472e30387.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "3a77dfec-f1c1-40aa-82e4-fafdfc84e540",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 3,
+        "num_seqs": 2,
+        "total_seq_len": 76,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_3a77dfec-f1c1-40aa-82e4-fafdfc84e540.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "ea27be17-3dfa-423e-aa85-e9001c24daed",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 3,
+        "num_seqs": 2,
+        "total_seq_len": 76,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_ea27be17-3dfa-423e-aa85-e9001c24daed.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "49ef89d2-da00-4cd5-b912-708cbfc7106d",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 2,
+        "num_seqs": 1,
+        "total_seq_len": 67,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_49ef89d2-da00-4cd5-b912-708cbfc7106d.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "056224b8-0a27-4634-b93b-36beb658e135",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 2,
+        "num_seqs": 1,
+        "total_seq_len": 68,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_056224b8-0a27-4634-b93b-36beb658e135.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "685d26ff-9ad1-4378-b15a-b279d2db1bcb",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 2,
+        "num_seqs": 1,
+        "total_seq_len": 13,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_685d26ff-9ad1-4378-b15a-b279d2db1bcb.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "352c9ace-2650-481f-ab51-69394fd0f366",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 2,
+        "num_seqs": 1,
+        "total_seq_len": 525,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_352c9ace-2650-481f-ab51-69394fd0f366.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "2c9693b4-6375-459a-a29f-650c24abe472",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 2,
+        "num_seqs": 1,
+        "total_seq_len": 49,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_2c9693b4-6375-459a-a29f-650c24abe472.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "27f44fd6-0b0d-44bc-a771-617fd3e9e61c",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 2,
+        "num_seqs": 1,
+        "total_seq_len": 49,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_27f44fd6-0b0d-44bc-a771-617fd3e9e61c.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "07aa7922-1848-48a9-830a-54216b5553b3",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 3,
+        "num_seqs": 2,
+        "total_seq_len": 5709,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_07aa7922-1848-48a9-830a-54216b5553b3.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "eaa0fd47-ac57-47d0-a896-e3b1a914a5da",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 2,
+        "num_seqs": 1,
+        "total_seq_len": 14,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_eaa0fd47-ac57-47d0-a896-e3b1a914a5da.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "f105eda8-d047-4624-90a2-f5d5039e2f4e",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 4,
+        "num_seqs": 3,
+        "total_seq_len": 661,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_f105eda8-d047-4624-90a2-f5d5039e2f4e.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "cd979341-7112-4887-a2f3-dfb269a49bbc",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 3,
+        "num_seqs": 2,
+        "total_seq_len": 76,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_cd979341-7112-4887-a2f3-dfb269a49bbc.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "43bf9699-adb3-4161-b741-8ff07b553336",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 5,
+        "num_seqs": 4,
+        "total_seq_len": 959,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_43bf9699-adb3-4161-b741-8ff07b553336.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "54856fec-3b50-4866-815d-19bfa16cf58b",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 5,
+        "num_seqs": 4,
+        "total_seq_len": 959,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_54856fec-3b50-4866-815d-19bfa16cf58b.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "2ba465c0-7405-4bf1-ba4e-7d632d95f141",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 3,
+        "num_seqs": 2,
+        "total_seq_len": 28,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_2ba465c0-7405-4bf1-ba4e-7d632d95f141.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "1efaf2a9-05db-4737-8f41-6880ba1bb487",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 3,
+        "num_seqs": 2,
+        "total_seq_len": 42,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_1efaf2a9-05db-4737-8f41-6880ba1bb487.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "a01a3f93-19b0-4b12-95e3-6132a41d628e",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 4,
+        "num_seqs": 3,
+        "total_seq_len": 2284,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_a01a3f93-19b0-4b12-95e3-6132a41d628e.safetensors"
+      },
+      "weight": 0.01
+    },
+    {
+      "boundary": false,
+      "id": "cc241d2e-f8b7-448f-95ec-1d5d2809c068",
+      "mode": "prefill/direct/variable-length",
+      "parameters": {
+        "input_roles": [
+          "A_log",
+          "a",
+          "b",
+          "cu_seqlens",
+          "dt_bias",
+          "k",
+          "q",
+          "scale",
+          "state",
+          "v"
+        ],
+        "len_cu_seqlens": 2,
+        "num_seqs": 1,
+        "total_seq_len": 23,
+        "trace_tensor_source": "./blob/workloads/gdn/gdn_prefill_qk4_v8_d128_k_last/gdn_prefill_qk4_v8_d128_k_last_cc241d2e-f8b7-448f-95ec-1d5d2809c068.safetensors"
+      },
+      "weight": 0.01
+    }
+  ],
+  "execution": {
+    "cache_semantics": "warm compiled solution; one warmup, five timed iterations, three trials",
+    "call_frequency": "each official trace record has equal scoring weight",
+    "concurrency": "exclusive target GPU; competing-load gate required",
+    "downstream_layout": "output and new_state layouts fixed by the definition",
+    "graph_mode": "off",
+    "upstream_layout": "contiguous tensors in the definition-declared axis order"
+  },
+  "name": "gdn_prefill_qk4_v8_d128_k_last-official-equal-weight-trace",
+  "objective": {
+    "aggregation": "arithmetic mean of baseline_gpu_active_us / candidate_gpu_active_us over equally weighted cases",
+    "correctness_gate": "any failing workload makes the definition score zero",
+    "direction": "minimize",
+    "metric": "gpu_active_us",
+    "statistic": "mean"
+  },
+  "schema_version": "workload-v1",
+  "source_identity": {
+    "dataset_revision": "5e832ce88dd1013032b22a0e942979d7d2769cc3",
+    "definition": {
+      "path": "D:\\codes\\kernel_opt_agent\\operator_source.json.tmp",
+      "sha256": "2975eeade1e9bda0fdb87c76ca9493b27570fc62cfdea45e2ec769223cd81c05"
+    },
+    "format": "FlashInfer-Trace",
+    "record_count": 100,
+    "workloads": {
+      "path": "D:\\codes\\kernel_opt_agent\\workload_source.jsonl.tmp",
+      "sha256": "279eea77da0aa1cd47ad953e790e0a0f062ed5c7578c4a55eccee105b6d1151e"
+    }
+  }
+}

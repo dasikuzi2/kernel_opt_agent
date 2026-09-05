@@ -1,0 +1,113 @@
+--- a/vllm/model_executor/layers/utils.py
++++ b/vllm/model_executor/layers/utils.py
+@@ -107,6 +107,34 @@ def _sm89_exact_packed_bf16_gemv_kernel(
+     tl.store(output_ptr + offsets_n, accum, mask=offsets_n < n)
+ 
+ 
++@triton.jit
++def _sm89_int8_groupwise_lmhead_kernel(
++    x_ptr,
++    qweight_ptr,
++    scale_ptr,
++    output_ptr,
++    n: tl.constexpr,
++    k: tl.constexpr,
++    GROUP_K: tl.constexpr,
++    BLOCK_N: tl.constexpr,
++    BLOCK_K: tl.constexpr,
++):
++    pid = tl.program_id(0)
++    offsets_n = pid * BLOCK_N + tl.arange(0, BLOCK_N)
++    offsets_k = tl.arange(0, BLOCK_K)
++    valid = (offsets_n[:, None] < n) & (offsets_k[None, :] < k)
++    linear = offsets_n[:, None] * k + offsets_k[None, :]
++    qweight = tl.load(qweight_ptr + linear, mask=valid, other=0).to(tl.float32)
++    groups_per_row: tl.constexpr = k // GROUP_K
++    scale_offsets = (
++        offsets_n[:, None] * groups_per_row + offsets_k[None, :] // GROUP_K
++    )
++    scale = tl.load(scale_ptr + scale_offsets, mask=valid, other=0.0).to(tl.float32)
++    x = tl.load(x_ptr + offsets_k, mask=offsets_k < k, other=0.0).to(tl.float32)
++    accum = tl.sum(qweight * scale * x[None, :], axis=1)
++    tl.store(output_ptr + offsets_n, accum, mask=offsets_n < n)
++
++
+ _SM89_PACK_BLOCK = 256
+ _SM89_EXACT_PACKED_CACHE: dict[
+     tuple[int, int], tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]
+@@ -166,6 +194,41 @@ def _get_sm89_exact_packed_weight(
+     return cached
+ 
+ 
++_SM89_INT8_GROUPWISE_CACHE: dict[
++    tuple[int, int, int], tuple[torch.Tensor, torch.Tensor]
++] = {}
++
++
++def _get_sm89_int8_groupwise_weight(
++    weight: torch.Tensor, group_k: int
++) -> tuple[torch.Tensor, torch.Tensor]:
++    cache_key = (weight.data_ptr(), weight.numel(), group_k)
++    cached = _SM89_INT8_GROUPWISE_CACHE.get(cache_key)
++    if cached is not None:
++        return cached
++    n, k = weight.shape
++    blocks = weight.float().reshape(n, k // group_k, group_k)
++    scales = blocks.abs().amax(dim=2).div(127.0).clamp_min(
++        torch.finfo(torch.float32).tiny
++    )
++    qweight = (
++        torch.round(blocks / scales[:, :, None])
++        .clamp(-127, 127)
++        .to(torch.int8)
++        .reshape(n, k)
++        .contiguous()
++    )
++    cached = (qweight, scales.to(torch.float16).contiguous())
++    _SM89_INT8_GROUPWISE_CACHE[cache_key] = cached
++    packed_bytes = sum(t.numel() * t.element_size() for t in cached)
++    logger.info_once(
++        "SM89 INT8 groupwise lm_head cache ready: group=%d, %.3f MiB (%.3f of dense)",
++        group_k, packed_bytes / (1024 * 1024),
++        packed_bytes / (weight.numel() * weight.element_size()),
++    )
++    return cached
++
++
+ def sm89_bf16_gemv_impl(
+     x: torch.Tensor,
+     weight: torch.Tensor,
+@@ -173,6 +236,33 @@ def sm89_bf16_gemv_impl(
+     n, k = weight.shape
+     if (n, k) != (248320, 1024):
+         raise ValueError(f"unsupported SM89 BF16 lm_head shape: N={n}, K={k}")
++    int8_group_raw = os.environ.get("VLLM_SM89_INT8_GROUPWISE_LM_HEAD")
++    if int8_group_raw is not None:
++        group_k = int(int8_group_raw)
++        if group_k not in (32, 64, 128, 256, 1024):
++            raise ValueError(
++                "VLLM_SM89_INT8_GROUPWISE_LM_HEAD must be one of "
++                "32,64,128,256,1024"
++            )
++        qweight, scales = _get_sm89_int8_groupwise_weight(weight, group_k)
++        output = torch.empty((*x.shape[:-1], n), dtype=x.dtype, device=x.device)
++        block_n, num_warps = 2, 4
++        if group_k >= 256:
++            block_n = 1
++        _sm89_int8_groupwise_lmhead_kernel[(triton.cdiv(n, block_n),)](
++            x,
++            qweight,
++            scales,
++            output,
++            n=n,
++            k=k,
++            GROUP_K=group_k,
++            BLOCK_N=block_n,
++            BLOCK_K=triton.next_power_of_2(k),
++            num_warps=num_warps,
++            num_stages=1,
++        )
++        return output
+     if os.environ.get("VLLM_SM89_EXACT_PACKED_LM_HEAD", "0") == "1":
+         packed = _get_sm89_exact_packed_weight(weight)
+         output = torch.empty((*x.shape[:-1], n), dtype=x.dtype, device=x.device)

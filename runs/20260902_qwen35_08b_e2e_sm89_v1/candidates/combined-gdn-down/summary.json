@@ -1,0 +1,52 @@
+{
+  "schema_version": "sm89-combined-gdn-down-frontier-v1",
+  "candidate": "SM89 lm-head + segmented GDN projection + reachable MLP-down GEMV",
+  "scope": "Qwen3.5-0.8B, RTX 4060 Laptop GPU, batch=1, BF16, six natural prompts, 64 generated tokens",
+  "source_sha256": {
+    "utils_py": "f99e568443d80351d7e533467f489fd5cb1d054c554a0032e3d568d7b78b7fa4",
+    "qwen_gdn_linear_attn_py": "3c044779bfadb83303ac396c8cfcee0c6f1ac0acd93e49b54c5f7ab98a856d3d"
+  },
+  "design": "Same-source control-candidate-candidate-control, independent fresh compile caches, one warmup and three measured trials per process, GPU telemetry enabled",
+  "runs": [
+    {"kind": "control", "trace": "traces/vllm_combo_gdndown_c1.json", "sha256": "8eb4306752dfb13f4cba592627f3598af29d8d70ac96d2095e77482b33468af7", "weighted_e2e_ms": 547.8687416668132, "weighted_tpot_ms": 8.078939550263163},
+    {"kind": "candidate", "trace": "traces/vllm_combo_gdndown_s1.json", "sha256": "7aed5fd17eef0e97180c0c87522ddc84fe35fc28759c8adf27121d6653fbdac6", "weighted_e2e_ms": 533.8250463334285, "weighted_tpot_ms": 7.8280112910082575},
+    {"kind": "candidate", "trace": "traces/vllm_combo_gdndown_s2.json", "sha256": "eb6d3ca54c722b7ce245659af5c9a2d4f1aef8fef561fe177c868353a77fbab9", "weighted_e2e_ms": 536.0667020001225, "weighted_tpot_ms": 7.879801343906798},
+    {"kind": "control", "trace": "traces/vllm_combo_gdndown_c2.json", "sha256": "027aaa11f820430fa0a02f9022a47038e07f17fcf8091f948acb336c4bef4dd2", "weighted_e2e_ms": 563.620329000211, "weighted_tpot_ms": 8.300927772483739}
+  ],
+  "aggregate": {
+    "control_mean_e2e_ms": 555.7445353335121,
+    "candidate_mean_e2e_ms": 534.9458741667755,
+    "e2e_speedup": 1.03887993565542,
+    "control_mean_tpot_ms": 8.189933661373452,
+    "candidate_mean_tpot_ms": 7.853906317457527,
+    "tpot_speedup": 1.0427847405270176,
+    "control_repeat_exact_cases": "6/6",
+    "candidate_repeat_exact_cases": "6/6",
+    "cross_mode_exact_cases": "4/6"
+  },
+  "drift_audit": {
+    "finding": "The second control contains two 8.75 ms TPOT prompt medians while the other four remain near 8.05-8.11 ms. The aggregate therefore overstates the stable candidate gain.",
+    "first_control_vs_candidate_1": {"e2e_speedup": 1.026307674077572, "tpot_speedup": 1.0320551733929073},
+    "first_control_vs_candidate_2": {"e2e_speedup": 1.0220159909627962, "tpot_speedup": 1.0252719830951516},
+    "conservative_e2e_speedup": 1.0220159909627962,
+    "conservative_tpot_speedup": 1.0252719830951516,
+    "status": "MATERIALITY_UNPROVEN"
+  },
+  "comparisons": [
+    {"path": "comparisons/vllm_combo_gdndown_c1_vs_s1.json", "sha256": "cf1063120f01a24e26316ff8654281a6318c7113021082fd05894e34523289e5"},
+    {"path": "comparisons/vllm_combo_gdndown_c1_vs_s2.json", "sha256": "a4738177e68cc1e27ba61a80e792a9e87b5c55aaaa85013d7636c96da41acbb3"},
+    {"path": "comparisons/vllm_combo_gdndown_c2_vs_s1.json", "sha256": "a92591e082c90c07d0c208a7bb1fff7beb861c6eeb9de2ceef179dc92cd6a291"},
+    {"path": "comparisons/vllm_combo_gdndown_c2_vs_s2.json", "sha256": "cb5e2b776e2fa3a127a6f24b0a0efe5c050646c8a14435e9e18ba74b2b3fc65f"}
+  ],
+  "quality_gate": {
+    "status": "NOT_RUN",
+    "reason": "The conservative same-source comparison does not robustly clear the 1.03x whole-model promotion floor, and cross-mode exactness is only 4/6."
+  },
+  "decision": "MEASURED_REJECT_UNSTABLE_MATERIALITY",
+  "lesson": "Individually measured kernel gains cannot be added. CUDA Graph overlap, shared bandwidth service, thermal drift and numerical contracts must be re-qualified for every combination.",
+  "restored_environment": {
+    "utils_py_sha256": "a2b0d1ac0600564dae318afc544d7876e13b2e847e44cb1d5632bec7d213dc23",
+    "qwen_gdn_linear_attn_py_sha256": "cb819264c1e791177d866f484ca0579a7d57141926705a1f75dd4a79de4d0125",
+    "strict_candidate": "SM89 BF16 lm-head only"
+  }
+}

@@ -1,0 +1,1823 @@
+{
+  "schema_version": "sm89-exact-bf16-backbone-cold-stream-v1",
+  "status": "PASS",
+  "scope": {
+    "model": "/home/aden/models/Qwen3.5-0.8B",
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "dtype_contract": "exact BF16 weight bits; FP32 reduction may differ from cuBLAS",
+    "excluded": "small GDN BA projection (1.125 MiB total, about 87 us/step)"
+  },
+  "protocol": {
+    "iterations_per_sample": 5,
+    "repeats": 7,
+    "warmup_pairs": 100,
+    "schedules": "4x4,4x8,8x4,8x8,16x4,16x8,32x4,32x8",
+    "cache_control": "Each group rotates through every layer weight; all included dense working sets exceed 32 MiB L2."
+  },
+  "groups": [
+    {
+      "group": "mlp_gate_up",
+      "weight_shape": [
+        7168,
+        1024
+      ],
+      "weights_per_decode_step": 24,
+      "dense_working_set_bytes": 352321536,
+      "packed_working_set_bytes": 272740352,
+      "packed_byte_fraction": 0.7741234188988095,
+      "l2_cold_stream": true,
+      "blocks": 688128,
+      "fallback_blocks": 9880,
+      "weight_bit_exact": true,
+      "schedules": [
+        {
+          "block_n": 4,
+          "num_warps": 4,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 1.52587890625e-05,
+          "median_dense_stream_us": 1559.347152709961,
+          "median_packed_stream_us": 1915.4943466186523,
+          "local_speedup": 0.8140703497572915,
+          "samples": {
+            "baseline_us": [
+              1618.124771118164,
+              1618.124771118164,
+              1618.5344696044922,
+              1558.732795715332,
+              1555.4559707641602,
+              1559.347152709961,
+              1557.2992324829102
+            ],
+            "candidate_us": [
+              1991.8848037719727,
+              1997.0048904418945,
+              1992.9088592529297,
+              1915.4943466186523,
+              1891.7375564575195,
+              1891.1231994628906,
+              1895.0143814086914
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 4,
+          "num_warps": 8,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 1.52587890625e-05,
+          "median_dense_stream_us": 1557.0688247680664,
+          "median_packed_stream_us": 1893.1711196899414,
+          "local_speedup": 0.8224659718150988,
+          "samples": {
+            "baseline_us": [
+              1617.305564880371,
+              1576.9599914550781,
+              1557.0688247680664,
+              1555.8655738830566,
+              1556.4800262451172,
+              1555.8655738830566,
+              1558.3231925964355
+            ],
+            "candidate_us": [
+              1990.6560897827148,
+              1991.6799545288086,
+              1892.7616119384766,
+              1893.1711196899414,
+              1891.7375564575195,
+              1892.9664611816406,
+              1894.4000244140625
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 8,
+          "num_warps": 4,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 1.52587890625e-05,
+          "median_dense_stream_us": 1617.919921875,
+          "median_packed_stream_us": 1934.1312408447266,
+          "local_speedup": 0.8365098953514539,
+          "samples": {
+            "baseline_us": [
+              1618.3040618896484,
+              1617.919921875,
+              1617.5104141235352,
+              1620.787239074707,
+              1625.9071350097656,
+              1617.919921875,
+              1576.7552375793457
+            ],
+            "candidate_us": [
+              1934.5407485961914,
+              1933.7215423583984,
+              1935.5648040771484,
+              1934.7455978393555,
+              1933.5168838500977,
+              1934.1312408447266,
+              1867.1615600585938
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 8,
+          "num_warps": 8,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 1.52587890625e-05,
+          "median_dense_stream_us": 1597.6448059082031,
+          "median_packed_stream_us": 1955.6352615356445,
+          "local_speedup": 0.8169441599522332,
+          "samples": {
+            "baseline_us": [
+              1598.4448432922363,
+              1604.1984558105469,
+              1597.6448059082031,
+              1603.379249572754,
+              1549.516773223877,
+              1545.2159881591797,
+              1540.505599975586
+            ],
+            "candidate_us": [
+              1957.2736740112305,
+              1955.6352615356445,
+              1957.8880310058594,
+              1955.8399200439453,
+              1862.0416641235352,
+              1864.29443359375,
+              1862.6495361328125
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 16,
+          "num_warps": 4,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 1.52587890625e-05,
+          "median_dense_stream_us": 1619.3536758422852,
+          "median_packed_stream_us": 1930.624008178711,
+          "local_speedup": 0.8387721632913556,
+          "samples": {
+            "baseline_us": [
+              1619.968032836914,
+              1619.3536758422852,
+              1622.425651550293,
+              1618.7328338623047,
+              1617.5104141235352,
+              1629.1839599609375,
+              1619.148826599121
+            ],
+            "candidate_us": [
+              1930.624008178711,
+              1929.6255111694336,
+              1929.8240661621094,
+              1930.6495666503906,
+              1940.0703430175781,
+              1929.8303604125977,
+              1931.2639236450195
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 16,
+          "num_warps": 8,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 1.52587890625e-05,
+          "median_dense_stream_us": 1557.913589477539,
+          "median_packed_stream_us": 2017.0751571655273,
+          "local_speedup": 0.7723626875989985,
+          "samples": {
+            "baseline_us": [
+              1618.5344696044922,
+              1616.8960571289062,
+              1618.5344696044922,
+              1557.094383239746,
+              1556.0704231262207,
+              1557.913589477539,
+              1555.6608200073242
+            ],
+            "candidate_us": [
+              2079.7119140625,
+              2080.147171020508,
+              2079.3344497680664,
+              2017.0751571655273,
+              1976.1152267456055,
+              1977.3183822631836,
+              1978.1631469726562
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 32,
+          "num_warps": 4,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 1.52587890625e-05,
+          "median_dense_stream_us": 1616.4863586425781,
+          "median_packed_stream_us": 2381.203269958496,
+          "local_speedup": 0.6788527376206539,
+          "samples": {
+            "baseline_us": [
+              1618.943977355957,
+              1618.3296203613281,
+              1616.4863586425781,
+              1616.4863586425781,
+              1618.739128112793,
+              1576.5376091003418,
+              1575.500774383545
+            ],
+            "candidate_us": [
+              2383.6671829223633,
+              2381.0047149658203,
+              2384.8960876464844,
+              2383.8720321655273,
+              2381.203269958496,
+              2325.708770751953,
+              2312.8063201904297
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 32,
+          "num_warps": 8,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 1.52587890625e-05,
+          "median_dense_stream_us": 1557.5039863586426,
+          "median_packed_stream_us": 2369.945526123047,
+          "local_speedup": 0.6571897831367189,
+          "samples": {
+            "baseline_us": [
+              1557.7088356018066,
+              1555.0463676452637,
+              1557.5039863586426,
+              1557.094383239746,
+              1556.2751770019531,
+              1559.552001953125,
+              1562.8288269042969
+            ],
+            "candidate_us": [
+              2370.9503173828125,
+              2368.10245513916,
+              2368.716812133789,
+              2369.945526123047,
+              2372.60799407959,
+              2374.0352630615234,
+              2368.307113647461
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        }
+      ],
+      "best": {
+        "block_n": 16,
+        "num_warps": 4,
+        "output_bit_exact": false,
+        "maximum_absolute_output_difference": 1.52587890625e-05,
+        "median_dense_stream_us": 1619.3536758422852,
+        "median_packed_stream_us": 1930.624008178711,
+        "local_speedup": 0.8387721632913556,
+        "samples": {
+          "baseline_us": [
+            1619.968032836914,
+            1619.3536758422852,
+            1622.425651550293,
+            1618.7328338623047,
+            1617.5104141235352,
+            1629.1839599609375,
+            1619.148826599121
+          ],
+          "candidate_us": [
+            1930.624008178711,
+            1929.6255111694336,
+            1929.8240661621094,
+            1930.6495666503906,
+            1940.0703430175781,
+            1929.8303604125977,
+            1931.2639236450195
+          ],
+          "order": [
+            "baseline-candidate",
+            "candidate-baseline",
+            "baseline-candidate",
+            "candidate-baseline",
+            "baseline-candidate",
+            "candidate-baseline",
+            "baseline-candidate"
+          ]
+        }
+      }
+    },
+    {
+      "group": "gdn_qkvz",
+      "weight_shape": [
+        8192,
+        1024
+      ],
+      "weights_per_decode_step": 18,
+      "dense_working_set_bytes": 301989888,
+      "packed_working_set_bytes": 233970688,
+      "packed_byte_fraction": 0.7747633192274306,
+      "l2_cold_stream": true,
+      "blocks": 589824,
+      "fallback_blocks": 8846,
+      "weight_bit_exact": true,
+      "schedules": [
+        {
+          "block_n": 4,
+          "num_warps": 4,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 6.103515625e-05,
+          "median_dense_stream_us": 1371.3408470153809,
+          "median_packed_stream_us": 1705.3695678710938,
+          "local_speedup": 0.8041311823848838,
+          "samples": {
+            "baseline_us": [
+              1370.521640777588,
+              1377.280044555664,
+              1380.7616233825684,
+              1370.9312438964844,
+              1379.532814025879,
+              1371.3408470153809,
+              1371.3408470153809
+            ],
+            "candidate_us": [
+              1705.3695678710938,
+              1704.5503616333008,
+              1705.1647186279297,
+              1703.9360046386719,
+              1705.9839248657227,
+              1706.5919876098633,
+              1705.5744171142578
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 4,
+          "num_warps": 8,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 6.103515625e-05,
+          "median_dense_stream_us": 1370.911979675293,
+          "median_packed_stream_us": 1702.0927429199219,
+          "local_speedup": 0.805427310220187,
+          "samples": {
+            "baseline_us": [
+              1438.5024070739746,
+              1373.3887672424316,
+              1369.9071884155273,
+              1370.7263946533203,
+              1369.9071884155273,
+              1370.911979675293,
+              1376.0512351989746
+            ],
+            "candidate_us": [
+              1742.848014831543,
+              1702.0927429199219,
+              1703.5263061523438,
+              1711.9232177734375,
+              1701.683235168457,
+              1701.478385925293,
+              1701.888084411621
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 8,
+          "num_warps": 4,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 6.103515625e-05,
+          "median_dense_stream_us": 1371.1359977722168,
+          "median_packed_stream_us": 1637.5808715820312,
+          "local_speedup": 0.8372936088631715,
+          "samples": {
+            "baseline_us": [
+              1371.1359977722168,
+              1371.1359977722168,
+              1373.5936164855957,
+              1371.1359977722168,
+              1371.5456008911133,
+              1371.1359977722168,
+              1371.110439300537
+            ],
+            "candidate_us": [
+              1637.5808715820312,
+              1636.5568161010742,
+              1636.5568161010742,
+              1638.809585571289,
+              1636.7616653442383,
+              1644.5440292358398,
+              1638.1952285766602
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 8,
+          "num_warps": 8,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 6.103515625e-05,
+          "median_dense_stream_us": 1371.1359977722168,
+          "median_packed_stream_us": 1685.9136581420898,
+          "local_speedup": 0.8132895721855862,
+          "samples": {
+            "baseline_us": [
+              1391.2063598632812,
+              1371.5328216552734,
+              1369.9071884155273,
+              1371.1359977722168,
+              1378.5087585449219,
+              1370.9312438964844,
+              1369.0879821777344
+            ],
+            "candidate_us": [
+              1687.9615783691406,
+              1686.9375228881836,
+              1685.2991104125977,
+              1685.0944519042969,
+              1685.9136581420898,
+              1685.2991104125977,
+              1686.1183166503906
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 16,
+          "num_warps": 4,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 6.103515625e-05,
+          "median_dense_stream_us": 1372.3520278930664,
+          "median_packed_stream_us": 1667.2767639160156,
+          "local_speedup": 0.8231099104804622,
+          "samples": {
+            "baseline_us": [
+              1371.9552040100098,
+              1372.3520278930664,
+              1371.1359977722168,
+              1374.617576599121,
+              1381.3759803771973,
+              1372.9791641235352,
+              1371.3408470153809
+            ],
+            "candidate_us": [
+              1667.6864624023438,
+              1673.0112075805664,
+              1666.2527084350586,
+              1667.2767639160156,
+              1667.0591354370117,
+              1668.8896179199219,
+              1666.6624069213867
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 16,
+          "num_warps": 8,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 6.103515625e-05,
+          "median_dense_stream_us": 1371.3151931762695,
+          "median_packed_stream_us": 1791.7951583862305,
+          "local_speedup": 0.7653303374317276,
+          "samples": {
+            "baseline_us": [
+              1371.9552040100098,
+              1371.3151931762695,
+              1369.9071884155273,
+              1372.7744102478027,
+              1369.4975852966309,
+              1373.3887672424316,
+              1370.1120376586914
+            ],
+            "candidate_us": [
+              1791.7951583862305,
+              1793.4335708618164,
+              1792.8192138671875,
+              1798.3360290527344,
+              1790.9759521484375,
+              1789.9520874023438,
+              1770.4959869384766
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 32,
+          "num_warps": 4,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 6.103515625e-05,
+          "median_dense_stream_us": 1371.513557434082,
+          "median_packed_stream_us": 1993.9327239990234,
+          "local_speedup": 0.6878434467354445,
+          "samples": {
+            "baseline_us": [
+              1371.1359977722168,
+              1371.1359977722168,
+              1372.7744102478027,
+              1372.3648071289062,
+              1445.8687782287598,
+              1371.513557434082,
+              1370.7263946533203
+            ],
+            "candidate_us": [
+              1991.8527603149414,
+              1997.6192474365234,
+              1993.3183670043945,
+              1994.7519302368164,
+              1993.9327239990234,
+              1992.0896530151367,
+              1994.3424224853516
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 32,
+          "num_warps": 8,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 6.103515625e-05,
+          "median_dense_stream_us": 1351.6799926757812,
+          "median_packed_stream_us": 2030.1824569702148,
+          "local_speedup": 0.6657923715354083,
+          "samples": {
+            "baseline_us": [
+              1352.4991989135742,
+              1353.5167694091797,
+              1350.6560325622559,
+              1351.6799926757812,
+              1350.8607864379883,
+              1352.4991989135742,
+              1350.8607864379883
+            ],
+            "candidate_us": [
+              2028.9535522460938,
+              2028.9535522460938,
+              2030.1824569702148,
+              2029.5679092407227,
+              2031.7951202392578,
+              2031.0016632080078,
+              2031.3983917236328
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        }
+      ],
+      "best": {
+        "block_n": 8,
+        "num_warps": 4,
+        "output_bit_exact": false,
+        "maximum_absolute_output_difference": 6.103515625e-05,
+        "median_dense_stream_us": 1371.1359977722168,
+        "median_packed_stream_us": 1637.5808715820312,
+        "local_speedup": 0.8372936088631715,
+        "samples": {
+          "baseline_us": [
+            1371.1359977722168,
+            1371.1359977722168,
+            1373.5936164855957,
+            1371.1359977722168,
+            1371.5456008911133,
+            1371.1359977722168,
+            1371.110439300537
+          ],
+          "candidate_us": [
+            1637.5808715820312,
+            1636.5568161010742,
+            1636.5568161010742,
+            1638.809585571289,
+            1636.7616653442383,
+            1644.5440292358398,
+            1638.1952285766602
+          ],
+          "order": [
+            "baseline-candidate",
+            "candidate-baseline",
+            "baseline-candidate",
+            "candidate-baseline",
+            "baseline-candidate",
+            "candidate-baseline",
+            "baseline-candidate"
+          ]
+        }
+      }
+    },
+    {
+      "group": "mlp_down",
+      "weight_shape": [
+        1024,
+        3584
+      ],
+      "weights_per_decode_step": 24,
+      "dense_working_set_bytes": 176160768,
+      "packed_working_set_bytes": 136411136,
+      "packed_byte_fraction": 0.7743559337797619,
+      "l2_cold_stream": true,
+      "blocks": 344064,
+      "fallback_blocks": 5020,
+      "weight_bit_exact": true,
+      "schedules": [
+        {
+          "block_n": 4,
+          "num_warps": 4,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 3.814697265625e-06,
+          "median_dense_stream_us": 1000.2431869506836,
+          "median_packed_stream_us": 1281.0175895690918,
+          "local_speedup": 0.7808192448685619,
+          "samples": {
+            "baseline_us": [
+              1001.8815994262695,
+              1002.7008056640625,
+              1000.2431869506836,
+              999.4239807128906,
+              1029.5295715332031,
+              909.5168113708496,
+              910.5152130126953
+            ],
+            "candidate_us": [
+              1281.0239791870117,
+              1281.4335823059082,
+              1281.0175895690918,
+              1282.4576377868652,
+              1237.8047943115234,
+              1210.9824180603027,
+              1211.3920211791992
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 4,
+          "num_warps": 8,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 3.814697265625e-06,
+          "median_dense_stream_us": 930.6112289428711,
+          "median_packed_stream_us": 1277.7215957641602,
+          "local_speedup": 0.7283364639276566,
+          "samples": {
+            "baseline_us": [
+              933.6832046508789,
+              930.6112289428711,
+              929.9967765808105,
+              931.0208320617676,
+              930.2016258239746,
+              930.3999900817871,
+              932.249641418457
+            ],
+            "candidate_us": [
+              1277.7471542358398,
+              1277.337646484375,
+              1277.3311614990234,
+              1278.7455558776855,
+              1281.6384315490723,
+              1277.7215957641602,
+              1277.132797241211
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 8,
+          "num_warps": 4,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 3.814697265625e-06,
+          "median_dense_stream_us": 919.5520401000977,
+          "median_packed_stream_us": 1860.1984024047852,
+          "local_speedup": 0.4943300880762719,
+          "samples": {
+            "baseline_us": [
+              930.9887886047363,
+              930.406379699707,
+              929.3824195861816,
+              919.5520401000977,
+              910.7199668884277,
+              909.1072082519531,
+              911.9744300842285
+            ],
+            "candidate_us": [
+              1861.2224578857422,
+              1861.2224578857422,
+              1861.427116394043,
+              1860.1984024047852,
+              1779.7119140625,
+              1778.4832000732422,
+              1778.4767150878906
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 8,
+          "num_warps": 8,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 3.814697265625e-06,
+          "median_dense_stream_us": 931.8400382995605,
+          "median_packed_stream_us": 1571.225643157959,
+          "local_speedup": 0.5930657015161002,
+          "samples": {
+            "baseline_us": [
+              930.8159828186035,
+              931.8400382995605,
+              932.0320129394531,
+              936.5504264831543,
+              929.3824195861816,
+              930.8159828186035,
+              933.8879585266113
+            ],
+            "candidate_us": [
+              1570.406436920166,
+              1570.406436920166,
+              1571.225643157959,
+              1580.851173400879,
+              1573.4784126281738,
+              1570.201587677002,
+              1572.2496032714844
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 16,
+          "num_warps": 4,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 3.814697265625e-06,
+          "median_dense_stream_us": 882.2784423828125,
+          "median_packed_stream_us": 3966.7713165283203,
+          "local_speedup": 0.22241726885203306,
+          "samples": {
+            "baseline_us": [
+              882.2784423828125,
+              881.4271926879883,
+              882.2784423828125,
+              894.5664405822754,
+              881.2543869018555,
+              881.4592361450195,
+              882.8927993774414
+            ],
+            "candidate_us": [
+              3966.7713165283203,
+              3968.000030517578,
+              3956.5311431884766,
+              3967.59033203125,
+              3961.2415313720703,
+              3971.072006225586,
+              3958.1695556640625
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 16,
+          "num_warps": 8,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 3.814697265625e-06,
+          "median_dense_stream_us": 902.7263641357422,
+          "median_packed_stream_us": 1955.8399200439453,
+          "local_speedup": 0.4615543199033687,
+          "samples": {
+            "baseline_us": [
+              901.3248443603516,
+              902.7584075927734,
+              901.3248443603516,
+              902.7263641357422,
+              900.5056381225586,
+              902.9631614685059,
+              902.9631614685059
+            ],
+            "candidate_us": [
+              1950.9248733520508,
+              1957.0688247680664,
+              1956.8639755249023,
+              1951.5327453613281,
+              1955.2255630493164,
+              1956.8639755249023,
+              1955.8399200439453
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 32,
+          "num_warps": 4,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 3.814697265625e-06,
+          "median_dense_stream_us": 873.2671737670898,
+          "median_packed_stream_us": 6553.804779052734,
+          "local_speedup": 0.13324583249080377,
+          "samples": {
+            "baseline_us": [
+              877.3632049560547,
+              879.4112205505371,
+              877.1583557128906,
+              872.4479675292969,
+              872.6271629333496,
+              871.6095924377441,
+              873.2671737670898
+            ],
+            "candidate_us": [
+              6611.353302001953,
+              6598.841857910156,
+              6589.234924316406,
+              6534.963226318359,
+              6538.034820556641,
+              6515.302276611328,
+              6553.804779052734
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 32,
+          "num_warps": 8,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 3.814697265625e-06,
+          "median_dense_stream_us": 880.2304267883301,
+          "median_packed_stream_us": 6262.374496459961,
+          "local_speedup": 0.1405585736346354,
+          "samples": {
+            "baseline_us": [
+              882.688045501709,
+              876.3392448425293,
+              880.2304267883301,
+              882.2784423828125,
+              877.1583557128906,
+              880.844783782959,
+              875.1104354858398
+            ],
+            "candidate_us": [
+              6325.45280456543,
+              6255.206298828125,
+              6262.374496459961,
+              6273.638534545898,
+              6265.651321411133,
+              6261.964797973633,
+              6167.756652832031
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        }
+      ],
+      "best": {
+        "block_n": 4,
+        "num_warps": 4,
+        "output_bit_exact": false,
+        "maximum_absolute_output_difference": 3.814697265625e-06,
+        "median_dense_stream_us": 1000.2431869506836,
+        "median_packed_stream_us": 1281.0175895690918,
+        "local_speedup": 0.7808192448685619,
+        "samples": {
+          "baseline_us": [
+            1001.8815994262695,
+            1002.7008056640625,
+            1000.2431869506836,
+            999.4239807128906,
+            1029.5295715332031,
+            909.5168113708496,
+            910.5152130126953
+          ],
+          "candidate_us": [
+            1281.0239791870117,
+            1281.4335823059082,
+            1281.0175895690918,
+            1282.4576377868652,
+            1237.8047943115234,
+            1210.9824180603027,
+            1211.3920211791992
+          ],
+          "order": [
+            "baseline-candidate",
+            "candidate-baseline",
+            "baseline-candidate",
+            "candidate-baseline",
+            "baseline-candidate",
+            "candidate-baseline",
+            "baseline-candidate"
+          ]
+        }
+      }
+    },
+    {
+      "group": "attention_gdn_out",
+      "weight_shape": [
+        1024,
+        2048
+      ],
+      "weights_per_decode_step": 24,
+      "dense_working_set_bytes": 100663296,
+      "packed_working_set_bytes": 78373888,
+      "packed_byte_fraction": 0.7785746256510416,
+      "l2_cold_stream": true,
+      "blocks": 196608,
+      "fallback_blocks": 3698,
+      "weight_bit_exact": true,
+      "schedules": [
+        {
+          "block_n": 4,
+          "num_warps": 4,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 4.76837158203125e-07,
+          "median_dense_stream_us": 576.1023998260498,
+          "median_packed_stream_us": 625.0495910644531,
+          "local_speedup": 0.9216907075244274,
+          "samples": {
+            "baseline_us": [
+              581.4271926879883,
+              579.1488170623779,
+              573.0112075805664,
+              575.8975982666016,
+              576.1023998260498,
+              576.5120029449463,
+              571.1872100830078
+            ],
+            "candidate_us": [
+              625.0495910644531,
+              626.8928050994873,
+              624.2303848266602,
+              624.0255832672119,
+              625.2543926239014,
+              624.8447895050049,
+              628.1216144561768
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 4,
+          "num_warps": 8,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 4.76837158203125e-07,
+          "median_dense_stream_us": 572.6016044616699,
+          "median_packed_stream_us": 664.7808074951172,
+          "local_speedup": 0.8613389526379726,
+          "samples": {
+            "baseline_us": [
+              572.4031925201416,
+              572.6016044616699,
+              571.392011642456,
+              573.0303764343262,
+              589.8240089416504,
+              572.3904132843018,
+              575.8975982666016
+            ],
+            "candidate_us": [
+              664.1664028167725,
+              666.0096168518066,
+              664.7808074951172,
+              664.7808074951172,
+              664.1664028167725,
+              663.9359951019287,
+              667.4431800842285
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 8,
+          "num_warps": 4,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 4.76837158203125e-07,
+          "median_dense_stream_us": 572.8256225585938,
+          "median_packed_stream_us": 748.3391761779785,
+          "local_speedup": 0.7654625613538076,
+          "samples": {
+            "baseline_us": [
+              574.0543842315674,
+              572.211217880249,
+              572.8256225585938,
+              575.0656127929688,
+              571.5775966644287,
+              573.6447811126709,
+              571.5968132019043
+            ],
+            "candidate_us": [
+              751.6096115112305,
+              747.1104145050049,
+              749.1583824157715,
+              748.3391761779785,
+              747.3152160644531,
+              756.5311908721924,
+              746.4960098266602
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 8,
+          "num_warps": 8,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 4.76837158203125e-07,
+          "median_dense_stream_us": 575.0783920288086,
+          "median_packed_stream_us": 723.5583782196045,
+          "local_speedup": 0.7947919744138029,
+          "samples": {
+            "baseline_us": [
+              579.7887802124023,
+              572.211217880249,
+              571.7887878417969,
+              573.0303764343262,
+              575.6864070892334,
+              575.8975982666016,
+              575.0783920288086
+            ],
+            "candidate_us": [
+              728.0640125274658,
+              723.5583782196045,
+              723.5583782196045,
+              727.8592109680176,
+              722.5344181060791,
+              724.9919891357422,
+              723.1488227844238
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 16,
+          "num_warps": 4,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 4.76837158203125e-07,
+          "median_dense_stream_us": 571.8016147613525,
+          "median_packed_stream_us": 1239.8591995239258,
+          "local_speedup": 0.46118270121390376,
+          "samples": {
+            "baseline_us": [
+              580.6079864501953,
+              575.0783920288086,
+              575.2639770507812,
+              571.8016147613525,
+              571.8016147613525,
+              562.3807907104492,
+              562.995195388794
+            ],
+            "candidate_us": [
+              1239.2448425292969,
+              1239.8591995239258,
+              1243.1360244750977,
+              1250.9119987487793,
+              1243.7503814697266,
+              1237.1968269348145,
+              1195.2128410339355
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 16,
+          "num_warps": 8,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 4.76837158203125e-07,
+          "median_dense_stream_us": 573.6447811126709,
+          "median_packed_stream_us": 886.5792274475098,
+          "local_speedup": 0.6470316056966648,
+          "samples": {
+            "baseline_us": [
+              575.8975982666016,
+              573.8495826721191,
+              577.5360107421875,
+              573.6447811126709,
+              572.4160194396973,
+              572.4160194396973,
+              572.4160194396973
+            ],
+            "candidate_us": [
+              885.3504180908203,
+              885.7600212097168,
+              886.5792274475098,
+              886.3743782043457,
+              892.3135757446289,
+              886.9888305664062,
+              890.2655601501465
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 32,
+          "num_warps": 4,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 4.76837158203125e-07,
+          "median_dense_stream_us": 549.2735862731934,
+          "median_packed_stream_us": 2461.0815048217773,
+          "local_speedup": 0.223183825971245,
+          "samples": {
+            "baseline_us": [
+              549.4783878326416,
+              567.6991939544678,
+              548.8639831542969,
+              550.9119987487793,
+              548.6591815948486,
+              549.2735862731934,
+              547.430419921875
+            ],
+            "candidate_us": [
+              2465.177536010742,
+              2459.4432830810547,
+              2460.4671478271484,
+              2461.9007110595703,
+              2460.0576400756836,
+              2463.7439727783203,
+              2461.0815048217773
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 32,
+          "num_warps": 8,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 4.76837158203125e-07,
+          "median_dense_stream_us": 572.0064163208008,
+          "median_packed_stream_us": 1444.4543838500977,
+          "local_speedup": 0.3960017171301426,
+          "samples": {
+            "baseline_us": [
+              571.5968132019043,
+              572.0064163208008,
+              573.0303764343262,
+              573.0303764343262,
+              572.6208209991455,
+              569.9584007263184,
+              562.175989151001
+            ],
+            "candidate_us": [
+              1444.4543838500977,
+              1445.4784393310547,
+              1445.683193206787,
+              1443.2064056396484,
+              1444.0447807312012,
+              1445.0688362121582,
+              1393.8688278198242
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        }
+      ],
+      "best": {
+        "block_n": 4,
+        "num_warps": 4,
+        "output_bit_exact": false,
+        "maximum_absolute_output_difference": 4.76837158203125e-07,
+        "median_dense_stream_us": 576.1023998260498,
+        "median_packed_stream_us": 625.0495910644531,
+        "local_speedup": 0.9216907075244274,
+        "samples": {
+          "baseline_us": [
+            581.4271926879883,
+            579.1488170623779,
+            573.0112075805664,
+            575.8975982666016,
+            576.1023998260498,
+            576.5120029449463,
+            571.1872100830078
+          ],
+          "candidate_us": [
+            625.0495910644531,
+            626.8928050994873,
+            624.2303848266602,
+            624.0255832672119,
+            625.2543926239014,
+            624.8447895050049,
+            628.1216144561768
+          ],
+          "order": [
+            "baseline-candidate",
+            "candidate-baseline",
+            "baseline-candidate",
+            "candidate-baseline",
+            "baseline-candidate",
+            "candidate-baseline",
+            "baseline-candidate"
+          ]
+        }
+      }
+    },
+    {
+      "group": "attention_qkv",
+      "weight_shape": [
+        5120,
+        1024
+      ],
+      "weights_per_decode_step": 6,
+      "dense_working_set_bytes": 62914560,
+      "packed_working_set_bytes": 48812032,
+      "packed_byte_fraction": 0.7758463541666667,
+      "l2_cold_stream": true,
+      "blocks": 122880,
+      "fallback_blocks": 1976,
+      "weight_bit_exact": true,
+      "schedules": [
+        {
+          "block_n": 4,
+          "num_warps": 4,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 3.814697265625e-06,
+          "median_dense_stream_us": 370.8928108215332,
+          "median_packed_stream_us": 385.6384038925171,
+          "local_speedup": 0.9617631622728796,
+          "samples": {
+            "baseline_us": [
+              399.35998916625977,
+              370.07360458374023,
+              369.66400146484375,
+              380.10880947113037,
+              369.25439834594727,
+              386.45761013031006,
+              370.8928108215332
+            ],
+            "candidate_us": [
+              385.43360233306885,
+              385.84320545196533,
+              385.43360233306885,
+              385.6384038925171,
+              389.93918895721436,
+              385.6384038925171,
+              385.43360233306885
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 4,
+          "num_warps": 8,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 3.814697265625e-06,
+          "median_dense_stream_us": 313.1392002105713,
+          "median_packed_stream_us": 384.40959453582764,
+          "local_speedup": 0.814597774513628,
+          "samples": {
+            "baseline_us": [
+              312.7295970916748,
+              315.8015966415405,
+              313.1392002105713,
+              319.89760398864746,
+              313.1392002105713,
+              313.5488033294678,
+              312.2944116592407
+            ],
+            "candidate_us": [
+              383.99999141693115,
+              384.40959453582764,
+              386.2528085708618,
+              385.6384038925171,
+              384.2047929763794,
+              384.19198989868164,
+              387.2767925262451
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 8,
+          "num_warps": 4,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 3.814697265625e-06,
+          "median_dense_stream_us": 370.07360458374023,
+          "median_packed_stream_us": 371.09758853912354,
+          "local_speedup": 0.9972406612518978,
+          "samples": {
+            "baseline_us": [
+              368.0255889892578,
+              372.9408025741577,
+              369.868803024292,
+              370.8928108215332,
+              369.868803024292,
+              370.07360458374023,
+              370.68800926208496
+            ],
+            "candidate_us": [
+              371.9167947769165,
+              370.8928108215332,
+              375.19359588623047,
+              370.2784061431885,
+              371.09758853912354,
+              371.09758853912354,
+              373.14560413360596
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 8,
+          "num_warps": 8,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 3.814697265625e-06,
+          "median_dense_stream_us": 370.2784061431885,
+          "median_packed_stream_us": 384.8191976547241,
+          "local_speedup": 0.962213965415046,
+          "samples": {
+            "baseline_us": [
+              369.4591999053955,
+              368.4351921081543,
+              374.57919120788574,
+              370.68800926208496,
+              370.2784061431885,
+              377.4463891983032,
+              369.4591999053955
+            ],
+            "candidate_us": [
+              384.8191976547241,
+              387.89119720458984,
+              384.8191976547241,
+              389.734411239624,
+              384.2047929763794,
+              383.7951898574829,
+              384.2047929763794
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 16,
+          "num_warps": 4,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 3.814697265625e-06,
+          "median_dense_stream_us": 369.868803024292,
+          "median_packed_stream_us": 384.8128080368042,
+          "local_speedup": 0.9611655207404559,
+          "samples": {
+            "baseline_us": [
+              371.09758853912354,
+              368.23039054870605,
+              373.3504056930542,
+              369.868803024292,
+              369.868803024292,
+              367.61600971221924,
+              370.68800926208496
+            ],
+            "candidate_us": [
+              384.8191976547241,
+              384.6143960952759,
+              384.8191976547241,
+              388.0959987640381,
+              384.8128080368042,
+              384.2047929763794,
+              384.6143960952759
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 16,
+          "num_warps": 8,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 3.814697265625e-06,
+          "median_dense_stream_us": 369.66400146484375,
+          "median_packed_stream_us": 415.7440185546875,
+          "local_speedup": 0.8891625254163883,
+          "samples": {
+            "baseline_us": [
+              368.4351921081543,
+              369.66400146484375,
+              371.50719165802,
+              370.07360458374023,
+              368.4351921081543,
+              369.4591999053955,
+              370.0671911239624
+            ],
+            "candidate_us": [
+              414.7200107574463,
+              414.92481231689453,
+              415.7440185546875,
+              416.7679786682129,
+              414.3104076385498,
+              416.7679786682129,
+              417.3823833465576
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 32,
+          "num_warps": 4,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 3.814697265625e-06,
+          "median_dense_stream_us": 313.1392002105713,
+          "median_packed_stream_us": 452.40321159362793,
+          "local_speedup": 0.6921683847192693,
+          "samples": {
+            "baseline_us": [
+              314.36800956726074,
+              313.34400177001953,
+              313.1392002105713,
+              312.93439865112305,
+              312.7295970916748,
+              314.1632080078125,
+              312.3199939727783
+            ],
+            "candidate_us": [
+              451.99360847473145,
+              452.8128147125244,
+              453.01761627197266,
+              452.40321159362793,
+              453.2224178314209,
+              451.3792037963867,
+              452.1984100341797
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        },
+        {
+          "block_n": 32,
+          "num_warps": 8,
+          "output_bit_exact": false,
+          "maximum_absolute_output_difference": 3.814697265625e-06,
+          "median_dense_stream_us": 313.5488033294678,
+          "median_packed_stream_us": 467.3408031463623,
+          "local_speedup": 0.6709210948808813,
+          "samples": {
+            "baseline_us": [
+              319.6928024291992,
+              312.3199939727783,
+              314.98239040374756,
+              314.572811126709,
+              312.7295970916748,
+              312.3199939727783,
+              313.5488033294678
+            ],
+            "candidate_us": [
+              467.35358238220215,
+              468.37759017944336,
+              466.7391777038574,
+              466.94397926330566,
+              467.3408031463623,
+              466.94397926330566,
+              473.70238304138184
+            ],
+            "order": [
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate",
+              "candidate-baseline",
+              "baseline-candidate"
+            ]
+          }
+        }
+      ],
+      "best": {
+        "block_n": 8,
+        "num_warps": 4,
+        "output_bit_exact": false,
+        "maximum_absolute_output_difference": 3.814697265625e-06,
+        "median_dense_stream_us": 370.07360458374023,
+        "median_packed_stream_us": 371.09758853912354,
+        "local_speedup": 0.9972406612518978,
+        "samples": {
+          "baseline_us": [
+            368.0255889892578,
+            372.9408025741577,
+            369.868803024292,
+            370.8928108215332,
+            369.868803024292,
+            370.07360458374023,
+            370.68800926208496
+          ],
+          "candidate_us": [
+            371.9167947769165,
+            370.8928108215332,
+            375.19359588623047,
+            370.2784061431885,
+            371.09758853912354,
+            371.09758853912354,
+            373.14560413360596
+          ],
+          "order": [
+            "baseline-candidate",
+            "candidate-baseline",
+            "baseline-candidate",
+            "candidate-baseline",
+            "baseline-candidate",
+            "candidate-baseline",
+            "baseline-candidate"
+          ]
+        }
+      }
+    }
+  ],
+  "aggregate_best_per_group": {
+    "dense_stream_us": 4936.908864974976,
+    "packed_stream_us": 5845.369648933411,
+    "local_speedup": 0.8445845449441851,
+    "observed_projection_saving_us": -908.4607839584351,
+    "current_frontier_tpot_us": 6656.8025689,
+    "optimistic_whole_step_speedup": 0.8799168328204747
+  },
+  "decision": "MEASURED_REJECT_COLD_STREAM_UNPACK_OVERHEAD"
+}

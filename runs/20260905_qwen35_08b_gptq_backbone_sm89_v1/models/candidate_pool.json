@@ -1,0 +1,1149 @@
+{
+  "candidates": [
+    {
+      "attempts": [
+        {
+          "attempt": 1,
+          "reason": "SMOKE_FAILED",
+          "source_before": [
+            {
+              "path": "candidates/triton-w4a16-all/linear_backend_candidate.py",
+              "sha256": "7e6588465c4c001f2c851893394d927f6ee74ef4a3764e1632ad9e4f1a7646a7"
+            },
+            {
+              "path": "candidates/triton-w4a16-all/candidate_spec.json",
+              "sha256": "158aa31e9c1cd5750f6351fe87f77eb23211c3fdf9b4c827bda76ace66c72771"
+            },
+            {
+              "path": "operator.json",
+              "sha256": "3739a30f2f23abc09e80e66dd4201f5e4c0855a6efa80d93d8364d44c409cbdb"
+            },
+            {
+              "path": "workload.json",
+              "sha256": "39c468849a21eee105f95872c3306a4832fb38fbb543be256c19cd7d7d549339"
+            },
+            {
+              "path": "models/round37_imported_evidence.json",
+              "sha256": "708cc8587a5e928ffa0d7355480d271768e57b9aedf95f0c8adf2ca52d51e8fc"
+            }
+          ],
+          "stages": [
+            {
+              "argv": [
+                "wsl",
+                "-d",
+                "Ubuntu",
+                "--",
+                "/home/aden/.venvs/qwen35-vllm-4060/bin/python",
+                "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/triton-w4a16-all/linear_backend_candidate.py",
+                "build"
+              ],
+              "cwd": "candidates/triton-w4a16-all",
+              "duration_seconds": 0.278125,
+              "exit_code": 0,
+              "stage": "build",
+              "stderr": {
+                "path": "candidates/triton-w4a16-all/attempts/attempt-01/build.stderr.txt",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "stdout": {
+                "path": "candidates/triton-w4a16-all/attempts/attempt-01/build.stdout.txt",
+                "sha256": "e6746e44395a76e682781c1078a31f4ac54eb4fbfb85db114103d2f20c605ba8"
+              },
+              "timed_out": false
+            },
+            {
+              "argv": [
+                "wsl",
+                "-d",
+                "Ubuntu",
+                "--",
+                "/home/aden/.venvs/qwen35-vllm-4060/bin/python",
+                "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/triton-w4a16-all/linear_backend_candidate.py",
+                "correctness"
+              ],
+              "cwd": "candidates/triton-w4a16-all",
+              "duration_seconds": 0.26781,
+              "exit_code": 0,
+              "stage": "correctness",
+              "stderr": {
+                "path": "candidates/triton-w4a16-all/attempts/attempt-01/correctness.stderr.txt",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "stdout": {
+                "path": "candidates/triton-w4a16-all/attempts/attempt-01/correctness.stdout.txt",
+                "sha256": "ee0bc30ac4ea45ace9b87b42359b9ec08100cc2dfafc4b657f3b326bebc2f60c"
+              },
+              "timed_out": false
+            },
+            {
+              "argv": [
+                "wsl",
+                "-d",
+                "Ubuntu",
+                "--",
+                "/home/aden/.venvs/qwen35-vllm-4060/bin/python",
+                "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/triton-w4a16-all/linear_backend_candidate.py",
+                "smoke"
+              ],
+              "cwd": "candidates/triton-w4a16-all",
+              "duration_seconds": 122.446916,
+              "exit_code": 2,
+              "stage": "smoke",
+              "stderr": {
+                "path": "candidates/triton-w4a16-all/attempts/attempt-01/smoke.stderr.txt",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "stdout": {
+                "path": "candidates/triton-w4a16-all/attempts/attempt-01/smoke.stdout.txt",
+                "sha256": "eac6fb626bfcf781c2684f9b1c0f35cbbdfe43b8593ba0350dd746447e0ea364"
+              },
+              "timed_out": false
+            }
+          ],
+          "started_at": "2026-09-05T11:59:05.784389+00:00",
+          "status": "TECHNICAL_FAILURE"
+        },
+        {
+          "attempt": 2,
+          "completed_at": "2026-09-05T12:02:23.090475+00:00",
+          "improvement_percent": -61.17034586537953,
+          "smoke_result": {
+            "path": "candidates/triton-w4a16-all/smoke_result.json",
+            "sha256": "c0af2fbf5a046bd4758ebebb77c02daed32a7f75a255717d87730c8fdbd4909d"
+          },
+          "source_after": [
+            {
+              "path": "candidates/triton-w4a16-all/linear_backend_candidate.py",
+              "sha256": "3efa7918bac69fae07db57952ee27c248d7853ba72cf5fcb049c8d91b1e8dc43"
+            },
+            {
+              "path": "candidates/triton-w4a16-all/candidate_spec.json",
+              "sha256": "158aa31e9c1cd5750f6351fe87f77eb23211c3fdf9b4c827bda76ace66c72771"
+            },
+            {
+              "path": "operator.json",
+              "sha256": "3739a30f2f23abc09e80e66dd4201f5e4c0855a6efa80d93d8364d44c409cbdb"
+            },
+            {
+              "path": "workload.json",
+              "sha256": "39c468849a21eee105f95872c3306a4832fb38fbb543be256c19cd7d7d549339"
+            },
+            {
+              "path": "models/round37_imported_evidence.json",
+              "sha256": "708cc8587a5e928ffa0d7355480d271768e57b9aedf95f0c8adf2ca52d51e8fc"
+            }
+          ],
+          "source_before": [
+            {
+              "path": "candidates/triton-w4a16-all/linear_backend_candidate.py",
+              "sha256": "3efa7918bac69fae07db57952ee27c248d7853ba72cf5fcb049c8d91b1e8dc43"
+            },
+            {
+              "path": "candidates/triton-w4a16-all/candidate_spec.json",
+              "sha256": "158aa31e9c1cd5750f6351fe87f77eb23211c3fdf9b4c827bda76ace66c72771"
+            },
+            {
+              "path": "operator.json",
+              "sha256": "3739a30f2f23abc09e80e66dd4201f5e4c0855a6efa80d93d8364d44c409cbdb"
+            },
+            {
+              "path": "workload.json",
+              "sha256": "39c468849a21eee105f95872c3306a4832fb38fbb543be256c19cd7d7d549339"
+            },
+            {
+              "path": "models/round37_imported_evidence.json",
+              "sha256": "708cc8587a5e928ffa0d7355480d271768e57b9aedf95f0c8adf2ca52d51e8fc"
+            }
+          ],
+          "stages": [
+            {
+              "argv": [
+                "wsl",
+                "-d",
+                "Ubuntu",
+                "--",
+                "/home/aden/.venvs/qwen35-vllm-4060/bin/python",
+                "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/triton-w4a16-all/linear_backend_candidate.py",
+                "build"
+              ],
+              "cwd": "candidates/triton-w4a16-all",
+              "duration_seconds": 0.279679,
+              "exit_code": 0,
+              "stage": "build",
+              "stderr": {
+                "path": "candidates/triton-w4a16-all/attempts/attempt-02/build.stderr.txt",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "stdout": {
+                "path": "candidates/triton-w4a16-all/attempts/attempt-02/build.stdout.txt",
+                "sha256": "e6746e44395a76e682781c1078a31f4ac54eb4fbfb85db114103d2f20c605ba8"
+              },
+              "timed_out": false
+            },
+            {
+              "argv": [
+                "wsl",
+                "-d",
+                "Ubuntu",
+                "--",
+                "/home/aden/.venvs/qwen35-vllm-4060/bin/python",
+                "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/triton-w4a16-all/linear_backend_candidate.py",
+                "correctness"
+              ],
+              "cwd": "candidates/triton-w4a16-all",
+              "duration_seconds": 0.271298,
+              "exit_code": 0,
+              "stage": "correctness",
+              "stderr": {
+                "path": "candidates/triton-w4a16-all/attempts/attempt-02/correctness.stderr.txt",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "stdout": {
+                "path": "candidates/triton-w4a16-all/attempts/attempt-02/correctness.stdout.txt",
+                "sha256": "ee0bc30ac4ea45ace9b87b42359b9ec08100cc2dfafc4b657f3b326bebc2f60c"
+              },
+              "timed_out": false
+            },
+            {
+              "argv": [
+                "wsl",
+                "-d",
+                "Ubuntu",
+                "--",
+                "/home/aden/.venvs/qwen35-vllm-4060/bin/python",
+                "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/triton-w4a16-all/linear_backend_candidate.py",
+                "smoke"
+              ],
+              "cwd": "candidates/triton-w4a16-all",
+              "duration_seconds": 0.30657,
+              "exit_code": 0,
+              "stage": "smoke",
+              "stderr": {
+                "path": "candidates/triton-w4a16-all/attempts/attempt-02/smoke.stderr.txt",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "stdout": {
+                "path": "candidates/triton-w4a16-all/attempts/attempt-02/smoke.stdout.txt",
+                "sha256": "b5abcea8a278790105bda1bcae712bf2a9e0fb5ff24cd4e903522118b1dd7b63"
+              },
+              "timed_out": false
+            }
+          ],
+          "started_at": "2026-09-05T12:02:22.224320+00:00",
+          "status": "VALID_SCREEN"
+        }
+      ],
+      "candidate_id": "triton-w4a16-all",
+      "change_axes": [
+        "instruction-mechanism",
+        "packed-weight-layout",
+        "cta-ownership"
+      ],
+      "commands": {
+        "build": {
+          "argv": [
+            "wsl",
+            "-d",
+            "Ubuntu",
+            "--",
+            "/home/aden/.venvs/qwen35-vllm-4060/bin/python",
+            "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/triton-w4a16-all/linear_backend_candidate.py",
+            "build"
+          ],
+          "cwd": "candidates/triton-w4a16-all",
+          "timeout_seconds": 30
+        },
+        "correctness": {
+          "argv": [
+            "wsl",
+            "-d",
+            "Ubuntu",
+            "--",
+            "/home/aden/.venvs/qwen35-vllm-4060/bin/python",
+            "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/triton-w4a16-all/linear_backend_candidate.py",
+            "correctness"
+          ],
+          "cwd": "candidates/triton-w4a16-all",
+          "timeout_seconds": 30
+        },
+        "smoke": {
+          "argv": [
+            "wsl",
+            "-d",
+            "Ubuntu",
+            "--",
+            "/home/aden/.venvs/qwen35-vllm-4060/bin/python",
+            "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/triton-w4a16-all/linear_backend_candidate.py",
+            "smoke"
+          ],
+          "cwd": "candidates/triton-w4a16-all",
+          "timeout_seconds": 360
+        }
+      },
+      "created_at": "2026-09-05T11:58:57.337029+00:00",
+      "dependency_contract": {
+        "changed_boundaries": [
+          "GPTQ qweight is losslessly repacked from K-packed checkpoint order to the Triton backend's N-packed order at load time",
+          "Marlin tensor-core implementation is replaced by Triton unpack-dequantize-dot for supported linear layers"
+        ],
+        "evidence": [
+          {
+            "claim": "The checkpoint-derived six shapes sum to exactly the 96 observed Marlin calls per decode.",
+            "path": "models/round37_imported_evidence.json",
+            "sha256": "708cc8587a5e928ffa0d7355480d271768e57b9aedf95f0c8adf2ca52d51e8fc"
+          }
+        ],
+        "numerical_ordering": "The alternative kernel may change floating-point accumulation order, so promotion requires exact greedy token identity on every frozen case; broader qualification remains mandatory.",
+        "preserved_dependencies": [
+          "each projection consumes the same BF16 activation after all preceding layer dependencies",
+          "each projection produces the same logical output shape before its unchanged consumer",
+          "all recurrent and KV state transitions remain in stock vLLM"
+        ],
+        "prohibited_rewrites": [
+          "no modification of GPTQ integer values or scales",
+          "no FP16 activation substitution",
+          "no output-head shortlist, speculative decode or skipped work"
+        ],
+        "status": "PROVEN_LEGAL"
+      },
+      "development_budget": {
+        "max_technical_attempts": 2,
+        "max_wall_clock_minutes": 15.0
+      },
+      "expected_global_effect": "Replace all 96 decode Marlin projections while preserving the frozen GPTQ tensors and BF16 activation contract; screen end-to-end so repacking, graph capture and epilogues remain visible.",
+      "family": "alternate-w4-kernel",
+      "hypothesis": "The already-shipped Triton W4A16 backend may outperform Marlin for SM89 M=1 projection shapes even though it is lower in vLLM's generic priority list.",
+      "latest_failure": {
+        "at": "2026-09-05T12:01:08.780169+00:00",
+        "reason": "SMOKE_FAILED",
+        "technical_attempts_limit": 2,
+        "technical_attempts_used": 1,
+        "wall_clock_minutes_limit": 15.0,
+        "wall_clock_minutes_used": 2.04988085
+      },
+      "name": "Force the stock vLLM Triton W4A16 backend for every GPTQ projection",
+      "opportunity_id": "sm89-w4-backbone-kernel",
+      "predicted_global_gain_us": {
+        "lower": 50.0,
+        "upper": 350.0
+      },
+      "prediction_check": {
+        "claim_scope": "DISCOVERY_ONLY",
+        "observed_global_gain_us": -327608.3861661998,
+        "predicted_midpoint_us": 200.0,
+        "residual_us": -327808.3861661998
+      },
+      "screening": {
+        "improvement_percent": -61.17034586537953,
+        "objective": {
+          "baseline": 535567.3268337947,
+          "candidate": 863175.7129999945,
+          "direction": "minimize",
+          "unit": "us"
+        },
+        "result": {
+          "path": "candidates/triton-w4a16-all/smoke_result.json",
+          "sha256": "c0af2fbf5a046bd4758ebebb77c02daed32a7f75a255717d87730c8fdbd4909d"
+        },
+        "status": "BELOW_THRESHOLD",
+        "threshold_percent": 1.0
+      },
+      "smoke_result_path": "candidates/triton-w4a16-all/smoke_result.json",
+      "source_paths": [
+        "candidates/triton-w4a16-all/linear_backend_candidate.py",
+        "candidates/triton-w4a16-all/candidate_spec.json",
+        "operator.json",
+        "workload.json",
+        "models/round37_imported_evidence.json"
+      ],
+      "status": "SCREENED_OUT"
+    },
+    {
+      "attempts": [
+        {
+          "attempt": 1,
+          "reason": "SMOKE_FAILED",
+          "source_before": [
+            {
+              "path": "candidates/humming-w4a16-all/linear_backend_candidate.py",
+              "sha256": "214bac9984840a00e7afe857c01f160763d6a9b9d0a8a7c10c40271e14fcbb01"
+            },
+            {
+              "path": "candidates/humming-w4a16-all/candidate_spec.json",
+              "sha256": "52889d4cd1a81ea5de9f36aa00add1938d02c84d2095b3b03585a4bbb5c4014a"
+            },
+            {
+              "path": "operator.json",
+              "sha256": "3739a30f2f23abc09e80e66dd4201f5e4c0855a6efa80d93d8364d44c409cbdb"
+            },
+            {
+              "path": "workload.json",
+              "sha256": "39c468849a21eee105f95872c3306a4832fb38fbb543be256c19cd7d7d549339"
+            },
+            {
+              "path": "models/round37_imported_evidence.json",
+              "sha256": "708cc8587a5e928ffa0d7355480d271768e57b9aedf95f0c8adf2ca52d51e8fc"
+            }
+          ],
+          "stages": [
+            {
+              "argv": [
+                "wsl",
+                "-d",
+                "Ubuntu",
+                "--",
+                "/home/aden/.venvs/qwen35-vllm-4060/bin/python",
+                "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/humming-w4a16-all/linear_backend_candidate.py",
+                "build"
+              ],
+              "cwd": "candidates/humming-w4a16-all",
+              "duration_seconds": 0.268446,
+              "exit_code": 0,
+              "stage": "build",
+              "stderr": {
+                "path": "candidates/humming-w4a16-all/attempts/attempt-01/build.stderr.txt",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "stdout": {
+                "path": "candidates/humming-w4a16-all/attempts/attempt-01/build.stdout.txt",
+                "sha256": "035d923eb20bdd1dc32735ad6396016e57471527216aa820f32fca796849090d"
+              },
+              "timed_out": false
+            },
+            {
+              "argv": [
+                "wsl",
+                "-d",
+                "Ubuntu",
+                "--",
+                "/home/aden/.venvs/qwen35-vllm-4060/bin/python",
+                "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/humming-w4a16-all/linear_backend_candidate.py",
+                "correctness"
+              ],
+              "cwd": "candidates/humming-w4a16-all",
+              "duration_seconds": 0.282336,
+              "exit_code": 0,
+              "stage": "correctness",
+              "stderr": {
+                "path": "candidates/humming-w4a16-all/attempts/attempt-01/correctness.stderr.txt",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "stdout": {
+                "path": "candidates/humming-w4a16-all/attempts/attempt-01/correctness.stdout.txt",
+                "sha256": "e71bed23e8d70cbd6e43c55ad8141b80837b0fefa4a8c76b6dd3af0dacda20b6"
+              },
+              "timed_out": false
+            },
+            {
+              "argv": [
+                "wsl",
+                "-d",
+                "Ubuntu",
+                "--",
+                "/home/aden/.venvs/qwen35-vllm-4060/bin/python",
+                "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/humming-w4a16-all/linear_backend_candidate.py",
+                "smoke"
+              ],
+              "cwd": "candidates/humming-w4a16-all",
+              "duration_seconds": 33.822714,
+              "exit_code": 1,
+              "stage": "smoke",
+              "stderr": {
+                "path": "candidates/humming-w4a16-all/attempts/attempt-01/smoke.stderr.txt",
+                "sha256": "3f952dfe87e159e7655409393d2059f6c0b38fa15b621a6579e70474580cfb67"
+              },
+              "stdout": {
+                "path": "candidates/humming-w4a16-all/attempts/attempt-01/smoke.stdout.txt",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "timed_out": false
+            }
+          ],
+          "started_at": "2026-09-05T12:07:28.317752+00:00",
+          "status": "TECHNICAL_FAILURE"
+        },
+        {
+          "attempt": 2,
+          "completed_at": "2026-09-05T12:11:53.289694+00:00",
+          "improvement_percent": -13.399721330595835,
+          "smoke_result": {
+            "path": "candidates/humming-w4a16-all/smoke_result.json",
+            "sha256": "acf8deefcf7d88dba5f8f11b0297a9eec687f6e3b99795191251101cafdb2e96"
+          },
+          "source_after": [
+            {
+              "path": "candidates/humming-w4a16-all/linear_backend_candidate.py",
+              "sha256": "7fd9aab30ac9c97d315da6bd232e00cc8e8cd5f0d0a14c16d8fc4e73ac1177c9"
+            },
+            {
+              "path": "candidates/humming-w4a16-all/candidate_spec.json",
+              "sha256": "52889d4cd1a81ea5de9f36aa00add1938d02c84d2095b3b03585a4bbb5c4014a"
+            },
+            {
+              "path": "operator.json",
+              "sha256": "3739a30f2f23abc09e80e66dd4201f5e4c0855a6efa80d93d8364d44c409cbdb"
+            },
+            {
+              "path": "workload.json",
+              "sha256": "39c468849a21eee105f95872c3306a4832fb38fbb543be256c19cd7d7d549339"
+            },
+            {
+              "path": "models/round37_imported_evidence.json",
+              "sha256": "708cc8587a5e928ffa0d7355480d271768e57b9aedf95f0c8adf2ca52d51e8fc"
+            }
+          ],
+          "source_before": [
+            {
+              "path": "candidates/humming-w4a16-all/linear_backend_candidate.py",
+              "sha256": "7fd9aab30ac9c97d315da6bd232e00cc8e8cd5f0d0a14c16d8fc4e73ac1177c9"
+            },
+            {
+              "path": "candidates/humming-w4a16-all/candidate_spec.json",
+              "sha256": "52889d4cd1a81ea5de9f36aa00add1938d02c84d2095b3b03585a4bbb5c4014a"
+            },
+            {
+              "path": "operator.json",
+              "sha256": "3739a30f2f23abc09e80e66dd4201f5e4c0855a6efa80d93d8364d44c409cbdb"
+            },
+            {
+              "path": "workload.json",
+              "sha256": "39c468849a21eee105f95872c3306a4832fb38fbb543be256c19cd7d7d549339"
+            },
+            {
+              "path": "models/round37_imported_evidence.json",
+              "sha256": "708cc8587a5e928ffa0d7355480d271768e57b9aedf95f0c8adf2ca52d51e8fc"
+            }
+          ],
+          "stages": [
+            {
+              "argv": [
+                "wsl",
+                "-d",
+                "Ubuntu",
+                "--",
+                "/home/aden/.venvs/qwen35-vllm-4060/bin/python",
+                "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/humming-w4a16-all/linear_backend_candidate.py",
+                "build"
+              ],
+              "cwd": "candidates/humming-w4a16-all",
+              "duration_seconds": 0.258467,
+              "exit_code": 0,
+              "stage": "build",
+              "stderr": {
+                "path": "candidates/humming-w4a16-all/attempts/attempt-02/build.stderr.txt",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "stdout": {
+                "path": "candidates/humming-w4a16-all/attempts/attempt-02/build.stdout.txt",
+                "sha256": "035d923eb20bdd1dc32735ad6396016e57471527216aa820f32fca796849090d"
+              },
+              "timed_out": false
+            },
+            {
+              "argv": [
+                "wsl",
+                "-d",
+                "Ubuntu",
+                "--",
+                "/home/aden/.venvs/qwen35-vllm-4060/bin/python",
+                "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/humming-w4a16-all/linear_backend_candidate.py",
+                "correctness"
+              ],
+              "cwd": "candidates/humming-w4a16-all",
+              "duration_seconds": 0.261496,
+              "exit_code": 0,
+              "stage": "correctness",
+              "stderr": {
+                "path": "candidates/humming-w4a16-all/attempts/attempt-02/correctness.stderr.txt",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "stdout": {
+                "path": "candidates/humming-w4a16-all/attempts/attempt-02/correctness.stdout.txt",
+                "sha256": "e71bed23e8d70cbd6e43c55ad8141b80837b0fefa4a8c76b6dd3af0dacda20b6"
+              },
+              "timed_out": false
+            },
+            {
+              "argv": [
+                "wsl",
+                "-d",
+                "Ubuntu",
+                "--",
+                "/home/aden/.venvs/qwen35-vllm-4060/bin/python",
+                "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/humming-w4a16-all/linear_backend_candidate.py",
+                "smoke"
+              ],
+              "cwd": "candidates/humming-w4a16-all",
+              "duration_seconds": 136.220427,
+              "exit_code": 0,
+              "stage": "smoke",
+              "stderr": {
+                "path": "candidates/humming-w4a16-all/attempts/attempt-02/smoke.stderr.txt",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "stdout": {
+                "path": "candidates/humming-w4a16-all/attempts/attempt-02/smoke.stdout.txt",
+                "sha256": "ea40f2f1be4bd9f30546bf1b830dcdd920a5f056caa6953fd554d345e204638c"
+              },
+              "timed_out": false
+            }
+          ],
+          "started_at": "2026-09-05T12:09:36.536518+00:00",
+          "status": "VALID_SCREEN"
+        }
+      ],
+      "candidate_id": "humming-w4a16-all",
+      "change_axes": [
+        "cta-scheduling",
+        "jit-specialization",
+        "packed-weight-layout"
+      ],
+      "commands": {
+        "build": {
+          "argv": [
+            "wsl",
+            "-d",
+            "Ubuntu",
+            "--",
+            "/home/aden/.venvs/qwen35-vllm-4060/bin/python",
+            "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/humming-w4a16-all/linear_backend_candidate.py",
+            "build"
+          ],
+          "cwd": "candidates/humming-w4a16-all",
+          "timeout_seconds": 30
+        },
+        "correctness": {
+          "argv": [
+            "wsl",
+            "-d",
+            "Ubuntu",
+            "--",
+            "/home/aden/.venvs/qwen35-vllm-4060/bin/python",
+            "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/humming-w4a16-all/linear_backend_candidate.py",
+            "correctness"
+          ],
+          "cwd": "candidates/humming-w4a16-all",
+          "timeout_seconds": 30
+        },
+        "smoke": {
+          "argv": [
+            "wsl",
+            "-d",
+            "Ubuntu",
+            "--",
+            "/home/aden/.venvs/qwen35-vllm-4060/bin/python",
+            "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/humming-w4a16-all/linear_backend_candidate.py",
+            "smoke"
+          ],
+          "cwd": "candidates/humming-w4a16-all",
+          "timeout_seconds": 600
+        }
+      },
+      "created_at": "2026-09-05T12:07:18.449220+00:00",
+      "dependency_contract": {
+        "changed_boundaries": [
+          "GPTQ weights are losslessly transformed into Humming's internal packed representation at load time",
+          "Marlin implementation and CTA schedule are replaced by Humming's SM8x JIT-generated W4A16 kernel"
+        ],
+        "evidence": [
+          {
+            "claim": "Checkpoint-derived fused shapes sum to exactly the 96 observed Marlin projection calls per decode.",
+            "path": "models/round37_imported_evidence.json",
+            "sha256": "708cc8587a5e928ffa0d7355480d271768e57b9aedf95f0c8adf2ca52d51e8fc"
+          }
+        ],
+        "numerical_ordering": "The alternative kernel may change floating-point accumulation order, so promotion requires exact greedy token identity on every frozen case and later full contract qualification.",
+        "preserved_dependencies": [
+          "each projection consumes the same BF16 activation after all preceding layer dependencies",
+          "each projection produces the same logical output shape before its unchanged consumer",
+          "all attention, recurrent state, KV state, sampling, and request scheduling remain in stock vLLM"
+        ],
+        "prohibited_rewrites": [
+          "no modification of GPTQ integer values, zero points, or scales",
+          "no FP16 activation substitution",
+          "no output shortlist, speculative decoding, changed sampling, or skipped work"
+        ],
+        "status": "PROVEN_LEGAL"
+      },
+      "development_budget": {
+        "max_technical_attempts": 2,
+        "max_wall_clock_minutes": 15.0
+      },
+      "expected_global_effect": "Replace all eligible decode Marlin projections with a distinct SM8x JIT kernel while preserving frozen GPTQ tensors, BF16 activations, model topology, and request semantics.",
+      "family": "persistent-scheduling",
+      "hypothesis": "Humming's SM8x-specific generated schedule may reduce the 96 small-M decode projection costs that dominate stock Marlin on RTX 4060.",
+      "latest_failure": {
+        "at": "2026-09-05T12:08:02.694202+00:00",
+        "reason": "SMOKE_FAILED",
+        "technical_attempts_limit": 2,
+        "technical_attempts_used": 1,
+        "wall_clock_minutes_limit": 15.0,
+        "wall_clock_minutes_used": 0.5728916
+      },
+      "name": "Force Humming's SM8x JIT W4A16 backend for every GPTQ projection",
+      "opportunity_id": "sm89-w4-backbone-kernel",
+      "predicted_global_gain_us": {
+        "lower": 40.0,
+        "upper": 350.0
+      },
+      "prediction_check": {
+        "claim_scope": "DISCOVERY_ONLY",
+        "observed_global_gain_us": -71764.5293334499,
+        "predicted_midpoint_us": 195.0,
+        "residual_us": -71959.5293334499
+      },
+      "screening": {
+        "improvement_percent": -13.399721330595835,
+        "objective": {
+          "baseline": 535567.3268337947,
+          "candidate": 607331.8561672446,
+          "direction": "minimize",
+          "unit": "us"
+        },
+        "result": {
+          "path": "candidates/humming-w4a16-all/smoke_result.json",
+          "sha256": "acf8deefcf7d88dba5f8f11b0297a9eec687f6e3b99795191251101cafdb2e96"
+        },
+        "status": "BELOW_THRESHOLD",
+        "threshold_percent": 1.0
+      },
+      "smoke_result_path": "candidates/humming-w4a16-all/smoke_result.json",
+      "source_paths": [
+        "candidates/humming-w4a16-all/linear_backend_candidate.py",
+        "candidates/humming-w4a16-all/candidate_spec.json",
+        "operator.json",
+        "workload.json",
+        "models/round37_imported_evidence.json"
+      ],
+      "status": "SCREENED_OUT"
+    },
+    {
+      "attempts": [
+        {
+          "attempt": 1,
+          "completed_at": "2026-09-05T12:32:13.749805+00:00",
+          "improvement_percent": -3.9942616785916387,
+          "smoke_result": {
+            "path": "candidates/hybrid-humming-two-shapes/smoke_result.json",
+            "sha256": "b8e1b1b7da7063b1e52f9de4e2dc93b87c93cfeafd988e8d70d678f7befdcc17"
+          },
+          "source_after": [
+            {
+              "path": "candidates/hybrid-humming-two-shapes/sitecustomize.py",
+              "sha256": "2692234d28f49fc9c230fc6b8da3eeb1948100dc2973450566851e62f7670719"
+            },
+            {
+              "path": "candidates/hybrid-humming-two-shapes/hybrid_candidate.py",
+              "sha256": "3d0651809e526d37228b12bb63c9267be2c5c16b30185b96a001b3062e18b69b"
+            },
+            {
+              "path": "candidates/hybrid-humming-two-shapes/candidate_spec.json",
+              "sha256": "bf87e72542f3425f4db95ece78af764fa7ce52fd97f2d8891a46fb3df4aca241"
+            },
+            {
+              "path": "models/w4_backend_shape_screen_round38.json",
+              "sha256": "2f56ba5f333418366474f7cb846c3d8d523d8f3fdcee8bbdc1241aba27f2d39e"
+            },
+            {
+              "path": "operator.json",
+              "sha256": "3739a30f2f23abc09e80e66dd4201f5e4c0855a6efa80d93d8364d44c409cbdb"
+            },
+            {
+              "path": "workload.json",
+              "sha256": "39c468849a21eee105f95872c3306a4832fb38fbb543be256c19cd7d7d549339"
+            }
+          ],
+          "source_before": [
+            {
+              "path": "candidates/hybrid-humming-two-shapes/sitecustomize.py",
+              "sha256": "2692234d28f49fc9c230fc6b8da3eeb1948100dc2973450566851e62f7670719"
+            },
+            {
+              "path": "candidates/hybrid-humming-two-shapes/hybrid_candidate.py",
+              "sha256": "3d0651809e526d37228b12bb63c9267be2c5c16b30185b96a001b3062e18b69b"
+            },
+            {
+              "path": "candidates/hybrid-humming-two-shapes/candidate_spec.json",
+              "sha256": "bf87e72542f3425f4db95ece78af764fa7ce52fd97f2d8891a46fb3df4aca241"
+            },
+            {
+              "path": "models/w4_backend_shape_screen_round38.json",
+              "sha256": "2f56ba5f333418366474f7cb846c3d8d523d8f3fdcee8bbdc1241aba27f2d39e"
+            },
+            {
+              "path": "operator.json",
+              "sha256": "3739a30f2f23abc09e80e66dd4201f5e4c0855a6efa80d93d8364d44c409cbdb"
+            },
+            {
+              "path": "workload.json",
+              "sha256": "39c468849a21eee105f95872c3306a4832fb38fbb543be256c19cd7d7d549339"
+            }
+          ],
+          "stages": [
+            {
+              "argv": [
+                "wsl",
+                "-d",
+                "Ubuntu",
+                "--",
+                "/home/aden/.venvs/qwen35-vllm-4060/bin/python",
+                "-S",
+                "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/hybrid-humming-two-shapes/hybrid_candidate.py",
+                "build"
+              ],
+              "cwd": "candidates/hybrid-humming-two-shapes",
+              "duration_seconds": 0.34814,
+              "exit_code": 0,
+              "stage": "build",
+              "stderr": {
+                "path": "candidates/hybrid-humming-two-shapes/attempts/attempt-01/build.stderr.txt",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "stdout": {
+                "path": "candidates/hybrid-humming-two-shapes/attempts/attempt-01/build.stdout.txt",
+                "sha256": "ae672b4926355daad6a4f117fde601677e360d56033216a905737b32b728822d"
+              },
+              "timed_out": false
+            },
+            {
+              "argv": [
+                "wsl",
+                "-d",
+                "Ubuntu",
+                "--",
+                "/home/aden/.venvs/qwen35-vllm-4060/bin/python",
+                "-S",
+                "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/hybrid-humming-two-shapes/hybrid_candidate.py",
+                "correctness"
+              ],
+              "cwd": "candidates/hybrid-humming-two-shapes",
+              "duration_seconds": 0.391255,
+              "exit_code": 0,
+              "stage": "correctness",
+              "stderr": {
+                "path": "candidates/hybrid-humming-two-shapes/attempts/attempt-01/correctness.stderr.txt",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "stdout": {
+                "path": "candidates/hybrid-humming-two-shapes/attempts/attempt-01/correctness.stdout.txt",
+                "sha256": "ee0bc30ac4ea45ace9b87b42359b9ec08100cc2dfafc4b657f3b326bebc2f60c"
+              },
+              "timed_out": false
+            },
+            {
+              "argv": [
+                "wsl",
+                "-d",
+                "Ubuntu",
+                "--",
+                "/home/aden/.venvs/qwen35-vllm-4060/bin/python",
+                "-S",
+                "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/hybrid-humming-two-shapes/hybrid_candidate.py",
+                "smoke"
+              ],
+              "cwd": "candidates/hybrid-humming-two-shapes",
+              "duration_seconds": 136.243721,
+              "exit_code": 0,
+              "stage": "smoke",
+              "stderr": {
+                "path": "candidates/hybrid-humming-two-shapes/attempts/attempt-01/smoke.stderr.txt",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "stdout": {
+                "path": "candidates/hybrid-humming-two-shapes/attempts/attempt-01/smoke.stdout.txt",
+                "sha256": "7a2bf31c8a0d7a35c7885fc9498ab123d583108637d0f0a7b36858066e21381d"
+              },
+              "timed_out": false
+            }
+          ],
+          "started_at": "2026-09-05T12:29:56.754997+00:00",
+          "status": "VALID_SCREEN"
+        }
+      ],
+      "candidate_id": "hybrid-humming-two-shapes",
+      "change_axes": [
+        "shape-dispatch",
+        "dual-packed-weight-layout",
+        "cta-scheduling"
+      ],
+      "commands": {
+        "build": {
+          "argv": [
+            "wsl",
+            "-d",
+            "Ubuntu",
+            "--",
+            "/home/aden/.venvs/qwen35-vllm-4060/bin/python",
+            "-S",
+            "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/hybrid-humming-two-shapes/hybrid_candidate.py",
+            "build"
+          ],
+          "cwd": "candidates/hybrid-humming-two-shapes",
+          "timeout_seconds": 30
+        },
+        "correctness": {
+          "argv": [
+            "wsl",
+            "-d",
+            "Ubuntu",
+            "--",
+            "/home/aden/.venvs/qwen35-vllm-4060/bin/python",
+            "-S",
+            "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/hybrid-humming-two-shapes/hybrid_candidate.py",
+            "correctness"
+          ],
+          "cwd": "candidates/hybrid-humming-two-shapes",
+          "timeout_seconds": 30
+        },
+        "smoke": {
+          "argv": [
+            "wsl",
+            "-d",
+            "Ubuntu",
+            "--",
+            "/home/aden/.venvs/qwen35-vllm-4060/bin/python",
+            "-S",
+            "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/hybrid-humming-two-shapes/hybrid_candidate.py",
+            "smoke"
+          ],
+          "cwd": "candidates/hybrid-humming-two-shapes",
+          "timeout_seconds": 600
+        }
+      },
+      "created_at": "2026-09-05T12:29:48.630789+00:00",
+      "dependency_contract": {
+        "changed_boundaries": [
+          "N=1024,K=2048 and N=1024,K=3584 checkpoint tensors are losslessly transformed into Humming's packed layout",
+          "the other three unique projection shapes retain stock Marlin packing and execution"
+        ],
+        "evidence": [
+          {
+            "claim": "Atomic screening identifies exactly two Humming-winning shapes and a 1.149x projection-weighted oracle margin.",
+            "path": "models/w4_backend_shape_screen_round38.json",
+            "sha256": "2f56ba5f333418366474f7cb846c3d8d523d8f3fdcee8bbdc1241aba27f2d39e"
+          }
+        ],
+        "numerical_ordering": "Selected layers may accumulate in a different order; the frozen exact-greedy token gate is mandatory and any mismatch rejects the candidate.",
+        "preserved_dependencies": [
+          "every projection consumes the same BF16 activation and emits the same logical tensor shape",
+          "the selected kernel is fixed per layer at model load and therefore remains CUDA-graph safe",
+          "attention, recurrent state, KV state, model topology, sampling, and scheduling remain stock vLLM"
+        ],
+        "prohibited_rewrites": [
+          "no modification of GPTQ integer values or scales",
+          "no FP16 activation substitution",
+          "no output shortlist, speculative decoding, changed sampling, or skipped work"
+        ],
+        "status": "PROVEN_LEGAL"
+      },
+      "development_budget": {
+        "max_technical_attempts": 2,
+        "max_wall_clock_minutes": 15.0
+      },
+      "expected_global_effect": "Use Humming for 48 of 96 GPTQ projection calls per decode and Marlin for the remaining 48, without changing graph topology, weights, activations, or sampling.",
+      "family": "weight-layout-specialization",
+      "hypothesis": "The isolated 1.347x and 1.245x Humming wins for N=1024 output and down projections can outweigh mixed-backend costs while Marlin retains the other three winning shapes.",
+      "name": "Route two M=1 projection shapes to Humming and retain Marlin elsewhere",
+      "opportunity_id": "sm89-w4-backbone-kernel",
+      "predicted_global_gain_us": {
+        "lower": 100.0,
+        "upper": 400.0
+      },
+      "prediction_check": {
+        "claim_scope": "DISCOVERY_ONLY",
+        "observed_global_gain_us": -21391.960498779896,
+        "predicted_midpoint_us": 250.0,
+        "residual_us": -21641.960498779896
+      },
+      "screening": {
+        "improvement_percent": -3.9942616785916387,
+        "objective": {
+          "baseline": 535567.3268337947,
+          "candidate": 556959.2873325746,
+          "direction": "minimize",
+          "unit": "us"
+        },
+        "result": {
+          "path": "candidates/hybrid-humming-two-shapes/smoke_result.json",
+          "sha256": "b8e1b1b7da7063b1e52f9de4e2dc93b87c93cfeafd988e8d70d678f7befdcc17"
+        },
+        "status": "BELOW_THRESHOLD",
+        "threshold_percent": 1.0
+      },
+      "smoke_result_path": "candidates/hybrid-humming-two-shapes/smoke_result.json",
+      "source_paths": [
+        "candidates/hybrid-humming-two-shapes/sitecustomize.py",
+        "candidates/hybrid-humming-two-shapes/hybrid_candidate.py",
+        "candidates/hybrid-humming-two-shapes/candidate_spec.json",
+        "models/w4_backend_shape_screen_round38.json",
+        "operator.json",
+        "workload.json"
+      ],
+      "status": "SCREENED_OUT"
+    },
+    {
+      "attempts": [],
+      "candidate_id": "adaptive-lossless-lmhead",
+      "change_axes": [
+        "framework-dispatch",
+        "lossless-weight-layout",
+        "decode-shape-specialization",
+        "bounded-load-time-preprocessing"
+      ],
+      "commands": {
+        "build": {
+          "argv": [
+            "python",
+            "-m",
+            "py_compile",
+            "candidates/adaptive-lossless-lmhead/vllm/model_executor/kernels/linear/unquantized/lossless_packed_lm_head.py"
+          ],
+          "cwd": ".",
+          "timeout_seconds": 30
+        },
+        "correctness": {
+          "argv": [
+            "python",
+            "candidates/adaptive-lossless-lmhead/validate_evidence.py",
+            "--mode",
+            "correctness"
+          ],
+          "cwd": ".",
+          "timeout_seconds": 30
+        },
+        "smoke": {
+          "argv": [
+            "python",
+            "candidates/adaptive-lossless-lmhead/validate_evidence.py",
+            "--mode",
+            "smoke"
+          ],
+          "cwd": ".",
+          "timeout_seconds": 30
+        }
+      },
+      "created_at": "2026-09-05T14:13:48.635319+00:00",
+      "dependency_contract": {
+        "changed_boundaries": [
+          "eligible unquantized ParallelLMHead weights receive a non-persistent auxiliary layout after loading",
+          "eligible M=1 decode projections use a warmed Triton reduction with a different legal FP32 accumulation order"
+        ],
+        "evidence": [
+          {
+            "claim": "The production profile attributes a material decode contribution to the output head.",
+            "path": "models/round37_imported_evidence.json",
+            "sha256": "708cc8587a5e928ffa0d7355480d271768e57b9aedf95f0c8adf2ca52d51e8fc"
+          }
+        ],
+        "numerical_ordering": "The packed layout is bit-exact, but the FP32 reduction tree is not bitwise identical to every cuBLAS algorithm. Standard floating-point tolerance is supportable; strict cross-process token identity requires a separate deterministic baseline contract.",
+        "preserved_dependencies": [
+          "the original BF16 weight remains loaded and is the fallback source",
+          "every packed weight value reconstructs the original BF16 bit pattern",
+          "tensor-parallel gather, vocabulary padding, logits scaling and sampling stay in stock LogitsProcessor",
+          "all non-M=1, biased, non-BF16, non-contiguous and ineligible heads use the stock quantization method"
+        ],
+        "prohibited_rewrites": [
+          "no additional quantization, changed checkpoint values, approximate vocabulary, shortlist, speculative decode or altered sampling"
+        ],
+        "status": "PROVEN_LEGAL"
+      },
+      "development_budget": {
+        "max_technical_attempts": 3,
+        "max_wall_clock_minutes": 20.0
+      },
+      "expected_global_effect": "Reduce batch-1 decode time without changing the GPTQ-Marlin backbone, scheduler, attention, vocabulary partitioning, sampling, or model weights.",
+      "family": "lossless-weight-layout",
+      "hypothesis": "An unquantized BF16 ParallelLMHead with a large vocabulary is often an M=1 bandwidth bottleneck during decode. A lossless sign/mantissa plus exponent-delta layout can reduce weight traffic while retaining the stock path for unsupported shapes.",
+      "name": "Shape-generic lossless BF16 lm-head backend integrated with vLLM",
+      "opportunity_id": "sm89-stock-token-exact-lm-head",
+      "predicted_global_gain_us": {
+        "lower": 20.0,
+        "upper": 80.0
+      },
+      "smoke_result_path": "candidates/adaptive-lossless-lmhead/smoke_result.json",
+      "source_paths": [
+        "candidates/adaptive-lossless-lmhead/candidate_spec.json",
+        "candidates/adaptive-lossless-lmhead/ARCHITECTURE.zh-CN.md",
+        "candidates/adaptive-lossless-lmhead/gpu_shape_smoke.py",
+        "candidates/adaptive-lossless-lmhead/vllm_integration.patch",
+        "candidates/adaptive-lossless-lmhead/vllm/model_executor/kernels/linear/unquantized/lossless_packed_lm_head.py",
+        "operator.json",
+        "workload.json",
+        "models/round37_imported_evidence.json"
+      ],
+      "status": "PROPOSED"
+    }
+  ],
+  "created_at": "2026-09-05T11:48:40.278393+00:00",
+  "discovery_started_at": "2026-09-05T11:58:57.337055+00:00",
+  "events": [
+    {
+      "at": "2026-09-05T11:58:57.337057+00:00",
+      "candidate_id": "triton-w4a16-all",
+      "event": "ADDED"
+    },
+    {
+      "at": "2026-09-05T12:01:08.780183+00:00",
+      "candidate_id": "triton-w4a16-all",
+      "event": "DEVELOPING",
+      "reason": "SMOKE_FAILED"
+    },
+    {
+      "at": "2026-09-05T12:02:23.090671+00:00",
+      "candidate_id": "triton-w4a16-all",
+      "event": "SCREENED_OUT",
+      "improvement_percent": -61.17034586537953
+    },
+    {
+      "at": "2026-09-05T12:07:18.449233+00:00",
+      "candidate_id": "humming-w4a16-all",
+      "event": "ADDED"
+    },
+    {
+      "at": "2026-09-05T12:08:02.694221+00:00",
+      "candidate_id": "humming-w4a16-all",
+      "event": "DEVELOPING",
+      "reason": "SMOKE_FAILED"
+    },
+    {
+      "at": "2026-09-05T12:11:53.289819+00:00",
+      "candidate_id": "humming-w4a16-all",
+      "event": "SCREENED_OUT",
+      "improvement_percent": -13.399721330595835
+    },
+    {
+      "at": "2026-09-05T12:29:48.630807+00:00",
+      "candidate_id": "hybrid-humming-two-shapes",
+      "event": "ADDED"
+    },
+    {
+      "at": "2026-09-05T12:32:13.749897+00:00",
+      "candidate_id": "hybrid-humming-two-shapes",
+      "event": "SCREENED_OUT",
+      "improvement_percent": -3.9942616785916387
+    },
+    {
+      "at": "2026-09-05T14:13:48.635339+00:00",
+      "candidate_id": "adaptive-lossless-lmhead",
+      "event": "ADDED"
+    },
+    {
+      "at": "2026-09-05T14:14:07.386789+00:00",
+      "event": "TOTAL_WALL_CLOCK_BUDGET_EXHAUSTED"
+    }
+  ],
+  "policy": {
+    "max_candidate_wall_clock_minutes": 20.0,
+    "max_candidates": 12,
+    "max_promotions": 2,
+    "max_technical_attempts_per_candidate": 8,
+    "max_total_wall_clock_minutes": 120.0,
+    "min_candidates": 6,
+    "min_families": 4,
+    "promotion_threshold_percent": 1.0,
+    "screening_claim_scope": "DISCOVERY_ONLY_NOT_PRODUCTION_ACCEPTANCE"
+  },
+  "schema_version": "candidate-pool-v1",
+  "status": "PAUSED"
+}

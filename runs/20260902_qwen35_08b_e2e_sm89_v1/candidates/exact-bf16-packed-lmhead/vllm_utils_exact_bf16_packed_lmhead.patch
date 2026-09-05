@@ -1,0 +1,179 @@
+--- a/vllm/model_executor/layers/utils.py
++++ b/vllm/model_executor/layers/utils.py
+@@ -59,3 +59,112 @@
++@triton.jit
++def _sm89_exact_packed_bf16_gemv_kernel(
++    x_ptr,
++    sign_mantissa_ptr,
++    exponent_nibbles_ptr,
++    base_exponent_ptr,
++    fallback_slot_ptr,
++    fallback_bits_ptr,
++    output_ptr,
++    n: tl.constexpr,
++    k: tl.constexpr,
++    BLOCK_N: tl.constexpr,
++    BLOCK_K: tl.constexpr,
++    PACK_BLOCK: tl.constexpr,
++):
++    pid = tl.program_id(0)
++    offsets_n = pid * BLOCK_N + tl.arange(0, BLOCK_N)
++    offsets_k = tl.arange(0, BLOCK_K)
++    valid = (offsets_n[:, None] < n) & (offsets_k[None, :] < k)
++    linear = offsets_n[:, None] * k + offsets_k[None, :]
++    block_id = linear // PACK_BLOCK
++    in_block = linear % PACK_BLOCK
++    sm = tl.load(sign_mantissa_ptr + linear, mask=valid, other=0).to(tl.int32)
++    pair = tl.load(exponent_nibbles_ptr + linear // 2, mask=valid, other=0).to(
++        tl.int32
++    )
++    delta = (pair >> ((linear & 1) * 4)) & 0xF
++    base = tl.load(base_exponent_ptr + block_id, mask=valid, other=0).to(tl.int32)
++    slot = tl.load(fallback_slot_ptr + block_id, mask=valid, other=-1)
++    packed_bits = (
++        ((sm & 0x80) << 8) | ((base + delta) << 7) | (sm & 0x7F)
++    )
++    fallback_bits = tl.load(
++        fallback_bits_ptr + slot * PACK_BLOCK + in_block,
++        mask=valid & (slot >= 0),
++        other=0,
++    ).to(tl.int32) & 0xFFFF
++    fp32_bits = tl.where(slot >= 0, fallback_bits, packed_bits) << 16
++    weight = tl.inline_asm_elementwise(
++        "mov.b32 $0, $1;",
++        "=f,r",
++        [fp32_bits],
++        dtype=tl.float32,
++        is_pure=True,
++        pack=1,
++    )
++    x = tl.load(x_ptr + offsets_k, mask=offsets_k < k, other=0.0)
++    accum = tl.sum(weight * x[None, :].to(tl.float32), axis=1)
++    tl.store(output_ptr + offsets_n, accum, mask=offsets_n < n)
++
++
++_SM89_PACK_BLOCK = 256
++_SM89_EXACT_PACKED_CACHE: dict[
++    tuple[int, int], tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]
++] = {}
++
++
++def _get_sm89_exact_packed_weight(
++    weight: torch.Tensor,
++) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
++    cache_key = (weight.data_ptr(), weight.numel())
++    cached = _SM89_EXACT_PACKED_CACHE.get(cache_key)
++    if cached is not None:
++        return cached
++    bits = weight.view(torch.int16).to(torch.int32).bitwise_and(0xFFFF).flatten()
++    blocks = bits.reshape(-1, _SM89_PACK_BLOCK)
++    exponent_blocks = bits.bitwise_right_shift(7).bitwise_and(0xFF).reshape(
++        -1, _SM89_PACK_BLOCK
++    )
++    base = exponent_blocks.amin(dim=1)
++    delta_blocks = exponent_blocks - base[:, None]
++    packed_blocks = delta_blocks.amax(dim=1) <= 15
++    sign_mantissa = bits.bitwise_and(0x7F).bitwise_or(
++        bits.bitwise_right_shift(8).bitwise_and(0x80)
++    ).to(torch.uint8).contiguous()
++    delta = torch.where(
++        packed_blocks[:, None].expand(-1, _SM89_PACK_BLOCK),
++        delta_blocks,
++        0,
++    ).flatten().reshape(-1, 2)
++    exponent_nibbles = (delta[:, 0] | (delta[:, 1] << 4)).to(
++        torch.uint8
++    ).contiguous()
++    failed_ids = torch.nonzero(~packed_blocks, as_tuple=False).flatten()
++    fallback_slot = torch.full(
++        (blocks.shape[0],), -1, dtype=torch.int32, device=weight.device
++    )
++    fallback_slot[failed_ids] = torch.arange(
++        failed_ids.numel(), dtype=torch.int32, device=weight.device
++    )
++    fallback_bits = blocks[failed_ids].to(torch.int16).contiguous()
++    cached = (
++        sign_mantissa,
++        exponent_nibbles,
++        base.to(torch.uint8).contiguous(),
++        fallback_slot,
++        fallback_bits,
++    )
++    _SM89_EXACT_PACKED_CACHE[cache_key] = cached
++    packed_bytes = sum(t.numel() * t.element_size() for t in cached)
++    logger.info_once(
++        "SM89 exact-packed lm_head cache ready: %.3f MiB (%.3f of dense), %d fallback blocks",
++        packed_bytes / (1024 * 1024),
++        packed_bytes / (weight.numel() * weight.element_size()),
++        failed_ids.numel(),
++    )
++    return cached
++
++
+ def sm89_bf16_gemv_impl(
+     x: torch.Tensor,
+     weight: torch.Tensor,
+@@ -64,6 +173,23 @@
+     n, k = weight.shape
+     if (n, k) != (248320, 1024):
+         raise ValueError(f"unsupported SM89 BF16 lm_head shape: N={n}, K={k}")
++    if os.environ.get("VLLM_SM89_EXACT_PACKED_LM_HEAD", "0") == "1":
++        packed = _get_sm89_exact_packed_weight(weight)
++        output = torch.empty((*x.shape[:-1], n), dtype=x.dtype, device=x.device)
++        block_n, num_warps = 16, 8
++        _sm89_exact_packed_bf16_gemv_kernel[(triton.cdiv(n, block_n),)](
++            x,
++            *packed,
++            output,
++            n=n,
++            k=k,
++            BLOCK_N=block_n,
++            BLOCK_K=triton.next_power_of_2(k),
++            PACK_BLOCK=_SM89_PACK_BLOCK,
++            num_warps=num_warps,
++            num_stages=1,
++        )
++        return output
+     block_n, num_warps = 4, 8
+     output = torch.empty((*x.shape[:-1], n), dtype=x.dtype, device=x.device)
+     _sm89_bf16_gemv_kernel[(triton.cdiv(n, block_n),)](
+diff --git a/vllm/model_executor/layers/vocab_parallel_embedding.py b/vllm/model_executor/layers/vocab_parallel_embedding.py
+--- a/vllm/model_executor/layers/vocab_parallel_embedding.py
++++ b/vllm/model_executor/layers/vocab_parallel_embedding.py
+@@ -3,6 +3,7 @@
+ 
+ from collections.abc import Sequence
+ from dataclasses import dataclass
++import os
+ 
+ import torch
+ import torch.nn.functional as F
+@@ -60,7 +61,27 @@ class UnquantizedEmbeddingMethod(QuantizeMethodBase):
+         set_weight_attrs(weight, extra_weight_attrs)
+ 
+     def process_weights_after_loading(self, layer: torch.nn.Module) -> None:
+-        if current_platform.is_cpu():
++        if (
++            current_platform.is_cuda()
++            and os.environ.get("VLLM_SM89_EXACT_PACKED_LM_HEAD", "0") == "1"
++            and layer.weight.is_cuda
++            and layer.weight.dtype == torch.bfloat16
++            and layer.weight.ndim == 2
++            and layer.weight.shape == (248320, 1024)
++            and current_platform.is_device_capability(89)
++        ):
++            from vllm.model_executor.layers.utils import (
++                sm89_bf16_gemv_impl,
++            )
++
++            warmup_input = torch.zeros(
++                (1, layer.weight.shape[1]),
++                dtype=layer.weight.dtype,
++                device=layer.weight.device,
++            )
++            sm89_bf16_gemv_impl(warmup_input, layer.weight.data)
++            torch.cuda.synchronize()
++        elif current_platform.is_cpu():
+             from vllm.model_executor.layers.utils import dispatch_cpu_unquantized_gemm
+ 
+             dispatch_cpu_unquantized_gemm(layer, remove_weight=False)

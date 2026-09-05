@@ -22,7 +22,7 @@ from supervision_utils import (
 
 
 def identity(path: Path, run: Path) -> dict:
-    return {"path": str(path.relative_to(run)), "sha256": sha256(path)}
+    return {"path": path.relative_to(run).as_posix(), "sha256": sha256(path)}
 
 
 def atomic_json(path: Path, data: dict) -> None:
@@ -91,9 +91,20 @@ def main() -> int:
         errors.append("experiment class differs from the measurability-required tier")
     if not is_static and measurability.get("selected_method") == "NO_MEASUREMENT":
         errors.append("NO_MEASUREMENT is a stop/replan result, not an executable experiment")
-    revisions = len(request.get("attempt_history", []))
-    if revisions > revision_cap:
-        errors.append("experiment revision budget is exhausted")
+    history = request.get("attempt_history", [])
+    causal_revisions = sum(
+        item.get("disposition") != "TECHNICAL_FAILURE_REVISED"
+        for item in history
+    )
+    technical_revisions = sum(
+        item.get("disposition") == "TECHNICAL_FAILURE_REVISED"
+        for item in history
+    )
+    technical_cap = int(request.get("execution_budget", {}).get("max_technical_revisions", 8))
+    if causal_revisions > revision_cap:
+        errors.append("causal experiment revision budget is exhausted")
+    if technical_revisions > technical_cap:
+        errors.append("technical repair budget is exhausted")
     if errors:
         print(json.dumps({"status": "REJECTED", "errors": errors}, indent=2, sort_keys=True))
         return 1

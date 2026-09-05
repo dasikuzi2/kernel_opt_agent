@@ -1,0 +1,127 @@
+{
+  "schema_version": "marlin-node-profile-split-v1",
+  "status": "PASS",
+  "claim_scope": "EMPIRICAL_CURRENT_SCHEDULE_NOT_GLOBAL_OPTIMUM",
+  "source": {
+    "path": "D:\\codes\\kernel_opt_agent\\runs\\20260902_qwen35_08b_e2e_sm89_v1\\profiles\\nsys2025_gptq_prod_rerank_nodes_round37.sqlite",
+    "sha256": "98c418e7a0621744ccf8bc7ed8785def086b904cc74475715f90b95a6d360e59"
+  },
+  "bindings": [
+    {
+      "path": "D:\\codes\\kernel_opt_agent\\runs\\20260902_qwen35_08b_e2e_sm89_v1\\models\\nsys2025_gptq_prod_rerank_nodes_round37_map.json",
+      "sha256": "b4e8184c3c0f98763e6f7e2ab18fd971eaa1de746e21a672e69e12e72bed1fee"
+    },
+    {
+      "path": "D:\\codes\\kernel_opt_agent\\runs\\20260902_qwen35_08b_e2e_sm89_v1\\traces\\vllm_gptq_prod_rerank_nodes_round37_w1_n1_t32.json",
+      "sha256": "8edde99ab6925d2c8916cf10c7af8c2a7ccef26618ec6c80533f3f798be63d8a"
+    }
+  ],
+  "configuration": {
+    "generated_steps": 192,
+    "decode_steps": 186,
+    "kernel_substring": "marlin::Marlin",
+    "lm_head_launches_per_step": 1,
+    "minimum_gap_ratio": 5.0,
+    "global_materiality_fraction": 0.03
+  },
+  "dominant_launch_signature": {
+    "grid": [
+      24,
+      1,
+      1
+    ],
+    "block": [
+      256,
+      1,
+      1
+    ],
+    "kernel_name": "void marlin::Marlin<(long)1125899906909960, (long)1125899907892224, (long)1125899906909960, (long)1125899906909960, (int)256, (int)1, (int)8, (int)8, (bool)1, (int)4, (int)8, (bool)0>(const int4 *, const int4 *, int4 *, int4 *, const int4 *, const float *, const int4 *, const float *, const int4 *, const int *, int, int, int, int, int, int *, bool, bool, bool, int)",
+    "instances_per_generated_step": 94.0,
+    "inferred_backbone_instances_per_decode_step": 96.0
+  },
+  "checks": [
+    {
+      "check": "NODE_EXPANDED_TRACE_HAS_NO_GRAPH_SUMMARY_ROWS",
+      "observed_graph_rows": 0,
+      "status": "PASS"
+    },
+    {
+      "check": "BACKBONE_STRATUM_REPEATS_INTEGRALLY_PER_DECODE_STEP",
+      "backbone_instances": 17856,
+      "decode_steps": 186,
+      "instances_per_decode_step": 96.0,
+      "status": "PASS"
+    },
+    {
+      "check": "LM_HEAD_DURATION_STRATUM_IS_SEPARABLE",
+      "minimum_lm_head_us": 847.67,
+      "maximum_backbone_us": 40.179,
+      "observed_gap_ratio": 21.097339406157445,
+      "minimum_gap_ratio": 5.0,
+      "status": "PASS"
+    }
+  ],
+  "components": {
+    "all_gpu_kernels": {
+      "instances": 63053,
+      "total_ms": 959.032843,
+      "ms_per_generated_step": 4.994962723958333,
+      "share_of_gpu_kernel_time_percent": 100.0,
+      "zero_cost_elimination_speedup_ceiling": null,
+      "local_speedup_required_for_global_materiality": 1.0309278350515463
+    },
+    "all_matching_kernels": {
+      "instances": 18624,
+      "total_ms": 695.632681,
+      "ms_per_generated_step": 3.6230868802083336,
+      "share_of_gpu_kernel_time_percent": 72.53481317948983,
+      "zero_cost_elimination_speedup_ceiling": 3.640972866979482,
+      "local_speedup_required_for_global_materiality": 1.0431438564774183
+    },
+    "dominant_signature": {
+      "instances": 18048,
+      "total_ms": 649.074372,
+      "ms_per_generated_step": 3.3805956875,
+      "share_of_gpu_kernel_time_percent": 67.68009841765138,
+      "zero_cost_elimination_speedup_ceiling": 3.0940688276914363,
+      "local_speedup_required_for_global_materiality": 1.0463821186638962
+    },
+    "lm_head_stratum": {
+      "instances": 192,
+      "total_ms": 163.177103,
+      "ms_per_generated_step": 0.8498807447916666,
+      "share_of_gpu_kernel_time_percent": 17.014756500888677,
+      "zero_cost_elimination_speedup_ceiling": 1.2050335190143882,
+      "local_speedup_required_for_global_materiality": 1.2140600872951142
+    },
+    "dominant_backbone_stratum": {
+      "instances": 17856,
+      "total_ms": 485.897269,
+      "ms_per_generated_step": 2.5307149427083333,
+      "share_of_gpu_kernel_time_percent": 50.6653419167627,
+      "zero_cost_elimination_speedup_ceiling": 2.02697259665366,
+      "local_speedup_required_for_global_materiality": 1.062938812129762
+    },
+    "other_matching_signatures": {
+      "instances": 576,
+      "total_ms": 46.558309,
+      "ms_per_generated_step": 0.24249119270833333,
+      "share_of_gpu_kernel_time_percent": 4.854714761838453,
+      "zero_cost_elimination_speedup_ceiling": 1.051024228364931,
+      "local_speedup_required_for_global_materiality": 2.6174993922118257
+    },
+    "nonmatching_kernels": {
+      "instances": 44429,
+      "total_ms": 263.400162,
+      "ms_per_generated_step": 1.37187584375,
+      "share_of_gpu_kernel_time_percent": 27.46518682051017,
+      "zero_cost_elimination_speedup_ceiling": 1.3786483430038847,
+      "local_speedup_required_for_global_materiality": 1.1226232205790874
+    }
+  },
+  "interpretation": {
+    "selected_next_target": "dominant_backbone_stratum",
+    "reason": "The dominant repeated Marlin signature is larger than the lm-head residual and is the next empirical screening target.",
+    "warning": "Zero-cost elimination ceilings are Amdahl bounds, not achievable predictions."
+  }
+}

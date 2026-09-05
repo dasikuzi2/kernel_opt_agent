@@ -25,11 +25,13 @@ from evidence_utils import validate_hardware_spec, validate_identity
 
 ALLOWED_TOP_LEVEL = {
     ".git",
+    ".gitattributes",
     ".gitignore",
     "AGENTS.md",
     "README.md",
     "REVIEW.md",
     "hardware",
+    "knowledge",
     "microbench",
     "runs",
     "schemas",
@@ -71,10 +73,11 @@ def main() -> int:
             errors.append(f"forbidden cache/temp name: {path.relative_to(root)}")
 
     historical_terms = ["f" + "la", "q" + "wen", "g" + "dn", "delta" + "_rule"]
-    for zone_name in REUSABLE_ZONES:
+    for zone_name in (*REUSABLE_ZONES, "knowledge"):
         zone = root / zone_name
         if not zone.exists():
-            errors.append(f"missing reusable zone: {zone_name}")
+            if zone_name in REUSABLE_ZONES:
+                errors.append(f"missing reusable zone: {zone_name}")
             continue
         for path in zone.rglob("*"):
             if path.is_file() and path.suffix.lower() in GENERATED_SUFFIXES:
@@ -97,7 +100,7 @@ def main() -> int:
         manifest_paths = set()
         for manifest_path in manifests:
             package = manifest_path.parent
-            relative_package = str(package.relative_to(root / "microbench"))
+            relative_package = package.relative_to(root / "microbench").as_posix()
             manifest_paths.add(relative_package)
             try:
                 definition = read_object(manifest_path)

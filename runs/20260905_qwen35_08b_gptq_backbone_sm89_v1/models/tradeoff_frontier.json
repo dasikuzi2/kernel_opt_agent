@@ -1,0 +1,13 @@
+{
+  "schema_version": "tradeoff-frontier-v1",
+  "status": "DRAFT",
+  "objective": {},
+  "cases": [],
+  "global_decision": {
+    "status": "PENDING",
+    "selected_schedule": null,
+    "reason": null,
+    "issued_by_role": "GLOBAL_SCHEDULER"
+  },
+  "evidence": []
+}

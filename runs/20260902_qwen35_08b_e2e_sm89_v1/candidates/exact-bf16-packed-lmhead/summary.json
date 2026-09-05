@@ -1,0 +1,120 @@
+{
+  "schema_version": "sm89-exact-bf16-packed-lmhead-v1",
+  "candidate": "Exact BF16 block base-plus-delta packed lm_head GEMV",
+  "scope": "Qwen3.5-0.8B, lm_head 248320x1024, batch-1 decode, RTX 4060 Laptop SM89",
+  "mechanism": "Preserve every BF16 sign, exponent, and mantissa bit while storing sign+mantissa in one byte and the block-local exponent delta in four bits. Blocks whose exponent range exceeds 15 use a dense BF16 fallback. The Triton GEMV reconstructs FP32 values in registers before multiplication.",
+  "correctness": {
+    "weight_bit_exact": true,
+    "quantization": false,
+    "fallback_blocks": 14756,
+    "fallback_block_fraction": 0.01485583118556701,
+    "packed_vs_accepted_frontier_generated_token_cases": "6/6",
+    "fresh_stock_vs_packed_generated_token_cases": "4/6",
+    "fresh_stock_caveat": "Fresh stock and the accepted frontier select different compiled reduction paths. The two divergent cases therefore do not show lost weight information; the packed and accepted paths are 6/6 token-identical under the same source and compile cache."
+  },
+  "storage": {
+    "dense_lm_head_bytes": 508559360,
+    "packed_lm_head_bytes": 393940992,
+    "packed_byte_fraction": 0.774621456185567,
+    "runtime_cache_mib": 375.691,
+    "runtime_tradeoff": "The model ties lm_head to the embedding, so the prototype retains the dense tensor and adds the packed cache. Production integration should pack at load time or manage the tied copy explicitly."
+  },
+  "feasibility": {
+    "distinct_bf16_patterns": 5874,
+    "pattern_entropy_bits_per_value": 10.499084330484525,
+    "distinct_exponents": 33,
+    "exponent_entropy_bits_per_value": 2.5743016901278146,
+    "optimistic_whole_step_speedup": 1.0662914625458426
+  },
+  "microbenchmark": {
+    "warmup_pairs": 1000,
+    "repeats": 20,
+    "dense_median_us": 2044.4656372070312,
+    "packed_median_us": 1586.7128372192383,
+    "local_speedup": 1.2884912690250987,
+    "projected_whole_step_speedup": 1.060062715192739,
+    "output_bit_exact": false,
+    "maximum_absolute_logit_difference": 0.00006103515625,
+    "interpretation": "All weights are reconstructed exactly, but a different FP32 reduction schedule can round logits differently. The production gate therefore checks generated tokens, not bit-identical intermediate logits."
+  },
+  "production_validation": {
+    "same_source_sha256": "92ccaf39b27482411560ff194185e5a4ce6520482985f194c21eb0403949db8f",
+    "cssc_control_mean_e2e_ms": 950.3845375,
+    "cssc_candidate_mean_e2e_ms": 907.8318417,
+    "cssc_e2e_speedup": 1.04687288,
+    "cssc_control_mean_tpot_ms": 7.17978805,
+    "cssc_candidate_mean_tpot_ms": 6.85103439,
+    "cssc_tpot_speedup": 1.04798599,
+    "conservative_c2_vs_s2_e2e_speedup": 1.037719,
+    "conservative_c2_vs_s2_tpot_speedup": 1.039021,
+    "qualification_protocol": "3 warmups x 10 trials per case per side, six natural prompts, 128 generated tokens",
+    "accepted_frontier_control_e2e_ms": 925.539282083264,
+    "candidate_e2e_ms": 883.275862083489,
+    "e2e_speedup_vs_accepted_frontier": 1.0478484942406139,
+    "accepted_frontier_control_tpot_ms": 6.995126984252583,
+    "candidate_tpot_ms": 6.656802568897851,
+    "tpot_speedup_vs_accepted_frontier": 1.050823862034825,
+    "fresh_stock_e2e_ms": 915.468813583781,
+    "e2e_speedup_vs_fresh_stock": 1.0364472220766394,
+    "fresh_stock_tpot_ms": 6.920527580051883,
+    "tpot_speedup_vs_fresh_stock": 1.0396173701149283
+  },
+  "service_integration": {
+    "status": "PROMOTE_LOAD_TIME_PACK_AND_WARM_FOR_WEIGHT_EXACT_BATCH1",
+    "max_num_seqs_8_candidate_output_tokens_per_second": 110.93547694733171,
+    "max_num_seqs_8_faster_stock_output_tokens_per_second": 101.51616276772596,
+    "conservative_batch1_speedup": 1.092786349708249,
+    "lazy_first_use_output_tokens_per_second": 61.970038524411606,
+    "lifecycle_fix_speedup_over_lazy": 1.7901469740676592,
+    "stock_vs_candidate_batch1_exact_tokens": "187/192",
+    "max_num_seqs_1_diagnostic_speedup": 1.1233983404347452,
+    "max_num_seqs_1_diagnostic_exact_tokens": "320/320",
+    "integration": "Prepack the tied embedding/lm-head weight and JIT-warm the exact kernel from UnquantizedEmbeddingMethod.process_weights_after_loading before CUDA Graph setup.",
+    "policy": "Enable only for active batch 1 when exact BF16 weights with non-stock reduction order are acceptable; stock BF16 otherwise."
+  },
+  "rejected_sibling": {
+    "candidate": "Exact 4096-entry BF16 codebook with 12-bit indices and dense fallback blocks",
+    "packed_byte_fraction": 0.7760777424291238,
+    "local_speedup": 0.46650172798766265,
+    "decision": "REJECT: exact table lookup and 12-bit unpacking more than double lm_head latency despite similar storage."
+  },
+  "decision": "PROMOTE_STRICT_BF16_FRONTIER",
+  "qualification": "A bounded winner for this GPU, model shape, batch size, and deterministic decode suite; not a proof of a global theoretical optimum or broad production SOTA.",
+  "evidence": {
+    "feasibility": {
+      "path": "models/sm89_exact_bf16_weight_compression_feasibility.json",
+      "sha256": "fbc4528360e64feabf76729ffb013812256eca8b2fd79b84b4f4e3d5ad4c7bf9"
+    },
+    "steady_microbenchmark": {
+      "path": "microbench_candidates/exact_bf16_packed_lmhead_sm89_steady.json",
+      "sha256": "a26258d0a68b63037171296a6a9f0ee7101d8e420df11d53aeee2c7685655345"
+    },
+    "rejected_codebook_microbenchmark": {
+      "path": "microbench_candidates/exact_bf16_codebook_lmhead_sm89.json",
+      "sha256": "2bdbfb13123f5fa5b06783cfe55b63abf61929e9eea7f489e5506e5bb21c88f6"
+    },
+    "accepted_frontier_qualification": {
+      "path": "comparisons/vllm_exact_pack_qualification.json",
+      "sha256": "ee363a14a275ae5cb249e170c42883d09633eb97231bff823e07c9ea82185aee"
+    },
+    "fresh_stock_qualification": {
+      "path": "comparisons/vllm_exact_pack_stock_qualification.json",
+      "sha256": "b6f1854c334e5d1a1d28b8bc4941b261f8886f5601e38cb0325019fac21917a4"
+    },
+    "vllm_patch": {
+      "path": "candidates/exact-bf16-packed-lmhead/vllm_utils_exact_bf16_packed_lmhead.patch",
+      "sha256": "a1d4f2ed86ba45b580c49b274a917d1b8402517177d0eb129a7099ee9420874e"
+    },
+    "microbenchmark_tool": {
+      "path": "tools/benchmark_exact_bf16_packed_lmhead.py",
+      "sha256": "3ef654e830e30b2bbcc58d06b13c9424ed44e399f20cb78573f4869b24f3a31e"
+    }
+  },
+  "reopen_or_production_rules": [
+    "Measure randomized process order under a locked power mode before claiming production-wide speedup.",
+    "Replace the additive runtime packed cache with a checkpoint-native packed representation before enabling on memory-constrained deployments.",
+    "Requalify every model shape, GPU architecture, batch size, sampling mode, and vLLM version separately.",
+    "Do not report the historical 1.199x frontier gain multiplied by this 1.051x gain; no current experiment measured that product under one controlled state."
+  ],
+  "service_evidence": "comparisons/vllm_bf16_exact_packed_service_integration.json"
+}

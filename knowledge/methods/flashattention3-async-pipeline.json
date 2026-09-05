@@ -1,0 +1,52 @@
+{
+  "schema_version": "optimization-method-v1",
+  "method_id": "flashattention3-async-pipeline",
+  "title": "Overlap data movement and compute with warp-specialized asynchronous pipelines",
+  "kind": "TRANSFORMATION",
+  "source": {
+    "title": "FlashAttention-3: Fast and Accurate Attention with Asynchrony and Low-precision",
+    "url": "https://arxiv.org/abs/2407.08608",
+    "version": "arXiv:2407.08608v2",
+    "evidence_tier": "PRIMARY_PREPRINT",
+    "claim_scope": "Attention on NVIDIA Hopper H100; reported techniques and results do not establish transfer to other operators or architectures."
+  },
+  "opportunity_families": ["async-pipeline", "attention-fusion", "warp-specialization", "low-precision"],
+  "applicability": {
+    "vendors": ["NVIDIA"],
+    "architecture_affinity": ["hopper", "h100"],
+    "required_capabilities": ["tensor memory accelerator", "asynchronous tensor core"],
+    "dtypes": ["float16", "bfloat16", "float8"],
+    "problem_signatures": ["attention", "softmax", "matmul", "tensor core", "data movement"]
+  },
+  "implementation_recipe": [
+    "Split producer and consumer warp roles only after identifying independent movement and compute stages.",
+    "Double-buffer tiles and express a concrete overlap schedule rather than merely increasing pipeline depth.",
+    "Interleave non-matmul work with matrix operations only when dependencies allow it."
+  ],
+  "validation_recipe": [
+    "Compare an otherwise identical non-overlapped candidate and report GPU-active time.",
+    "Audit the final binary for the expected asynchronous movement and compute instruction classes.",
+    "Measure register and shared-memory growth and test edge sequence lengths."
+  ],
+  "expected_bottleneck_shifts": [
+    "Movement stalls may shift to shared-memory capacity, barriers, or tensor-core issue pressure.",
+    "Interleaving can expose non-matmul dependency latency after matrix work is hidden."
+  ],
+  "failure_modes": [
+    "Architecture-specific instructions are absent or compile to a different mechanism.",
+    "Extra buffering reduces occupancy enough to erase overlap gains.",
+    "The operator lacks enough independent work between producer and consumer roles."
+  ],
+  "scope_limits": [
+    "Do not transfer Hopper-specific performance claims to Ada or Blackwell.",
+    "Low-precision changes require separate numerical authorization."
+  ],
+  "candidate_archetypes": [
+    {
+      "family": "async-pipeline",
+      "name": "producer-consumer double buffer",
+      "change_axes": ["warp ownership", "buffering", "stage overlap"],
+      "template": "Assign movement and compute to distinct warp roles, ping-pong two tiles, and preserve a non-overlapped control candidate."
+    }
+  ]
+}

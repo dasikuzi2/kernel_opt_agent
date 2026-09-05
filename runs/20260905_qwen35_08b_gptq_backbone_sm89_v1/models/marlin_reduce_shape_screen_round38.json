@@ -1,0 +1,217 @@
+{
+  "schema_version": "marlin-reduction-shape-screen-v1",
+  "status": "PASS",
+  "claim_scope": "ATOMIC_SCREEN_ONLY_REQUIRES_END_TO_END_CAUSAL_VALIDATION",
+  "device": {
+    "name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "compute_capability": "8.9"
+  },
+  "controls": {
+    "m": 1,
+    "group_size": 128,
+    "activation_dtype": "bfloat16",
+    "iterations": 100,
+    "repeats": 7,
+    "warmups": 40,
+    "inventory": {
+      "path": "/mnt/d/codes/kernel_opt_agent/runs/20260902_qwen35_08b_e2e_sm89_v1/models/gptq_projection_shapes_round37.json",
+      "sha256": "2f980dad3b70f489dde2e2542b2f6d78d400151280a7472f073c6ac099a5bef2"
+    }
+  },
+  "results": [
+    {
+      "name": "linear_attention_qkvz",
+      "n": 8192,
+      "k": 1024,
+      "calls": 18,
+      "fp32_reduce_median_us": 73.3184003829956,
+      "native_reduce_median_us": 65.0435209274292,
+      "native_reduce_speedup": 1.127220656839886,
+      "weighted_fp32_reduce_us": 1319.731206893921,
+      "weighted_native_reduce_us": 1170.7833766937256,
+      "fp32_reduce_samples_us": [
+        73.3184003829956,
+        98.81600379943848,
+        65.50528049468994,
+        143.10400009155273,
+        70.9119987487793,
+        78.438401222229,
+        69.89823818206787
+      ],
+      "native_reduce_samples_us": [
+        64.94207859039307,
+        66.90815925598145,
+        64.29696083068848,
+        76.5235185623169,
+        70.55359840393066,
+        65.0435209274292,
+        63.48800182342529
+      ],
+      "numerical_delta": {
+        "exact_elements": 7680,
+        "elements": 8192,
+        "max_abs": 0.000244140625,
+        "mean_abs": 2.3058746592141688e-06,
+        "argmax_equal": true
+      }
+    },
+    {
+      "name": "attention_out",
+      "n": 1024,
+      "k": 2048,
+      "calls": 24,
+      "fp32_reduce_median_us": 80.40448188781738,
+      "native_reduce_median_us": 93.2147216796875,
+      "native_reduce_speedup": 0.8625727829141648,
+      "weighted_fp32_reduce_us": 1929.7075653076172,
+      "weighted_native_reduce_us": 2237.1533203125,
+      "fp32_reduce_samples_us": [
+        79.41023826599121,
+        96.74783706665039,
+        110.52032470703125,
+        80.40448188781738,
+        79.03232097625732,
+        78.87775897979736,
+        123.70944023132324
+      ],
+      "native_reduce_samples_us": [
+        93.2147216796875,
+        78.49984169006348,
+        122.19391822814941,
+        133.44767570495605,
+        97.10592269897461,
+        87.70560264587402,
+        79.50399875640869
+      ],
+      "numerical_delta": {
+        "exact_elements": 655,
+        "elements": 1024,
+        "max_abs": 0.000244140625,
+        "mean_abs": 2.122996374964714e-05,
+        "argmax_equal": true
+      }
+    },
+    {
+      "name": "full_attention_qkv",
+      "n": 5120,
+      "k": 1024,
+      "calls": 6,
+      "fp32_reduce_median_us": 94.72000122070312,
+      "native_reduce_median_us": 75.01823902130127,
+      "native_reduce_speedup": 1.2626262953707508,
+      "weighted_fp32_reduce_us": 568.3200073242188,
+      "weighted_native_reduce_us": 450.1094341278076,
+      "fp32_reduce_samples_us": [
+        99.26655769348145,
+        77.17887878417969,
+        86.29247665405273,
+        75.18208026885986,
+        94.72000122070312,
+        95.78495979309082,
+        126.70975685119629
+      ],
+      "native_reduce_samples_us": [
+        70.41024208068848,
+        77.05599784851074,
+        72.72448062896729,
+        85.79008102416992,
+        75.01823902130127,
+        81.080322265625,
+        70.71743965148926
+      ],
+      "numerical_delta": {
+        "exact_elements": 4590,
+        "elements": 5120,
+        "max_abs": 0.000244140625,
+        "mean_abs": 4.4193584471940994e-06,
+        "argmax_equal": true
+      }
+    },
+    {
+      "name": "mlp_gate_up",
+      "n": 7168,
+      "k": 1024,
+      "calls": 24,
+      "fp32_reduce_median_us": 72.19200134277344,
+      "native_reduce_median_us": 80.40448188781738,
+      "native_reduce_speedup": 0.8978604133473277,
+      "weighted_fp32_reduce_us": 1732.6080322265625,
+      "weighted_native_reduce_us": 1929.7075653076172,
+      "fp32_reduce_samples_us": [
+        88.0947208404541,
+        72.19200134277344,
+        81.43775939941406,
+        65.57695865631104,
+        83.37408065795898,
+        68.23935985565186,
+        66.79679870605469
+      ],
+      "native_reduce_samples_us": [
+        65.65887928009033,
+        66.26304149627686,
+        76.42079830169678,
+        80.40448188781738,
+        86.34400367736816,
+        87.64415740966797,
+        83.65056037902832
+      ],
+      "numerical_delta": {
+        "exact_elements": 6494,
+        "elements": 7168,
+        "max_abs": 0.000244140625,
+        "mean_abs": 3.6547451145452214e-06,
+        "argmax_equal": true
+      }
+    },
+    {
+      "name": "mlp_down",
+      "n": 1024,
+      "k": 3584,
+      "calls": 24,
+      "fp32_reduce_median_us": 93.46048355102539,
+      "native_reduce_median_us": 91.70944213867188,
+      "native_reduce_speedup": 1.0190933601984602,
+      "weighted_fp32_reduce_us": 2243.0516052246094,
+      "weighted_native_reduce_us": 2201.026611328125,
+      "fp32_reduce_samples_us": [
+        88.94463539123535,
+        100.27008056640625,
+        93.46048355102539,
+        119.23551559448242,
+        92.1497631072998,
+        97.53600120544434,
+        80.10815620422363
+      ],
+      "native_reduce_samples_us": [
+        96.31744384765625,
+        90.60352325439453,
+        95.21151542663574,
+        91.70944213867188,
+        90.50111770629883,
+        136.60191535949707,
+        91.2281608581543
+      ],
+      "numerical_delta": {
+        "exact_elements": 637,
+        "elements": 1024,
+        "max_abs": 0.00048828125,
+        "mean_abs": 3.3473013900220394e-05,
+        "argmax_equal": true
+      }
+    }
+  ],
+  "projection_weighted_summary": {
+    "fp32_reduce_us_per_decode": 7793.418416976929,
+    "native_reduce_us_per_decode": 7988.780307769775,
+    "native_reduce_speedup": 0.9755454671093108,
+    "winning_shapes": [
+      "linear_attention_qkvz",
+      "full_attention_qkv",
+      "mlp_down"
+    ]
+  },
+  "warnings": [
+    "Hot-cache random-tensor timing is a screening signal, not a whole-model claim.",
+    "Disabling FP32 reduction changes accumulation precision and must pass exact greedy token identity before promotion."
+  ]
+}

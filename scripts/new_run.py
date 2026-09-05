@@ -14,6 +14,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from evidence_utils import resolve_evidence_path, validate_hardware_evidence
+from schema_utils import validate_instance
 
 
 REMINDER = """Kernel optimization intake is required:
@@ -72,6 +73,17 @@ def validate_intake_semantics(operator: dict, workload: dict, hardware: dict) ->
         raise ValueError("hardware target requires exact vendor and device_name")
     if not hardware.get("provenance", {}).get("queries"):
         raise ValueError("hardware snapshot requires non-empty query provenance")
+
+
+def validate_intake_schemas(project_root: Path, artifacts: tuple[tuple[str, dict, str], ...]) -> None:
+    """Reject a malformed intake before creating any run directories or files."""
+    errors: list[str] = []
+    for label, instance, schema_name in artifacts:
+        schema_path = project_root / "schemas" / schema_name
+        schema = read_json(schema_path)
+        errors.extend(f"{label}: {error}" for error in validate_instance(instance, schema))
+    if errors:
+        raise ValueError("intake schema validation failed: " + "; ".join(errors))
 
 
 def slug(value: str) -> str:
@@ -142,6 +154,11 @@ def main() -> int:
     require(operator, "operator-contract-v1", ("name", "computation", "inputs", "outputs", "numerics", "abi"), "operator")
     require(workload, "workload-v1", ("name", "cases", "objective"), "workload")
     require(hardware, "hardware-snapshot-v1", ("captured_at", "host", "target", "software", "tools", "provenance"), "hardware")
+    validate_intake_schemas(project_root, (
+        ("operator", operator, "operator_contract.schema.json"),
+        ("workload", workload, "workload.schema.json"),
+        ("hardware", hardware, "hardware_snapshot.schema.json"),
+    ))
     validate_intake_semantics(operator, workload, hardware)
     if args.test_legacy_contract and str(hardware.get("target", {}).get("vendor", "")).upper() != "TEST":
         raise ValueError("--test-legacy-contract is restricted to synthetic repository tests")
@@ -188,20 +205,20 @@ def main() -> int:
             suffix = original.suffix or ".evidence"
             frozen_doc = run_dir / "hardware_docs" / f"{slug(str(source['source_id']))}{suffix}"
             shutil.copyfile(original, frozen_doc)
-            retrieval["artifact_path"] = str(frozen_doc.relative_to(run_dir))
+            retrieval["artifact_path"] = frozen_doc.relative_to(run_dir).as_posix()
             original_receipt = resolve_evidence_path(args.hardware_evidence.parent, str(retrieval.get("receipt_path", "")))
             frozen_receipt = run_dir / "hardware_docs" / f"{slug(str(source['source_id']))}.retrieval.json"
             receipt = read_json(original_receipt)
             receipt["artifact_path"] = retrieval["artifact_path"]
             frozen_receipt.write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n")
-            retrieval["receipt_path"] = str(frozen_receipt.relative_to(run_dir))
+            retrieval["receipt_path"] = frozen_receipt.relative_to(run_dir).as_posix()
             retrieval["receipt_sha256"] = digest(frozen_receipt)
         for measurement in evidence.get("empirical_measurements", []):
             identity = measurement.get("identity", {})
             original = resolve_evidence_path(args.hardware_evidence.parent, str(identity.get("path", "")))
             frozen_measurement = run_dir / "hardware_docs" / f"measurement-{slug(str(measurement['measurement_id']))}.json"
             shutil.copyfile(original, frozen_measurement)
-            identity["path"] = str(frozen_measurement.relative_to(run_dir))
+            identity["path"] = frozen_measurement.relative_to(run_dir).as_posix()
         evidence_path.write_text(json.dumps(evidence, indent=2, sort_keys=True) + "\n")
         copied_errors = validate_hardware_evidence(evidence_path, run_dir / "hardware.json")
         if copied_errors:
@@ -256,6 +273,18 @@ def main() -> int:
     shutil.copyfile(templates / "work_ledger.json", run_dir / "models" / "work_ledger.json")
     shutil.copyfile(templates / "dag.json", run_dir / "models" / "dag.json")
     shutil.copyfile(templates / "optimization_plan.json", run_dir / "models" / "optimization_plan.json")
+    discovery_pool = read_json(templates / "candidate_pool.json")
+    discovery_pool["created_at"] = now.isoformat()
+    (run_dir / "models" / "candidate_pool.json").write_text(
+        json.dumps(discovery_pool, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    opportunity_map = read_json(templates / "opportunity_map.json")
+    opportunity_map["created_at"] = now.isoformat()
+    (run_dir / "models" / "opportunity_map.json").write_text(
+        json.dumps(opportunity_map, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
     shutil.copyfile(templates / "microarchitecture_model.json", run_dir / "models" / "microarchitecture_model.json")
     shutil.copyfile(templates / "baseline.json", run_dir / "models" / "baseline.json")
     shutil.copyfile(templates / "microbenchmark_plan.json", run_dir / "models" / "microbenchmark_plan.json")
@@ -285,7 +314,7 @@ def main() -> int:
         "completed_phases": ["INTAKE"],
         "current_phase": "PLANNING",
         "allowed_next_phase": "BASELINE",
-        "next_action": "Close vendor-official hardware evidence, discover final-binary material resources, then complete the executable optimization plan.",
+        "next_action": "Capture a correct discovery baseline, rank quantified global opportunities, implement a diverse production-candidate portfolio, then qualify survivors with the evidence-closed workflow.",
         "terminal": False,
     }
     if not args.test_legacy_contract:

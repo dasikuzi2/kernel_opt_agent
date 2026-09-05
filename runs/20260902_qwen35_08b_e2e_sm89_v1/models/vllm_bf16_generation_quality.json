@@ -1,0 +1,65 @@
+{
+  "schema_version": "generation-quality-sanity-v1",
+  "status": "PASS",
+  "claim_scope": "CHEAP_DEGENERATION_GATE_NOT_SEMANTIC_QUALITY_QUALIFICATION",
+  "source": {
+    "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\traces\\vllm_natural_gdn_s3_b_w1_n3.json",
+    "sha256": "ae2c3e5fec0054bf0de1ad9d1a56ace60ee37a6b6f45c7b0dbc0faff083278d5"
+  },
+  "cases": [
+    {
+      "case_id": "zh-explanation",
+      "status": "PASS",
+      "generated_tokens": 128,
+      "distinct_token_count": 87,
+      "distinct_token_fraction": 0.6796875,
+      "minimum_distinct_tokens": 8,
+      "reason": null
+    },
+    {
+      "case_id": "python-code",
+      "status": "PASS",
+      "generated_tokens": 128,
+      "distinct_token_count": 54,
+      "distinct_token_fraction": 0.421875,
+      "minimum_distinct_tokens": 8,
+      "reason": null
+    },
+    {
+      "case_id": "reasoning",
+      "status": "PASS",
+      "generated_tokens": 128,
+      "distinct_token_count": 71,
+      "distinct_token_fraction": 0.5546875,
+      "minimum_distinct_tokens": 8,
+      "reason": null
+    },
+    {
+      "case_id": "editing",
+      "status": "PASS",
+      "generated_tokens": 128,
+      "distinct_token_count": 65,
+      "distinct_token_fraction": 0.5078125,
+      "minimum_distinct_tokens": 8,
+      "reason": null
+    },
+    {
+      "case_id": "systems-design",
+      "status": "PASS",
+      "generated_tokens": 128,
+      "distinct_token_count": 90,
+      "distinct_token_fraction": 0.703125,
+      "minimum_distinct_tokens": 8,
+      "reason": null
+    },
+    {
+      "case_id": "translation",
+      "status": "PASS",
+      "generated_tokens": 128,
+      "distinct_token_count": 87,
+      "distinct_token_fraction": 0.6796875,
+      "minimum_distinct_tokens": 8,
+      "reason": null
+    }
+  ]
+}

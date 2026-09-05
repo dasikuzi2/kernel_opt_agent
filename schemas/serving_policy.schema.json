@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "serving_policy.schema.json",
+  "title": "Evidence-derived serving policy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "status", "deployment_point", "policy_input", "identity",
+    "global_optimum_proven", "routes", "evidence", "hard_gates", "limitations"
+  ],
+  "properties": {
+    "schema_version": {"const": "serving-policy-v1"},
+    "status": {"const": "BOUNDED_MEASURED_POLICY_NOT_GLOBAL_OPTIMUM"},
+    "deployment_point": {"type": "object"},
+    "policy_input": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "identity": {"type": "object"},
+    "global_optimum_proven": {"const": false},
+    "routes": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["numerical_contract", "active_decode_batch", "route", "reason"],
+        "properties": {
+          "numerical_contract": {"type": "string", "minLength": 1},
+          "active_decode_batch": {"type": "integer", "minimum": 1},
+          "route": {"type": "string", "minLength": 1},
+          "reason": {"type": "string", "minLength": 1},
+          "measured_conservative_speedup_over_baseline": {"type": "number", "exclusiveMinimum": 1.0}
+        }
+      }
+    },
+    "evidence": {"type": "object"},
+    "hard_gates": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "limitations": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "schema_version": "optimization-method-v1",
+  "method_id": "cuda-vectorized-memory-access",
+  "title": "Use aligned vector loads and stores to reduce memory instruction pressure",
+  "kind": "TRANSFORMATION",
+  "source": {
+    "title": "CUDA Pro Tip: Increase Performance with Vectorized Memory Access",
+    "url": "https://developer.nvidia.com/blog/cuda-pro-tip-increase-performance-with-vectorized-memory-access/",
+    "version": "updated 2025-08-04",
+    "evidence_tier": "VENDOR_OFFICIAL_GUIDANCE",
+    "claim_scope": "General NVIDIA CUDA guidance; benefit depends on alignment, instruction pressure, register use, and workload."
+  },
+  "opportunity_families": ["vectorized-io", "boundary-vector2", "boundary-vector4", "ilp-vector8"],
+  "applicability": {
+    "vendors": ["NVIDIA"],
+    "architecture_affinity": [],
+    "required_capabilities": [],
+    "dtypes": ["float16", "bfloat16", "float32", "float64", "int8", "int32"],
+    "problem_signatures": ["vectorized", "memory", "bandwidth", "load", "store", "io"]
+  },
+  "implementation_recipe": [
+    "Create separate scalar, 64-bit, and 128-bit access candidates instead of assuming the widest access wins.",
+    "Guard alignment and handle the remainder with a correct scalar tail.",
+    "Keep arithmetic and launch geometry constant for the first attribution test."
+  ],
+  "validation_recipe": [
+    "Test aligned anchor sizes and deliberately unaligned or non-divisible edge sizes.",
+    "Audit final instructions for the intended access width.",
+    "Record register use and achieved bandwidth because fewer instructions may still reduce parallelism."
+  ],
+  "expected_bottleneck_shifts": [
+    "Memory-instruction issue pressure may shift to bandwidth, register pressure, or tail handling.",
+    "Wider accesses can reduce instruction count without reducing mandatory bytes."
+  ],
+  "failure_modes": [
+    "Pointers or offsets do not satisfy vector alignment.",
+    "The compiler scalarizes the access.",
+    "Extra registers or insufficient parallelism offset the instruction reduction."
+  ],
+  "scope_limits": [
+    "Vector width does not change the mandatory-byte lower bound.",
+    "Vendor examples do not establish a speedup on the target operator."
+  ],
+  "candidate_archetypes": [
+    {
+      "family": "boundary-vector4",
+      "name": "aligned vector4 interior with scalar tail",
+      "change_axes": ["memory instruction width", "alignment guard", "tail path"],
+      "template": "Use 128-bit accesses only for the aligned interior, preserve a scalar fallback, and compare final instruction counts."
+    },
+    {
+      "family": "boundary-vector2",
+      "name": "aligned vector2 conservative path",
+      "change_axes": ["memory instruction width", "register pressure"],
+      "template": "Use 64-bit accesses as a lower-pressure point between scalar and vector4 candidates."
+    }
+  ]
+}

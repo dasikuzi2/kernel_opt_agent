@@ -1,0 +1,68 @@
+{
+  "candidate": "SM89 segmented QKVZ+BA decode projection",
+  "scope": "Qwen3.5-0.8B, RTX 4060 Laptop GPU, batch=1 decode, BF16",
+  "source_sha256": "3c044779bfadb83303ac396c8cfcee0c6f1ac0acd93e49b54c5f7ab98a856d3d",
+  "patch": {
+    "path": "candidates/gdn-segmented-projection/vllm_qwen_gdn_segmented_projection.patch",
+    "sha256": "f4fb2f7e0ff5d619de3b6fd4a883d53499faf3cc7ee264726a1d56c063d9f1f0"
+  },
+  "mechanism": "Preserve separate 8192-row and 32-row tiles while dispatching both independent projections from one Triton launch.",
+  "microbenchmark": {
+    "evidence": "microbench_candidates/gdn_segmented_projection_sm89.json",
+    "evidence_sha256": "e8ed7aef503ef22650bed91ff64a7f9d6d9212a94f669d77e96870b3fc3eb01f",
+    "warm_baseline_us": 91.135,
+    "warm_candidate_us": 51.343,
+    "warm_speedup": 1.775,
+    "cold_baseline_us": 111.616,
+    "cold_candidate_us": 99.328,
+    "cold_speedup": 1.12371,
+    "bf16_elementwise_exact_random_screen": true
+  },
+  "reachability": {
+    "status": "PASS",
+    "expected_kernel_instances": 3348,
+    "observed_kernel_instances": 3348,
+    "kernel_mean_us": 74.827,
+    "cublas_launches_per_step_before": 114,
+    "cublas_launches_per_step_after": 78,
+    "evidence": "models/nsys2025_gdn_segmented_candidate_map.json",
+    "evidence_sha256": "a77ff5952e30d21a63825f642500c8ea803a1e2c68802f886308717e72e6bc06"
+  },
+  "standalone_full_model": {
+    "control_mean_e2e_ms": 559.3423,
+    "candidate_mean_e2e_ms": 539.7547,
+    "e2e_speedup": 1.03629,
+    "control_mean_tpot_ms": 8.280361,
+    "candidate_mean_tpot_ms": 7.961445,
+    "tpot_speedup": 1.04006,
+    "control_repeat_exact_cases": "6/6",
+    "candidate_repeat_exact_cases": "6/6",
+    "cross_mode_exact_cases": "3/6"
+  },
+  "late_half_ablation": {
+    "e2e_speedup": 0.9944747158079094,
+    "tpot_speedup": 1.0026402724253993,
+    "cross_mode_exact_cases": "3/6",
+    "decision": "REJECT: no material gain and no improvement in the strict token contract",
+    "evidence": "comparisons/vllm_sm89_gdn_segmented_latehalf_vs_control.json",
+    "evidence_sha256": "d2976737e7ca2844cc8d9e1ae408d2419bdc7551ca75187ec5e86fce0d1952b3"
+  },
+  "task_quality_screen": {
+    "dataset": "official GSM8K test split",
+    "dataset_commit": "3101c7d5072418e28b9008a6636bde82a006892c",
+    "sample_count": 512,
+    "control_accuracy": 0.091796875,
+    "candidate_accuracy": 0.08984375,
+    "candidate_minus_control_accuracy": -0.001953125,
+    "answer_agreement_rate": 0.947265625,
+    "token_exact_rate": 0.931640625,
+    "paired_control_only_correct": 2,
+    "paired_candidate_only_correct": 1,
+    "mcnemar_exact_two_sided_p": 1.0,
+    "evidence": "comparisons/vllm_sm89_gdn_quality_gsm8k_n512.json",
+    "evidence_sha256": "6d6a32c32e389a4da0be613db4b2ec41eedef2b80de08813496bb0249b7e4889",
+    "decision": "LIMITED_TASK_QUALITY_PASS"
+  },
+  "decision": "RETAIN_LIMITED_TASK_QUALITY_FRONTIER",
+  "qualification": "The kernel is deterministic and BF16-elementwise exact in the isolated screen. A 512-example deterministic GSM8K screen found no detectable paired accuracy regression, but changed reduction ordering still compounds through autoregressive generation. It is not the strict token-exact winner; broader tasks and sampling modes remain required before production promotion."
+}

@@ -1,0 +1,30 @@
+{
+  "schema_version": "baseline-environment-lock-v1",
+  "captured_at": "2026-09-01T14:52:00+08:00",
+  "host": "ubuntu24.04.03",
+  "gpu": {
+    "name": "NVIDIA GeForce RTX 5090",
+    "uuid": "GPU-14f89acf-cf7c-3a09-80d5-e43035823f0d",
+    "compute_capability": "12.0",
+    "sm_count": 170,
+    "memory_bytes": 33645199360,
+    "driver": "580.173.02"
+  },
+  "system_cuda": "13.2",
+  "python": "3.12.3",
+  "packages": {
+    "torch": "2.13.0+cu130",
+    "triton": "3.7.1",
+    "flashinfer-python": "0.6.18",
+    "flashinfer-bench": "0.1.2",
+    "nvidia-cutlass-dsl": "4.7.1"
+  },
+  "dataset": {
+    "revision": "5e832ce88dd1013032b22a0e942979d7d2769cc3",
+    "definition_sha256": "2975eeade1e9bda0fdb87c76ca9493b27570fc62cfdea45e2ec769223cd81c05",
+    "workloads_sha256": "279eea77da0aa1cd47ad953e790e0a0f062ed5c7578c4a55eccee105b6d1151e",
+    "workload_blob_count": 100,
+    "workload_blob_bytes_approx": 1174000000
+  },
+  "isolated_environment": "/home/oem/fi-bench-5090/.venv"
+}

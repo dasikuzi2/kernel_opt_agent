@@ -1,0 +1,81 @@
+{
+  "schema_version": "qwen35-sm89-lm-head-abba-v1",
+  "status": "PASS",
+  "claim_scope": "RTX_4060_LAPTOP_SM89_BATCH1_BF16_NATURAL_SUITE_128_OUTPUT_TOKENS",
+  "design": {
+    "order": ["candidate_c1", "stock_s1", "stock_s2", "candidate_c2"],
+    "source_sha256_both_paths": "a2b0d1ac0600564dae318afc544d7876e13b2e847e44cb1d5632bec7d213dc23",
+    "path_switch": "VLLM_SM89_BF16_LM_HEAD",
+    "warmups_per_process": 1,
+    "trials_per_process": 3,
+    "natural_cases": 6,
+    "generated_tokens_per_case": 128
+  },
+  "measurements": {
+    "candidate_c1": {
+      "weighted_e2e_ms": 1060.2747315000063,
+      "weighted_tpot_ms": 8.083737782152276,
+      "median_graphics_clock_mhz": 915.0,
+      "median_power_w": 37.275,
+      "trace": "../traces/vllm_lmhead_toggle_c1_w1_n3.json",
+      "sha256": "25b5411e1d4eace8a810c1532d1a2c2a035e47a05007d82151661a98a94a0cf3"
+    },
+    "stock_s1": {
+      "weighted_e2e_ms": 1262.9795778333723,
+      "weighted_tpot_ms": 9.683280859579952,
+      "median_graphics_clock_mhz": 952.5,
+      "median_power_w": 36.685,
+      "trace": "../traces/vllm_lmhead_toggle_s1_w1_n3.json",
+      "sha256": "bfd31a0435b34b32eb6a195101609bd0c86c91c2d6cdf959b77024b92dfb00a7"
+    },
+    "stock_s2": {
+      "weighted_e2e_ms": 1264.4250960000059,
+      "weighted_tpot_ms": 9.684334622047327,
+      "median_graphics_clock_mhz": 922.5,
+      "median_power_w": 36.71,
+      "trace": "../traces/vllm_lmhead_toggle_s2_w1_n3.json",
+      "sha256": "0df48c50e892e310035dc9351dce643c3e5884fbcffd43fdd3f8549fe37de928"
+    },
+    "candidate_c2": {
+      "weighted_e2e_ms": 1058.614383833363,
+      "weighted_tpot_ms": 8.074502299212497,
+      "median_graphics_clock_mhz": 892.5,
+      "median_power_w": 37.61,
+      "trace": "../traces/vllm_lmhead_toggle_c2_w1_n3.json",
+      "sha256": "b23a113c9c94fde05b9881c98a78c93873be575ea320a0741306e4925fd5b7e5"
+    }
+  },
+  "aggregate": {
+    "stock_mean_weighted_e2e_ms": 1263.702336916689,
+    "candidate_mean_weighted_e2e_ms": 1059.4445576666846,
+    "e2e_speedup": 1.19279704423595,
+    "stock_mean_weighted_tpot_ms": 9.68380774081364,
+    "candidate_mean_weighted_tpot_ms": 8.07912004068239,
+    "tpot_speedup": 1.19862159394227,
+    "exact_generated_token_cases_each_pair": "6/6",
+    "candidate_clock_advantage": false
+  },
+  "paired_comparisons": [
+    {
+      "path": "../comparisons/vllm_lmhead_toggle_pair1.json",
+      "sha256": "a4103a6c62e9a80d13f79294d2c6cc2aa7304bd34ca2db79ee0a96f90f53404f"
+    },
+    {
+      "path": "../comparisons/vllm_lmhead_toggle_pair2.json",
+      "sha256": "8f2fca2ef89fd781ed34917902446ee5d1d483f352c639b654ed2d6e4e5b3234"
+    }
+  ],
+  "microbenchmark_caveat": {
+    "sequential_speedup": 1.8004541066179371,
+    "interleaved_speedup": 1.0039623213432918,
+    "evidence": "../microbench_candidates/bf16_triton_gemv_sm89_paired.json",
+    "evidence_sha256": "b19add1b7efe78a4e07d7ded348b86ede9509c9aa665e9d920de905a78994547",
+    "interpretation": "Local timing is workload-state sensitive and is screening-only; same-source end-to-end ABBA is the promotion gate."
+  },
+  "remaining_bound": {
+    "optimistic_exact_bf16_weight_stream_floor_ms": 6.193794870998321,
+    "candidate_tpot_over_floor": 1.304389,
+    "interpretation": "At this measured power state no exact-BF16 implementation can gain more than about 1.30x over this candidate under the model-sized read-service bound."
+  },
+  "decision": "PROMOTE_LM_HEAD_ONLY_REJECT_GENERIC_BACKBONE_GEMV"
+}

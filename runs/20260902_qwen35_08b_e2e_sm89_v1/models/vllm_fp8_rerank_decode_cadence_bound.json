@@ -1,0 +1,84 @@
+{
+  "schema_version": "vllm-decode-cadence-bound-v2",
+  "status": "PASS",
+  "scope": "Profiled batch-1 greedy run. Standalone KERNEL activity includes capture/prefill, while GRAPH_TRACE records decode graph replay bodies omitted from KERNEL in this Nsight trace mode.",
+  "source": {
+    "sqlite": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\profiles\\nsys2025_int8_bf16_rerank_g1024k128.sqlite",
+      "sha256": "cbbbe4b13e20521338316509e33e5d9f2b2761d71d71c2a9fdefc05234a50e88"
+    },
+    "trace": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\traces\\vllm_nsys2025_int8_bf16_rerank_g1024k128_w1_n1_t32.json",
+      "sha256": "e733fa813c3e54a646cff575c653833b00fdce5cf65863cc1b8bfa632cb8b547"
+    }
+  },
+  "generated_steps": 192,
+  "request_count": 6,
+  "weighted_tpot_ms": 4.2601278763213095,
+  "cuda": {
+    "standalone_kernel_instances": 9024,
+    "standalone_kernel_total_ms": 229.022417,
+    "standalone_kernel_ms_per_generated_step": 1.1928250885416667,
+    "graph_trace_count": 186,
+    "graph_replay_total_ms": 542.245618,
+    "graph_replay_duration_ms": {
+      "median": 2.9074485,
+      "mean": 2.9152990215053762,
+      "p90": 2.944288,
+      "min": 2.894934,
+      "max": 3.141394
+    },
+    "graph_replay_ms_per_generated_step": 2.8241959270833337,
+    "observed_gpu_activity_ms_per_generated_step_upper_bound": 4.017021015625001,
+    "observed_gpu_activity_fraction_of_tpot_upper_bound": 0.9429343747995106,
+    "outside_observed_gpu_activity_ms_per_token_lower_bound": 0.24310686069630894,
+    "outside_observed_gpu_activity_fraction_of_tpot_lower_bound": 0.05706562520048945,
+    "graph_launch_count": 186,
+    "expected_graph_launch_count": 186,
+    "graph_launch_api_duration_ms": {
+      "median": 0.149358,
+      "mean": 0.1623534247311828,
+      "p90": 0.201424,
+      "max": 0.499069
+    },
+    "within_request_graph_launch_start_cadence_ms": {
+      "count": 180,
+      "median": 4.249069,
+      "mean": 4.230639472222222,
+      "p90": 4.741949,
+      "max": 6.353208
+    },
+    "within_request_gpu_busy_union_ms": {
+      "count": 180,
+      "median": 3.954929,
+      "mean": 3.9666572944444445,
+      "p90": 3.998386,
+      "min": 3.942906,
+      "max": 4.198206
+    },
+    "within_request_graph_trace_start_cadence_ms": {
+      "count": 180,
+      "median": 4.253746,
+      "mean": 4.308937338888889,
+      "p90": 4.471142,
+      "max": 4.827763
+    },
+    "within_request_gpu_idle_ms": {
+      "count": 180,
+      "median": 0.28611849999999994,
+      "mean": 0.34228004444444443,
+      "p90": 0.5140130000000003,
+      "min": 0.20012799999999986,
+      "max": 0.8362120000000002,
+      "mean_fraction_of_launch_cadence": 0.07943490877792747
+    }
+  },
+  "correction": {
+    "retracted_interpretation": "KERNEL-table duration alone represents all CUDA execution and leaves roughly 72% of TPOT outside kernels.",
+    "reason": "The trace contains one GRAPH_TRACE activity for every decode cudaGraphLaunch, and those replay bodies are absent from the KERNEL-table duration sum.",
+    "speedup_if_only_proven_residual_were_removed": 1.0605191906516538,
+    "speedup_if_observed_mean_within_request_gpu_idle_were_removed": 1.0862892907143324,
+    "qualification": "Activity durations can overlap and standalone KERNEL includes capture/prefill, so this is a conservative decomposition, not a theoretical optimum or an achievable speedup prediction."
+  },
+  "decision": "Do not prioritize runtime orchestration from the retracted 72% figure. The graph replay body is material GPU work already covered by vLLM; require a complete graph-plus-standalone-kernel timeline and a >=3% whole-step mechanism before reopening runtime work."
+}

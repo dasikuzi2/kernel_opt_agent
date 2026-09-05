@@ -1,0 +1,258 @@
+{
+  "schema_version": "qwen35-bf16-triton-gemv-screen-v3",
+  "device": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "torch_version": "2.13.0+cu130",
+  "iterations": 50,
+  "repeats": 5,
+  "paired_iterations": 50,
+  "paired_repeats": 9,
+  "cutedsl_probe": {
+    "python_package_available": true,
+    "sm89_compatible": false,
+    "reason": "vLLM CuTeDSL skinny GEMM requires SM90 or newer"
+  },
+  "weighted_shape_sum_us": {
+    "torch": 337.79711723327637,
+    "skinny": 198.81983757019043,
+    "speedup": 1.6990111316936471,
+    "warning": "sum of isolated medians is a screening estimate, not end-to-end latency"
+  },
+  "paired_weighted_shape_sum_us": {
+    "torch": 330.79296112060547,
+    "skinny": 203.6121654510498,
+    "speedup": 1.624622774321071,
+    "method": "same-process interleaved order, reversed every repeat",
+    "warning": "still an isolated shape sum; use only to decide full-model promotion"
+  },
+  "results": [
+    {
+      "name": "attention_qkv",
+      "shape": [
+        1,
+        5120,
+        1024
+      ],
+      "multiplicity": 6,
+      "weight_bytes": 10485760,
+      "torch_median_us": 56.299519538879395,
+      "torch_samples_us": [
+        57.2211217880249,
+        56.78847789764404,
+        56.299519538879395,
+        54.763522148132324,
+        54.78400230407715
+      ],
+      "best_triton": {
+        "block_n": 2,
+        "num_warps": 4,
+        "correct": true,
+        "max_abs": 3.814697265625e-06,
+        "mean_abs": 7.450580707946131e-10,
+        "median_us": 33.13663959503174,
+        "speedup": 1.6990111316936471,
+        "samples_us": [
+          33.669118881225586,
+          33.075199127197266,
+          32.54271984100342,
+          33.13663959503174,
+          33.52576017379761
+        ]
+      },
+      "paired_best_vs_torch": {
+        "baseline_us": [
+          55.848960876464844,
+          56.34047985076904,
+          55.070719718933105,
+          55.13216018676758,
+          54.517760276794434,
+          55.1526403427124,
+          54.90687847137451,
+          56.07423782348633,
+          54.41535949707031
+        ],
+        "candidate_us": [
+          33.44383955001831,
+          35.26655912399292,
+          36.372480392456055,
+          34.24256086349487,
+          38.27712059020996,
+          32.95232057571411,
+          33.21791887283325,
+          33.013761043548584,
+          33.9353609085083
+        ],
+        "order": [
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ],
+          [
+            "candidate",
+            "baseline"
+          ],
+          [
+            "baseline",
+            "candidate"
+          ]
+        ],
+        "baseline_median_us": 55.13216018676758,
+        "candidate_median_us": 33.9353609085083,
+        "speedup": 1.624622774321071
+      },
+      "candidates": [
+        {
+          "block_n": 1,
+          "num_warps": 4,
+          "correct": true,
+          "max_abs": 3.814697265625e-06,
+          "mean_abs": 7.450580707946131e-10,
+          "median_us": 38.66624116897583,
+          "speedup": 1.4560380796479324,
+          "samples_us": [
+            39.56736087799072,
+            38.60480070114136,
+            38.66624116897583,
+            37.96992063522339,
+            39.137279987335205
+          ]
+        },
+        {
+          "block_n": 1,
+          "num_warps": 8,
+          "correct": true,
+          "max_abs": 3.814697265625e-06,
+          "mean_abs": 7.450580707946131e-10,
+          "median_us": 71.59615993499756,
+          "speedup": 0.7863483123954407,
+          "samples_us": [
+            71.4137601852417,
+            71.47520065307617,
+            71.59615993499756,
+            71.88479900360107,
+            72.06912040710449
+          ]
+        },
+        {
+          "block_n": 2,
+          "num_warps": 4,
+          "correct": true,
+          "max_abs": 3.814697265625e-06,
+          "mean_abs": 7.450580707946131e-10,
+          "median_us": 33.13663959503174,
+          "speedup": 1.6990111316936471,
+          "samples_us": [
+            33.669118881225586,
+            33.075199127197266,
+            32.54271984100342,
+            33.13663959503174,
+            33.52576017379761
+          ]
+        },
+        {
+          "block_n": 2,
+          "num_warps": 8,
+          "correct": true,
+          "max_abs": 3.814697265625e-06,
+          "mean_abs": 7.450580707946131e-10,
+          "median_us": 50.46271800994873,
+          "speedup": 1.115665619275203,
+          "samples_us": [
+            50.99520206451416,
+            50.62528133392334,
+            50.01215934753418,
+            50.46271800994873,
+            50.17600059509277
+          ]
+        },
+        {
+          "block_n": 4,
+          "num_warps": 4,
+          "correct": true,
+          "max_abs": 3.814697265625e-06,
+          "mean_abs": 7.450580707946131e-10,
+          "median_us": 33.994879722595215,
+          "speedup": 1.656117627074852,
+          "samples_us": [
+            35.92191934585571,
+            33.770880699157715,
+            33.994879722595215,
+            35.12320041656494,
+            33.423359394073486
+          ]
+        },
+        {
+          "block_n": 4,
+          "num_warps": 8,
+          "correct": true,
+          "max_abs": 3.814697265625e-06,
+          "mean_abs": 7.450580707946131e-10,
+          "median_us": 39.69023942947388,
+          "speedup": 1.4184726609905887,
+          "samples_us": [
+            39.44447994232178,
+            43.66335868835449,
+            40.468478202819824,
+            39.69023942947388,
+            38.70719909667969
+          ]
+        },
+        {
+          "block_n": 8,
+          "num_warps": 4,
+          "correct": true,
+          "max_abs": 3.814697265625e-06,
+          "mean_abs": 7.450580707946131e-10,
+          "median_us": 35.75808048248291,
+          "speedup": 1.5744558650585083,
+          "samples_us": [
+            35.92191934585571,
+            35.715839862823486,
+            35.75808048248291,
+            34.93887901306152,
+            35.817599296569824
+          ]
+        },
+        {
+          "block_n": 8,
+          "num_warps": 8,
+          "correct": true,
+          "max_abs": 3.814697265625e-06,
+          "mean_abs": 7.450580707946131e-10,
+          "median_us": 34.6726393699646,
+          "speedup": 1.6237448478655254,
+          "samples_us": [
+            34.9183988571167,
+            34.63167905807495,
+            34.6726393699646,
+            36.270079612731934,
+            33.99679899215698
+          ]
+        }
+      ]
+    }
+  ]
+}

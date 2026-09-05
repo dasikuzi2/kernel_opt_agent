@@ -1,0 +1,86 @@
+{
+  "schema_version": "recurrent-state-search-bound-v1",
+  "status": "SCHEDULE_FAMILY_CLOSED_ARCHITECTURE_REWRITE_REMAINS_OPEN",
+  "claim_scope": "Qwen3.5-0.8B, RTX 4060 Laptop SM89, batch=1 BF16 non-speculative decode",
+  "profiled_current_path": {
+    "recurrent_update_ms_per_step": 0.3055197634408602,
+    "causal_conv_update_ms_per_step": 0.06769765053763441,
+    "gdn_gated_norm_ms_per_step": 0.05273212903225807,
+    "combined_ms_per_step": 0.42594954301075266,
+    "gdn_layers": 18
+  },
+  "production_dtype_correction": {
+    "previous_screen_state_dtype": "float32",
+    "production_auto_state_dtype": "bfloat16",
+    "new_screen_state_dtype": "bfloat16",
+    "reason": "Schedule conclusions must match the actual vLLM SSM cache dtype."
+  },
+  "bounded_schedule_screen": {
+    "stock_schedule": "BV32, one warp, three stages",
+    "best_warm_schedule": "BV64, one warp, four stages",
+    "warm_stock_median_us": 32.17066764831543,
+    "warm_candidate_median_us": 30.289920171101887,
+    "warm_speedup": 1.062091529676855,
+    "warm_projected_whole_step_saving_us": 33.85345458984377,
+    "cold_cache_eviction_bytes": 67108864,
+    "cold_paired_stock_median_us": 15.359999611973763,
+    "cold_paired_candidate_median_us": 20.479999482631683,
+    "cold_paired_speedup": 0.75,
+    "cold_projected_whole_step_change_us": 92.15999767184258,
+    "elementwise_output_exact": true,
+    "elementwise_state_exact": true,
+    "evidence": {
+      "path": "microbench_candidates/gdn_packed_decode_bf16_state_sm89.json",
+      "sha256": "04b125ab9e53e6f9438798e309a0cbbf8fab1528744e64d520b6b5a4accc848e"
+    }
+  },
+  "multiwarp_ownership_screen": {
+    "configurations": 18,
+    "bv_values": [64, 128],
+    "warp_values": [2, 4, 8],
+    "stage_values": [2, 3, 4],
+    "exact_configurations": 0,
+    "output_equal_configurations": 18,
+    "maximum_state_abs_error": 2.9802322387695312e-08,
+    "decision": "REJECT_STRICT: every multiwarp ownership point changes the recurrent state even when the immediate BF16 output is equal",
+    "evidence": {
+      "path": "microbench_candidates/gdn_packed_decode_bf16_state_multiwarp_sm89.json",
+      "sha256": "e15c6d0567f57863e1357a584b035be9fa5d716e3632eb6f9302063712a5ad38"
+    }
+  },
+  "full_model_cross_checks": [
+    {
+      "candidate": "reachable BV64/stages4 schedule",
+      "tpot_speedup": 0.902529,
+      "token_exact_cases": "6/6",
+      "decision": "REJECT"
+    },
+    {
+      "candidate": "reuse generic MTP post-conv recurrence plus gated normalization for one-token decode",
+      "tpot_speedup": 0.9956214395628324,
+      "token_exact_cases": "6/6",
+      "decision": "REJECT",
+      "evidence": {
+        "path": "candidates/gdn-nonspec-fused-norm/summary.json",
+        "sha256": "c05a6f3dd4dbd326dc76fec8145d499cf080f9258f8917b92e9e0ab5f3745906"
+      }
+    }
+  ],
+  "mandatory_state_traffic_floor": {
+    "read_plus_write_bytes_per_step": 18874368,
+    "calibrated_service_gbps": 248.8785,
+    "optimistic_ms_per_step": 0.07583767983172512,
+    "qualification": "This excludes recurrence arithmetic, convolution, normalization and launch dependencies, so it is not an achievable latency prediction."
+  },
+  "decision": {
+    "closed": [
+      "BV, warp and pipeline-stage retuning of the existing packed recurrent kernel",
+      "generic MTP fused-kernel reuse for ordinary one-token decode"
+    ],
+    "still_open": [
+      "a dedicated producer-consumer kernel that changes ownership across convolution, recurrence and gated normalization",
+      "a state-layout or recurrence algorithm rewrite with a new dependency and numerical contract"
+    ],
+    "minimum_required_evidence": "Any next recurrent candidate must predict at least 50 us whole-step saving and must not be another launch-geometry variant."
+  }
+}

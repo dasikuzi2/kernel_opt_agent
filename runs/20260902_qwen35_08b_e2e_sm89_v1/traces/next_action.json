@@ -1,0 +1,12 @@
+{
+  "action": "STOP_RESIDUAL_SEARCH_AT_TIME_BUDGET",
+  "blocking_inputs": [
+    {
+      "elapsed_minutes": 340.8401579,
+      "maximum_minutes": 120.0
+    }
+  ],
+  "commands": [],
+  "reason": "the authorized best-feasible residual-search wall-clock budget is exhausted",
+  "schema_version": "optimizer-next-action-v1"
+}

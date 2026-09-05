@@ -1,0 +1,9 @@
+--- a/config.json
++++ b/config.json
+@@
+       "linear_attn.in_proj_z",
++      "self_attn.q_proj",
++      "self_attn.k_proj",
++      "self_attn.v_proj",
++      "self_attn.o_proj",
+       "mlp.gate_proj",

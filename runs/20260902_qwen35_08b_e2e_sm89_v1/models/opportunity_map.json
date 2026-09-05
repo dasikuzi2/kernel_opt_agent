@@ -1,0 +1,428 @@
+{
+  "created_at": "2026-09-02T14:43:28.641627+00:00",
+  "events": [
+    {
+      "at": "2026-09-04T21:03:49.811759+00:00",
+      "event": "ADDED",
+      "opportunity_id": "sm89-decode-projection-fusion"
+    },
+    {
+      "at": "2026-09-04T21:03:50.093831+00:00",
+      "event": "ADDED",
+      "opportunity_id": "sm89-recurrent-state-fusion"
+    },
+    {
+      "at": "2026-09-04T21:03:50.388876+00:00",
+      "event": "ADDED",
+      "opportunity_id": "sm89-normalization-epilogue-fusion"
+    },
+    {
+      "at": "2026-09-04T21:03:50.666615+00:00",
+      "event": "ADDED",
+      "opportunity_id": "sm89-attention-kv-layout"
+    },
+    {
+      "at": "2026-09-04T21:03:50.954568+00:00",
+      "event": "ADDED",
+      "opportunity_id": "sm89-lm-head-residual"
+    },
+    {
+      "at": "2026-09-04T21:03:51.238146+00:00",
+      "event": "ADDED",
+      "opportunity_id": "sm89-decode-graph-compaction"
+    },
+    {
+      "at": "2026-09-04T21:03:51.522812+00:00",
+      "event": "RANKED",
+      "order": [
+        "sm89-decode-projection-fusion",
+        "sm89-normalization-epilogue-fusion",
+        "sm89-recurrent-state-fusion",
+        "sm89-decode-graph-compaction",
+        "sm89-attention-kv-layout",
+        "sm89-lm-head-residual"
+      ]
+    },
+    {
+      "at": "2026-09-04T21:31:08.695200+00:00",
+      "event": "RANKED",
+      "order": [
+        "sm89-normalization-epilogue-fusion",
+        "sm89-recurrent-state-fusion",
+        "sm89-decode-graph-compaction",
+        "sm89-decode-projection-fusion",
+        "sm89-attention-kv-layout",
+        "sm89-lm-head-residual"
+      ]
+    },
+    {
+      "at": "2026-09-04T21:40:36.780200+00:00",
+      "event": "RANKED",
+      "order": [
+        "sm89-normalization-epilogue-fusion",
+        "sm89-recurrent-state-fusion",
+        "sm89-decode-graph-compaction",
+        "sm89-decode-projection-fusion",
+        "sm89-attention-kv-layout",
+        "sm89-lm-head-residual"
+      ]
+    },
+    {
+      "at": "2026-09-04T23:56:13.616554+00:00",
+      "event": "RANKED",
+      "order": [
+        "sm89-recurrent-state-fusion",
+        "sm89-decode-graph-compaction",
+        "sm89-decode-projection-fusion",
+        "sm89-attention-kv-layout",
+        "sm89-normalization-epilogue-fusion",
+        "sm89-lm-head-residual"
+      ]
+    },
+    {
+      "at": "2026-09-05T00:16:02.975239+00:00",
+      "disposition": "MEASURED_REJECT",
+      "event": "CLOSED",
+      "opportunity_id": "sm89-recurrent-state-fusion"
+    },
+    {
+      "at": "2026-09-05T00:48:58.369304+00:00",
+      "event": "RANKED",
+      "order": [
+        "sm89-decode-graph-compaction",
+        "sm89-decode-projection-fusion",
+        "sm89-attention-kv-layout",
+        "sm89-normalization-epilogue-fusion",
+        "sm89-lm-head-residual",
+        "sm89-recurrent-state-fusion"
+      ]
+    },
+    {
+      "at": "2026-09-05T05:56:29.718708+00:00",
+      "event": "REOPENED",
+      "opportunity_id": "sm89-lm-head-residual",
+      "previous_disposition": "AT_MEASURED_ROOF",
+      "reason": "A new algorithmic rewrite replaces the full BF16 vocabulary scan with INT8 recall plus exact BF16 shortlist rerank, satisfying the recorded algorithm-change reopen condition."
+    }
+  ],
+  "opportunities": [
+    {
+      "affected_stages": [
+        "decode-graph",
+        "sampling-boundary"
+      ],
+      "candidate_ids": [],
+      "confidence": "LOW",
+      "created_at": "2026-09-04T21:03:51.238132+00:00",
+      "current_contribution_us": 1239.0,
+      "derivation": "After the measured GEMV, lm-head, recurrent, normalization and attention families, roughly 1.24 ms/step remains in the expanded trace; node tracing inflates short kernels, so the likely interval is deliberately narrow and low confidence.",
+      "evidence": [
+        {
+          "claim": "Complete expanded CUDA kernel inventory and residual tail.",
+          "path": "models/nsys2025_lmhead_opportunity_map.json",
+          "sha256": "2489e67cd0c268c13ddac379a801630b17908f7f3d7ebbe244e04e4bc5a33026"
+        }
+      ],
+      "hypothesis": "Collapse repeated sub-10-us kernels only when a producer-consumer boundary can be removed without changing graph semantics.",
+      "implementation_budget_minutes": 60,
+      "likely_gain_interval_us": {
+        "lower": 20.0,
+        "upper": 100.0
+      },
+      "model_scope": "EMPIRICAL_BOTTLENECK",
+      "name": "Compact repeated short decode kernels",
+      "observations": [
+        "A reachable SM89 batch-1 fusion combined SwiGLU activation with the down-projection GEMV. Its CUDA Graph microbenchmark improved from 45.169 us to 26.522 us (1.703x), but C-S-S-C whole-model validation improved E2E by only 1.016x and TPOT by only 1.014x.",
+        "The fused reduction was deterministic within mode but diverged from stock greedy output in 2/6 natural cases by token 64. Reject this activation+down boundary implementation: it misses the 1.03x promotion floor and the strict token-equivalence contract.",
+        "The measured whole-step saving was about 0.114 ms/token versus a 0.448 ms/token sum-of-layer microbenchmark projection, a 25% transfer ratio. Future graph-compaction candidates must model overlap and graph replay before integration."
+      ],
+      "opportunity_id": "sm89-decode-graph-compaction",
+      "optimistic_gain_ceiling_us": 200.0,
+      "priority_rank": 1,
+      "priority_score": 0.35,
+      "rewrite_families": [
+        "graph-specialization",
+        "kernel-fusion",
+        "persistent-scheduling"
+      ],
+      "source_model_term": "Non-GEMV short-kernel tail in expanded CUDA Graph",
+      "status": "OBSERVED"
+    },
+    {
+      "affected_stages": [
+        "gdn-projections",
+        "attention-projections",
+        "mlp-projections"
+      ],
+      "candidate_ids": [],
+      "confidence": "LOW",
+      "created_at": "2026-09-04T21:03:49.811749+00:00",
+      "current_contribution_us": 5035.625,
+      "derivation": "Nsight observes 21,204 cuBLAS GEMV launches over 186 decode steps (5.036 ms/step), but source-level dataflow audit shows that vLLM already fuses nearly every dependency-free projection group. The remaining legal QKVZ+BA fusion was exact on all six cheap-screen requests yet regressed TPOT by 5.7%, leaving only higher-risk persistent or segmented schedules with a much smaller likely interval.",
+      "evidence": [
+        {
+          "claim": "Runtime launch counts, logical shape mapping and reachable-candidate residuals.",
+          "path": "models/sm89_nsys_operator_map.json",
+          "sha256": "1c01492f85adec15ea27a11de9ed8d9f72d7c5f2b96d6171c74a36f59d01eb79"
+        },
+        {
+          "claim": "Source-bound mathematical dependencies, already-fused regions and the one remaining dependency-free projection pair.",
+          "path": "models/qwen35_projection_dataflow_audit.json",
+          "sha256": "c3dc322975b71baabc07bbcc265be25a97cdfa74a9d0958f98d3da2a86564738"
+        },
+        {
+          "claim": "Discovery-only exact-token and timing screen for the legal QKVZ+BA fused projection prototype.",
+          "path": "candidates/gdn-qkvz-ba-fusion/screening_summary.json",
+          "sha256": "cae670b4083bef9933262b024414ab8a6cf58685264daaee4b828d4b747b414c"
+        }
+      ],
+      "hypothesis": "A segmented persistent schedule may remove projection launch overhead without changing the tile-friendly 8192-row QKVZ schedule that the simple concatenation prototype damaged.",
+      "implementation_budget_minutes": 90,
+      "likely_gain_interval_us": {
+        "lower": 20.0,
+        "upper": 120.0
+      },
+      "model_scope": "EMPIRICAL_BOTTLENECK",
+      "name": "Fuse or persist batch-1 decode projections",
+      "observations": [
+        "The segmented QKVZ+BA Triton prototype was observed exactly 3,348 times by Nsight and reduced projection launches from 36 to 18 per decode step.",
+        "Standalone C-S-S-C delivered 1.036x E2E and 1.040x TPOT over the lm_head baseline, while direct stock-to-combined C-S-S-C delivered 1.190x E2E and 1.200x TPOT.",
+        "The candidate is deterministic within mode but only 3/6 token-exact against stock at 64 tokens.",
+        "A deterministic 512-example official GSM8K screen scored control 47/512 and candidate 46/512; paired McNemar p=1.0 found no detectable regression, so the candidate clears a limited task-quality gate but not broad production qualification."
+      ],
+      "opportunity_id": "sm89-decode-projection-fusion",
+      "optimistic_gain_ceiling_us": 300.0,
+      "priority_rank": 2,
+      "priority_score": 0.2722222222222222,
+      "rewrite_families": [
+        "cross-projection-fusion",
+        "persistent-scheduling",
+        "weight-stream-specialization"
+      ],
+      "source_model_term": "Nsight cublas_gemvx time across 114 decode projections",
+      "status": "HAS_SURVIVOR"
+    },
+    {
+      "affected_stages": [
+        "full-attention",
+        "kv-cache-update",
+        "qk-rope"
+      ],
+      "candidate_ids": [],
+      "confidence": "MEDIUM",
+      "created_at": "2026-09-04T21:03:50.666605+00:00",
+      "current_contribution_us": 273.928,
+      "derivation": "The expanded graph records about 0.221 ms/step for FlashAttention, 0.027 ms for cache reshape/update and 0.026 ms for fused QK normalization/rope; the ceiling targets only layout and boundary overhead.",
+      "evidence": [
+        {
+          "claim": "GPU-active attention, QK transform and KV update contributions.",
+          "path": "models/nsys2025_lmhead_opportunity_map.json",
+          "sha256": "2489e67cd0c268c13ddac379a801630b17908f7f3d7ebbe244e04e4bc5a33026"
+        }
+      ],
+      "hypothesis": "Avoid layout conversion and cache-update launches by emitting Q/K/V directly in the decode attention consumer layout.",
+      "implementation_budget_minutes": 90,
+      "likely_gain_interval_us": {
+        "lower": 10.0,
+        "upper": 50.0
+      },
+      "model_scope": "CURRENT_SCHEDULE",
+      "name": "Co-design attention and KV-cache layout",
+      "observations": [],
+      "opportunity_id": "sm89-attention-kv-layout",
+      "optimistic_gain_ceiling_us": 100.0,
+      "priority_rank": 3,
+      "priority_score": 0.21666666666666667,
+      "rewrite_families": [
+        "attention-fusion",
+        "kv-layout",
+        "producer-consumer-fusion"
+      ],
+      "source_model_term": "FlashAttention, QK normalization/rope and KV reshape/cache",
+      "status": "UNIMPLEMENTED"
+    },
+    {
+      "affected_stages": [
+        "lm-head"
+      ],
+      "candidate_ids": [
+        "int8-bf16-shortlist-rerank"
+      ],
+      "confidence": "LOW",
+      "created_at": "2026-09-04T21:03:50.954559+00:00",
+      "current_contribution_us": 2057.54,
+      "derivation": "Nsight observes 2.058 ms per lm-head invocation after the 1.19x end-to-end win; the low-confidence interval prevents another unbounded launch-parameter sweep near the bandwidth roof.",
+      "evidence": [
+        {
+          "claim": "Accepted lm-head invocation time and strict-production decision boundary.",
+          "path": "models/sm89_nsys_operator_map.json",
+          "sha256": "1c01492f85adec15ea27a11de9ed8d9f72d7c5f2b96d6171c74a36f59d01eb79"
+        }
+      ],
+      "hypothesis": "Try only bounded instruction/layout changes because the accepted kernel already streams roughly 508 MB near the measured memory-service rate.",
+      "implementation_budget_minutes": 45,
+      "likely_gain_interval_us": {
+        "lower": 0.0,
+        "upper": 50.0
+      },
+      "model_scope": "EMPIRICAL_BOTTLENECK",
+      "name": "Close the remaining lm-head bandwidth residual",
+      "observations": [
+        "The accepted 2.0575 ms invocation is within 0.0141 ms of the calibrated 2.0434 ms weight-stream floor, achieving 99.31% of the measured service roof.",
+        "A bounded 72-schedule residual sweep found a best paired speedup of 0.9985x; close this search until the algorithm or data movement changes.",
+        "Reopened because: A new algorithmic rewrite replaces the full BF16 vocabulary scan with INT8 recall plus exact BF16 shortlist rerank, satisfying the recorded algorithm-change reopen condition.",
+        {
+          "at": "2026-09-05T05:56:37.230860+00:00",
+          "candidate_id": "int8-bf16-shortlist-rerank",
+          "claim_scope": "DISCOVERY_ONLY",
+          "observed_global_gain_us": 400.0742598436009,
+          "predicted_midpoint_us": 150.0,
+          "residual_us": 250.07425984360088
+        }
+      ],
+      "opportunity_id": "sm89-lm-head-residual",
+      "optimistic_gain_ceiling_us": 200.0,
+      "priority_rank": 4,
+      "priority_score": 0.19444444444444445,
+      "rewrite_families": [
+        "load-coalescing",
+        "weight-stream-specialization"
+      ],
+      "source_model_term": "SM89-specialized BF16 lm-head candidate kernel",
+      "status": "HAS_SURVIVOR"
+    },
+    {
+      "affected_stages": [
+        "normalization",
+        "activation",
+        "residual-update"
+      ],
+      "candidate_ids": [],
+      "confidence": "MEDIUM",
+      "created_at": "2026-09-04T21:03:50.388853+00:00",
+      "current_contribution_us": 302.152,
+      "derivation": "Nsight attributes 0.251 ms/step to all normalization and 0.051 ms/step to one repeated fused pointwise family, but the 0.053 ms GDN gated-norm subset failed a reachable fusion and most remaining RMSNorms are already fused with residual updates. Under the strict token contract, only a small residual remains without replacing the reduction order.",
+      "evidence": [
+        {
+          "claim": "Expanded graph timing for normalization and pointwise families.",
+          "path": "models/nsys2025_lmhead_opportunity_map.json",
+          "sha256": "2489e67cd0c268c13ddac379a801630b17908f7f3d7ebbe244e04e4bc5a33026"
+        }
+      ],
+      "hypothesis": "Fold normalization, activation and residual transforms into their producer or consumer while preserving the BF16 numerical contract.",
+      "implementation_budget_minutes": 60,
+      "likely_gain_interval_us": {
+        "lower": 0.0,
+        "upper": 30.0
+      },
+      "model_scope": "CURRENT_SCHEDULE",
+      "name": "Fuse normalization and elementwise epilogues",
+      "observations": [
+        "Reusing the MTP fused post-convolution+normalization kernel for ordinary decode was reachable and 6/6 token-exact, but regressed E2E by 3.24% and changed TPOT by only -0.44%.",
+        "Reject this implementation family for ordinary one-token decode; its fixed work exceeds the saved launch cost."
+      ],
+      "opportunity_id": "sm89-normalization-epilogue-fusion",
+      "optimistic_gain_ceiling_us": 53.0,
+      "priority_rank": 5,
+      "priority_score": 0.1625,
+      "rewrite_families": [
+        "epilogue-fusion",
+        "materialization-elimination"
+      ],
+      "source_model_term": "Normalization plus adjacent pointwise kernels",
+      "status": "OBSERVED"
+    },
+    {
+      "affected_stages": [
+        "gdn-recurrence",
+        "causal-convolution",
+        "state-update"
+      ],
+      "candidate_ids": [],
+      "closure": {
+        "closed_at": "2026-09-05T00:16:02.975229+00:00",
+        "disposition": "MEASURED_REJECT",
+        "evidence": {
+          "claim": "Hash-bound closure of the current SM89 BF16 recurrent-state search budget across schedule and ownership rewrites.",
+          "path": "models/sm89_recurrent_opportunity_closure.json",
+          "sha256": "1274b32ae146d24a26fe9bce08c9fcba022ea1ebf1021a31fbdde7e7560d6ddc"
+        },
+        "reason": "Bounded schedule, generic reuse, serial ownership, and four-warp parallel ownership all fail strict-state or CUDA-Graph materiality gates on SM89 BF16.",
+        "reopen_conditions": [
+          "A warp-specialized CUDA13 toolchain preserves stock BV32 layout and exact head-wide reduction.",
+          "A convolution-recurrence or persistent-state design predicts at least 50 us whole-step gain without duplicated q/k work.",
+          "The model shape, state dtype, GPU architecture, or CUDA Graph contract changes."
+        ]
+      },
+      "confidence": "MEDIUM",
+      "created_at": "2026-09-04T21:03:50.093821+00:00",
+      "current_contribution_us": 305.52,
+      "derivation": "The recurrent kernel alone consumes 0.306 ms/decode step in the expanded CUDA graph; the ceiling leaves mandatory recurrence work intact and treats only state traffic and neighboring launch overhead as removable.",
+      "evidence": [
+        {
+          "claim": "Per-family GPU-active time for recurrent decode and neighboring kernels.",
+          "path": "models/nsys2025_lmhead_opportunity_map.json",
+          "sha256": "2489e67cd0c268c13ddac379a801630b17908f7f3d7ebbe244e04e4bc5a33026"
+        },
+        {
+          "claim": "Production-BF16-state warm sweep and 64 MiB cold-cache paired replay of the existing packed recurrent schedule family.",
+          "path": "microbench_candidates/gdn_packed_decode_bf16_state_sm89.json",
+          "sha256": "04b125ab9e53e6f9438798e309a0cbbf8fab1528744e64d520b6b5a4accc848e"
+        },
+        {
+          "claim": "Bounded BF16-state multiwarp ownership screen across 18 BV/warp/stage configurations.",
+          "path": "microbench_candidates/gdn_packed_decode_bf16_state_multiwarp_sm89.json",
+          "sha256": "e15c6d0567f57863e1357a584b035be9fa5d716e3632eb6f9302063712a5ad38"
+        },
+        {
+          "claim": "Bitwise-exact architecture screen of one-program-per-head recurrence plus gated RMSNorm under CUDA Graph replay and cache eviction.",
+          "path": "microbench_candidates/gdn_recurrent_norm_fusion_sm89.json",
+          "sha256": "8be1c00ca85ccc99aba88cd18e9899599fd82b0308636df0c19a051c7bfa7f1a"
+        }
+      ],
+      "hypothesis": "Keep recurrent state in the consumer layout and fuse adjacent transforms to remove round trips and small launches.",
+      "implementation_budget_minutes": 90,
+      "likely_gain_interval_us": {
+        "lower": 30.0,
+        "upper": 100.0
+      },
+      "model_scope": "CURRENT_SCHEDULE",
+      "name": "Reduce recurrent-state materialization",
+      "observations": [
+        "The prior isolated launch sweep used FP32 state, while this BF16 model's auto SSM cache is BF16; the production-dtype screen corrects that mismatch.",
+        "BV64/one-warp/four-stage was only 1.062x in the warm BF16-state sweep, projecting 33.9 us per whole step, below the 50 us residual materiality floor.",
+        "With 64 MiB eviction and alternating order, the same schedule was 0.750x; the earlier reachable full-model candidate was also only 0.903x despite 6/6 token exactness.",
+        "All 18 BF16-state BV64/BV128 multiwarp points preserved the immediate output but changed recurrent state by up to 2.98e-8, so they fail the strict state-transition contract before timing promotion.",
+        "Close launch-geometry retuning. Keep this opportunity open only for a producer-consumer or state-layout rewrite that predicts at least 50 us per whole step.",
+        "A bitwise-exact one-program-per-head recurrence+gated-RMSNorm fusion removed a launch and shared q/k loads, but CUDA Graph replay regressed from 16.398 us to 21.967 us (0.747x) because it serialized four BV32 tiles. Close this ownership design; any successor must preserve tile parallelism."
+      ],
+      "opportunity_id": "sm89-recurrent-state-fusion",
+      "optimistic_gain_ceiling_us": 180.0,
+      "priority_rank": 6,
+      "priority_score": 0.0,
+      "rewrite_families": [
+        "producer-consumer-fusion",
+        "state-layout",
+        "materialization-elimination"
+      ],
+      "source_model_term": "Fused recurrent decode kernel and adjacent state operations",
+      "status": "CLOSED"
+    }
+  ],
+  "policy": {
+    "confidence_weights": {
+      "HIGH": 1.0,
+      "LOW": 0.35,
+      "MEDIUM": 0.65
+    },
+    "forbidden_claim_scope": "ABSOLUTE_GLOBAL_OPTIMUM",
+    "max_opportunities": 12,
+    "min_candidate_opportunities": 3,
+    "min_opportunities": 4,
+    "min_rewrite_families": 4,
+    "score_formula": "midpoint(likely_gain_interval_us) * confidence_weight / implementation_budget_minutes"
+  },
+  "ranked_at": "2026-09-05T05:56:29.723225+00:00",
+  "schema_version": "opportunity-map-v1",
+  "status": "READY"
+}

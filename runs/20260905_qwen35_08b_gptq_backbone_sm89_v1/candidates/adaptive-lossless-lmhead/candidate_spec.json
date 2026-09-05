@@ -1,0 +1,74 @@
+{
+  "candidate_id": "adaptive-lossless-lmhead",
+  "opportunity_id": "sm89-stock-token-exact-lm-head",
+  "name": "Shape-generic lossless BF16 lm-head backend integrated with vLLM",
+  "family": "lossless-weight-layout",
+  "change_axes": [
+    "framework-dispatch",
+    "lossless-weight-layout",
+    "decode-shape-specialization",
+    "bounded-load-time-preprocessing"
+  ],
+  "hypothesis": "An unquantized BF16 ParallelLMHead with a large vocabulary is often an M=1 bandwidth bottleneck during decode. A lossless sign/mantissa plus exponent-delta layout can reduce weight traffic while retaining the stock path for unsupported shapes.",
+  "expected_global_effect": "Reduce batch-1 decode time without changing the GPTQ-Marlin backbone, scheduler, attention, vocabulary partitioning, sampling, or model weights.",
+  "source_paths": [
+    "candidates/adaptive-lossless-lmhead/candidate_spec.json",
+    "candidates/adaptive-lossless-lmhead/ARCHITECTURE.zh-CN.md",
+    "candidates/adaptive-lossless-lmhead/gpu_shape_smoke.py",
+    "candidates/adaptive-lossless-lmhead/vllm_integration.patch",
+    "candidates/adaptive-lossless-lmhead/vllm/model_executor/kernels/linear/unquantized/lossless_packed_lm_head.py",
+    "operator.json",
+    "workload.json",
+    "models/round37_imported_evidence.json"
+  ],
+  "commands": {
+    "build": {
+      "argv": ["python", "-m", "py_compile", "candidates/adaptive-lossless-lmhead/vllm/model_executor/kernels/linear/unquantized/lossless_packed_lm_head.py"],
+      "cwd": ".",
+      "timeout_seconds": 30
+    },
+    "correctness": {
+      "argv": ["python", "candidates/adaptive-lossless-lmhead/validate_evidence.py", "--mode", "correctness"],
+      "cwd": ".",
+      "timeout_seconds": 30
+    },
+    "smoke": {
+      "argv": ["python", "candidates/adaptive-lossless-lmhead/validate_evidence.py", "--mode", "smoke"],
+      "cwd": ".",
+      "timeout_seconds": 30
+    }
+  },
+  "smoke_result_path": "candidates/adaptive-lossless-lmhead/smoke_result.json",
+  "predicted_global_gain_us": {
+    "lower": 20.0,
+    "upper": 80.0
+  },
+  "dependency_contract": {
+    "status": "PROVEN_LEGAL",
+    "preserved_dependencies": [
+      "the original BF16 weight remains loaded and is the fallback source",
+      "every packed weight value reconstructs the original BF16 bit pattern",
+      "tensor-parallel gather, vocabulary padding, logits scaling and sampling stay in stock LogitsProcessor",
+      "all non-M=1, biased, non-BF16, non-contiguous and ineligible heads use the stock quantization method"
+    ],
+    "changed_boundaries": [
+      "eligible unquantized ParallelLMHead weights receive a non-persistent auxiliary layout after loading",
+      "eligible M=1 decode projections use a warmed Triton reduction with a different legal FP32 accumulation order"
+    ],
+    "prohibited_rewrites": [
+      "no additional quantization, changed checkpoint values, approximate vocabulary, shortlist, speculative decode or altered sampling"
+    ],
+    "numerical_ordering": "The packed layout is bit-exact, but the FP32 reduction tree is not bitwise identical to every cuBLAS algorithm. Standard floating-point tolerance is supportable; strict cross-process token identity requires a separate deterministic baseline contract.",
+    "evidence": [
+      {
+        "path": "models/round37_imported_evidence.json",
+        "sha256": "708cc8587a5e928ffa0d7355480d271768e57b9aedf95f0c8adf2ca52d51e8fc",
+        "claim": "The production profile attributes a material decode contribution to the output head."
+      }
+    ]
+  },
+  "development_budget": {
+    "max_technical_attempts": 3,
+    "max_wall_clock_minutes": 20
+  }
+}

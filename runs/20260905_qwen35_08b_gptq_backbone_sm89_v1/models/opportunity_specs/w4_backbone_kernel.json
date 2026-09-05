@@ -1,0 +1,16 @@
+{
+  "opportunity_id": "sm89-w4-backbone-kernel",
+  "name": "Replace stock Marlin on the six repeated decode projection shapes",
+  "model_scope": "EMPIRICAL_BOTTLENECK",
+  "source_model_term": "Node-expanded dominant Marlin backbone stratum",
+  "affected_stages": ["gdn-projections", "attention-projections", "mlp-projections"],
+  "current_contribution_us": 2530.7149427083335,
+  "optimistic_gain_ceiling_us": 760.0,
+  "likely_gain_interval_us": {"lower": 120.0, "upper": 400.0},
+  "confidence": "MEDIUM",
+  "rewrite_families": ["alternate-w4-kernel", "weight-layout-specialization", "persistent-scheduling"],
+  "implementation_budget_minutes": 45,
+  "hypothesis": "A BF16-capable W4 kernel specialized to M=1 and the six observed N/K shapes can reduce the 96-call backbone stratum without changing the GPTQ checkpoint.",
+  "derivation": "The expanded trace assigns 2.531 ms per output decision to the repeated backbone Marlin signature. The ceiling assumes at most a 30% local reduction and deliberately does not treat the calibrated memory stream as an achievable Marlin floor.",
+  "evidence": [{"path": "models/round37_imported_evidence.json", "sha256": "708cc8587a5e928ffa0d7355480d271768e57b9aedf95f0c8adf2ca52d51e8fc", "claim": "Hash-bound node profile, fused shape inventory and fresh stock batch-1 baseline."}]
+}

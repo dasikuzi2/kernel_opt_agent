@@ -1,0 +1,70 @@
+{
+  "schema_version": "optimization-method-v1",
+  "method_id": "triton-dynamic-extent-specialization-control",
+  "title": "Bound Triton specialization fan-out for dynamic tensor extents",
+  "kind": "SEARCH_STRATEGY",
+  "source": {
+    "title": "triton.jit — Triton documentation",
+    "url": "https://triton-lang.org/main/python-api/generated/triton.jit.html",
+    "version": "Triton 3.7.1 API, accessed 2026-09-02",
+    "evidence_tier": "VENDOR_OFFICIAL_GUIDANCE",
+    "claim_scope": "The API exposes do_not_specialize and do_not_specialize_on_alignment controls; whether using them improves end-to-end search cost without unacceptable runtime loss must be measured per kernel."
+  },
+  "opportunity_families": [
+    "architecture-rewrite",
+    "candidate-portfolio",
+    "launch-geometry",
+    "tile-retune"
+  ],
+  "applicability": {
+    "vendors": ["ANY"],
+    "architecture_affinity": [],
+    "required_capabilities": [],
+    "dtypes": ["any"],
+    "problem_signatures": [
+      "dynamic shape",
+      "jit",
+      "latency",
+      "sequence length",
+      "triton"
+    ]
+  },
+  "implementation_recipe": [
+    "Classify scalar kernel arguments as semantic compile-time constants, launch meta-parameters, or runtime extents before starting a parameter sweep.",
+    "Keep only values required for unrolling or static layout as constexpr; screen do_not_specialize and do_not_specialize_on_alignment for variable extents.",
+    "Count process-local compiled specialization signatures across the frozen shape set instead of inferring cache behavior from source annotations.",
+    "Prefer the lower-fan-out form when its measured steady-state regression stays within the predeclared tolerance."
+  ],
+  "validation_recipe": [
+    "Use identical launch geometry and paired alternating timing for specialized and runtime-extent forms.",
+    "Record correctness on anchor and edge shapes, specialization count, compile-path wall time, and steady-state latency separately.",
+    "Treat persistent disk-cache timing as non-cold unless the experiment explicitly owns and clears an isolated cache directory.",
+    "Remeasure exact launch geometry on the target architecture even when specialization control transfers."
+  ],
+  "expected_bottleneck_shifts": [
+    "Fewer compiled variants reduce candidate turnaround and persistent-cache growth across variable shapes.",
+    "Suppressing value or alignment specialization can slightly reduce steady-state code quality, so agent throughput and kernel latency become an explicit tradeoff."
+  ],
+  "failure_modes": [
+    "Removing a constexpr annotation but leaving implicit value or alignment specialization active.",
+    "Counting the outer device-cache tuple rather than compiled signatures and concluding that fan-out did not change.",
+    "Clearing a shared compiler cache destructively or comparing a cold path against a warm path without labeling it.",
+    "Carrying a proxy GPU's winning tile or warp count onto the target architecture."
+  ],
+  "scope_limits": [
+    "Lower specialization count does not prove lower production latency.",
+    "A proxy architecture can validate workflow mechanics but cannot qualify target-architecture launch parameters."
+  ],
+  "candidate_archetypes": [
+    {
+      "family": "launch-geometry",
+      "name": "runtime extent with bounded specialization",
+      "change_axes": [
+        "extent specialization",
+        "alignment specialization",
+        "compile fan-out"
+      ],
+      "template": "Hold the kernel math and launch geometry fixed, make dynamic extents non-specializing, then accept only if specialization count falls and paired steady-state latency stays within the frozen tolerance."
+    }
+  ]
+}

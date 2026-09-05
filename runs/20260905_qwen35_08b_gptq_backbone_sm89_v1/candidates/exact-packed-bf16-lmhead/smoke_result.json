@@ -1,0 +1,90 @@
+{
+  "schema_version": "candidate-smoke-result-v3",
+  "status": "PASS",
+  "candidate_id": "exact-packed-bf16-lmhead",
+  "claim_scope": "DISCOVERY_ONLY_NOT_PRODUCTION_ACCEPTANCE",
+  "cases": [
+    {
+      "case_id": "zh-explanation",
+      "role": "ANCHOR",
+      "correctness": "PASS",
+      "baseline_end_to_end_us": 533355.751002091,
+      "candidate_end_to_end_us": 477244.84199716244
+    },
+    {
+      "case_id": "python-code",
+      "role": "EDGE",
+      "correctness": "PASS",
+      "baseline_end_to_end_us": 534250.5299995537,
+      "candidate_end_to_end_us": 474031.79200046
+    },
+    {
+      "case_id": "reasoning",
+      "role": "EDGE",
+      "correctness": "PASS",
+      "baseline_end_to_end_us": 546634.810998512,
+      "candidate_end_to_end_us": 465830.8250000118
+    },
+    {
+      "case_id": "editing",
+      "role": "EDGE",
+      "correctness": "PASS",
+      "baseline_end_to_end_us": 534515.4110036674,
+      "candidate_end_to_end_us": 464461.6200021119
+    },
+    {
+      "case_id": "systems-design",
+      "role": "EDGE",
+      "correctness": "PASS",
+      "baseline_end_to_end_us": 534957.5060026837,
+      "candidate_end_to_end_us": 475169.1689962172
+    },
+    {
+      "case_id": "translation",
+      "role": "EDGE",
+      "correctness": "PASS",
+      "baseline_end_to_end_us": 529689.9519962608,
+      "candidate_end_to_end_us": 473507.48300232226
+    }
+  ],
+  "correctness_gate": {
+    "status": "PASS",
+    "exact_cases": 6,
+    "required_exact_cases": 6
+  },
+  "reachability": {
+    "status": "PASS",
+    "expected_path": "SM89 exact-packed BF16 lm_head",
+    "observed_path": "SM89 exact-packed BF16 lm_head",
+    "compile_cache_policy": "FRESH",
+    "execution_proof": {
+      "kind": "INSTRUMENTED_CALL_COUNT",
+      "scope": "vLLM exact-packed cache-ready log sentinel",
+      "observed_count": 1,
+      "minimum_count": 1,
+      "evidence_index": 0
+    },
+    "evidence": [
+      {
+        "path": "candidates/exact-packed-bf16-lmhead/smoke_execution.log",
+        "sha256": "69a00e90cf1e7e225e60496fa1635ab6780aea6dcc14afd8f73cab01ac7babb5"
+      }
+    ]
+  },
+  "objective": {
+    "direction": "minimize",
+    "baseline": 535567.3268337947,
+    "candidate": 471707.6218330476,
+    "unit": "us"
+  },
+  "raw": {
+    "baseline": {
+      "path": "raw/stock_marlin_natural_b1_w1_n1_t64.json",
+      "sha256": "236133668faded7e40d9df2a22dd5d57556fa3dc9f759fd45e7b2a068cddd5ab"
+    },
+    "candidate": {
+      "path": "candidates/exact-packed-bf16-lmhead/raw.json",
+      "sha256": "7b49fbf8473c11c2f68197df72850ae46e9095b8107145277a326cbbfc1b76c6"
+    }
+  }
+}

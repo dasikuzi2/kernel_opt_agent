@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "method_match_receipt.schema.json",
+  "title": "Hash-bound transfer-aware method matching receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "generated_at", "claim_scope", "input_identities", "library_identity", "policy", "recommendations", "evaluation_guards"],
+  "properties": {
+    "schema_version": {"const": "method-match-receipt-v1"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "claim_scope": {"const": "DISCOVERY_PRIOR_ONLY"},
+    "input_identities": {"type": "array", "minItems": 4, "items": {"$ref": "#/$defs/identity"}},
+    "library_identity": {
+      "type": "object", "additionalProperties": false, "required": ["sha256", "cards"],
+      "properties": {
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "cards": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/identity"}}
+      }
+    },
+    "policy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["max_matches_per_opportunity", "hardware_requirement_policy", "literature_claim_policy", "score_formula"],
+      "properties": {
+        "max_matches_per_opportunity": {"type": "integer", "minimum": 1},
+        "hardware_requirement_policy": {"const": "FAIL_CLOSED"},
+        "literature_claim_policy": {"const": "HYPOTHESIS_NOT_PERFORMANCE_EVIDENCE"},
+        "score_formula": {"type": "string", "minLength": 1}
+      }
+    },
+    "recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["opportunity_id", "opportunity_priority_rank", "matches"],
+        "properties": {
+          "opportunity_id": {"type": "string", "minLength": 1},
+          "opportunity_priority_rank": {"type": "integer", "minimum": 1},
+          "matches": {"type": "array", "items": {"$ref": "#/$defs/match"}}
+        }
+      }
+    },
+    "evaluation_guards": {"type": "array", "items": {"$ref": "#/$defs/match"}}
+  },
+  "$defs": {
+    "identity": {
+      "type": "object", "additionalProperties": false, "required": ["path", "sha256"],
+      "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+    },
+    "match": {
+      "type": "object", "additionalProperties": false,
+      "required": ["method_id", "title", "kind", "transfer_status", "score", "family_hits", "opportunity_signature_hits", "context_signature_hits", "architecture_affinity_hits", "missing_required_capabilities", "candidate_archetypes", "implementation_recipe", "validation_recipe", "expected_bottleneck_shifts", "failure_modes", "claim_boundary", "source"],
+      "properties": {
+        "method_id": {"type": "string", "minLength": 1}, "title": {"type": "string", "minLength": 1},
+        "kind": {"enum": ["TRANSFORMATION", "ORCHESTRATION", "SEARCH_STRATEGY", "EVALUATION_GUARD"]},
+        "transfer_status": {"enum": ["DIRECT", "ADAPTATION_REQUIRED", "BLOCKED_UNVERIFIED_CAPABILITY", "INCOMPATIBLE"]},
+        "score": {"type": "number"},
+        "family_hits": {"$ref": "#/$defs/strings"},
+        "opportunity_signature_hits": {"$ref": "#/$defs/strings"},
+        "context_signature_hits": {"$ref": "#/$defs/strings"},
+        "architecture_affinity_hits": {"$ref": "#/$defs/strings"},
+        "missing_required_capabilities": {"$ref": "#/$defs/strings"},
+        "candidate_archetypes": {"type": "array"},
+        "implementation_recipe": {"type": "array", "minItems": 1},
+        "validation_recipe": {"type": "array", "minItems": 1},
+        "expected_bottleneck_shifts": {"type": "array", "minItems": 1},
+        "failure_modes": {"type": "array", "minItems": 1},
+        "claim_boundary": {"const": "DISCOVERY_PRIOR_ONLY"},
+        "source": {"type": "object"}
+      }
+    },
+    "strings": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}
+  }
+}

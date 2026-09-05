@@ -47,7 +47,7 @@ def main() -> int:
         return 1
     request["status"] = "DISPATCHED"
     request["materialized_experiment"] = {"path": str(experiment_path), "sha256": sha256(experiment_path), "status": "MATERIALIZED"}
-    request["supervisor_approval"] = {"path": str(approval_path.relative_to(run)), "sha256": sha256(approval_path), "status": "CONSUMED_BY_DISPATCH"}
+    request["supervisor_approval"] = {"path": approval_path.relative_to(run).as_posix(), "sha256": sha256(approval_path), "status": "CONSUMED_BY_DISPATCH"}
     atomic_json(queue_path, queue)
     print(json.dumps({"status": "DISPATCHED", "request_id": args.request_id, "experiment": str(experiment_path), "approval": str(approval_path)}, sort_keys=True))
     return 0

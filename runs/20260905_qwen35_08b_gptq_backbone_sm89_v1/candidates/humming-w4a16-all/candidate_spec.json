@@ -1,0 +1,57 @@
+{
+  "candidate_id": "humming-w4a16-all",
+  "opportunity_id": "sm89-w4-backbone-kernel",
+  "name": "Force Humming's SM8x JIT W4A16 backend for every GPTQ projection",
+  "family": "persistent-scheduling",
+  "change_axes": ["cta-scheduling", "jit-specialization", "packed-weight-layout"],
+  "hypothesis": "Humming's SM8x-specific generated schedule may reduce the 96 small-M decode projection costs that dominate stock Marlin on RTX 4060.",
+  "expected_global_effect": "Replace all eligible decode Marlin projections with a distinct SM8x JIT kernel while preserving frozen GPTQ tensors, BF16 activations, model topology, and request semantics.",
+  "source_paths": [
+    "candidates/humming-w4a16-all/linear_backend_candidate.py",
+    "candidates/humming-w4a16-all/candidate_spec.json",
+    "operator.json",
+    "workload.json",
+    "models/round37_imported_evidence.json"
+  ],
+  "commands": {
+    "build": {
+      "argv": ["wsl", "-d", "Ubuntu", "--", "/home/aden/.venvs/qwen35-vllm-4060/bin/python", "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/humming-w4a16-all/linear_backend_candidate.py", "build"],
+      "cwd": "candidates/humming-w4a16-all",
+      "timeout_seconds": 30
+    },
+    "correctness": {
+      "argv": ["wsl", "-d", "Ubuntu", "--", "/home/aden/.venvs/qwen35-vllm-4060/bin/python", "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/humming-w4a16-all/linear_backend_candidate.py", "correctness"],
+      "cwd": "candidates/humming-w4a16-all",
+      "timeout_seconds": 30
+    },
+    "smoke": {
+      "argv": ["wsl", "-d", "Ubuntu", "--", "/home/aden/.venvs/qwen35-vllm-4060/bin/python", "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/humming-w4a16-all/linear_backend_candidate.py", "smoke"],
+      "cwd": "candidates/humming-w4a16-all",
+      "timeout_seconds": 600
+    }
+  },
+  "smoke_result_path": "candidates/humming-w4a16-all/smoke_result.json",
+  "predicted_global_gain_us": {"lower": 40.0, "upper": 350.0},
+  "dependency_contract": {
+    "status": "PROVEN_LEGAL",
+    "preserved_dependencies": [
+      "each projection consumes the same BF16 activation after all preceding layer dependencies",
+      "each projection produces the same logical output shape before its unchanged consumer",
+      "all attention, recurrent state, KV state, sampling, and request scheduling remain in stock vLLM"
+    ],
+    "changed_boundaries": [
+      "GPTQ weights are losslessly transformed into Humming's internal packed representation at load time",
+      "Marlin implementation and CTA schedule are replaced by Humming's SM8x JIT-generated W4A16 kernel"
+    ],
+    "prohibited_rewrites": [
+      "no modification of GPTQ integer values, zero points, or scales",
+      "no FP16 activation substitution",
+      "no output shortlist, speculative decoding, changed sampling, or skipped work"
+    ],
+    "numerical_ordering": "The alternative kernel may change floating-point accumulation order, so promotion requires exact greedy token identity on every frozen case and later full contract qualification.",
+    "evidence": [
+      {"path": "models/round37_imported_evidence.json", "sha256": "708cc8587a5e928ffa0d7355480d271768e57b9aedf95f0c8adf2ca52d51e8fc", "claim": "Checkpoint-derived fused shapes sum to exactly the 96 observed Marlin projection calls per decode."}
+    ]
+  },
+  "development_budget": {"max_technical_attempts": 2, "max_wall_clock_minutes": 15}
+}

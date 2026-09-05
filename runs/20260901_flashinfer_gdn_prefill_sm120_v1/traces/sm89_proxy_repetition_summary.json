@@ -1,0 +1,156 @@
+{
+  "captured_at": "2026-09-02T13:56:38.800546+00:00",
+  "claim_scope": "DISCOVERY_ONLY_CROSS_PROCESS_REPLICATION_NOT_SM120_QUALIFICATION",
+  "cost_stack": {
+    "active_fraction_of_effective_mean": {
+      "maximum": 0.07403424661574408,
+      "median": 0.06748117104900948,
+      "minimum": 0.062248250002535706,
+      "samples": [
+        0.062248250002535706,
+        0.06748117104900948,
+        0.07403424661574408
+      ]
+    },
+    "allocated_effective_mean_us": {
+      "maximum": 40.60956700642904,
+      "median": 34.64678382873535,
+      "minimum": 34.34769090016683,
+      "samples": [
+        40.60956700642904,
+        34.34769090016683,
+        34.64678382873535
+      ]
+    },
+    "allocation_path_delta_mean_us": {
+      "maximum": 16.956223169962566,
+      "median": 14.949674606323242,
+      "minimum": 14.421514828999838,
+      "samples": [
+        16.956223169962566,
+        14.421514828999838,
+        14.949674606323242
+      ]
+    },
+    "cupti_active_mean_us": {
+      "maximum": 1.467833333333374,
+      "median": 1.4644166666667313,
+      "minimum": 1.345666666666716,
+      "samples": [
+        1.467833333333374,
+        1.345666666666716,
+        1.4644166666667313
+      ]
+    },
+    "preallocated_effective_mean_us": {
+      "maximum": 23.653343836466473,
+      "median": 19.926176071166992,
+      "minimum": 19.69710922241211,
+      "samples": [
+        23.653343836466473,
+        19.926176071166992,
+        19.69710922241211
+      ]
+    }
+  },
+  "decision": {
+    "next_environment": "SM120 target GPU with the production recurrent consumer",
+    "reason": "all repetitions pass correctness and exceed 1.05x in both effective-timeline and CUPTI-active mean speedup",
+    "status": "PROMOTE_DIRECT_CONSUMPTION_MECHANISM"
+  },
+  "input_identities": {
+    "cost": [
+      {
+        "path": "/mnt/d/codes/kernel_opt_agent/runs/20260901_flashinfer_gdn_prefill_sm120_v1/traces/gate_cost_stack_sm89_proxy_rep1.json",
+        "sha256": "8d2b0ca6348068516cbc5c83dab7853a33306d36ad228858dd6e88bff9ef6466"
+      },
+      {
+        "path": "/mnt/d/codes/kernel_opt_agent/runs/20260901_flashinfer_gdn_prefill_sm120_v1/traces/gate_cost_stack_sm89_proxy_rep2.json",
+        "sha256": "90c114be5b79c48ace74364d6fd8031c3d370dc1e524cc8a41564758475fa5b2"
+      },
+      {
+        "path": "/mnt/d/codes/kernel_opt_agent/runs/20260901_flashinfer_gdn_prefill_sm120_v1/traces/gate_cost_stack_sm89_proxy_rep3.json",
+        "sha256": "8229ba2160627ac644894fbc03ea53bf708e0204d17112c8e799626ac602e7fa"
+      }
+    ],
+    "fusion": [
+      {
+        "path": "/mnt/d/codes/kernel_opt_agent/runs/20260901_flashinfer_gdn_prefill_sm120_v1/traces/gate_consumer_fusion_sm89_proxy_rep1.json",
+        "sha256": "c94d0f289a76a215dbf3c8b25603402a30679b9081822307c7f5c6772ac06a09"
+      },
+      {
+        "path": "/mnt/d/codes/kernel_opt_agent/runs/20260901_flashinfer_gdn_prefill_sm120_v1/traces/gate_consumer_fusion_sm89_proxy_rep2.json",
+        "sha256": "65b517fae741a9ad03685a48d6bb220818b095712e23d68a3dec2d27f7cd2e1b"
+      },
+      {
+        "path": "/mnt/d/codes/kernel_opt_agent/runs/20260901_flashinfer_gdn_prefill_sm120_v1/traces/gate_consumer_fusion_sm89_proxy_rep3.json",
+        "sha256": "ca977ec6a318363c3a38ee7c11a804ff7f70ba282fbee03687b6bb032123edc2"
+      }
+    ]
+  },
+  "producer_consumer_fusion": {
+    "fused_active_mean_us": {
+      "maximum": 1.5913333333334851,
+      "median": 1.5913333333332957,
+      "minimum": 1.4828333333333983,
+      "samples": [
+        1.5913333333334851,
+        1.4828333333333983,
+        1.5913333333332957
+      ]
+    },
+    "fused_effective_mean_us": {
+      "maximum": 20.498602231343586,
+      "median": 20.4376319249471,
+      "minimum": 19.623327891031902,
+      "samples": [
+        20.4376319249471,
+        19.623327891031902,
+        20.498602231343586
+      ]
+    },
+    "materialized_active_mean_us": {
+      "maximum": 2.813000000000064,
+      "median": 2.775999999999916,
+      "minimum": 2.6205000000001064,
+      "samples": [
+        2.775999999999916,
+        2.6205000000001064,
+        2.813000000000064
+      ]
+    },
+    "materialized_effective_mean_us": {
+      "maximum": 39.042880376180015,
+      "median": 37.766581217447914,
+      "minimum": 36.560363133748375,
+      "samples": [
+        39.042880376180015,
+        36.560363133748375,
+        37.766581217447914
+      ]
+    },
+    "mean_cupti_active_speedup": {
+      "maximum": 1.7903741342275756,
+      "median": 1.7893418189631853,
+      "minimum": 1.7732236930282015,
+      "samples": [
+        1.7732236930282015,
+        1.7893418189631853,
+        1.7903741342275756
+      ]
+    },
+    "mean_effective_speedup": {
+      "maximum": 1.911469239159006,
+      "median": 1.867236719474356,
+      "minimum": 1.841671492964543,
+      "samples": [
+        1.911469239159006,
+        1.867236719474356,
+        1.841671492964543
+      ]
+    }
+  },
+  "repetitions": 3,
+  "schema_version": "sm89-proxy-repetition-summary-v1",
+  "status": "PASS"
+}

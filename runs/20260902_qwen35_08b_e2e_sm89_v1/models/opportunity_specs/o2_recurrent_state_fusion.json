@@ -1,0 +1,20 @@
+{
+  "opportunity_id": "sm89-recurrent-state-fusion",
+  "name": "Reduce recurrent-state materialization",
+  "model_scope": "CURRENT_SCHEDULE",
+  "source_model_term": "Fused recurrent decode kernel and adjacent state operations",
+  "affected_stages": ["gdn-recurrence", "causal-convolution", "state-update"],
+  "current_contribution_us": 305.520,
+  "optimistic_gain_ceiling_us": 180.0,
+  "likely_gain_interval_us": {"lower": 30.0, "upper": 100.0},
+  "confidence": "MEDIUM",
+  "rewrite_families": ["producer-consumer-fusion", "state-layout", "materialization-elimination"],
+  "implementation_budget_minutes": 90,
+  "hypothesis": "Keep recurrent state in the consumer layout and fuse adjacent transforms to remove round trips and small launches.",
+  "derivation": "The recurrent kernel alone consumes 0.306 ms/decode step in the expanded CUDA graph; the ceiling leaves mandatory recurrence work intact and treats only state traffic and neighboring launch overhead as removable.",
+  "evidence": [{
+    "path": "models/nsys2025_lmhead_opportunity_map.json",
+    "sha256": "2489e67cd0c268c13ddac379a801630b17908f7f3d7ebbe244e04e4bc5a33026",
+    "claim": "Per-family GPU-active time for recurrent decode and neighboring kernels."
+  }]
+}

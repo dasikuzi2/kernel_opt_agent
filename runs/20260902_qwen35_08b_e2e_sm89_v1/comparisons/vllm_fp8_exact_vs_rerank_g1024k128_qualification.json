@@ -1,0 +1,37 @@
+{
+  "schema_version": "vllm-sm89-int8-bf16-rerank-qualification-v1",
+  "status": "EMPIRICALLY_TOKEN_EXACT_GREEDY_PASS",
+  "scope": "Qwen3.5-0.8B, RTX 4060 Laptop SM89, max_num_seqs=1, batch-1 greedy decode, vLLM fp8_per_block backbone",
+  "protocol": "same patched source, C-S-S-C process order, fresh compile cache per process, six natural prompts, 128 output tokens, 3 warmups and 10 trials per case",
+  "source_sha256_both_paths": "8196a09842dcf95fe92a817752badeb0a2ccaa0e2d3ae2a417a9d9b5ad166534",
+  "control": "exact-packed BF16 lm-head",
+  "candidate": "per-row symmetric INT8 approximate scan plus exact BF16 top-128 shortlist rerank",
+  "control_mean_e2e_ms": 632.8053873335193,
+  "candidate_mean_e2e_ms": 582.469403000232,
+  "e2e_speedup": 1.0864182463044627,
+  "control_mean_tpot_ms": 4.676016604660049,
+  "candidate_mean_tpot_ms": 4.269520799210822,
+  "tpot_speedup": 1.0952087657060632,
+  "speedup_vs_native_vllm_fp8_tpot": 1.1989519945568654,
+  "cross_pair_e2e_speedup_range": [1.0840277076346343, 1.0888101769060687],
+  "cross_pair_tpot_speedup_range": [1.0936698571117012, 1.0967488203244928],
+  "graphics_clock_mhz": {
+    "control": [2625, 2610],
+    "candidate": [2610, 2610]
+  },
+  "natural_prompt_token_exact_each_cross_pair": "6/6",
+  "quality": {
+    "dataset": "GSM8K frozen 512-case subset",
+    "control_correct": 40,
+    "candidate_correct": 40,
+    "answer_agreement": "512/512",
+    "token_exact": "512/512",
+    "mcnemar_exact_two_sided_p": 1.0
+  },
+  "limitations": [
+    "The exact BF16 winner was observed inside the approximate top-128 shortlist for every measured step, but this is not a mathematical all-input guarantee.",
+    "Logits outside the shortlist are replaced by -inf, so full-logit, logprob and stochastic-sampling equivalence is not claimed.",
+    "The policy is not promoted for max_num_seqs greater than 1."
+  ],
+  "decision": "PROMOTE as an empirically token-identical batch-1 greedy policy point; keep the exact full-vocabulary path as the strict fallback."
+}

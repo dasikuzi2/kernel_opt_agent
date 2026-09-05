@@ -1,0 +1,12 @@
+{
+  "allowed_next_phase": "BASELINE",
+  "completed_phases": [
+    "INTAKE"
+  ],
+  "current_phase": "PLANNING",
+  "framework_contract_version": "evidence-closed-v2",
+  "next_action": "Capture a correct discovery baseline, rank quantified global opportunities, implement a diverse production-candidate portfolio, then qualify survivors with the evidence-closed workflow.",
+  "run_id": "20260902_qwen35_08b_e2e_sm89_v1",
+  "schema_version": "optimization-run-state-v4",
+  "terminal": false
+}

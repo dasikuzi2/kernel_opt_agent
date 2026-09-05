@@ -1,0 +1,78 @@
+{
+  "schema_version": "sm89-int8-bf16-shortlist-rerank-v1",
+  "status": "EMPIRICALLY_TOKEN_EXACT_GREEDY_PASS",
+  "candidate": "per-row symmetric INT8 full-vocabulary scan plus exact BF16 top-128 rerank",
+  "scope": "Qwen3.5-0.8B, RTX 4060 Laptop SM89, max_num_seqs=1, batch-1 greedy decode, vLLM fp8_per_block backbone",
+  "mechanism": [
+    "Run a 248320x1024 per-row INT8 GEMV to obtain an approximate full-vocabulary ranking.",
+    "Select the approximate top 128 token rows.",
+    "Recompute only those rows from the original BF16 tied embedding with FP32 reduction.",
+    "Expose -inf outside the shortlist so greedy argmax is decided only by exact BF16 reranked values."
+  ],
+  "storage": {
+    "int8_group_k": 1024,
+    "scale_dtype": "float16",
+    "int8_cache_byte_fraction_vs_dense_bf16": 0.5009765625,
+    "note": "The current prototype keeps the original BF16 weight and adds the INT8 cache; it is not yet a load-time ownership-transfer implementation."
+  },
+  "search": {
+    "group32_top2": "REJECT: 5/6 natural cases token-exact; translation diverged at token 92",
+    "group32_top4": "PASS screen and 512/512 GSM8K token identity",
+    "group1024_top128": "SELECT: faster formal TPOT with 6/6 natural cases and 512/512 GSM8K token identity"
+  },
+  "formal_performance": {
+    "protocol": "same-source C-S-S-C, fresh compile cache per process, six natural prompts, 128 output tokens, 3 warmups and 10 trials per case",
+    "source_sha256_both_paths": "8196a09842dcf95fe92a817752badeb0a2ccaa0e2d3ae2a417a9d9b5ad166534",
+    "exact_head_control_mean_e2e_ms": 632.8053873335193,
+    "candidate_mean_e2e_ms": 582.469403000232,
+    "e2e_speedup_vs_exact_head": 1.0864182463044627,
+    "exact_head_control_mean_tpot_ms": 4.676016604660049,
+    "candidate_mean_tpot_ms": 4.269520799210822,
+    "tpot_speedup_vs_exact_head": 1.0952087657060632,
+    "tpot_speedup_vs_native_vllm_fp8": 1.1989519945568654,
+    "cross_pair_e2e_speedup_range": [1.0840277076346343, 1.0888101769060687],
+    "cross_pair_tpot_speedup_range": [1.0936698571117012, 1.0967488203244928],
+    "graphics_clock_mhz_control": [2625, 2610],
+    "graphics_clock_mhz_candidate": [2610, 2610],
+    "natural_prompt_token_exact_each_cross_pair": "6/6"
+  },
+  "quality": {
+    "dataset": "GSM8K frozen 512-case subset, 64-token cap",
+    "control_correct": 40,
+    "candidate_correct": 40,
+    "answer_agreement": "512/512",
+    "token_exact": "512/512",
+    "mcnemar_exact_two_sided_p": 1.0,
+    "qualification": "Bounded empirical greedy-token identity only; not a proof for all prompts, full-logit equivalence, logprobs, top-p or stochastic sampling."
+  },
+  "execution_proof": {
+    "status": "PASS",
+    "generated_steps": 192,
+    "int8_scan_kernel": {
+      "name": "_sm89_int8_groupwise_lmhead_kernel",
+      "instances": 192,
+      "ms_per_generated_step": 0.99289565625,
+      "gpu_kernel_time_percent": 83.23899839027548
+    },
+    "exact_rerank_kernel": {
+      "name": "_sm89_exact_bf16_shortlist_rerank_kernel",
+      "instances": 192,
+      "grid_programs_per_step": 128,
+      "ms_per_generated_step": 0.002289046875,
+      "gpu_kernel_time_percent": 0.1919013019585764
+    }
+  },
+  "contract": {
+    "supported": "batch-1 greedy argmax after workload qualification",
+    "unsupported": ["full-vocabulary logits", "logprobs", "top-p/top-k sampling semantics", "stochastic sampling", "max_num_seqs greater than 1"],
+    "mathematical_guarantee": false,
+    "path_to_guarantee": "Add a conservative per-token quantization-error bound and fall back to an exact full-vocabulary scan whenever the approximate shortlist cannot certify inclusion of the BF16 winner."
+  },
+  "artifacts": {
+    "patch": "candidates/int8-bf16-shortlist-rerank/vllm_utils_int8_bf16_shortlist_rerank.patch",
+    "performance_cross_pairs": "comparisons/vllm_fp8_exact_vs_rerank_g1024k128_c*_s*_w3_n10_t128.json",
+    "quality": "comparisons/vllm_fp8_exact_vs_int8head_g1024_rerank_k128_quality_gsm8k_n512.json",
+    "profile": "models/nsys2025_int8_bf16_rerank_g1024k128_map.json"
+  },
+  "decision": "PROMOTE as the fastest empirically token-identical greedy max_num_seqs=1 policy point in this bounded evaluation. Retain exact-packed BF16 for a strict all-input contract, pure group-32 INT8 for calibrated lossy latency, and native vLLM FP8 for multi-sequence service."
+}

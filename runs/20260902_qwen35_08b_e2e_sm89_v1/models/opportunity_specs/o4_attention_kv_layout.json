@@ -1,0 +1,20 @@
+{
+  "opportunity_id": "sm89-attention-kv-layout",
+  "name": "Co-design attention and KV-cache layout",
+  "model_scope": "CURRENT_SCHEDULE",
+  "source_model_term": "FlashAttention, QK normalization/rope and KV reshape/cache",
+  "affected_stages": ["full-attention", "kv-cache-update", "qk-rope"],
+  "current_contribution_us": 273.928,
+  "optimistic_gain_ceiling_us": 100.0,
+  "likely_gain_interval_us": {"lower": 10.0, "upper": 50.0},
+  "confidence": "MEDIUM",
+  "rewrite_families": ["attention-fusion", "kv-layout", "producer-consumer-fusion"],
+  "implementation_budget_minutes": 90,
+  "hypothesis": "Avoid layout conversion and cache-update launches by emitting Q/K/V directly in the decode attention consumer layout.",
+  "derivation": "The expanded graph records about 0.221 ms/step for FlashAttention, 0.027 ms for cache reshape/update and 0.026 ms for fused QK normalization/rope; the ceiling targets only layout and boundary overhead.",
+  "evidence": [{
+    "path": "models/nsys2025_lmhead_opportunity_map.json",
+    "sha256": "2489e67cd0c268c13ddac379a801630b17908f7f3d7ebbe244e04e4bc5a33026",
+    "claim": "GPU-active attention, QK transform and KV update contributions."
+  }]
+}

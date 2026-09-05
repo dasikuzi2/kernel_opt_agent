@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/humming-w4a16-all/linear_backend_candidate.py", line 242, in <module>
+    main()
+  File "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/humming-w4a16-all/linear_backend_candidate.py", line 238, in main
+    {"build": build, "correctness": correctness, "smoke": smoke}[args.stage]()
+  File "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/humming-w4a16-all/linear_backend_candidate.py", line 164, in smoke
+    raise RuntimeError(f"production harness failed; see {log_path}")
+RuntimeError: production harness failed; see /mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/humming-w4a16-all/smoke_execution.log

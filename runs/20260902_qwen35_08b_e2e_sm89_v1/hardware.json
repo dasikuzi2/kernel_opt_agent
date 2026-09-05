@@ -1,0 +1,90 @@
+{
+  "captured_at": "2026-09-02T14:42:48.461915+00:00",
+  "competing_load": {
+    "gpu_utilization_percent": 0.0,
+    "memory_used_mib": 493.0
+  },
+  "host": {
+    "execution_environment": "Ubuntu 24.04.4 LTS under WSL2 for CUDA workloads",
+    "hostname": "aden",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.14.3"
+  },
+  "power_clock": {
+    "memory_clock_current_mhz": 405.0,
+    "memory_clock_max_mhz": 8001.0,
+    "policy": "observed-only; no clock or power mutation performed",
+    "power_draw_w": 3.3,
+    "power_limit_w": null,
+    "sm_clock_current_mhz": 225.0,
+    "sm_clock_max_mhz": 3105.0
+  },
+  "provenance": {
+    "field_authority": {
+      "cuda_device_properties": {
+        "reason": "nvcc not found; capacity fields remain unknown",
+        "status": "UNAVAILABLE"
+      },
+      "nvidia_smi": "VENDOR_OFFICIAL_TOOL",
+      "torch": "software version only; no hardware capacity field is accepted from torch"
+    },
+    "queries": [
+      "C:\\Windows\\system32\\nvidia-smi.EXE --query-gpu=index,name,uuid,compute_cap,driver_version,memory.total,memory.used,utilization.gpu,clocks.current.sm,clocks.max.sm,clocks.current.memory,clocks.max.memory,power.draw,power.limit --format=csv,noheader,nounits",
+      "cudaGetDeviceProperties via scripts/cuda_device_query.cu",
+      "wsl -d Ubuntu -- nvidia-smi --query-gpu=name,uuid,driver_version,memory.total,compute_cap --format=csv,noheader",
+      "/home/aden/.venvs/kernel-opt-4060/bin/python import torch,triton and torch.cuda.get_device_properties(0)",
+      "command -v nvcc ncu nsys inside Ubuntu WSL2"
+    ]
+  },
+  "schema_version": "hardware-snapshot-v1",
+  "software": {
+    "driver": "592.82",
+    "execution_python": "3.12.3",
+    "nvcc": "12.0",
+    "torch": "2.12.1+cu130",
+    "torch_cuda_runtime": "13.0",
+    "triton": "3.7.1"
+  },
+  "target": {
+    "compute_capability": "8.9",
+    "device_index": 0,
+    "device_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "memory_bytes": 8585740288,
+    "uuid": "GPU-44a7edbf-e229-1e53-38a4-1e69ee49dd19",
+    "vendor": "NVIDIA"
+  },
+  "tools": {
+    "cuobjdump": {
+      "available": false,
+      "path": null
+    },
+    "ncu": {
+      "available": true,
+      "path": "/usr/bin/ncu",
+      "performance_counter_access": "BLOCKED_ERR_NVGPUCTRPERM",
+      "version": "2022.4.1.0"
+    },
+    "nsys": {
+      "available": true,
+      "path": "/usr/bin/nsys",
+      "version": "2022.4.2.50"
+    },
+    "nvcc": {
+      "available": true,
+      "path": "/usr/bin/nvcc",
+      "version": "12.0"
+    },
+    "nvdisasm": {
+      "available": false,
+      "path": null
+    },
+    "nvidia-smi": {
+      "available": true,
+      "path": "C:\\Windows\\system32\\nvidia-smi.EXE"
+    },
+    "ptxas": {
+      "available": false,
+      "path": null
+    }
+  }
+}

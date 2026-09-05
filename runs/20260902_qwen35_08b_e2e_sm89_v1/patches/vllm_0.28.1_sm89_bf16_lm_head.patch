@@ -1,0 +1,110 @@
+diff --git a/vllm/model_executor/layers/utils.py b/vllm/model_executor/layers/utils.py
+--- a/vllm/model_executor/layers/utils.py
++++ b/vllm/model_executor/layers/utils.py
+@@ -5,3 +5,4 @@
+ import functools
++import os
+ from collections.abc import Callable
+ from dataclasses import dataclass
+@@ -11,5 +12,6 @@ from vllm._aiter_ops import rocm_aiter_ops
+ from vllm.logger import init_logger
+ from vllm.platforms import CpuArchEnum, current_platform
++from vllm.triton_utils import tl, triton
+ from vllm.utils.flashinfer import (
+     flashinfer_bf16_mm,
+     is_flashinfer_cutedsl_bf16_gemm_supported,
+@@ -27,6 +29,74 @@ MOE_LAYER_ROUTER_GATE_SUFFIXES = {
+     "expert_gate",
+ }
+ 
++
++@triton.jit
++def _sm89_bf16_gemv_kernel(
++    x_ptr,
++    weight_ptr,
++    output_ptr,
++    n: tl.constexpr,
++    k: tl.constexpr,
++    BLOCK_N: tl.constexpr,
++    BLOCK_K: tl.constexpr,
++):
++    pid = tl.program_id(0)
++    offsets_n = pid * BLOCK_N + tl.arange(0, BLOCK_N)
++    offsets_k = tl.arange(0, BLOCK_K)
++    x = tl.load(x_ptr + offsets_k, mask=offsets_k < k, other=0.0)
++    weight = tl.load(
++        weight_ptr + offsets_n[:, None] * k + offsets_k[None, :],
++        mask=(offsets_n[:, None] < n) & (offsets_k[None, :] < k),
++        other=0.0,
++    )
++    accum = tl.sum(weight.to(tl.float32) * x[None, :].to(tl.float32), axis=1)
++    tl.store(output_ptr + offsets_n, accum, mask=offsets_n < n)
++
++
++def sm89_bf16_gemv_impl(
++    x: torch.Tensor,
++    weight: torch.Tensor,
++) -> torch.Tensor:
++    n, k = weight.shape
++    if (n, k) != (248320, 1024):
++        raise ValueError(f"unsupported SM89 BF16 lm_head shape: N={n}, K={k}")
++    block_n, num_warps = 4, 8
++    output = torch.empty((*x.shape[:-1], n), dtype=x.dtype, device=x.device)
++    _sm89_bf16_gemv_kernel[(triton.cdiv(n, block_n),)](
++        x,
++        weight,
++        output,
++        n=n,
++        k=k,
++        BLOCK_N=block_n,
++        BLOCK_K=triton.next_power_of_2(k),
++        num_warps=num_warps,
++        num_stages=1,
++    )
++    return output
++
++
++def sm89_bf16_gemv_fake(
++    x: torch.Tensor,
++    weight: torch.Tensor,
++) -> torch.Tensor:
++    return x.new_empty((*x.shape[:-1], weight.shape[0]))
++
++
++def sm89_bf16_gemv(
++    x: torch.Tensor,
++    weight: torch.Tensor,
++) -> torch.Tensor:
++    return torch.ops.vllm.sm89_bf16_gemv(x, weight)
++
++
++direct_register_custom_op(
++    op_name="sm89_bf16_gemv",
++    op_func=sm89_bf16_gemv_impl,
++    fake_impl=sm89_bf16_gemv_fake,
++)
++
++
+ def get_token_bin_counts_and_mask(
+     tokens: torch.Tensor,
+     vocab_size: int,
+@@ -89,6 +159,19 @@ def default_unquantized_gemm(
+     weight: torch.Tensor,
+     bias: torch.Tensor | None = None,
+ ):
++    if (
++        os.environ.get("VLLM_SM89_BF16_LM_HEAD", "0") == "1"
++        and bias is None
++        and x.is_cuda
++        and x.dtype == torch.bfloat16
++        and weight.dtype == torch.bfloat16
++        and x.numel() == 1024
++        and x.shape[-1] == 1024
++        and weight.ndim == 2
++        and weight.shape == (248320, 1024)
++        and current_platform.is_device_capability(89)
++    ):
++        return sm89_bf16_gemv(x, weight)
+     return torch.nn.functional.linear(x, weight, bias)
+ 
+ 

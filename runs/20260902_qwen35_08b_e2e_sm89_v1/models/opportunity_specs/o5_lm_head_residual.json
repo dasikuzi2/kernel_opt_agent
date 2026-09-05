@@ -1,0 +1,20 @@
+{
+  "opportunity_id": "sm89-lm-head-residual",
+  "name": "Close the remaining lm-head bandwidth residual",
+  "model_scope": "EMPIRICAL_BOTTLENECK",
+  "source_model_term": "SM89-specialized BF16 lm-head candidate kernel",
+  "affected_stages": ["lm-head"],
+  "current_contribution_us": 2057.540,
+  "optimistic_gain_ceiling_us": 200.0,
+  "likely_gain_interval_us": {"lower": 0.0, "upper": 50.0},
+  "confidence": "LOW",
+  "rewrite_families": ["load-coalescing", "weight-stream-specialization"],
+  "implementation_budget_minutes": 45,
+  "hypothesis": "Try only bounded instruction/layout changes because the accepted kernel already streams roughly 508 MB near the measured memory-service rate.",
+  "derivation": "Nsight observes 2.058 ms per lm-head invocation after the 1.19x end-to-end win; the low-confidence interval prevents another unbounded launch-parameter sweep near the bandwidth roof.",
+  "evidence": [{
+    "path": "models/sm89_nsys_operator_map.json",
+    "sha256": "1c01492f85adec15ea27a11de9ed8d9f72d7c5f2b96d6171c74a36f59d01eb79",
+    "claim": "Accepted lm-head invocation time and strict-production decision boundary."
+  }]
+}

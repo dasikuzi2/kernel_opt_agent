@@ -1,0 +1,20 @@
+{
+  "opportunity_id": "sm89-normalization-epilogue-fusion",
+  "name": "Fuse normalization and elementwise epilogues",
+  "model_scope": "CURRENT_SCHEDULE",
+  "source_model_term": "Normalization plus adjacent pointwise kernels",
+  "affected_stages": ["normalization", "activation", "residual-update"],
+  "current_contribution_us": 302.152,
+  "optimistic_gain_ceiling_us": 150.0,
+  "likely_gain_interval_us": {"lower": 20.0, "upper": 80.0},
+  "confidence": "MEDIUM",
+  "rewrite_families": ["epilogue-fusion", "materialization-elimination"],
+  "implementation_budget_minutes": 60,
+  "hypothesis": "Fold normalization, activation and residual transforms into their producer or consumer while preserving the BF16 numerical contract.",
+  "derivation": "Nsight attributes 0.251 ms/step to normalization and 0.051 ms/step to one repeated fused pointwise family; only a subset can be removed because normalization reductions remain mandatory.",
+  "evidence": [{
+    "path": "models/nsys2025_lmhead_opportunity_map.json",
+    "sha256": "2489e67cd0c268c13ddac379a801630b17908f7f3d7ebbe244e04e4bc5a33026",
+    "claim": "Expanded graph timing for normalization and pointwise families."
+  }]
+}

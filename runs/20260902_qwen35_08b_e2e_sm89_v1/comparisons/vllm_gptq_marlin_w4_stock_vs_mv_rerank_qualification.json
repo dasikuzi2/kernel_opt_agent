@@ -1,0 +1,63 @@
+{
+  "schema_version": "vllm-gptq-marlin-w4-stock-vs-mv-rerank-v1",
+  "status": "PROMOTE_OPT_IN_APPROXIMATE_MODE_NOT_EXACT_REPLACEMENT",
+  "claim_scope": "LOW_POWER_LOCAL_RTX4060_CONCURRENCY1_GREEDY_BOUNDED_NOT_GLOBAL_OPTIMUM",
+  "workload": "Qwen3.5-0.8B, RTX 4060 Laptop SM89, vLLM 0.28.1, GPTQ-Marlin W4A16 backbone, tied BF16 lm_head, batch/concurrency 1",
+  "stock_vllm": {
+    "trace": "traces/vllm_gptq_marlin_w4_stock_natural_128_low_power.json",
+    "warmups": 2,
+    "trials": 5,
+    "weighted_tpot_ms": 7.687619650919247,
+    "weighted_output_tokens_per_second": 130.08285836941303,
+    "median_measured_clock_mhz": 915.0,
+    "median_measured_power_w": 28.78
+  },
+  "mv_rerank_candidate": {
+    "trace": "traces/vllm_gptq_w4_head_mv_rerank_natural_128_qualification.json",
+    "warmups": 2,
+    "trials": 5,
+    "weighted_tpot_ms": 4.9589494409322175,
+    "weighted_output_tokens_per_second": 201.65561514819822,
+    "speedup_over_stock_tpot": 1.5502516697314976,
+    "median_measured_clock_mhz": 825.0,
+    "median_measured_power_w": 23.75,
+    "natural_prompt_token_exact_cases": "6/6",
+    "natural_prompt_token_exact_count": "768/768"
+  },
+  "fresh_process_reproduction": [
+    {
+      "trace": "traces/vllm_gptq_w4_head_mv_rerank_graph_screen.json",
+      "weighted_tpot_ms": 5.027395973754599,
+      "speedup_over_stock_tpot": 1.5291454444910013,
+      "token_exact_count": "768/768"
+    },
+    {
+      "trace": "traces/vllm_gptq_w4_head_mv_rerank_graph_repro.json",
+      "weighted_tpot_ms": 5.024975766397069,
+      "speedup_over_stock_tpot": 1.5298819354170352,
+      "token_exact_count": "768/768"
+    }
+  ],
+  "paired_quality": {
+    "comparison": "comparisons/vllm_gptq_marlin_w4_stock_vs_mv_rerank_quality_gsm8k_n512.json",
+    "sample_count": 512,
+    "max_generated_tokens": 64,
+    "stock_correct": 42,
+    "candidate_correct": 42,
+    "answer_agreement": "466/512",
+    "token_exact": "457/512",
+    "mcnemar_exact_two_sided_p": 1.0
+  },
+  "implementation": {
+    "candidate_patch": "candidates/marlin-w4-bf16-shortlist-rerank/vllm_utils_marlin_w4_bf16_shortlist_rerank.patch",
+    "approximate_stage": "Marlin W4 full-vocabulary scan selects top 128",
+    "rerank_stage": "gather original BF16 rows, use torch.mv for M=1 and torch.bmm for M=2, then scatter exact shortlist scores",
+    "safety": "disabled by default and shape/device guarded; unsupported shapes fall through to stock vLLM"
+  },
+  "conclusions": [
+    "A quantized vLLM baseline is the fair control; replacing a BF16 baseline with W4 alone is not an agent-level win.",
+    "The GPTQ-Marlin backbone leaves the unquantized 248320x1024 tied output head as a residual bottleneck, so stock quantized vLLM is not locally optimal for this deployment point.",
+    "The candidate reproducibly improves bounded batch-1 greedy TPOT by about 1.55x and preserves all 768 tokens in the six-prompt throughput suite.",
+    "The 512-case GSM8K screen has identical aggregate accuracy but only 457 token-identical generations; therefore the candidate is an opt-in approximate mode, not a lossless replacement or proof of theoretical optimum."
+  ]
+}

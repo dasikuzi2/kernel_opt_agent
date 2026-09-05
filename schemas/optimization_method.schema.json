@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "optimization_method.schema.json",
+  "title": "Transfer-aware optimization method evidence card",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "method_id", "title", "kind", "source", "opportunity_families", "applicability", "implementation_recipe", "validation_recipe", "expected_bottleneck_shifts", "failure_modes", "scope_limits", "candidate_archetypes"],
+  "properties": {
+    "schema_version": {"const": "optimization-method-v1"},
+    "method_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$"},
+    "title": {"type": "string", "minLength": 1},
+    "kind": {"enum": ["TRANSFORMATION", "ORCHESTRATION", "SEARCH_STRATEGY", "EVALUATION_GUARD"]},
+    "source": {
+      "type": "object", "additionalProperties": false,
+      "required": ["title", "url", "version", "evidence_tier", "claim_scope"],
+      "properties": {
+        "title": {"type": "string", "minLength": 1}, "url": {"type": "string", "pattern": "^https://"},
+        "version": {"type": "string", "minLength": 1},
+        "evidence_tier": {"enum": ["PEER_REVIEWED_PRIMARY", "VENDOR_OFFICIAL_GUIDANCE", "PRIMARY_PREPRINT", "INTERNAL_REPRODUCTION"]},
+        "claim_scope": {"type": "string", "minLength": 1}
+      }
+    },
+    "opportunity_families": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"}},
+    "applicability": {
+      "type": "object", "additionalProperties": false,
+      "required": ["vendors", "architecture_affinity", "required_capabilities", "dtypes", "problem_signatures"],
+      "properties": {
+        "vendors": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "architecture_affinity": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "required_capabilities": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "dtypes": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "problem_signatures": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "implementation_recipe": {"$ref": "#/$defs/nonemptyStrings"},
+    "validation_recipe": {"$ref": "#/$defs/nonemptyStrings"},
+    "expected_bottleneck_shifts": {"$ref": "#/$defs/nonemptyStrings"},
+    "failure_modes": {"$ref": "#/$defs/nonemptyStrings"},
+    "scope_limits": {"$ref": "#/$defs/nonemptyStrings"},
+    "candidate_archetypes": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["family", "name", "change_axes", "template"],
+        "properties": {
+          "family": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+          "name": {"type": "string", "minLength": 1},
+          "change_axes": {"$ref": "#/$defs/nonemptyStrings"},
+          "template": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "nonemptyStrings": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+  }
+}

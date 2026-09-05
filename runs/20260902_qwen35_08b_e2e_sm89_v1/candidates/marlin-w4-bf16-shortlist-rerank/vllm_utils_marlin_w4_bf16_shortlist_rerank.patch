@@ -1,0 +1,187 @@
+--- a/vllm/model_executor/layers/utils.py
++++ b/vllm/model_executor/layers/utils.py
+@@ -93,6 +93,109 @@ def sm89_bf16_gemv(
+     return torch.ops.vllm.sm89_bf16_gemv(x, weight)
+ 
+ 
++_SM89_MARLIN_W4_CACHE: dict[
++    tuple[int, int],
++    tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor],
++] = {}
++
++
++def _get_sm89_marlin_w4_weight(
++    weight: torch.Tensor,
++) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
++    key = (weight.data_ptr(), weight._version)
++    cached = _SM89_MARLIN_W4_CACHE.get(key)
++    if cached is not None:
++        return cached
++
++    from vllm import _custom_ops as ops
++    from vllm.model_executor.layers.quantization.utils.marlin_utils import (
++        marlin_make_workspace_new,
++        marlin_permute_scales,
++    )
++    from vllm.model_executor.layers.quantization.utils.quant_utils import (
++        gptq_quantize_weights,
++        pack_rows,
++    )
++    from vllm.scalar_type import scalar_types
++
++    dense_kn = weight.t().contiguous()
++    size_k, size_n = dense_kn.shape
++    _, qweight, scales, g_idx, _ = gptq_quantize_weights(
++        dense_kn, scalar_types.uint4b8, 128, False
++    )
++    qweight = pack_rows(qweight, 4, size_k, size_n)
++    sort_indices = torch.empty(0, dtype=torch.int, device=weight.device)
++    packed = ops.gptq_marlin_repack(
++        qweight,
++        perm=sort_indices,
++        size_k=size_k,
++        size_n=size_n,
++        num_bits=4,
++        is_a_8bit=False,
++    )
++    scales = marlin_permute_scales(
++        scales, size_k, size_n, 128, is_a_8bit=False
++    )
++    workspace = marlin_make_workspace_new(weight.device)
++    cached = (packed, scales, g_idx, sort_indices, workspace)
++    _SM89_MARLIN_W4_CACHE[key] = cached
++    return cached
++
++
++def sm89_marlin_w4_rerank_impl(
++    x: torch.Tensor,
++    weight: torch.Tensor,
++) -> torch.Tensor:
++    from vllm.model_executor.layers.quantization.utils.marlin_utils import (
++        apply_gptq_marlin_linear,
++    )
++    from vllm.scalar_type import scalar_types
++
++    n, k = weight.shape
++    packed, scales, g_idx, sort_indices, workspace = (
++        _get_sm89_marlin_w4_weight(weight)
++    )
++    empty_zp = torch.empty(0, dtype=torch.int32, device=x.device)
++    output = apply_gptq_marlin_linear(
++        x,
++        packed,
++        scales,
++        empty_zp,
++        g_idx,
++        sort_indices,
++        workspace,
++        scalar_types.uint4b8,
++        output_size_per_partition=n,
++        input_size_per_partition=k,
++        is_k_full=True,
++    )
++    if os.environ.get("VLLM_SM89_MARLIN_W4_SCAN_ONLY", "0") == "1":
++        return output
++    shortlist_indices = torch.topk(output, 128, dim=-1, sorted=False).indices
++    shortlist_weight = weight[shortlist_indices]
++    if x.shape[0] == 1:
++        exact_scores = torch.mv(shortlist_weight[0], x[0]).unsqueeze(0)
++    else:
++        exact_scores = torch.bmm(shortlist_weight, x.unsqueeze(-1)).squeeze(-1)
++    output.fill_(float("-inf"))
++    output.scatter_(1, shortlist_indices, exact_scores)
++    return output
++
++
++def sm89_marlin_w4_rerank_fake(
++    x: torch.Tensor,
++    weight: torch.Tensor,
++) -> torch.Tensor:
++    return x.new_empty((*x.shape[:-1], weight.shape[0]))
++
++
++def sm89_marlin_w4_rerank(
++    x: torch.Tensor,
++    weight: torch.Tensor,
++) -> torch.Tensor:
++    return torch.ops.vllm.sm89_marlin_w4_rerank(x, weight)
++
++
+ direct_register_custom_op(
+     op_name="sm89_bf16_gemv",
+     op_func=sm89_bf16_gemv_impl,
+@@ -100,6 +203,13 @@ direct_register_custom_op(
+ )
+ 
+ 
++direct_register_custom_op(
++    op_name="sm89_marlin_w4_rerank",
++    op_func=sm89_marlin_w4_rerank_impl,
++    fake_impl=sm89_marlin_w4_rerank_fake,
++)
++
++
+ def get_token_bin_counts_and_mask(
+     tokens: torch.Tensor,
+     vocab_size: int,
+@@ -162,6 +272,20 @@ def default_unquantized_gemm(
+     weight: torch.Tensor,
+     bias: torch.Tensor | None = None,
+ ):
++    if (
++        os.environ.get("VLLM_SM89_MARLIN_W4_RERANK", "0") == "1"
++        and bias is None
++        and x.is_cuda
++        and x.dtype == torch.bfloat16
++        and weight.dtype == torch.bfloat16
++        and x.ndim == 2
++        and x.shape[0] in (1, 2)
++        and x.shape[-1] == 1024
++        and weight.ndim == 2
++        and weight.shape == (248320, 1024)
++        and current_platform.is_device_capability(89)
++    ):
++        return sm89_marlin_w4_rerank(x, weight)
+     if (
+         os.environ.get("VLLM_SM89_BF16_LM_HEAD", "0") == "1"
+         and bias is None
+diff --git a/vllm/model_executor/layers/vocab_parallel_embedding.py b/vllm/model_executor/layers/vocab_parallel_embedding.py
+--- a/vllm/model_executor/layers/vocab_parallel_embedding.py
++++ b/vllm/model_executor/layers/vocab_parallel_embedding.py
+@@ -3,6 +3,7 @@
+ 
+ from collections.abc import Sequence
+ from dataclasses import dataclass
++import os
+ 
+ import torch
+ import torch.nn.functional as F
+@@ -60,7 +61,27 @@ class UnquantizedEmbeddingMethod(QuantizeMethodBase):
+         set_weight_attrs(weight, extra_weight_attrs)
+ 
+     def process_weights_after_loading(self, layer: torch.nn.Module) -> None:
+-        if current_platform.is_cpu():
++        if (
++            current_platform.is_cuda()
++            and os.environ.get("VLLM_SM89_MARLIN_W4_RERANK", "0") == "1"
++            and layer.weight.is_cuda
++            and layer.weight.dtype == torch.bfloat16
++            and layer.weight.ndim == 2
++            and layer.weight.shape == (248320, 1024)
++            and current_platform.is_device_capability(89)
++        ):
++            from vllm.model_executor.layers.utils import (
++                sm89_marlin_w4_rerank_impl,
++            )
++
++            warmup_input = torch.zeros(
++                (1, layer.weight.shape[1]),
++                dtype=layer.weight.dtype,
++                device=layer.weight.device,
++            )
++            sm89_marlin_w4_rerank_impl(warmup_input, layer.weight.data)
++            torch.cuda.synchronize()
++        elif current_platform.is_cpu():
+             from vllm.model_executor.layers.utils import dispatch_cpu_unquantized_gemm
+ 
+             dispatch_cpu_unquantized_gemm(layer, remove_weight=False)

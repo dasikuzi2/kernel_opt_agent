@@ -1,0 +1,66 @@
+{
+  "schema_version": "vllm-bf16-exact-packed-service-integration-v1",
+  "status": "PROMOTE_LOAD_TIME_PACK_AND_WARM_FOR_WEIGHT_EXACT_BATCH1",
+  "claim_scope": "Qwen3.5-0.8B, RTX 4060 Laptop SM89, vLLM 0.28.1, BF16 weights and activations, greedy decode, 64 generated tokens",
+  "numerical_contract": {
+    "quantization": false,
+    "weight_reconstruction_bit_exact": true,
+    "stock_logit_bit_identity": false,
+    "reason": "The packed kernel reconstructs every BF16 weight exactly but uses a different FP32 reduction schedule.",
+    "max_num_seqs_1_stock_token_identity": "320/320 tokens, 5/5 requests",
+    "max_num_seqs_8_stock_token_identity": "187/192 tokens, 2/3 requests at active batch 1"
+  },
+  "lifecycle_ablation": {
+    "lazy_pack_after_engine_ready_output_tokens_per_second": 61.970038524411606,
+    "load_time_pack_output_tokens_per_second": 110.60765827117761,
+    "load_time_pack_and_jit_warm_output_tokens_per_second": 110.93547694733171,
+    "pack_and_warm_speedup_over_lazy": 1.7901469740676592,
+    "warm_speedup_over_pack_only": 1.0029637972747816,
+    "interpretation": "Packing before CUDA Graph setup fixes the large service regression. JIT warmup mainly removes first-request compilation rather than changing steady-state throughput."
+  },
+  "max_num_seqs_8_service_curve": {
+    "protocol": "The final candidate and closing stock use independent guarded VLLM_CACHE_ROOT values, one warmup and three measured trials, and forward/reverse batch order. The opening stock predates the cache-root guard and is retained only as the faster conservative stock envelope.",
+    "source_sha256": {
+      "utils.py": "2b9e6193612d83762e76a2af50dfdb2348ffa61e4711d666e6d678f8b61d4e43",
+      "vocab_parallel_embedding.py": "a5d271fe4a73b44967c8ad1e2b0b4b9153429a021a966bc1b0459f1f5a8fc3e4"
+    },
+    "batch_sizes": [1, 2, 4, 8],
+    "opening_stock_output_tokens_per_second": [101.51616276772596, 191.81805855733694, 413.1373794158697, 696.6878647874861],
+    "closing_stock_output_tokens_per_second": [97.10213133060286, 187.33787654007827, 342.01725109417777, 658.8187457115389],
+    "candidate_output_tokens_per_second": [110.93547694733171, 186.23364124749284, 356.33775057190815, 671.2014874463621],
+    "candidate_speedup_over_faster_stock": [1.092786349708249, 0.9708869052692719, 0.8625163645945814, 0.9634177963629404],
+    "candidate_tpot_ms": [8.52910147625066, 9.571370103205684, 9.995061206335244, 10.557791238141593],
+    "policy": [
+      "At active batch 1, enable only when exact BF16 weights with stock-token drift is acceptable.",
+      "At active batch 2 or above, use stock BF16; the candidate shape guard falls back and no material gain is established."
+    ]
+  },
+  "max_num_seqs_1_diagnostic": {
+    "candidate_output_tokens_per_second": 108.36744109658645,
+    "stock_output_tokens_per_second": 96.46394978173923,
+    "speedup": 1.1233983404347452,
+    "candidate_tpot_ms": 8.69046277777728,
+    "stock_tpot_ms": 9.74970499997393,
+    "tpot_speedup": 1.1218855945054251,
+    "token_identity": "320/320",
+    "qualification": "Useful configuration diagnostic; these older traces predate the explicit VLLM_CACHE_ROOT guard, so the max_num_seqs=8 guarded qualification is the deployment authority."
+  },
+  "memory_and_startup_tradeoff": {
+    "packed_cache_mib": 375.691,
+    "stock_reported_model_memory_gib": 1.53,
+    "candidate_reported_model_memory_gib": 1.91,
+    "prototype_limit": "Dense tied embedding remains resident in addition to the packed cache. A production checkpoint format should load packed output-head data directly without an additive runtime conversion."
+  },
+  "artifacts": {
+    "opening_stock": "traces/vllm_bf16_exact_source_stock_service_curve_b1_b2_b4_b8.json",
+    "lazy_pack": "traces/vllm_bf16_exact_packed_fresh_cache_service_curve_b1_b2_b4_b8.json",
+    "load_time_pack": "traces/vllm_bf16_exact_embedding_prepack_service_curve_b1_b2_b4_b8.json",
+    "load_time_pack_and_warm": "traces/vllm_bf16_exact_load_warm_service_curve_b1_b2_b4_b8.json",
+    "closing_stock": "traces/vllm_bf16_exact_load_warm_stock_close_service_curve_b1_b2_b4_b8.json",
+    "max_num_seqs_1_candidate_diagnostic": "traces/vllm_bf16_exact_packed_maxseq1_service_b1.json",
+    "max_num_seqs_1_stock_diagnostic": "traces/vllm_bf16_exact_source_stock_maxseq1_service_b1.json",
+    "prototype_patch": "candidates/exact-bf16-packed-lmhead/vllm_utils_exact_bf16_packed_lmhead.patch"
+  },
+  "source_note": "The measured utils.py differs from the canonical patch result only by one blank line; the executable code is identical. The canonical patched utils.py SHA256 remains 92ccaf39b27482411560ff194185e5a4ce6520482985f194c21eb0403949db8f.",
+  "decision": "Promote the load-time packed and warmed implementation as an opt-in batch-1 weight-exact BF16 service path. Keep stock BF16 when stock-token identity is required or active batch is at least 2. This is a bounded policy winner, not a global optimum certificate."
+}

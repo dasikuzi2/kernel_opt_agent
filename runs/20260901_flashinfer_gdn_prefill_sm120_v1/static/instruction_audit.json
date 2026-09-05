@@ -1,0 +1,32 @@
+{
+  "schema_version": "instruction-audit-v2",
+  "candidate_id": null,
+  "source_identity": {},
+  "toolchain_identity": {},
+  "binary_identity": {},
+  "sass_identity": {},
+  "disassembly_receipt_identity": {},
+  "launch_geometry": {},
+  "resource_usage": {
+    "registers_per_thread": null,
+    "static_shared_bytes": null,
+    "dynamic_shared_bytes": null,
+    "stack_bytes": null,
+    "spill_load_bytes": null,
+    "spill_store_bytes": null
+  },
+  "expected_signatures": [],
+  "observed_ptx_signatures": [],
+  "observed_sass_signatures": [],
+  "sass_control_flow": [],
+  "dynamic_instruction_counts_by_case": [],
+  "dependency_chains": [],
+  "issue_and_latency_analysis": [],
+  "occupancy_and_cta_waves": [],
+  "resource_mapping": [],
+  "unresolved_microarchitecture_behavior": [],
+  "material_mismatches": [],
+  "runtime_counters": [],
+  "missing_evidence": [],
+  "verdict": "INCOMPLETE"
+}

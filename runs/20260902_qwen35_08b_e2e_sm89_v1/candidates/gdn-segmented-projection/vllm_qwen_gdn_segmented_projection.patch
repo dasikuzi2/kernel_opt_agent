@@ -1,0 +1,166 @@
+diff --git a/vllm/model_executor/layers/mamba/gdn/qwen_gdn_linear_attn.py b/vllm/model_executor/layers/mamba/gdn/qwen_gdn_linear_attn.py
+index 108a732..513384d 100644
+--- a/vllm/model_executor/layers/mamba/gdn/qwen_gdn_linear_attn.py
++++ b/vllm/model_executor/layers/mamba/gdn/qwen_gdn_linear_attn.py
+@@ -90,6 +90,118 @@ MAX_FUSED_GDN_MTP_TOKENS = 8
+ FUSED_GDN_STATE_DTYPES = (torch.float32, torch.bfloat16)
+ 
+ 
++@triton.jit
++def _sm89_segmented_gdn_projection_kernel(
++    x_ptr,
++    qkvz_weight_ptr,
++    ba_weight_ptr,
++    qkvz_output_ptr,
++    ba_output_ptr,
++    QKVZ_N: tl.constexpr,
++    BA_N: tl.constexpr,
++    K: tl.constexpr,
++    BLOCK_N: tl.constexpr,
++    BLOCK_K: tl.constexpr,
++    QKVZ_BLOCKS: tl.constexpr,
++):
++    """Keep the 8192-row tiling intact while sharing one launch with BA."""
++    pid = tl.program_id(0)
++    offsets_k = tl.arange(0, BLOCK_K)
++    x = tl.load(x_ptr + offsets_k, mask=offsets_k < K, other=0.0)
++    if pid < QKVZ_BLOCKS:
++        offsets_n = pid * BLOCK_N + tl.arange(0, BLOCK_N)
++        weight = tl.load(
++            qkvz_weight_ptr + offsets_n[:, None] * K + offsets_k[None, :],
++            mask=(offsets_n[:, None] < QKVZ_N) & (offsets_k[None, :] < K),
++            other=0.0,
++        )
++        accum = tl.sum(
++            weight.to(tl.float32) * x[None, :].to(tl.float32), axis=1
++        )
++        tl.store(qkvz_output_ptr + offsets_n, accum, mask=offsets_n < QKVZ_N)
++    else:
++        offsets_n = (pid - QKVZ_BLOCKS) * BLOCK_N + tl.arange(0, BLOCK_N)
++        weight = tl.load(
++            ba_weight_ptr + offsets_n[:, None] * K + offsets_k[None, :],
++            mask=(offsets_n[:, None] < BA_N) & (offsets_k[None, :] < K),
++            other=0.0,
++        )
++        accum = tl.sum(
++            weight.to(tl.float32) * x[None, :].to(tl.float32), axis=1
++        )
++        tl.store(ba_output_ptr + offsets_n, accum, mask=offsets_n < BA_N)
++
++
++def sm89_segmented_gdn_projection_impl(
++    x: torch.Tensor,
++    qkvz_weight: torch.Tensor,
++    ba_weight: torch.Tensor,
++) -> tuple[torch.Tensor, torch.Tensor]:
++    if qkvz_weight.shape != (8192, 1024) or ba_weight.shape != (32, 1024):
++        raise ValueError(
++            "SM89 segmented GDN projection requires QKVZ=(8192, 1024) "
++            f"and BA=(32, 1024), got {qkvz_weight.shape=} {ba_weight.shape=}"
++        )
++    if x.numel() != x.shape[-1]:
++        return (
++            torch.nn.functional.linear(x, qkvz_weight),
++            torch.nn.functional.linear(x, ba_weight),
++        )
++    qkvz_output = torch.empty(
++        (*x.shape[:-1], qkvz_weight.shape[0]), dtype=x.dtype, device=x.device
++    )
++    ba_output = torch.empty(
++        (*x.shape[:-1], ba_weight.shape[0]), dtype=x.dtype, device=x.device
++    )
++    block_n = 4
++    qkvz_blocks = triton.cdiv(qkvz_weight.shape[0], block_n)
++    ba_blocks = triton.cdiv(ba_weight.shape[0], block_n)
++    _sm89_segmented_gdn_projection_kernel[(qkvz_blocks + ba_blocks,)](
++        x,
++        qkvz_weight,
++        ba_weight,
++        qkvz_output,
++        ba_output,
++        QKVZ_N=qkvz_weight.shape[0],
++        BA_N=ba_weight.shape[0],
++        K=x.shape[-1],
++        BLOCK_N=block_n,
++        BLOCK_K=triton.next_power_of_2(x.shape[-1]),
++        QKVZ_BLOCKS=qkvz_blocks,
++        num_warps=4,
++        num_stages=1,
++    )
++    return qkvz_output, ba_output
++
++
++def sm89_segmented_gdn_projection_fake(
++    x: torch.Tensor,
++    qkvz_weight: torch.Tensor,
++    ba_weight: torch.Tensor,
++) -> tuple[torch.Tensor, torch.Tensor]:
++    return (
++        x.new_empty((*x.shape[:-1], qkvz_weight.shape[0])),
++        x.new_empty((*x.shape[:-1], ba_weight.shape[0])),
++    )
++
++
++def sm89_segmented_gdn_projection(
++    x: torch.Tensor,
++    qkvz_weight: torch.Tensor,
++    ba_weight: torch.Tensor,
++) -> tuple[torch.Tensor, torch.Tensor]:
++    return torch.ops.vllm.sm89_segmented_gdn_projection(
++        x, qkvz_weight, ba_weight
++    )
++
++
++direct_register_custom_op(
++    op_name="sm89_segmented_gdn_projection",
++    op_func=sm89_segmented_gdn_projection_impl,
++    fake_impl=sm89_segmented_gdn_projection_fake,
++)
++
++
+ def _resolve_gdn_prefill_backend(
+     vllm_config: VllmConfig,
+ ) -> tuple[str, Literal["triton", "flashinfer", "cutedsl"]]:
+@@ -436,6 +548,24 @@ class QwenGatedDeltaNetAttention(GatedDeltaNetAttention):
+             quant_config=self.quant_config,
+             prefix=f"{prefix}.in_proj_ba",
+         )
++        segmented_projection_mode = os.environ.get(
++            "VLLM_SM89_SEGMENTED_GDN_PROJECTION", "0"
++        ).lower()
++        try:
++            layer_index = int(prefix.split(".layers.", 1)[1].split(".", 1)[0])
++        except (IndexError, ValueError):
++            layer_index = -1
++        segmented_layer_selected = segmented_projection_mode in ("1", "all") or (
++            segmented_projection_mode == "late-half" and layer_index >= 12
++        )
++        self.enable_sm89_segmented_input_projection = (
++            segmented_layer_selected
++            and not self.gqa_interleaved_layout
++            and self.tp_size == 1
++            and self.quant_config is None
++            and vllm_config.model_config.dtype == torch.bfloat16
++            and current_platform.is_device_capability(89)
++        )
+         self.disable_tp_for_ba_proj = self.maybe_disable_tp(self.quant_config)
+ 
+         query_key_settings = (self.key_dim, 0, False)
+@@ -900,8 +1030,15 @@ class QwenGatedDeltaNetAttention(GatedDeltaNetAttention):
+         # ============================================================
+         # Part 1: Input Projection
+         # ============================================================
+-        mixed_qkvz, _ = self.in_proj_qkvz(hidden_states)
+-        ba, _ = self.in_proj_ba(hidden_states)
++        if self.enable_sm89_segmented_input_projection:
++            mixed_qkvz, ba = sm89_segmented_gdn_projection(
++                hidden_states,
++                self.in_proj_qkvz.weight,
++                self.in_proj_ba.weight,
++            )
++        else:
++            mixed_qkvz, _ = self.in_proj_qkvz(hidden_states)
++            ba, _ = self.in_proj_ba(hidden_states)
+ 
+         use_fused_gdn_decode = (
+             self.enable_fused_gdn_decode

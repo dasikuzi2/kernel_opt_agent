@@ -15,46 +15,59 @@ when fields are missing or a historical run may be reused.
 Then execute an evidence-driven loop:
 
 1. Freeze semantics, ABI, correctness tolerances and workload weights.
-2. Discover and snapshot hardware/toolchain state.
-3. Build `hardware_evidence.json` from exact vendor-official documents and
-   official target-device queries. Archive URL/command, version, section,
-   artifact and SHA-256. If the exact architecture is not documented, require
-   the developer to provide the official document location. Do not record an
-   inferred hardware fact or a neighboring-device value.
-4. Archive the exact launched binary with `scripts/kernel_opt.py sass-archive`,
-   classify it with `sass-count`, then run `resources-discover`. The binary,
-   disassembler, target architecture and SASS are hash-bound. Every static site
-   must map to exactly one reviewed instruction class; unresolved or ambiguous
-   instruction/resource mappings block planning.
-5. Create the optimization plan and target-microarchitecture resource graph
-   before implementation tuning begins.
-6. Establish production-exact CPU and GPU baselines.
-7. Build mandatory-work and mathematical/current-DAG ledgers, then map the
-   current schedule onto the resource graph.
-8. Build and freeze 2--4 architecture-level schedule candidates.  Compute each
+2. Discover and snapshot hardware/toolchain state, then establish a correct
+   production-exact discovery baseline.
+3. Read
+   [references/discovery_loop.md](references/discovery_loop.md), compile 4--12
+   conditional global opportunities from the work/DAG models and rank them by
+   expected global gain, confidence and implementation cost with
+   `scripts/kernel_opt.py opportunity`. Never present a decomposition-specific
+   floor as an absolute global optimum.
+4. Generate 6--12 materially different architecture candidates linked to at
+   least three ranked opportunities and write their run-local production
+   implementations. Use `scripts/kernel_opt.py candidate` to give
+   compiler, import, layout and harness failures a bounded repair loop.
+5. Cheaply screen every valid architecture family on an anchor and edge case.
+   Discovery results route work only; they do not accept a candidate or claim a
+   hardware fact. Promote at most 2--4 survivors.
+6. For qualification finalists, build `hardware_evidence.json` from exact
+   vendor-official documents and official target-device queries. Archive URL,
+   command, version, section, artifact and SHA-256. Do not record an inferred
+   hardware fact or a neighboring-device value.
+7. Archive the exact launched finalist/baseline binaries with
+   `scripts/kernel_opt.py sass-archive`, classify them with `sass-count`, then
+   run `resources-discover`. Every static site must map to exactly one reviewed
+   instruction class; unresolved or ambiguous mappings block qualification.
+8. Create the optimization plan and target-
+   microarchitecture resource graph. Build mandatory-work and
+   mathematical/current-DAG ledgers, then map the current schedule onto the
+   resource graph.
+9. Bind and freeze the 2--4 promoted architecture-level candidates. Compute each
    candidate's resource-constrained objective interval.  Register only the one
    unresolved quantity whose uncertainty can change the top-two ordering; an
    `UNKNOWN` resource is not by itself permission to measure.
-9. Have a separate microarchitecture analyst map that abstract quantity to an
+10. Have a separate microarchitecture analyst map that abstract quantity to an
    observable.  If an atomic probe cannot identify it with the precision
    required by the decision boundary, use candidate A/B or stop; do not expand
    a parameter sweep.  Read
    [references/decision_supervision.md](references/decision_supervision.md).
-10. Pass P0 from raw positive/zero-work, graph/direct, clock, competing-load,
+11. Pass P0 from raw positive/zero-work, graph/direct, clock, competing-load,
    independent-process and cold/warm measurements. Then materialize the
    experiment contract before dispatch: immutable source, argv-form commands,
    parameter matrix, controls, expected SASS and artifacts.
-11. Obtain a hash-bound `GLOBAL_SUPERVISOR` approval.  The supervisor must be
+12. Obtain a hash-bound `GLOBAL_SUPERVISOR` approval.  The supervisor must be
    distinct from the scheduler, microarchitecture analyst and experimenter,
    may veto the experiment, and enforces separate screening/qualification
    budgets.  No approval means no dispatch.
-12. Implement one controlled candidate, validate correctness, run interleaved
-   paired measurements and complete the required PTX/SASS/resource audit.
-13. Record ACCEPT, REJECT or INCONCLUSIVE; bind only results created by the
+13. Qualify one discovery survivor, validate full-workload correctness, run
+   interleaved paired measurements and complete the required PTX/SASS/resource
+   audit. Technical implementation failures are repaired in discovery and do
+   not count as causal experiment revisions.
+14. Record ACCEPT, REJECT or INCONCLUSIVE; bind only results created by the
    sealed execution contract. Apply field-level update transforms to resource
    balance, schedule and frontier, verify before/after hashes and recompute the
    changed fields from the bound result before reranking.
-14. When a new probe answers an application-independent hardware question,
+15. When a new probe answers an application-independent hardware question,
    automatically process it through the microbenchmark promotion gate. Static,
    mechanism, device and production-predictive qualification are distinct;
    device claims require an evidence-closed measurement registration. Keep a
@@ -71,9 +84,12 @@ declare a local optimum.
 
 Use `scripts/kernel_opt.py advance` for every phase transition. A production run must
 use the `evidence-closed-v2` contract; an absent or unknown contract never falls
-back to legacy behavior. Do not implement a
-performance candidate before the run reaches `EXPERIMENT`, validate production
+back to legacy behavior. Do not qualify a discovery candidate before the run
+reaches `EXPERIMENT`, validate production
 before `PRODUCTION_VALIDATION`, or issue a limit claim before `CERTIFICATION`.
+Run-local discovery implementation and cheap screening are allowed after a
+correct baseline, regardless of formal phase, because they carry no production
+acceptance claim.
 The phase checker is a minimum gate; passing it does not replace technical
 judgment or evidence review.
 

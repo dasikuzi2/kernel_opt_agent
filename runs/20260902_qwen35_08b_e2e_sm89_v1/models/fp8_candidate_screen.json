@@ -1,0 +1,26 @@
+{
+  "schema_version": "quantized-candidate-screen-v1",
+  "candidate_id": "online-fp8-cutlass-sm89",
+  "status": "REJECTED_DISCOVERY",
+  "claim_scope": "EXPLORATORY_QUANTIZED_SMOKE_REQUIRES_NEW_NUMERICS_CONTRACT",
+  "mechanism": "vLLM online FP8 with CutlassFP8ScaledMMLinearKernel",
+  "correctness": {
+    "scope": "16 prompt tokens and 2 greedy output tokens only",
+    "status": "PASS",
+    "generated_token_ids": [1345, 17191]
+  },
+  "performance": {
+    "bf16_warm_request_ms": 69.507081,
+    "fp8_warm_request_ms": 94.81554,
+    "bf16_decode_interval_ms": 26.181688,
+    "fp8_decode_interval_ms": 32.233578,
+    "warm_request_speedup": 0.733081,
+    "decode_interval_speedup": 0.812248
+  },
+  "decision": "REJECT_BEFORE_FULL_WORKLOAD_SCREEN",
+  "reason": "The anchor decode step is materially slower than BF16, so a full three-case benchmark cannot make this candidate competitive under the registered batch-1 objective.",
+  "evidence": [
+    "traces/vllm_offline_smoke_default_p16_g2.json",
+    "traces/vllm_fp8_smoke_default_p16_g2.json"
+  ]
+}

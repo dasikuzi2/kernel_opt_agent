@@ -1,0 +1,82 @@
+--- a/vllm/model_executor/layers/utils.py
++++ b/vllm/model_executor/layers/utils.py
+@@ -106,8 +106,79 @@ def _get_sm89_marlin_w4_weight(
+     key = (weight.data_ptr(), weight._version)
+     cached = _SM89_MARLIN_W4_CACHE.get(key)
+     if cached is not None:
+         return cached
+ 
++    sidecar_path = os.environ.get("VLLM_SM89_MARLIN_W4_SIDECAR")
++    if sidecar_path:
++        import hashlib
++        import json
++        from pathlib import Path
++
++        from safetensors import safe_open
++
++        expected_sha256 = os.environ.get(
++            "VLLM_SM89_MARLIN_W4_SIDECAR_SHA256", ""
++        ).lower()
++        if len(expected_sha256) != 64:
++            raise ValueError(
++                "VLLM_SM89_MARLIN_W4_SIDECAR_SHA256 must bind the sidecar"
++            )
++        resolved_sidecar = Path(sidecar_path).expanduser().resolve()
++        digest = hashlib.sha256()
++        with resolved_sidecar.open("rb") as stream:
++            while block := stream.read(8 * 1024 * 1024):
++                digest.update(block)
++        actual_sha256 = digest.hexdigest()
++        if actual_sha256 != expected_sha256:
++            raise ValueError(
++                "Marlin W4 sidecar SHA-256 mismatch: "
++                f"expected {expected_sha256}, got {actual_sha256}"
++            )
++        with safe_open(
++            resolved_sidecar,
++            framework="pt",
++            device=str(weight.device),
++        ) as handle:
++            metadata = handle.metadata()
++            expected_shape = json.loads(metadata.get("dense_shape", "null"))
++            if metadata.get("schema_version") != (
++                "qwen35-sm89-marlin-lmhead-sidecar-v1"
++            ):
++                raise ValueError("unsupported Marlin W4 sidecar schema")
++            if expected_shape != list(weight.shape):
++                raise ValueError(
++                    "Marlin W4 sidecar dense shape mismatch: "
++                    f"expected {list(weight.shape)}, got {expected_shape}"
++                )
++            if metadata.get("dense_dtype") != str(weight.dtype):
++                raise ValueError("Marlin W4 sidecar dense dtype mismatch")
++            if metadata.get("quant_type") != "uint4b8":
++                raise ValueError("Marlin W4 sidecar quant type mismatch")
++            if metadata.get("group_size") != "128":
++                raise ValueError("Marlin W4 sidecar group size mismatch")
++            packed = handle.get_tensor("packed_weight")
++            scales = handle.get_tensor("permuted_scales")
++        n, k = weight.shape
++        if packed.dtype != torch.int32 or packed.shape != (k // 16, n * 2):
++            raise ValueError("Marlin W4 sidecar packed-weight layout mismatch")
++        if scales.dtype != torch.bfloat16 or scales.shape != (k // 128, n):
++            raise ValueError("Marlin W4 sidecar scale layout mismatch")
++        from vllm.model_executor.layers.quantization.utils.marlin_utils import (
++            marlin_make_workspace_new,
++        )
++
++        g_idx = torch.empty(0, dtype=torch.int, device=weight.device)
++        sort_indices = torch.empty(0, dtype=torch.int, device=weight.device)
++        workspace = marlin_make_workspace_new(weight.device)
++        cached = (packed, scales, g_idx, sort_indices, workspace)
++        _SM89_MARLIN_W4_CACHE[key] = cached
++        logger.info(
++            "Loaded SM89 Marlin W4 lm-head sidecar %s (%s)",
++            resolved_sidecar,
++            actual_sha256,
++        )
++        return cached
++
+     from vllm import _custom_ops as ops
+     from vllm.model_executor.layers.quantization.utils.marlin_utils import (
+         marlin_make_workspace_new,

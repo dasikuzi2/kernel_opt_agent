@@ -221,7 +221,7 @@ def validate_hardware_evidence(manifest_path: Path, hardware_path: Path | None =
     else:
         trusted_policy = read_object(policy_path)
     policy_identity = data.get("trusted_policy_identity", {})
-    expected_policy_path = str(policy_path.resolve().relative_to(PROJECT_ROOT)) if policy_path.exists() else ""
+    expected_policy_path = policy_path.resolve().relative_to(PROJECT_ROOT).as_posix() if policy_path.exists() else ""
     if policy_identity.get("path") != expected_policy_path or policy_identity.get("sha256") != (sha256(policy_path) if policy_path.exists() else None):
         errors.append("hardware evidence: trusted policy identity is missing or does not match the repository adapter")
     policy = data.get("official_source_policy", {})
@@ -401,7 +401,7 @@ def validate_hardware_spec(path: Path, allowed_domains: list[str] | None = None)
     else:
         trusted_domains = read_object(policy_path).get("allowed_official_domains", [])
         policy_identity = data.get("trusted_policy_identity", {})
-        if policy_identity.get("path") != str(policy_path.relative_to(PROJECT_ROOT)) or policy_identity.get("sha256") != sha256(policy_path):
+        if policy_identity.get("path") != policy_path.relative_to(PROJECT_ROOT).as_posix() or policy_identity.get("sha256") != sha256(policy_path):
             errors.append(f"{path}: trusted policy identity mismatch")
     allowed_domains = trusted_domains
     source_ids = set()

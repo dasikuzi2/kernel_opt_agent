@@ -1,0 +1,58 @@
+{
+  "schema_version": "optimization-method-v1",
+  "method_id": "cuda-launch-occupancy-frontier",
+  "title": "Treat block size, occupancy, registers, and latency hiding as a joint frontier",
+  "kind": "SEARCH_STRATEGY",
+  "source": {
+    "title": "CUDA C++ Best Practices Guide, Execution Configuration Optimizations",
+    "url": "https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/",
+    "version": "CUDA 13.3 documentation",
+    "evidence_tier": "VENDOR_OFFICIAL_GUIDANCE",
+    "claim_scope": "General NVIDIA CUDA guidance; exact resource limits require official target-device evidence and compiled-kernel resource data."
+  },
+  "opportunity_families": ["launch-geometry", "occupancy-128", "occupancy-512", "thread-coarsening"],
+  "applicability": {
+    "vendors": ["NVIDIA"],
+    "architecture_affinity": [],
+    "required_capabilities": [],
+    "dtypes": ["any"],
+    "problem_signatures": ["launch", "geometry", "occupancy", "block", "grid", "coarsening"]
+  },
+  "implementation_recipe": [
+    "Choose a few block sizes that occupy different resource regimes rather than sweeping every multiple of a warp.",
+    "Pair block-size candidates with compiled register/shared-memory usage and active-block estimates.",
+    "Include an ILP or coarsening point because lower occupancy can still win when it exposes useful independent work."
+  ],
+  "validation_recipe": [
+    "Measure the same candidate over anchor and edge sizes to expose wave and tail effects.",
+    "Record final register/shared-memory use and distinguish theoretical occupancy from achieved activity.",
+    "Stop when adjacent frontier points no longer change the weighted objective materially."
+  ],
+  "expected_bottleneck_shifts": [
+    "More resident warps can hide latency but reduce registers available for instruction-level parallelism.",
+    "Larger blocks can improve amortization while worsening tail waves or resource granularity."
+  ],
+  "failure_modes": [
+    "The search maximizes occupancy as if it were the objective.",
+    "Block size variants compile to materially different register spilling.",
+    "The anchor size hides a partial-wave regression."
+  ],
+  "scope_limits": [
+    "Occupancy is a mechanism, not a performance target.",
+    "Do not copy compute-capability examples into the target hardware model."
+  ],
+  "candidate_archetypes": [
+    {
+      "family": "occupancy-128",
+      "name": "smaller-block latency-hiding point",
+      "change_axes": ["threads per block", "resident blocks", "tail waves"],
+      "template": "Implement a 128-thread point and compare it with the current schedule using compiled resource usage and edge-size timing."
+    },
+    {
+      "family": "thread-coarsening",
+      "name": "lower-occupancy ILP point",
+      "change_axes": ["elements per thread", "register use", "grid size"],
+      "template": "Process multiple independent elements per thread while preserving coalescing, then test whether extra ILP offsets reduced residency."
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "candidate": "fuse SwiGLU activation into the batch-1 BF16 down-projection GEMV",
+  "scope": "Qwen3.5-0.8B, RTX 4060 Laptop GPU, batch=1 decode, BF16, vLLM CUDA Graph",
+  "reachability": "PASS: the custom-op implementation logged during CUDA Graph capture in both candidate runs",
+  "microbenchmark": {
+    "stock_cuda_graph_us": 45.1686,
+    "candidate_cuda_graph_us": 26.5216,
+    "speedup": 1.7031,
+    "projected_whole_step_saving_ms": 0.4475,
+    "output_max_abs_error": 0.5,
+    "mismatched_bf16_elements": "561/1024",
+    "evidence": "microbench_candidates/fused_swiglu_down_gemv_sm89.json",
+    "evidence_sha256": "37d56136e244d259163d80412c39c021c82d8d55ee69c8a8c08f416af0828889"
+  },
+  "whole_model_cssc": {
+    "order": "control-candidate-candidate-control",
+    "natural_cases": 6,
+    "new_tokens": 64,
+    "trials_per_case_per_process": 3,
+    "control_mean_e2e_ms": 549.156669166526,
+    "candidate_mean_e2e_ms": 540.467194000106,
+    "e2e_speedup": 1.01607771066012,
+    "control_mean_tpot_ms": 8.06516912301665,
+    "candidate_mean_tpot_ms": 7.95147411243128,
+    "tpot_speedup": 1.01429860790311,
+    "control_mean_ttft_ms": 40.0662620862325,
+    "candidate_mean_ttft_ms": 40.3652191162109,
+    "token_exact_cases": "4/6",
+    "within_control_deterministic": true,
+    "within_candidate_deterministic": true,
+    "first_divergence_zero_based": {
+      "zh-explanation": 21,
+      "translation": 33
+    },
+    "measured_saving_ms_per_decode_token": 0.11369501058537,
+    "microbenchmark_projection_transfer_ratio": 0.2541,
+    "traces": [
+      {"path": "traces/vllm_swiglu_cssa.json", "sha256": "31e01282b7f950ea111042ff3582bebfb83790b040e37052749eaae3b45bfa08"},
+      {"path": "traces/vllm_swiglu_cssb.json", "sha256": "1ae326054a5d09dc074de99507fdb22213f13cedbdd24ffe6da6e44ef0341504"},
+      {"path": "traces/vllm_swiglu_cssc.json", "sha256": "1c0f0a59270e8cd1ceb2e98741dae22f7568279038884c425b91d278115e997d"},
+      {"path": "traces/vllm_swiglu_cssd.json", "sha256": "694799fdc02388f7f82a4a9a86b2a1e8e0015e5b300285d70c932d97fbb96dde"}
+    ]
+  },
+  "implementation": {
+    "path": "candidates/fused-swiglu-down/vllm_qwen2_moe_fused_swiglu_down.patch",
+    "sha256": "341f2bbbce0696c2ed54c0383b0e0d9c92b4673760d8a29e4653f451b1301156"
+  },
+  "decision": "MEASURED_REJECT",
+  "reason": "The reachable whole-model gain is below the 1.03x promotion threshold and changes the strict greedy token trajectory.",
+  "reopen_conditions": [
+    "an accumulation-order-preserving fused reduction meets strict token equivalence",
+    "a persistent or multi-layer design transfers at least 1.03x to whole-model TPOT",
+    "the target hardware, model shape, precision, or batching regime changes"
+  ]
+}

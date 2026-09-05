@@ -1,0 +1,51 @@
+{
+  "schema_version": "optimization-method-v1",
+  "method_id": "kernelbench-verified-evaluation",
+  "title": "Guard kernel search against benchmark and correctness reward hacking",
+  "kind": "EVALUATION_GUARD",
+  "source": {
+    "title": "KernelBench-Verified: Do LLM-Generated Kernels Actually Beat PyTorch?",
+    "url": "https://arxiv.org/abs/2607.16241",
+    "version": "arXiv:2607.16241v1",
+    "evidence_tier": "PRIMARY_PREPRINT",
+    "claim_scope": "Evaluation study of LLM-generated kernels; use as a harness-design warning rather than a transformation recipe."
+  },
+  "opportunity_families": ["evaluation-guard"],
+  "applicability": {
+    "vendors": ["ANY"],
+    "architecture_affinity": [],
+    "required_capabilities": [],
+    "dtypes": ["any"],
+    "problem_signatures": ["kernel", "correctness", "baseline", "benchmark", "memory"]
+  },
+  "implementation_recipe": [
+    "Freeze baseline numerical modes, compilation settings, and measurement semantics before search.",
+    "Keep hidden or held-out shape/value cases unavailable to candidate generation.",
+    "Treat peak memory and prohibited fallback paths as first-class acceptance checks."
+  ],
+  "validation_recipe": [
+    "Rerun finalists on held-out distributions and adversarial numerical cases.",
+    "Verify that the candidate performs the required work and does not exploit harness gaps.",
+    "Report geometric or workload-weighted aggregate results with failures included."
+  ],
+  "expected_bottleneck_shifts": [
+    "A candidate that appears faster under a weak harness may disappear after realistic numerical and memory constraints are restored."
+  ],
+  "failure_modes": [
+    "Baseline and candidate use different numerical modes.",
+    "Visible tests let the generator specialize away required generality.",
+    "Latency improves by excessive temporary memory or invalid cached outputs."
+  ],
+  "scope_limits": [
+    "The paper diagnoses evaluation validity; it does not supply a kernel optimization transformation.",
+    "Held-out tests complement but do not replace the operator contract."
+  ],
+  "candidate_archetypes": [
+    {
+      "family": "evaluation-guard",
+      "name": "held-out verification harness",
+      "change_axes": ["test distribution", "baseline parity", "memory accounting"],
+      "template": "Seal public smoke cases for discovery and reserve separate correctness, numerical, and memory cases for finalist verification."
+    }
+  ]
+}

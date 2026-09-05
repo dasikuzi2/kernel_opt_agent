@@ -1,0 +1,17 @@
+{
+  "schema_version": "mandatory-work-ledger-v1",
+  "workload_case": null,
+  "cases": [],
+  "valid_work": {
+    "bytes_by_boundary": {},
+    "tensor_operations": {},
+    "simt_operations": {},
+    "sfu_operations": {},
+    "reductions": {},
+    "synchronization_sites": 0,
+    "handoffs": []
+  },
+  "padded_or_redundant_work": {},
+  "assumptions": [],
+  "evidence": []
+}

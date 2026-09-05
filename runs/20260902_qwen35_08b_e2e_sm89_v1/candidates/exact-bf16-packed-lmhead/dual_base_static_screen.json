@@ -1,0 +1,16 @@
+{
+  "schema_version": "sm89-exact-bf16-dual-base-static-screen-v1",
+  "status": "REJECT_BEFORE_GPU_IMPLEMENTATION",
+  "scope": "Qwen3.5-0.8B tied lm_head/embedding BF16 bits, 254279680 values",
+  "mechanism": "Use one selector bit and a three-bit delta to choose between two block-local exponent bases while retaining the same four-bit exponent code per value.",
+  "results": [
+    {"block_values": 64, "passing_block_fraction": 0.9987694621086121, "failed_blocks": 4889, "packed_byte_fraction": 0.7981055190882732},
+    {"block_values": 128, "passing_block_fraction": 0.9955219030380249, "failed_blocks": 8896, "packed_byte_fraction": 0.7779155927835052},
+    {"block_values": 256, "passing_block_fraction": 0.986600935459137, "failed_blocks": 13309, "packed_byte_fraction": 0.7751177915592784},
+    {"block_values": 512, "passing_block_fraction": 0.9668492078781128, "failed_blocks": 16464, "packed_byte_fraction": 0.7890101481958763},
+    {"block_values": 1024, "passing_block_fraction": 0.9257289171218872, "failed_blocks": 18443, "packed_byte_fraction": 0.8272007893041237}
+  ],
+  "incumbent_single_base_packed_byte_fraction": 0.774621456185567,
+  "best_dual_base_packed_byte_fraction": 0.7751177915592784,
+  "decision": "Reject without writing a GPU kernel: the best dual-base layout transfers slightly more bytes than the incumbent before charging extra selector/base decode instructions."
+}

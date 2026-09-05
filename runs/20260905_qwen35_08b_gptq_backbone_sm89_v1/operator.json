@@ -1,0 +1,61 @@
+{
+  "abi": {
+    "entrypoint": "vLLM offline LLM API with an equivalent online serving route",
+    "mutable_arguments": [
+      "runtime-owned recurrent state",
+      "runtime-owned KV cache",
+      "runtime-owned Marlin or candidate workspace"
+    ]
+  },
+  "computation": {
+    "definition": "Run the frozen Qwen3.5-0.8B AutoRound GPTQ W4A16 group-128 text checkpoint autoregressively through vLLM. Given one or more tokenized natural-language prompts, execute all 24 transformer layers, recurrent and KV state updates, the tied output projection, and greedy token selection for 64 output tokens per request.",
+    "dependencies": [
+      "each generated token depends on the complete recurrent and KV state from all preceding tokens",
+      "the 18 linear-attention layers each execute fused QKVZ and output projections; six full-attention layers each execute fused QKV and output projections",
+      "all 24 layers execute fused MLP gate-up and down projections",
+      "projection replacement must preserve the frozen GPTQ integer weights, group-128 scales, causal state updates and greedy token sequence"
+    ],
+    "forbidden_rewrites": [
+      "changing GPTQ integer weights, scales or group size",
+      "additional activation or weight quantization",
+      "changing the output-head shortlist or sampling policy",
+      "speculative decoding, token pruning, skipped layers or early exit",
+      "using FP16 activations in place of the frozen BF16 activation contract"
+    ],
+    "legal_rewrites": [
+      "lossless repacking of the frozen GPTQ tensors",
+      "shape-specialized SM89 W4A16 kernels",
+      "kernel and epilogue fusion that preserves mathematical dependencies",
+      "persistent scheduling and launch amortization",
+      "CUDA Graph-compatible runtime routing by active batch"
+    ]
+  },
+  "inputs": [
+    {
+      "dtype": "int64",
+      "layout": "one contiguous token-ID row per request",
+      "name": "input_ids",
+      "shape": [
+        "active_batch",
+        "prompt_tokens"
+      ]
+    }
+  ],
+  "name": "qwen35_08b_gptq_marlin_serving",
+  "numerics": {
+    "acceptance": "Every frozen natural workload case must produce exactly the same 64 token IDs as stock GPTQ-Marlin. Candidate weights and scales must retain their source bit patterns; a broader paired task-quality gate is required before any relaxation of token identity.",
+    "reference": "Unmodified vLLM 0.28.1 GPTQ-Marlin execution of the SHA-256-bound Qwen3.5-0.8B W4A16 group-128 checkpoint with BF16 activations and greedy decoding."
+  },
+  "outputs": [
+    {
+      "dtype": "int64",
+      "layout": "contiguous autoregressive order per request",
+      "name": "generated_token_ids",
+      "shape": [
+        "active_batch",
+        64
+      ]
+    }
+  ],
+  "schema_version": "operator-contract-v1"
+}

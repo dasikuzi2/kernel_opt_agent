@@ -85,7 +85,7 @@ def main() -> int:
         "archived_at": datetime.now(timezone.utc).isoformat(),
         "reason": args.reason,
         "files": [
-            {"path": str(path.relative_to(run)), "sha256": sha(path)}
+            {"path": path.relative_to(run).as_posix(), "sha256": sha(path)}
             for path in sorted(copied)
         ],
     }
@@ -96,7 +96,7 @@ def main() -> int:
         "attempt": attempt_number,
         "disposition": disposition,
         "reason": args.reason,
-        "archive_manifest": {"path": str(manifest_path.relative_to(run)), "sha256": sha(manifest_path)},
+        "archive_manifest": {"path": manifest_path.relative_to(run).as_posix(), "sha256": sha(manifest_path)},
     })
     next_status = "HALT_AND_REPLAN" if receipt_status == "PASS" else "AWAITING_SUPERVISOR_REVIEW"
     request["status"] = next_status
@@ -114,7 +114,7 @@ def main() -> int:
     experiment.setdefault("revision_history", []).append({
         "attempt": attempt_number,
         "reason": args.reason,
-        "review_evidence": {"path": str(review_target.relative_to(run)), "sha256": sha(review_target)},
+        "review_evidence": {"path": review_target.relative_to(run).as_posix(), "sha256": sha(review_target)},
     })
     atomic_json(experiment_path, experiment)
     request["materialized_experiment"]["sha256"] = sha(experiment_path)

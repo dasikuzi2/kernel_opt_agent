@@ -1,0 +1,50 @@
+{
+  "schema_version": "speculation-economics-v1",
+  "status": "PASS",
+  "claim_scope": "DISCOVERY_SCREENING_ONLY_CONSTANT_CYCLE_APPROXIMATION",
+  "inputs": {
+    "baseline": {
+      "path": "D:\\codes\\kernel_opt_agent\\runs\\20260902_qwen35_08b_e2e_sm89_v1\\traces\\vllm_natural_sm89_lmhead_mtp_acceptance_control_w1_n1_t64.json",
+      "sha256": "9586c6cb611eadce06d9102a6122068728d075e33f8df0dab9460c77c8f630d2"
+    },
+    "speculative": {
+      "path": "D:\\codes\\kernel_opt_agent\\runs\\20260902_qwen35_08b_e2e_sm89_v1\\traces\\vllm_natural_sm89_lmhead_mtp1_acceptance_w1_n1_t64.json",
+      "sha256": "0391d093ebad78a950fd07ab3d5a4695f7199fd27099b5b5af81de5836f4c9e3"
+    }
+  },
+  "correctness": {
+    "exact_cases": 2,
+    "case_count": 6,
+    "all_cases_exact": false
+  },
+  "acceptance": {
+    "num_spec_tokens": 1,
+    "num_spec_steps": 216,
+    "num_draft_tokens": 216,
+    "num_accepted_draft_tokens": 164,
+    "draft_acceptance_rate": 0.7592592592592593,
+    "mean_acceptance_length": 1.7592592592592593
+  },
+  "performance": {
+    "baseline_weighted_tpot_ms": 7.90683793650771,
+    "speculative_weighted_tpot_ms": 8.859101965608668,
+    "measured_tpot_speedup": 0.8925100949511949,
+    "baseline_weighted_e2e_ms": 535.5713188333482,
+    "speculative_weighted_e2e_ms": 617.8397599999906,
+    "measured_e2e_speedup": 0.866845019545774,
+    "inferred_speculative_cycle_ms": 15.585457161718953,
+    "required_mean_acceptance_length_to_break_even": 1.9711365386354096,
+    "required_draft_acceptance_rate_to_break_even": 0.9711365386354096,
+    "perfect_acceptance_tpot_floor_ms": 7.792728580859476,
+    "perfect_acceptance_speedup_ceiling": 1.0146430553129373
+  },
+  "policy": {
+    "minimum_promotion_speedup": 1.03,
+    "decision": "SCREEN_OUT",
+    "reasons": [
+      "generated token IDs differ from the frozen baseline",
+      "measured TPOT does not clear the promotion threshold",
+      "even the constant-cycle perfect-acceptance ceiling misses the threshold"
+    ]
+  }
+}

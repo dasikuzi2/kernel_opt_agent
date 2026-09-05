@@ -1,0 +1,46 @@
+{
+  "schema_version": "optimization-plan-v1",
+  "status": "DRAFT",
+  "objective": null,
+  "global_scheduler_owner": null,
+  "global_supervisor_owner": null,
+  "candidate_limit": 4,
+  "screening_budget": {
+    "max_configurations": null,
+    "max_samples_per_configuration": null,
+    "max_process_launches": null,
+    "max_wall_clock_minutes": null
+  },
+  "qualification_budget": {
+    "max_configurations": null,
+    "max_samples_per_configuration": null,
+    "max_process_launches": null,
+    "max_wall_clock_minutes": null
+  },
+  "max_revisions_per_decision": null,
+  "baseline_identities": [],
+  "workload_priorities": [],
+  "model_dependencies": [
+    "mandatory-work ledger",
+    "mathematical/current DAG",
+    "target microarchitecture resource graph",
+    "calibrated service curves"
+  ],
+  "experiment_queue": [],
+  "correctness_gates": [],
+  "evidence_gates": [],
+  "acceptance_rule": null,
+  "model_error_tolerances_percent": {
+    "p1_p2_to_p3": null,
+    "schedule_to_p4": null,
+    "achieved_to_feasible_bound": null
+  },
+  "stop_criteria": [
+    "stop when uncertainty cannot change the top-two ordering",
+    "stop when maximum decision value is below experiment cost",
+    "stop and replan when a causal hypothesis is rejected",
+    "stop when the registered revision budget is exhausted"
+  ],
+  "open_uncertainties": [],
+  "revision_history": []
+}

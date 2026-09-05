@@ -1,0 +1,60 @@
+{
+  "status": "FAIL",
+  "stock": {
+    "trace": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\traces\\vllm_reachable_gdn_gate_s1_w1_n3.json",
+    "weighted_e2e_ms": 1064.2415333333397,
+    "weighted_tpot_ms": 8.124619254593036,
+    "median_graphics_clock_mhz": 915.0,
+    "median_power_w": 37.105000000000004
+  },
+  "candidate": {
+    "trace": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\traces\\vllm_reachable_gdn_gate_c2_w1_n3.json",
+    "weighted_e2e_ms": 1035.319149500045,
+    "weighted_tpot_ms": 7.915016350393623,
+    "median_graphics_clock_mhz": 915.0,
+    "median_power_w": 35.825
+  },
+  "speedup": {
+    "e2e": 1.0279357180317408,
+    "tpot": 1.026481676716813
+  },
+  "exact_generated_token_cases": "2/6",
+  "per_case": [
+    {
+      "case_id": "zh-explanation",
+      "token_exact": false,
+      "e2e_speedup": 1.0277257250313596,
+      "tpot_speedup": 1.027646977592695
+    },
+    {
+      "case_id": "python-code",
+      "token_exact": true,
+      "e2e_speedup": 1.0247004126513528,
+      "tpot_speedup": 1.0232627502421356
+    },
+    {
+      "case_id": "reasoning",
+      "token_exact": false,
+      "e2e_speedup": 1.0378028719840833,
+      "tpot_speedup": 1.038119838829853
+    },
+    {
+      "case_id": "editing",
+      "token_exact": true,
+      "e2e_speedup": 1.0179861526467402,
+      "tpot_speedup": 1.017749761328118
+    },
+    {
+      "case_id": "systems-design",
+      "token_exact": false,
+      "e2e_speedup": 1.0254383369210485,
+      "tpot_speedup": 1.0230666019178252
+    },
+    {
+      "case_id": "translation",
+      "token_exact": false,
+      "e2e_speedup": 1.0341295738526854,
+      "tpot_speedup": 1.0292158058463077
+    }
+  ]
+}

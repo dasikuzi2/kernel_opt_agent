@@ -120,7 +120,7 @@ def main() -> int:
             "schema_version": "microbenchmark-promotion-receipt-v1",
             "candidate_id": definition["id"],
             "published_at": datetime.now(timezone.utc).isoformat(),
-            "destination": str(destination.relative_to(root)),
+            "destination": destination.relative_to(root).as_posix(),
         },
     )
     print(json.dumps({"status": "PUBLISHED", "id": definition["id"], "destination": str(destination)}, sort_keys=True))

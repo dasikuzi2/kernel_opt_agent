@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "opportunity_map.schema.json",
+  "title": "Ranked global optimization opportunities",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "created_at", "ranked_at", "policy", "opportunities", "events"],
+  "properties": {
+    "schema_version": {"const": "opportunity-map-v1"},
+    "status": {"enum": ["DRAFT", "READY", "PAUSED"]},
+    "created_at": {"type": ["string", "null"]},
+    "ranked_at": {"type": ["string", "null"]},
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["min_opportunities", "max_opportunities", "min_rewrite_families", "min_candidate_opportunities", "confidence_weights", "score_formula", "forbidden_claim_scope"],
+      "properties": {
+        "min_opportunities": {"type": "integer", "minimum": 1},
+        "max_opportunities": {"type": "integer", "minimum": 1},
+        "min_rewrite_families": {"type": "integer", "minimum": 1},
+        "min_candidate_opportunities": {"type": "integer", "minimum": 1},
+        "confidence_weights": {"type": "object"},
+        "score_formula": {"type": "string"},
+        "forbidden_claim_scope": {"const": "ABSOLUTE_GLOBAL_OPTIMUM"}
+      }
+    },
+    "opportunities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["opportunity_id", "name", "model_scope", "source_model_term", "affected_stages", "current_contribution_us", "optimistic_gain_ceiling_us", "likely_gain_interval_us", "confidence", "rewrite_families", "implementation_budget_minutes", "hypothesis", "derivation", "evidence", "status", "priority_rank", "priority_score", "candidate_ids", "observations", "created_at"],
+        "properties": {
+          "opportunity_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$"},
+          "name": {"type": "string", "minLength": 1},
+          "model_scope": {"enum": ["DECOMPOSITION_CONDITIONAL", "CURRENT_SCHEDULE", "EMPIRICAL_BOTTLENECK"]},
+          "source_model_term": {"type": "string", "minLength": 1},
+          "affected_stages": {"type": "array", "minItems": 1, "uniqueItems": true},
+          "current_contribution_us": {"type": "number", "exclusiveMinimum": 0},
+          "optimistic_gain_ceiling_us": {"type": "number", "minimum": 0},
+          "likely_gain_interval_us": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["lower", "upper"],
+            "properties": {"lower": {"type": "number", "minimum": 0}, "upper": {"type": "number", "minimum": 0}}
+          },
+          "confidence": {"enum": ["HIGH", "MEDIUM", "LOW"]},
+          "rewrite_families": {"type": "array", "minItems": 1, "uniqueItems": true},
+          "implementation_budget_minutes": {"type": "number", "exclusiveMinimum": 0},
+          "hypothesis": {"type": "string", "minLength": 1},
+          "derivation": {"type": "string", "minLength": 12},
+          "evidence": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["path", "sha256", "claim"],
+              "properties": {
+                "path": {"type": "string", "minLength": 1},
+                "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+                "claim": {"type": "string", "minLength": 1}
+              }
+            }
+          },
+          "status": {"enum": ["UNIMPLEMENTED", "IMPLEMENTING", "OBSERVED", "HAS_SURVIVOR", "CLOSED"]},
+          "priority_rank": {"type": ["integer", "null"], "minimum": 1},
+          "priority_score": {"type": ["number", "null"], "minimum": 0},
+          "candidate_ids": {"type": "array", "uniqueItems": true},
+          "observations": {"type": "array"},
+          "created_at": {"type": "string"},
+          "closure": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["disposition", "reason", "evidence", "reopen_conditions", "closed_at"],
+            "properties": {
+              "disposition": {"enum": ["MEASURED_REJECT", "AT_MEASURED_ROOF", "BELOW_MATERIALITY_FLOOR", "DEPENDENCY_BLOCKED"]},
+              "reason": {"type": "string", "minLength": 12},
+              "evidence": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["path", "sha256", "claim"],
+                "properties": {
+                  "path": {"type": "string", "minLength": 1},
+                  "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+                  "claim": {"type": "string", "minLength": 1}
+                }
+              },
+              "reopen_conditions": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+              "closed_at": {"type": "string", "minLength": 1}
+            }
+          },
+          "allOf": [
+            {
+              "if": {"properties": {"status": {"const": "CLOSED"}}},
+              "then": {"required": ["closure"]}
+            },
+            {
+              "if": {"properties": {"status": {"not": {"const": "CLOSED"}}}},
+              "then": {"not": {"required": ["closure"]}}
+            }
+          ]
+        }
+      }
+    },
+    "events": {"type": "array"}
+  }
+}

@@ -1,0 +1,136 @@
+diff --git a/vllm/model_executor/layers/mamba/gdn/qwen_gdn_linear_attn.py b/vllm/model_executor/layers/mamba/gdn/qwen_gdn_linear_attn.py
+--- a/vllm/model_executor/layers/mamba/gdn/qwen_gdn_linear_attn.py
++++ b/vllm/model_executor/layers/mamba/gdn/qwen_gdn_linear_attn.py
+@@ -419,23 +419,47 @@ class QwenGatedDeltaNetAttention(GatedDeltaNetAttention):
+         # we need to create qkvz_proj adaptively here.
+         # When create_in_proj_qkvz is False (e.g. LoRA enabled in Qwen3.5),
+         # in_proj_qkv and in_proj_z are created separately instead.
+-        self.in_proj_qkvz = self.create_qkvz_proj(
+-            hidden_size=self.hidden_size,
+-            key_dim=self.key_dim,
+-            value_dim=self.value_dim,
+-            quant_config=self.quant_config,
+-            prefix=f"{prefix}.in_proj_qkvz",
+-        )
++        self.sm89_fused_input_projections = (
++            os.environ.get("VLLM_SM89_FUSE_GDN_INPUT_PROJECTIONS", "0") == "1"
++            and not self.gqa_interleaved_layout
++            and self.tp_size == 1
++            and self.quant_config is None
++            and vllm_config.model_config.dtype == torch.bfloat16
++            and current_platform.is_device_capability(89)
++        )
++        if self.sm89_fused_input_projections:
++            self.in_proj_qkvzba = MergedColumnParallelLinear(
++                input_size=self.hidden_size,
++                output_sizes=[
++                    self.key_dim,
++                    self.key_dim,
++                    self.value_dim,
++                    self.value_dim,
++                    self.num_v_heads,
++                    self.num_v_heads,
++                ],
++                bias=False,
++                quant_config=None,
++                prefix=f"{prefix}.in_proj_qkvzba",
++            )
++        else:
++            self.in_proj_qkvz = self.create_qkvz_proj(
++                hidden_size=self.hidden_size,
++                key_dim=self.key_dim,
++                value_dim=self.value_dim,
++                quant_config=self.quant_config,
++                prefix=f"{prefix}.in_proj_qkvz",
++            )
+ 
+-        # ba_proj doesn't support blockwise fp8 quantization.
+-        # Qwen3-Next and Qwen3.5 have different in_proj_ba checkpoint
+-        # layouts, so we use a factory method to create the projection.
+-        self.in_proj_ba = self.create_ba_proj(
+-            hidden_size=self.hidden_size,
+-            num_v_heads=self.num_v_heads,
+-            quant_config=self.quant_config,
+-            prefix=f"{prefix}.in_proj_ba",
+-        )
++            # ba_proj doesn't support blockwise fp8 quantization.
++            # Qwen3-Next and Qwen3.5 have different in_proj_ba checkpoint
++            # layouts, so we use a factory method to create the projection.
++            self.in_proj_ba = self.create_ba_proj(
++                hidden_size=self.hidden_size,
++                num_v_heads=self.num_v_heads,
++                quant_config=self.quant_config,
++                prefix=f"{prefix}.in_proj_ba",
++            )
+         self.disable_tp_for_ba_proj = self.maybe_disable_tp(self.quant_config)
+ 
+         query_key_settings = (self.key_dim, 0, False)
+@@ -900,8 +924,18 @@ class QwenGatedDeltaNetAttention(GatedDeltaNetAttention):
+         # ============================================================
+         # Part 1: Input Projection
+         # ============================================================
+-        mixed_qkvz, _ = self.in_proj_qkvz(hidden_states)
+-        ba, _ = self.in_proj_ba(hidden_states)
++        if self.sm89_fused_input_projections:
++            mixed_qkvzba, _ = self.in_proj_qkvzba(hidden_states)
++            qkvz_size = (
++                self.key_dim * 2 + self.value_dim * 2
++            ) // self.tp_size
++            ba_size = self.num_v_heads * 2
++            mixed_qkvz, ba = mixed_qkvzba.split(
++                [qkvz_size, ba_size], dim=-1
++            )
++        else:
++            mixed_qkvz, _ = self.in_proj_qkvz(hidden_states)
++            ba, _ = self.in_proj_ba(hidden_states)
+ 
+         use_fused_gdn_decode = (
+             self.enable_fused_gdn_decode
+diff --git a/vllm/model_executor/models/qwen3_5.py b/vllm/model_executor/models/qwen3_5.py
+--- a/vllm/model_executor/models/qwen3_5.py
++++ b/vllm/model_executor/models/qwen3_5.py
+@@ -226,6 +226,15 @@ class Qwen3_5Model(Qwen3NextModel):
+         }
+     )
+ 
++    sm89_fused_gdn_mapper = Qwen3NextModel.hf_to_vllm_mapper | WeightsMapper(
++        orig_to_new_stacked={
++            ".in_proj_qkv": (".in_proj_qkvzba", (0, 1, 2)),
++            ".in_proj_z": (".in_proj_qkvzba", 3),
++            ".in_proj_b": (".in_proj_qkvzba", 4),
++            ".in_proj_a": (".in_proj_qkvzba", 5),
++        }
++    )
++
+     def __init__(self, *, vllm_config: VllmConfig, prefix: str = ""):
+         super(Qwen3NextModel, self).__init__()
+ 
+@@ -257,6 +266,14 @@ class Qwen3_5Model(Qwen3NextModel):
+         self.start_layer, self.end_layer, self.layers = make_layers(
+             config.num_hidden_layers, get_layer, prefix=f"{prefix}.layers"
+         )
++        self.sm89_fused_gdn_input_projections = any(
++            getattr(
++                getattr(layer, "linear_attn", None),
++                "sm89_fused_input_projections",
++                False,
++            )
++            for layer in self.layers
++        )
+         self.is_fused_shared_expert_enabled = is_model_fused_shared_expert_compatible(
+             self.layers,
+             Qwen3NextSparseMoeBlock,
+@@ -286,7 +303,12 @@ class Qwen3_5Model(Qwen3NextModel):
+                 ckpt_prefix="mlp.shared_expert",
+             )
+         loader = AutoWeightsLoader(self)
+-        return loader.load_weights(weights, mapper=self.hf_to_vllm_mapper)
++        mapper = (
++            self.sm89_fused_gdn_mapper
++            if self.sm89_fused_gdn_input_projections
++            else self.hf_to_vllm_mapper
++        )
++        return loader.load_weights(weights, mapper=mapper)
+ 
+ 
+ class Qwen3_5ForCausalLMBase(

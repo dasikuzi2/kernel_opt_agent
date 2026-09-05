@@ -1,0 +1,488 @@
+{
+  "claim_scope": "RTX_4060_LAPTOP_BATCH1_NATURAL_SUITE_128_OUTPUT_TOKENS",
+  "comparisons": {
+    "degraded_power_adjacent_observation": {
+      "llamacpp_q4_ms": 1147.385700023733,
+      "q4_speedup_vs_vllm": 1.065574973880226,
+      "qualification": "adjacent runs, not randomized interleaving",
+      "vllm_bf16_ms": 1222.6254873333341
+    },
+    "high_power_observation": {
+      "llamacpp_q4_ms": 700.1847999636084,
+      "llamacpp_q8_ms": 789.2187666924049,
+      "q4_speedup_vs_vllm": 1.3439048967961353,
+      "q8_speedup_vs_vllm": 1.192295243151586,
+      "qualification": "not power-controlled",
+      "vllm_bf16_ms": 940.9817813333158
+    },
+    "quality_screen": {
+      "bf16_perplexity": 25.4609,
+      "q4_perplexity": 27.9038,
+      "q4_relative_to_bf16": 1.0959471189156709,
+      "q8_perplexity": 25.4991,
+      "q8_relative_to_bf16": 1.0015003397366158,
+      "qualification": "8-chunk in-domain corpus discovery only"
+    },
+    "strict_bf16_gdn_launch_candidate": {
+      "candidate": "packed recurrent decode launch sweep",
+      "retracted_runs": "The original full-model runs selected the CUDA GDN backend, so edits to the Triton wrapper were unreachable and their apparent regressions cannot be attributed to the candidates.",
+      "reachable_candidate_bv64_stages_4_e2e_ms": 990.432,
+      "reachable_candidate_bv64_stages_4_tpot_ms": 7.5184,
+      "reachable_stock_num_stages_3_e2e_ms": 893.916,
+      "reachable_stock_num_stages_3_tpot_ms": 6.7891,
+      "reachable_candidate_speedup": 0.902529,
+      "decision": "REJECT: after forcing VLLM_GDN_DECODE_KERNEL=triton, the candidate was token-exact but 10.8% slower"
+    },
+    "strict_bf16_sm89_lm_head": {
+      "candidate": "SM89-specialized BF16 M=1 lm_head Triton GEMV",
+      "stock_e2e_ms": 1262.6712566666733,
+      "candidate_e2e_ms": 1070.3661334999997,
+      "e2e_speedup": 1.1796629369595741,
+      "stock_tpot_ms": 9.623029452099763,
+      "candidate_tpot_ms": 8.12794336614178,
+      "tpot_speedup": 1.1839439595735863,
+      "exact_generated_token_cases": "6/6",
+      "qualification": "3 warmups x 10 trials per side with per-request GPU telemetry",
+      "decision": "PROMOTE as a qualified discovery winner for SM89 batch-1 latency"
+    },
+    "strict_bf16_sm89_lm_head_same_source_abba": {
+      "candidate": "environment-gated SM89 BF16 lm_head Triton GEMV",
+      "source_sha256_both_paths": "a2b0d1ac0600564dae318afc544d7876e13b2e847e44cb1d5632bec7d213dc23",
+      "stock_mean_e2e_ms": 1263.702336916689,
+      "candidate_mean_e2e_ms": 1059.4445576666846,
+      "e2e_speedup": 1.19279704423595,
+      "stock_mean_tpot_ms": 9.68380774081364,
+      "candidate_mean_tpot_ms": 8.07912004068239,
+      "tpot_speedup": 1.19862159394227,
+      "exact_generated_token_cases_each_pair": "6/6",
+      "decision": "PASS: same source and compile cache remove source-induced graph variation"
+    },
+    "strict_bf16_sm89_exact_packed_lm_head": {
+      "candidate": "bit-exact BF16 block base-plus-delta packed lm_head GEMV",
+      "weight_bit_exact": true,
+      "quantization": false,
+      "packed_lm_head_byte_fraction": 0.774621456185567,
+      "steady_microbenchmark_local_speedup": 1.2884912690250987,
+      "qualification_control_e2e_ms": 925.539282083264,
+      "qualification_candidate_e2e_ms": 883.275862083489,
+      "qualification_e2e_speedup": 1.0478484942406139,
+      "qualification_control_tpot_ms": 6.995126984252583,
+      "qualification_candidate_tpot_ms": 6.656802568897851,
+      "qualification_tpot_speedup": 1.050823862034825,
+      "exact_generated_token_cases_vs_accepted_frontier": "6/6",
+      "fresh_stock_tpot_speedup": 1.0396173701149283,
+      "fresh_stock_exact_generated_token_cases": "4/6",
+      "runtime_cache_mib": 375.691,
+      "decision": "PROMOTE as the new strict BF16 frontier for this SM89/model/batch-1 scope; retain the fresh-stock compiled-reduction caveat"
+    },
+    "latency_first_fp8_block_exact_lm_head": {
+      "candidate": "vLLM Marlin FP8 per-block weight-only backbone plus exact-packed BF16 lm_head",
+      "strict_bf16": false,
+      "applicability": "max_num_seqs=1, batch-1 greedy decode; leave the exact head disabled for the current max_num_seqs>1 service configuration",
+      "control_mean_e2e_ms": 1112.7884006249737,
+      "candidate_mean_e2e_ms": 995.9107070000451,
+      "e2e_speedup": 1.117357603250392,
+      "control_mean_tpot_ms": 8.393551044291765,
+      "candidate_mean_tpot_ms": 7.553913989173103,
+      "tpot_speedup": 1.111152583458337,
+      "cross_pair_tpot_speedup_range": [
+        1.1027750476736884,
+        1.1196288015969056
+      ],
+      "cross_mode_exact_generated_token_cases": "0/6",
+      "gsm8k_sample_count": 512,
+      "gsm8k_control_accuracy": 0.087890625,
+      "gsm8k_candidate_accuracy": 0.078125,
+      "gsm8k_mcnemar_exact_two_sided_p": 0.42435622215270996,
+      "same_quantization_native_vllm_control_tpot_ms": 5.118950478015837,
+      "same_quantization_candidate_tpot_ms": 4.681179028547593,
+      "same_quantization_tpot_speedup": 1.0935173482574685,
+      "same_quantization_cross_pair_speedup_range": [
+        1.093337120554188,
+        1.0936976114401473
+      ],
+      "same_quantization_gsm8k_token_exact": "512/512",
+      "multi_sequence_service_decision": "REJECT exact/small-batch head for max_num_seqs=8; isolated 1.29x did not compose and full-service batch 1-4 fell to 0.48x-0.51x",
+      "decision": "PROMOTE only for the max_num_seqs=1 latency-first policy point; strict default remains exact-packed BF16 and multi-sequence service remains native vLLM FP8"
+    },
+    "calibrated_lossy_fp8_block_int8_group32_lm_head": {
+      "candidate": "vLLM Marlin FP8 per-block backbone plus group-32 symmetric INT8 lm_head",
+      "strict_bf16": false,
+      "lossy_lm_head": true,
+      "applicability": "max_num_seqs=1, batch-1 greedy decode after workload-specific quality calibration",
+      "profiled_exact_head_gpu_kernel_time_percent": 90.17181786059825,
+      "int8_head_byte_fraction_vs_dense_bf16": 0.53125,
+      "exact_head_control_mean_e2e_ms": 629.2991618329324,
+      "candidate_mean_e2e_ms": 570.17081666739,
+      "e2e_speedup_vs_exact_head": 1.1037028613830915,
+      "exact_head_control_mean_tpot_ms": 4.679806415029467,
+      "candidate_mean_tpot_ms": 4.20099190616713,
+      "tpot_speedup_vs_exact_head": 1.113976536864884,
+      "tpot_speedup_vs_native_vllm_fp8": 1.2185099596362297,
+      "cross_pair_tpot_speedup_range": [1.1103879602469098, 1.1175770938929153],
+      "natural_prompt_token_exact": "5/6",
+      "gsm8k_control_correct": 40,
+      "gsm8k_candidate_correct": 42,
+      "gsm8k_token_exact": "493/512",
+      "gsm8k_mcnemar_exact_two_sided_p": 0.625,
+      "decision": "PROMOTE only as a calibrated lossy max_num_seqs=1 policy point; strict same-output requests use exact-packed BF16 and multi-sequence service uses native vLLM FP8"
+    },
+    "empirically_token_identical_greedy_int8_bf16_rerank": {
+      "candidate": "vLLM Marlin FP8 per-block backbone plus per-row INT8 lm-head scan and exact BF16 top-128 rerank",
+      "strict_all_input_guarantee": false,
+      "full_logits_equivalent": false,
+      "applicability": "max_num_seqs=1, batch-1 greedy argmax after bounded token-identity qualification",
+      "exact_head_control_mean_e2e_ms": 632.8053873335193,
+      "candidate_mean_e2e_ms": 582.469403000232,
+      "e2e_speedup_vs_exact_head": 1.0864182463044627,
+      "exact_head_control_mean_tpot_ms": 4.676016604660049,
+      "candidate_mean_tpot_ms": 4.269520799210822,
+      "tpot_speedup_vs_exact_head": 1.0952087657060632,
+      "tpot_speedup_vs_native_vllm_fp8": 1.1989519945568654,
+      "cross_pair_tpot_speedup_range": [1.0936698571117012, 1.0967488203244928],
+      "natural_prompt_token_exact_each_cross_pair": "6/6",
+      "gsm8k_answer_agreement": "512/512",
+      "gsm8k_token_exact": "512/512",
+      "decision": "PROMOTE as a bounded empirically token-identical greedy policy point; strict all-input or full-logit requests retain exact-packed BF16"
+    },
+    "strict_bf16_sm89_exact_packed_backbone": {
+      "candidate": "extend exact BF16 block base-plus-delta packing to all material decode projections",
+      "weight_bit_exact": true,
+      "quantization": false,
+      "backbone_packed_byte_fraction": 0.7749183561339391,
+      "zero_unpack_cost_optimistic_whole_step_speedup": 1.205130896750143,
+      "scalar_cold_stream_speedup": 0.8445845449441851,
+      "scalar_projected_whole_step_speedup": 0.8799168328204747,
+      "tensorcore_representative_group_speedup": 0.4526849210581266,
+      "decision": "REJECT: exact reconstruction passes, but scalar unpack and padded Tensor Core paths are both substantially slower than rotating-weight cuBLAS"
+    },
+    "exact_packed_lm_head_plus_segmented_gdn": {
+      "candidate": "compose the current exact-packed strict frontier with all-layer segmented GDN",
+      "control_tpot_ms": 6.654830790682838,
+      "candidate_tpot_ms": 6.7902804415998155,
+      "tpot_speedup": 0.9800524216809718,
+      "e2e_speedup": 0.9767170385130161,
+      "exact_generated_token_cases": "2/6",
+      "decision": "REJECT: the prior standalone local winner does not compose with the current packed frontier"
+    },
+    "strict_bf16_sm89_residual_search": {
+      "lm_head_schedules_screened": 72,
+      "lm_head_best_paired_speedup_vs_incumbent": 0.9985247324592953,
+      "backbone_cache_finding": "isolated projection weights fit 32 MiB L2 while one production decode iteration streams 1,541,502,656 active weight bytes",
+      "mlp_down_control_tpot_ms": 7.976409312169299,
+      "mlp_down_candidate_tpot_ms": 7.968948113756669,
+      "mlp_down_tpot_speedup": 1.0009362839745122,
+      "mlp_down_e2e_speedup": 0.9982186885992151,
+      "mlp_down_exact_generated_token_cases": "5/6",
+      "decision": "REJECT residual LM-head retuning and independent backbone GEMV substitution; retain LM-head-only winner"
+    },
+    "strict_bf16_sm89_recurrent_state_residual": {
+      "production_state_dtype": "bfloat16",
+      "warm_best_schedule_speedup": 1.062091529676855,
+      "warm_projected_whole_step_saving_us": 33.85345458984377,
+      "cold_paired_best_schedule_speedup": 0.75,
+      "multiwarp_configurations_screened": 18,
+      "multiwarp_state_exact_configurations": 0,
+      "reachable_full_model_schedule_speedup": 0.902529,
+      "generic_fused_recurrence_norm_speedup": 0.9956214395628324,
+      "decision": "CLOSE launch-geometry and generic MTP-kernel reuse; retain only a genuinely new producer-consumer or state-layout architecture that predicts at least 50 us per step"
+    },
+    "strict_bf16_sm89_reachable_backbone": {
+      "candidate": "opaque custom-op substitutions for GDN and MLP decode projections",
+      "reachability": "PASS: Nsight observed exactly 3,540 and 12,468 candidate kernel instances in the two profiled variants",
+      "non_profiler_control_tpot_ms": 8.124619254593036,
+      "non_profiler_candidate_mean_tpot_ms": 7.993045621390883,
+      "non_profiler_mean_tpot_speedup": 1.016461013665434,
+      "exact_generated_token_cases_each_candidate_pair": "2/6",
+      "decision": "REJECT: real but small and power-sensitive gain; fails the frozen token-exact contract",
+      "supersedes": "The earlier fresh-cache ablations were unreachable and are retracted as causal evidence."
+    },
+    "bf16_sm89_segmented_gdn_projection": {
+      "candidate": "single-launch segmented QKVZ+BA projection that preserves independent output tiling",
+      "microbenchmark_warm_speedup": 1.775,
+      "microbenchmark_cold_speedup": 1.12371,
+      "nsys_reachability": "PASS: expected and observed 3,348 candidate kernel instances",
+      "standalone_e2e_speedup_over_lm_head_baseline": 1.03629,
+      "standalone_tpot_speedup_over_lm_head_baseline": 1.04006,
+      "cross_mode_exact_generated_token_cases": "3/6",
+      "gsm8k_quality_sample_count": 512,
+      "gsm8k_control_accuracy": 0.091796875,
+      "gsm8k_candidate_accuracy": 0.08984375,
+      "gsm8k_paired_mcnemar_p": 1.0,
+      "decision": "RETAIN under a limited task-quality BF16 numerical contract; do not promote to the strict token-exact frontier or claim broad quality equivalence"
+    },
+    "bf16_sm89_combined_direct_cssc": {
+      "candidate": "SM89 BF16 lm_head plus all-layer segmented GDN projection",
+      "stock_mean_e2e_ms": 653.0632908333421,
+      "candidate_mean_e2e_ms": 548.6253730000167,
+      "e2e_speedup": 1.19036296809836,
+      "stock_mean_tpot_ms": 9.750452873016006,
+      "candidate_mean_tpot_ms": 8.125436337301667,
+      "tpot_speedup": 1.19998892369038,
+      "control_repeat_exact_cases": "6/6",
+      "candidate_repeat_exact_cases": "6/6",
+      "cross_mode_exact_generated_token_cases": "3/6",
+      "decision": "LIMITED TASK-QUALITY PASS under a relaxed BF16 numerical contract; broader tasks and sampling evaluation remain mandatory"
+    },
+    "sm89_mtp_m2_projection_bound": {
+      "candidate": "replace every screened M=2 decode projection with its best cold-cache Triton schedule",
+      "projected_cycle_saving_ms": 1.4622719641774893,
+      "projected_tpot_ms_at_measured_acceptance": 8.027915796497252,
+      "projected_speedup_vs_non_speculative": 0.9849178961191433,
+      "additional_non_projection_saving_needed_for_1_03x_ms": 0.6181581574797512,
+      "decision": "SCREEN OUT projection-only implementation before production wiring"
+    },
+    "vllm_awq_marlin_rejected": {
+      "raw_e2e_ms_before_quality_gate": 888.2399943333513,
+      "raw_tpot_ms_before_quality_gate": 6.6400452007875,
+      "raw_speedup_vs_adjacent_bf16": 1.191772501671971,
+      "quality_gate": "FAIL: all 6 natural cases collapsed to 2-3 distinct tokens in 128 generated tokens",
+      "independent_transformers_check": "FAIL: the decompressed checkpoint repeats <think>/<\/think>, so this is a checkpoint failure rather than a Marlin-only failure",
+      "decision": "REJECT: deterministic garbage is not a valid performance winner"
+    }
+  },
+  "decision": {
+    "latency_first_quantized": "Use a conditional policy. For a strict all-input/full-logit contract inside the FP8 numerical contract at max_num_seqs=1, exact-packed BF16 lm_head beats native vLLM FP8 by 1.094x TPOT. For bounded batch-1 greedy workloads, per-row INT8 full-vocabulary scan plus exact BF16 top-128 rerank reached 1.199x versus native vLLM FP8 and reproduced 6/6 natural cases plus 512/512 GSM8K token streams, but this is empirical rather than mathematical identity and shortlist-external logits are unavailable. If a workload-specific lossy quality gate is allowed, group-32 INT8 reaches 1.219x versus native vLLM FP8; only 493/512 GSM8K token streams matched. At max_num_seqs>1, use native vLLM FP8 because the custom small-batch paths did not compose with service execution.",
+    "quality_first_quantized": "Q8_0 llama.cpp is the leading discovery candidate; its 8-chunk corpus perplexity is within 0.16% of llama.cpp BF16.",
+    "speculation": "Reject current MTP-1 and natural-prompt n-gram speculation for this 0.8B batch-1 workload. Even replacing every screened M=2 projection by its best cold-cache schedule projects to only 0.985x at measured acceptance and still needs 0.618 ms of independent cycle saving to clear the 1.03x promotion gate.",
+    "strict_bf16": "Promote exact BF16 block base-plus-delta packing of lm_head as the bounded SM89 batch-1 frontier. It preserves every BF16 weight bit, stores the lm_head at 77.46% of dense bytes, and improves the accepted strict frontier by 1.048x E2E/1.051x TPOT with 6/6 token-exact natural cases under a 3-warmup x 10-trial gate. Extending the format to the backbone was rejected: a 1.205x zero-unpack-cost model became 0.845x in rotating-weight scalar GPU measurements, while a metadata-hoisted padded Tensor Core screen reached only 0.453x. At calibrated bandwidth, the current 1.427 GB active weight stream has a 5.733 ms service floor versus measured 6.657 ms TPOT, so even deleting all non-weight time would cap this strict scope near 1.161x. This is a bounded empirical frontier, not proof of a global theoretical optimum.",
+    "relaxed_bf16": "The historical lm_head plus segmented-GDN route remains only a limited-task-quality observation against its old stock control. It must not be multiplied into the current frontier: a new same-source test with exact-packed lm_head enabled throughout regressed to 0.980x TPOT and only 2/6 cross-mode token parity. There is currently no promoted composed relaxed frontier.",
+    "vllm_quantized": "Reject the broken third-party W4A16 checkpoint. Among vLLM online conversions, per-tensor and per-channel FP8 failed the 3% materiality gate, while per-block FP8 selected Marlin and became useful when composed with the residual exact-packed BF16 lm_head. This is a quality-relaxed frontier, not a strict or global optimum."
+  },
+  "evidence": {
+    "llamacpp_bf16": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\traces\\llamacpp_server_natural_bf16_w1_n3.json",
+      "sha256": "1bddedd387d8a6dc2a0545414daed2a412ace4e1141113fd8bea09d41f5d5a7e"
+    },
+    "power_probe": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\traces\\llamacpp_server_natural_q4_0_powerprobe_w1_n1.json",
+      "sha256": "4c4c3c185afc8d4d367d384076f94981c100d3ca6085e4f2e53bd1aee9a66e92"
+    },
+    "ppl": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\traces\\llamacpp_quantization_ppl_c512_n8.json",
+      "sha256": "1f4cc78742153ecaf94143e09ca7181ce58b781c6e4e921194d1191ee7517a06"
+    },
+    "q4_fast": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\traces\\llamacpp_server_natural_q4_0_w1_n3.json",
+      "sha256": "7c354cd18903b808c442ea23fb55abf3bcda888b0a2437ca4a52b7313f40a436"
+    },
+    "q4_slow": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\traces\\llamacpp_server_natural_q4_0_confirm_w1_n3.json",
+      "sha256": "3ffdaeefb2824bf3f9ed1dd98c62f7d17e36c5f7b8c4c0ac5d283256c0e9f726"
+    },
+    "q8_fast": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\traces\\llamacpp_server_natural_q8_0_w1_n3.json",
+      "sha256": "187b876c1f3ca4497a9ff1d5b1385e8e187843eddfcde914ff2d9096a512a669"
+    },
+    "q8_mtp": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\traces\\llamacpp_server_natural_q8_0_mtp1_w1_n3.json",
+      "sha256": "d73b27a7792798d4ae3ade767df0a751a6a92056cfd98202081a158396de2ad2"
+    },
+    "vllm_fast": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\traces\\vllm_natural_baseline_w1_n3.json",
+      "sha256": "f5e378913737a48f1dc0aac9f9c52d609373432b800e1d9870c435926709e8a0"
+    },
+    "vllm_slow": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\traces\\vllm_natural_baseline_confirm_w1_n3.json",
+      "sha256": "6f290ed1bb4ff1f7b39fbbf6b9d5b1e47dc9da546426ffa8f33bb370cdc8a5f4"
+    },
+    "gdn_microbenchmark": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\microbench_candidates\\gdn_packed_decode_sm89.json",
+      "sha256": "1cf8e7c081a14c3c5e5bb0681fbaafc94de0b12dcd04f0376b1382e6b572e310"
+    },
+    "gdn_candidate_s2": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\traces\\vllm_natural_gdn_s2_a_w1_n3.json",
+      "sha256": "bc1d5c816336c342b2dc52674c992f83ebea04872170bc0e90ab82e35ef06820"
+    },
+    "gdn_stock_s3_control": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\traces\\vllm_natural_gdn_s3_b_w1_n3.json",
+      "sha256": "ae2c3e5fec0054bf0de1ad9d1a56ace60ee37a6b6f45c7b0dbc0faff083278d5"
+    },
+    "gdn_candidate_bv64_s4": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\traces\\vllm_natural_gdn_bv64_s4_c_w1_n3.json",
+      "sha256": "cda85290a5aeaf4545be6e9eb1b82eb2ab13656378e4a8ed4279a38b40eb4962"
+    },
+    "gdn_candidate_bv64_s4_reachable": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\traces\\vllm_natural_gdn_triton_bv64_s4_reachable_w1_n1.json",
+      "sha256": "d640a085aa8f8cac474cd8756947e85b0278afb97f69fafe557e75624ec22311"
+    },
+    "gdn_stock_s3_reachable": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\traces\\vllm_natural_gdn_triton_stock_reachable_e_w1_n1.json",
+      "sha256": "ba3ca6d154350b7c065c7d12f9e721a92a81caf58bf9a0c89a730c63a7337d7c"
+    },
+    "sm89_lm_head_microbenchmark": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\microbench_candidates\\bf16_triton_gemv_sm89.json",
+      "sha256": "bb282d614e2a32a231fdf958272b2ec1e74e9b2ab8ba6c5b2edbe9b175245c52"
+    },
+    "sm89_lm_head_candidate_qualification": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\traces\\vllm_natural_sm89_lmhead_gemv_qual_n_w3_n10.json",
+      "sha256": "1c81388272aa059cbcf94dae7aa5b63a006163e4824c372e73c34600713567cd"
+    },
+    "sm89_lm_head_stock_qualification": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\traces\\vllm_natural_stock_qual_o_w3_n10.json",
+      "sha256": "942eba3c580810fc26d013c351eb13146d795cc096624796b036eb30cacf4601"
+    },
+    "sm89_lm_head_same_source_abba": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\models\\sm89_lm_head_abba.json",
+      "sha256": "a70bad5c89b846a98a93e482129cdbcf6e6f54b1c9440e10f08fd9f3fa0585e2"
+    },
+    "sm89_selective_backbone_ablations": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\models\\sm89_selective_backbone_ablations.json",
+      "sha256": "26dd595acba75a10bcf38ac7bf76815a22ae6fe718753ca6127244cf3c4c858b",
+      "status": "RETRACTED_UNREACHABLE"
+    },
+    "sm89_nsys_operator_map": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\models\\sm89_nsys_operator_map.json",
+      "sha256": "1c01492f85adec15ea27a11de9ed8d9f72d7c5f2b96d6171c74a36f59d01eb79"
+    },
+    "sm89_cache_residency_gate": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\models\\sm89_cache_residency_gate.json",
+      "sha256": "75755b488482948524a57b80716bcd6e76446ae4eae22385654da16871fceb8f"
+    },
+    "sm89_backbone_extension_retracted": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\traces\\vllm_natural_sm89_main_gemv_freshcache_m_w1_n1.json",
+      "sha256": "28e5e6f754d6916ca05cfd6b91288e0735b6c3e05b2face4130e086700914e48",
+      "status": "RETRACTED_UNREACHABLE"
+    },
+    "sm89_combined_bf16_frontier": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\models\\sm89_combined_bf16_frontier.json",
+      "sha256": "2f4c59f701c27d613d4f729e84ba1a4b58eb78b4567423defb7a74fa4d4e4bcf"
+    },
+    "sm89_segmented_gdn_projection": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\candidates\\gdn-segmented-projection\\summary.json",
+      "sha256": "33db393c350a5414276f545a5d60cfd56098b026600ea9f110d7be9df5e2ce22"
+    },
+    "sm89_gdn_gsm8k_quality": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\comparisons\\vllm_sm89_gdn_quality_gsm8k_n512.json",
+      "sha256": "6d6a32c32e389a4da0be613db4b2ec41eedef2b80de08813496bb0249b7e4889"
+    },
+    "sm89_mtp_m2_projection_bound": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\models\\sm89_mtp_m2_projection_bound.json",
+      "sha256": "572c15fd922fbf4f9bde5ede0b5068e6ee4e907df4a5c66bd0f2ffff798bb495"
+    },
+    "sm89_strict_bf16_residual_certificate": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\models\\sm89_strict_bf16_residual_certificate.json",
+      "sha256": "724f1b975f9e7fdaae26fedc9657c9a776aadc9fd4e38ec3acf1cbb6bbcdf169"
+    },
+    "sm89_recurrent_state_search_bound": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\models\\sm89_recurrent_state_search_bound.json",
+      "sha256": "20826bc4722676a6eb353a7c2eb5a803daa6b35340bd33f0746475c19959747a"
+    },
+    "vllm_awq_quality_gate": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\traces\\vllm_natural_awq_int4_marlin_qualitygate_w1_n1.json",
+      "sha256": "1c97d321f302fc5bdce6674c2b31470cd81723f568bbb888ae3429791ed19860"
+    },
+    "transformers_awq_quality_gate": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\raw\\transformers_awq_int4_smoke.json",
+      "sha256": "437a79a35593648b9f7f15e3f301928b845ef280097525516948bbf579487047"
+    },
+    "sm89_fp8_block_exact_lm_head": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\candidates\\fp8-block-exact-lmhead\\summary.json",
+      "sha256": "1f6afce22a2405a7f105c884024f4fbca98ef3a1d1013622723d72a7f8158aa4"
+    },
+    "sm89_fp8_native_vs_exact_qualification": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\comparisons\\vllm_fp8_native_vs_exact_qualification.json",
+      "sha256": "73f7c353f55d9306b5cf546a65839d42b956b8f6c01f303b16f1ff75c84e2df3"
+    },
+    "sm89_exact_packed_lm_head_small_batch": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\candidates\\exact-bf16-packed-lmhead-small-batch\\summary.json",
+      "sha256": "4570dfbc8aead18853abb46247a18ceae59d1af8524c527c92b06135da8b3e3b"
+    },
+    "sm89_vllm_online_quantization_screen": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\candidates\\vllm-online-quantization-sm89\\summary.json",
+      "sha256": "4a173b6c622bb55cdbfedfb3d49ceff4a021820c2f3bf6e2d9ec13a25b73cacf"
+    },
+    "sm89_exact_bf16_packed_lm_head": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\candidates\\exact-bf16-packed-lmhead\\summary.json",
+      "sha256": "cb5f3b523f404b0bda3d540adcb4ff51944d30e78424fe6e8db853d61e14f591"
+    },
+    "sm89_exact_bf16_packed_backbone": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\candidates\\exact-bf16-packed-backbone\\summary.json",
+      "sha256": "241fe6d82a552bc111d52ee1e1ce26e606429ecc17fa10739023a3e68f3eff99"
+    },
+    "sm89_exact_lmhead_segmented_gdn": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\candidates\\exact-lmhead-segmented-gdn\\summary.json",
+      "sha256": "dc52e164564108cae1c3d57cfcae8b9ec7f6f03aafcebacd19b41f11133d0b89"
+    },
+    "sm89_int8_bf16_shortlist_rerank": {
+      "path": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\candidates\\int8-bf16-shortlist-rerank\\summary.json",
+      "status": "EMPIRICALLY_TOKEN_EXACT_GREEDY_PASS"
+    }
+  },
+  "measurement_risk": {
+    "observed_absolute_latency_drift": 1.299308351752513,
+    "power_probe_median_gpu_utilization_percent": 87.0,
+    "power_probe_median_graphics_clock_mhz": 780.0,
+    "power_probe_median_memory_clock_mhz": 8001.0,
+    "power_probe_median_power_w": 26.64,
+    "power_probe_sample_count": 21,
+    "required_next_gate": "For a production claim, repeat randomized BF16/FP8 process order under a locked power mode, replace the additive 375.691 MiB lm_head cache and transient packing peak with chunked CPU/load-time ownership transfer, and add broader reasoning, code, instruction-following, and sampled-generation quality suites. Keep max_num_seqs=1 and multi-sequence policies separate. Do not reopen small-batch exact packing without graph-shape reachability plus a pointwise winning full service curve, and do not reopen exact backbone packing unless a new data path first beats rotating-weight cuBLAS on every material shape."
+  },
+  "measurements": {
+    "llamacpp_bf16": {
+      "evidence": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\traces\\llamacpp_server_natural_bf16_w1_n3.json",
+      "evidence_sha256": "1bddedd387d8a6dc2a0545414daed2a412ace4e1141113fd8bea09d41f5d5a7e",
+      "status": "PASS",
+      "weighted_decode_tokens_per_second": 63.75295738664547,
+      "weighted_e2e_ms": 2063.143799973962
+    },
+    "q4_fast": {
+      "evidence": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\traces\\llamacpp_server_natural_q4_0_w1_n3.json",
+      "evidence_sha256": "7c354cd18903b808c442ea23fb55abf3bcda888b0a2437ca4a52b7313f40a436",
+      "status": "PASS",
+      "weighted_decode_tokens_per_second": 201.7156988617927,
+      "weighted_e2e_ms": 700.1847999636084
+    },
+    "q4_slow": {
+      "evidence": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\traces\\llamacpp_server_natural_q4_0_confirm_w1_n3.json",
+      "evidence_sha256": "3ffdaeefb2824bf3f9ed1dd98c62f7d17e36c5f7b8c4c0ac5d283256c0e9f726",
+      "status": "PASS",
+      "weighted_decode_tokens_per_second": 119.20870529908065,
+      "weighted_e2e_ms": 1147.385700023733
+    },
+    "q8_fast": {
+      "evidence": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\traces\\llamacpp_server_natural_q8_0_w1_n3.json",
+      "evidence_sha256": "187b876c1f3ca4497a9ff1d5b1385e8e187843eddfcde914ff2d9096a512a669",
+      "status": "PASS",
+      "weighted_decode_tokens_per_second": 175.36930884265456,
+      "weighted_e2e_ms": 789.2187666924049
+    },
+    "q8_mtp": {
+      "evidence": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\traces\\llamacpp_server_natural_q8_0_mtp1_w1_n3.json",
+      "evidence_sha256": "d73b27a7792798d4ae3ade767df0a751a6a92056cfd98202081a158396de2ad2",
+      "status": "PASS",
+      "weighted_decode_tokens_per_second": 101.9814090172409,
+      "weighted_e2e_ms": 1348.5935666443158
+    },
+    "vllm_fast": {
+      "evidence": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\traces\\vllm_natural_baseline_w1_n3.json",
+      "evidence_sha256": "f5e378913737a48f1dc0aac9f9c52d609373432b800e1d9870c435926709e8a0",
+      "status": "PASS",
+      "weighted_decode_tokens_per_second": 143.3320724456681,
+      "weighted_e2e_ms": 940.9817813333158
+    },
+    "vllm_slow": {
+      "evidence": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\traces\\vllm_natural_baseline_confirm_w1_n3.json",
+      "evidence_sha256": "6f290ed1bb4ff1f7b39fbbf6b9d5b1e47dc9da546426ffa8f33bb370cdc8a5f4",
+      "status": "PASS",
+      "weighted_decode_tokens_per_second": 109.31311592262013,
+      "weighted_e2e_ms": 1222.6254873333341
+    },
+    "vllm_stock_qualified_adjacent": {
+      "evidence": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\traces\\vllm_natural_stock_qual_o_w3_n10.json",
+      "evidence_sha256": "942eba3c580810fc26d013c351eb13146d795cc096624796b036eb30cacf4601",
+      "status": "PASS",
+      "weighted_tpot_ms": 9.623029452099763,
+      "weighted_e2e_ms": 1262.6712566666733
+    },
+    "vllm_sm89_lm_head_qualified": {
+      "evidence": "runs\\20260902_qwen35_08b_e2e_sm89_v1\\traces\\vllm_natural_sm89_lmhead_gemv_qual_n_w3_n10.json",
+      "evidence_sha256": "1c81388272aa059cbcf94dae7aa5b63a006163e4824c372e73c34600713567cd",
+      "status": "PASS",
+      "weighted_tpot_ms": 8.12794336614178,
+      "weighted_e2e_ms": 1070.3661334999997
+    }
+  },
+  "schema_version": "qwen35-runtime-frontier-v1",
+  "status": "STRICT_BF16_DISCOVERY_WINNER_QUALIFIED_PRODUCTION_REPLICATION_PENDING"
+}

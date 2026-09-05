@@ -1,0 +1,931 @@
+{
+  "schema_version": "nsys-cuda-opportunity-map-v1",
+  "status": "PASS",
+  "source": {
+    "path": "D:\\codes\\kernel_opt_agent\\runs\\20260902_qwen35_08b_e2e_sm89_v1\\profiles\\nsys2025_fp8_exact_frontier_nodes.sqlite",
+    "sha256": "0c0b95512478013dddfd565428d28dbc1285587ba82886afe04581916388ac4f"
+  },
+  "generated_steps": 192,
+  "total_gpu_kernel_ms": 325.305296,
+  "kernel_instances": 6144,
+  "families": [
+    {
+      "family": "_sm89_exact_packed_bf16_gemv_kernel",
+      "instances": 192,
+      "total_ms": 293.333699,
+      "time_percent": 90.17181786059825,
+      "average_us": 1527.7796822916666,
+      "kernel_names": [
+        "_sm89_exact_packed_bf16_gemv_kernel"
+      ],
+      "ms_per_generated_step": 1.5277796822916667,
+      "instances_per_generated_step": 1.0
+    },
+    {
+      "family": "void marlin::Marlin<(long)1125899906909960, (long)2814749767172868, (long)1125899906909960, (long)1125899906909960, (int)256, (int)3, (int)16, (int)4, (bool)0, (int)4, (int)8, (bool)0>(const int4 *, const int4 *, int4 *, int4 *, const int4 *, const float *, const int4 *, const float *, const int4 *, const int *, int, int, int, int, int, int *, bool, bool, bool, int)",
+      "instances": 240,
+      "total_ms": 9.48691,
+      "time_percent": 2.916309730168057,
+      "average_us": 39.52879166666666,
+      "kernel_names": [
+        "void marlin::Marlin<(long)1125899906909960, (long)2814749767172868, (long)1125899906909960, (long)1125899906909960, (int)256, (int)3, (int)16, (int)4, (bool)0, (int)4, (int)8, (bool)0>(const int4 *, const int4 *, int4 *, int4 *, const int4 *, const float *, const int4 *, const float *, const int4 *, const int *, int, int, int, int, int, int *, bool, bool, bool, int)"
+      ],
+      "ms_per_generated_step": 0.049410989583333335,
+      "instances_per_generated_step": 1.25
+    },
+    {
+      "family": "void marlin::Marlin<(long)1125899906909960, (long)2814749767172868, (long)1125899906909960, (long)1125899906909960, (int)128, (int)3, (int)4, (int)8, (bool)0, (int)4, (int)8, (bool)0>(const int4 *, const int4 *, int4 *, int4 *, const int4 *, const float *, const int4 *, const float *, const int4 *, const int *, int, int, int, int, int, int *, bool, bool, bool, int)",
+      "instances": 330,
+      "total_ms": 5.336175,
+      "time_percent": 1.6403590920942155,
+      "average_us": 16.17022727272727,
+      "kernel_names": [
+        "void marlin::Marlin<(long)1125899906909960, (long)2814749767172868, (long)1125899906909960, (long)1125899906909960, (int)128, (int)3, (int)4, (int)8, (bool)0, (int)4, (int)8, (bool)0>(const int4 *, const int4 *, int4 *, int4 *, const int4 *, const float *, const int4 *, const float *, const int4 *, const int *, int, int, int, int, int, int *, bool, bool, bool, int)"
+      ],
+      "ms_per_generated_step": 0.027792578125,
+      "instances_per_generated_step": 1.71875
+    },
+    {
+      "family": "void marlin::Marlin<(long)1125899906909960, (long)2814749767172868, (long)1125899906909960, (long)1125899906909960, (int)256, (int)4, (int)16, (int)4, (bool)0, (int)4, (int)8, (bool)0>(const int4 *, const int4 *, int4 *, int4 *, const int4 *, const float *, const int4 *, const float *, const int4 *, const int *, int, int, int, int, int, int *, bool, bool, bool, int)",
+      "instances": 48,
+      "total_ms": 2.194151,
+      "time_percent": 0.674489787587104,
+      "average_us": 45.71147916666666,
+      "kernel_names": [
+        "void marlin::Marlin<(long)1125899906909960, (long)2814749767172868, (long)1125899906909960, (long)1125899906909960, (int)256, (int)4, (int)16, (int)4, (bool)0, (int)4, (int)8, (bool)0>(const int4 *, const int4 *, int4 *, int4 *, const int4 *, const float *, const int4 *, const float *, const int4 *, const int *, int, int, int, int, int, int *, bool, bool, bool, int)"
+      ],
+      "ms_per_generated_step": 0.011427869791666666,
+      "instances_per_generated_step": 0.25
+    },
+    {
+      "family": "void marlin::Marlin<(long)1125899906909960, (long)2814749767172868, (long)1125899906909960, (long)1125899906909960, (int)128, (int)4, (int)4, (int)8, (bool)0, (int)4, (int)8, (bool)0>(const int4 *, const int4 *, int4 *, int4 *, const int4 *, const float *, const int4 *, const float *, const int4 *, const int *, int, int, int, int, int, int *, bool, bool, bool, int)",
+      "instances": 66,
+      "total_ms": 1.3411,
+      "time_percent": 0.4122588892619812,
+      "average_us": 20.319696969696967,
+      "kernel_names": [
+        "void marlin::Marlin<(long)1125899906909960, (long)2814749767172868, (long)1125899906909960, (long)1125899906909960, (int)128, (int)4, (int)4, (int)8, (bool)0, (int)4, (int)8, (bool)0>(const int4 *, const int4 *, int4 *, int4 *, const int4 *, const float *, const int4 *, const float *, const int4 *, const int *, int, int, int, int, int, int *, bool, bool, bool, int)"
+      ],
+      "ms_per_generated_step": 0.006984895833333333,
+      "instances_per_generated_step": 0.34375
+    },
+    {
+      "family": "void at::native::reduce_kernel<(int)512, (int)1, at::native::ReduceOp<float, at::native::ArgMaxOps<float>, unsigned int, long, (int)4, (int)4>>(T3)",
+      "instances": 192,
+      "total_ms": 1.230848,
+      "time_percent": 0.3783670340245552,
+      "average_us": 6.410666666666667,
+      "kernel_names": [
+        "void at::native::reduce_kernel<(int)512, (int)1, at::native::ReduceOp<float, at::native::ArgMaxOps<float>, unsigned int, long, (int)4, (int)4>>(T3)"
+      ],
+      "ms_per_generated_step": 0.006410666666666667,
+      "instances_per_generated_step": 1.0
+    },
+    {
+      "family": "void at::native::index_elementwise_kernel<(int)128, (int)4, void at::native::gpu_index_kernel<void at::native::index_kernel_impl<at::native::OpaqueType<(int)4>>(at::TensorIteratorBase &, c10::ArrayRef<long>, c10::ArrayRef<long>)::[lambda(char *, const char *, long) (instance 1)]>(at::TensorIteratorBase &, c10::ArrayRef<long>, c10::ArrayRef<long>, const T1 &, bool)::[lambda(int) (instance 1)]>(long, T3)",
+      "instances": 300,
+      "total_ms": 1.218047,
+      "time_percent": 0.37443196129213957,
+      "average_us": 4.060156666666667,
+      "kernel_names": [
+        "void at::native::index_elementwise_kernel<(int)128, (int)4, void at::native::gpu_index_kernel<void at::native::index_kernel_impl<at::native::OpaqueType<(int)4>>(at::TensorIteratorBase &, c10::ArrayRef<long>, c10::ArrayRef<long>)::[lambda(char *, const char *, long) (instance 1)]>(at::TensorIteratorBase &, c10::ArrayRef<long>, c10::ArrayRef<long>, const T1 &, bool)::[lambda(int) (instance 1)]>(long, T3)"
+      ],
+      "ms_per_generated_step": 0.006343994791666667,
+      "instances_per_generated_step": 1.5625
+    },
+    {
+      "family": "chunk_gated_delta_rule_fwd_kernel_h_blockdim64",
+      "instances": 108,
+      "total_ms": 0.989309,
+      "time_percent": 0.3041170900580727,
+      "average_us": 9.160268518518519,
+      "kernel_names": [
+        "chunk_gated_delta_rule_fwd_kernel_h_blockdim64"
+      ],
+      "ms_per_generated_step": 0.005152651041666667,
+      "instances_per_generated_step": 0.5625
+    },
+    {
+      "family": "void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase &)::[lambda() (instance 3)]::operator ()() const::[lambda() (instance 7)]::operator ()() const::[lambda(float) (instance 1)], std::array<char *, (unsigned long)2>, (int)4, TrivialOffsetCalculator<(int)1, unsigned int>, TrivialOffsetCalculator<(int)1, unsigned int>, at::native::memory::LoadWithCast<(int)1>, at::native::memory::StoreWithCast<(int)1>>(int, T1, T2, T4, T5, T6, T7)",
+      "instances": 192,
+      "total_ms": 0.905065,
+      "time_percent": 0.2782201861232533,
+      "average_us": 4.713880208333333,
+      "kernel_names": [
+        "void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase &)::[lambda() (instance 3)]::operator ()() const::[lambda() (instance 7)]::operator ()() const::[lambda(float) (instance 1)], std::array<char *, (unsigned long)2>, (int)4, TrivialOffsetCalculator<(int)1, unsigned int>, TrivialOffsetCalculator<(int)1, unsigned int>, at::native::memory::LoadWithCast<(int)1>, at::native::memory::StoreWithCast<(int)1>>(int, T1, T2, T4, T5, T6, T7)"
+      ],
+      "ms_per_generated_step": 0.004713880208333333,
+      "instances_per_generated_step": 1.0
+    },
+    {
+      "family": "merge_16x16_to_64x64_inverse_kernel",
+      "instances": 108,
+      "total_ms": 0.864853,
+      "time_percent": 0.2658588749197615,
+      "average_us": 8.007898148148147,
+      "kernel_names": [
+        "merge_16x16_to_64x64_inverse_kernel"
+      ],
+      "ms_per_generated_step": 0.004504442708333333,
+      "instances_per_generated_step": 0.5625
+    },
+    {
+      "family": "void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase &)::[lambda() (instance 3)]::operator ()() const::[lambda() (instance 4)]::operator ()() const::[lambda(long) (instance 1)], std::array<char *, (unsigned long)2>, (int)4, TrivialOffsetCalculator<(int)1, unsigned int>, TrivialOffsetCalculator<(int)1, unsigned int>, at::native::memory::LoadWithCast<(int)1>, at::native::memory::StoreWithCast<(int)1>>(int, T1, T2, T4, T5, T6, T7)",
+      "instances": 600,
+      "total_ms": 0.788745,
+      "time_percent": 0.24246300619710784,
+      "average_us": 1.314575,
+      "kernel_names": [
+        "void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase &)::[lambda() (instance 3)]::operator ()() const::[lambda() (instance 4)]::operator ()() const::[lambda(long) (instance 1)], std::array<char *, (unsigned long)2>, (int)4, TrivialOffsetCalculator<(int)1, unsigned int>, TrivialOffsetCalculator<(int)1, unsigned int>, at::native::memory::LoadWithCast<(int)1>, at::native::memory::StoreWithCast<(int)1>>(int, T1, T2, T4, T5, T6, T7)"
+      ],
+      "ms_per_generated_step": 0.004108046875,
+      "instances_per_generated_step": 3.125
+    },
+    {
+      "family": "chunk_fwd_kernel_o",
+      "instances": 108,
+      "total_ms": 0.721773,
+      "time_percent": 0.22187557622793821,
+      "average_us": 6.683083333333333,
+      "kernel_names": [
+        "chunk_fwd_kernel_o"
+      ],
+      "ms_per_generated_step": 0.003759234375,
+      "instances_per_generated_step": 0.5625
+    },
+    {
+      "family": "normalization",
+      "instances": 402,
+      "total_ms": 0.609769,
+      "time_percent": 0.18744514998612258,
+      "average_us": 1.5168383084577115,
+      "kernel_names": [
+        "layer_norm_fwd_kernel",
+        "triton_per_fused__to_copy_add_embedding_marlin_gemm_rms_norm_0",
+        "triton_per_fused__to_copy_add_fused_add_rms_norm_2",
+        "triton_per_fused__to_copy_add_fused_add_rms_norm_3",
+        "triton_per_fused__to_copy_add_fused_add_rms_norm_marlin_gemm_0",
+        "triton_per_fused__to_copy_add_fused_add_rms_norm_marlin_gemm_1",
+        "triton_per_fused__to_copy_add_fused_add_rms_norm_marlin_gemm_2"
+      ],
+      "ms_per_generated_step": 0.0031758802083333335,
+      "instances_per_generated_step": 2.09375
+    },
+    {
+      "family": "void at::native::index_elementwise_kernel<(int)128, (int)4, void at::native::gpu_index_kernel<void at::native::index_kernel_impl<at::native::OpaqueType<(int)2>>(at::TensorIteratorBase &, c10::ArrayRef<long>, c10::ArrayRef<long>)::[lambda(char *, const char *, long) (instance 1)]>(at::TensorIteratorBase &, c10::ArrayRef<long>, c10::ArrayRef<long>, const T1 &, bool)::[lambda(int) (instance 1)]>(long, T3)",
+      "instances": 192,
+      "total_ms": 0.572399,
+      "time_percent": 0.17595747964705746,
+      "average_us": 2.9812447916666667,
+      "kernel_names": [
+        "void at::native::index_elementwise_kernel<(int)128, (int)4, void at::native::gpu_index_kernel<void at::native::index_kernel_impl<at::native::OpaqueType<(int)2>>(at::TensorIteratorBase &, c10::ArrayRef<long>, c10::ArrayRef<long>)::[lambda(char *, const char *, long) (instance 1)]>(at::TensorIteratorBase &, c10::ArrayRef<long>, c10::ArrayRef<long>, const T1 &, bool)::[lambda(int) (instance 1)]>(long, T3)"
+      ],
+      "ms_per_generated_step": 0.0029812447916666663,
+      "instances_per_generated_step": 1.0
+    },
+    {
+      "family": "void at::native::index_elementwise_kernel<(int)128, (int)4, void at::native::gpu_index_kernel<void at::native::index_put_kernel_impl<at::native::OpaqueType<(int)4>>(at::TensorIterator &, c10::ArrayRef<long>, c10::ArrayRef<long>)::[lambda(char *, const char *, long) (instance 1)]>(at::TensorIteratorBase &, c10::ArrayRef<long>, c10::ArrayRef<long>, const T1 &, bool)::[lambda(int) (instance 1)]>(long, T3)",
+      "instances": 108,
+      "total_ms": 0.568917,
+      "time_percent": 0.1748871005161871,
+      "average_us": 5.26775,
+      "kernel_names": [
+        "void at::native::index_elementwise_kernel<(int)128, (int)4, void at::native::gpu_index_kernel<void at::native::index_put_kernel_impl<at::native::OpaqueType<(int)4>>(at::TensorIterator &, c10::ArrayRef<long>, c10::ArrayRef<long>)::[lambda(char *, const char *, long) (instance 1)]>(at::TensorIteratorBase &, c10::ArrayRef<long>, c10::ArrayRef<long>, const T1 &, bool)::[lambda(int) (instance 1)]>(long, T3)"
+      ],
+      "ms_per_generated_step": 0.002963109375,
+      "instances_per_generated_step": 0.5625
+    },
+    {
+      "family": "void at::native::elementwise_kernel<(int)128, (int)4, void at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase &)::[lambda() (instance 3)]::operator ()() const::[lambda() (instance 12)]::operator ()() const::[lambda(c10::BFloat16) (instance 1)]>(at::TensorIteratorBase &, const T1 &)::[lambda(int) (instance 1)]>(int, T3)",
+      "instances": 324,
+      "total_ms": 0.535815,
+      "time_percent": 0.16471142849146853,
+      "average_us": 1.65375,
+      "kernel_names": [
+        "void at::native::elementwise_kernel<(int)128, (int)4, void at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase &)::[lambda() (instance 3)]::operator ()() const::[lambda() (instance 12)]::operator ()() const::[lambda(c10::BFloat16) (instance 1)]>(at::TensorIteratorBase &, const T1 &)::[lambda(int) (instance 1)]>(int, T3)"
+      ],
+      "ms_per_generated_step": 0.002790703125,
+      "instances_per_generated_step": 1.6875
+    },
+    {
+      "family": "recompute_w_u_fwd_kernel",
+      "instances": 108,
+      "total_ms": 0.456137,
+      "time_percent": 0.1402181291263085,
+      "average_us": 4.223490740740741,
+      "kernel_names": [
+        "recompute_w_u_fwd_kernel"
+      ],
+      "ms_per_generated_step": 0.0023757135416666666,
+      "instances_per_generated_step": 0.5625
+    },
+    {
+      "family": "_causal_conv1d_fwd_kernel",
+      "instances": 108,
+      "total_ms": 0.438003,
+      "time_percent": 0.1346436733080423,
+      "average_us": 4.055583333333334,
+      "kernel_names": [
+        "_causal_conv1d_fwd_kernel"
+      ],
+      "ms_per_generated_step": 0.002281265625,
+      "instances_per_generated_step": 0.5625
+    },
+    {
+      "family": "kernel",
+      "instances": 192,
+      "total_ms": 0.425693,
+      "time_percent": 0.13085953571441394,
+      "average_us": 2.2171510416666664,
+      "kernel_names": [
+        "kernel"
+      ],
+      "ms_per_generated_step": 0.0022171510416666663,
+      "instances_per_generated_step": 1.0
+    },
+    {
+      "family": "chunk_scaled_dot_kkt_fwd_kernel",
+      "instances": 108,
+      "total_ms": 0.344534,
+      "time_percent": 0.10591097170456149,
+      "average_us": 3.1901296296296295,
+      "kernel_names": [
+        "chunk_scaled_dot_kkt_fwd_kernel"
+      ],
+      "ms_per_generated_step": 0.0017944479166666668,
+      "instances_per_generated_step": 0.5625
+    },
+    {
+      "family": "void at::native::elementwise_kernel<(int)128, (int)2, void at::native::gpu_kernel_impl_nocast<at::native::<unnamed>::masked_fill_kernel(at::TensorIterator &, const c10::Scalar &)::[lambda() (instance 1)]::operator ()() const::[lambda() (instance 7)]::operator ()() const::[lambda(float, bool) (instance 1)]>(at::TensorIteratorBase &, const T1 &)::[lambda(int) (instance 1)]>(int, T3)",
+      "instances": 108,
+      "total_ms": 0.334917,
+      "time_percent": 0.10295467184770334,
+      "average_us": 3.1010833333333334,
+      "kernel_names": [
+        "void at::native::elementwise_kernel<(int)128, (int)2, void at::native::gpu_kernel_impl_nocast<at::native::<unnamed>::masked_fill_kernel(at::TensorIterator &, const c10::Scalar &)::[lambda() (instance 1)]::operator ()() const::[lambda() (instance 7)]::operator ()() const::[lambda(float, bool) (instance 1)]>(at::TensorIteratorBase &, const T1 &)::[lambda(int) (instance 1)]>(int, T3)"
+      ],
+      "ms_per_generated_step": 0.001744359375,
+      "instances_per_generated_step": 0.5625
+    },
+    {
+      "family": "flash_attention",
+      "instances": 36,
+      "total_ms": 0.313091,
+      "time_percent": 0.09624528215488998,
+      "average_us": 8.696972222222223,
+      "kernel_names": [
+        "void flash::flash_fwd_splitkv_kernel<Flash_fwd_kernel_traits<(int)256, (int)64, (int)64, (int)4, (bool)0, (bool)0, cutlass::bfloat16_t, Flash_kernel_traits<(int)256, (int)64, (int)64, (int)4, cutlass::bfloat16_t>>, (bool)1, (bool)0, (bool)0, (bool)0, (bool)1, (bool)0, (bool)0, (bool)0>(flash::Flash_fwd_params)"
+      ],
+      "ms_per_generated_step": 0.0016306822916666668,
+      "instances_per_generated_step": 0.1875
+    },
+    {
+      "family": "void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase &)::[lambda() (instance 3)]::operator ()() const::[lambda() (instance 3)]::operator ()() const::[lambda(int) (instance 1)], std::array<char *, (unsigned long)2>, (int)4, TrivialOffsetCalculator<(int)1, unsigned int>, TrivialOffsetCalculator<(int)1, unsigned int>, at::native::memory::LoadWithCast<(int)1>, at::native::memory::StoreWithCast<(int)1>>(int, T1, T2, T4, T5, T6, T7)",
+      "instances": 210,
+      "total_ms": 0.265601,
+      "time_percent": 0.08164668797768358,
+      "average_us": 1.2647666666666666,
+      "kernel_names": [
+        "void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase &)::[lambda() (instance 3)]::operator ()() const::[lambda() (instance 3)]::operator ()() const::[lambda(int) (instance 1)], std::array<char *, (unsigned long)2>, (int)4, TrivialOffsetCalculator<(int)1, unsigned int>, TrivialOffsetCalculator<(int)1, unsigned int>, at::native::memory::LoadWithCast<(int)1>, at::native::memory::StoreWithCast<(int)1>>(int, T1, T2, T4, T5, T6, T7)"
+      ],
+      "ms_per_generated_step": 0.0013833385416666668,
+      "instances_per_generated_step": 1.09375
+    },
+    {
+      "family": "void at::native::vectorized_elementwise_kernel<(int)4, at::native::CUDAFunctor_add<int>, std::array<char *, (unsigned long)3>>(int, T2, T3)",
+      "instances": 210,
+      "total_ms": 0.214669,
+      "time_percent": 0.06599001081125959,
+      "average_us": 1.0222333333333333,
+      "kernel_names": [
+        "void at::native::vectorized_elementwise_kernel<(int)4, at::native::CUDAFunctor_add<int>, std::array<char *, (unsigned long)3>>(int, T2, T3)"
+      ],
+      "ms_per_generated_step": 0.0011180677083333333,
+      "instances_per_generated_step": 1.09375
+    },
+    {
+      "family": "void at::native::vectorized_elementwise_kernel<(int)2, at::native::CUDAFunctor_add<long>, std::array<char *, (unsigned long)3>>(int, T2, T3)",
+      "instances": 192,
+      "total_ms": 0.213049,
+      "time_percent": 0.06549201707432394,
+      "average_us": 1.1096302083333334,
+      "kernel_names": [
+        "void at::native::vectorized_elementwise_kernel<(int)2, at::native::CUDAFunctor_add<long>, std::array<char *, (unsigned long)3>>(int, T2, T3)"
+      ],
+      "ms_per_generated_step": 0.0011096302083333333,
+      "instances_per_generated_step": 1.0
+    },
+    {
+      "family": "_fused_post_conv_kernel",
+      "instances": 108,
+      "total_ms": 0.195643,
+      "time_percent": 0.06014135103413748,
+      "average_us": 1.8115092592592594,
+      "kernel_names": [
+        "_fused_post_conv_kernel"
+      ],
+      "ms_per_generated_step": 0.0010189739583333333,
+      "instances_per_generated_step": 0.5625
+    },
+    {
+      "family": "void at::native::vectorized_elementwise_kernel<(int)4, at::native::FillFunctor<int>, std::array<char *, (unsigned long)1>>(int, T2, T3)",
+      "instances": 228,
+      "total_ms": 0.179145,
+      "time_percent": 0.05506980740946806,
+      "average_us": 0.7857236842105264,
+      "kernel_names": [
+        "void at::native::vectorized_elementwise_kernel<(int)4, at::native::FillFunctor<int>, std::array<char *, (unsigned long)1>>(int, T2, T3)"
+      ],
+      "ms_per_generated_step": 0.000933046875,
+      "instances_per_generated_step": 1.1875
+    },
+    {
+      "family": "void at::native::unrolled_elementwise_kernel<at::native::CUDAFunctorOnSelf_add<int>, std::array<char *, (unsigned long)2>, (int)4, TrivialOffsetCalculator<(int)1, unsigned int>, TrivialOffsetCalculator<(int)1, unsigned int>, at::native::memory::LoadWithoutCast, at::native::memory::StoreWithoutCast>(int, T1, T2, T4, T5, T6, T7)",
+      "instances": 192,
+      "total_ms": 0.163795,
+      "time_percent": 0.05035116305023205,
+      "average_us": 0.8530989583333334,
+      "kernel_names": [
+        "void at::native::unrolled_elementwise_kernel<at::native::CUDAFunctorOnSelf_add<int>, std::array<char *, (unsigned long)2>, (int)4, TrivialOffsetCalculator<(int)1, unsigned int>, TrivialOffsetCalculator<(int)1, unsigned int>, at::native::memory::LoadWithoutCast, at::native::memory::StoreWithoutCast>(int, T1, T2, T4, T5, T6, T7)"
+      ],
+      "ms_per_generated_step": 0.0008530989583333334,
+      "instances_per_generated_step": 1.0
+    },
+    {
+      "family": "triton_poi_fused_marlin_gemm_mul_silu_slice_1",
+      "instances": 108,
+      "total_ms": 0.163392,
+      "time_percent": 0.05022727942308077,
+      "average_us": 1.512888888888889,
+      "kernel_names": [
+        "triton_poi_fused_marlin_gemm_mul_silu_slice_1"
+      ],
+      "ms_per_generated_step": 0.000851,
+      "instances_per_generated_step": 0.5625
+    },
+    {
+      "family": "chunk_local_cumsum_scalar_kernel",
+      "instances": 108,
+      "total_ms": 0.138472,
+      "time_percent": 0.04256678317342857,
+      "average_us": 1.282148148148148,
+      "kernel_names": [
+        "chunk_local_cumsum_scalar_kernel"
+      ],
+      "ms_per_generated_step": 0.0007212083333333334,
+      "instances_per_generated_step": 0.5625
+    }
+  ],
+  "launch_signatures": [
+    {
+      "family": "_sm89_exact_packed_bf16_gemv_kernel",
+      "grid": [
+        15520,
+        1,
+        1
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "instances": 192,
+      "total_ms": 293.333699,
+      "average_us": 1527.7796822916666,
+      "ms_per_generated_step": 1.5277796822916667,
+      "instances_per_generated_step": 1.0
+    },
+    {
+      "family": "void marlin::Marlin<(long)1125899906909960, (long)2814749767172868, (long)1125899906909960, (long)1125899906909960, (int)256, (int)3, (int)16, (int)4, (bool)0, (int)4, (int)8, (bool)0>(const int4 *, const int4 *, int4 *, int4 *, const int4 *, const float *, const int4 *, const float *, const int4 *, const int *, int, int, int, int, int, int *, bool, bool, bool, int)",
+      "grid": [
+        24,
+        1,
+        1
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "instances": 240,
+      "total_ms": 9.48691,
+      "average_us": 39.52879166666666,
+      "ms_per_generated_step": 0.049410989583333335,
+      "instances_per_generated_step": 1.25
+    },
+    {
+      "family": "void marlin::Marlin<(long)1125899906909960, (long)2814749767172868, (long)1125899906909960, (long)1125899906909960, (int)128, (int)3, (int)4, (int)8, (bool)0, (int)4, (int)8, (bool)0>(const int4 *, const int4 *, int4 *, int4 *, const int4 *, const float *, const int4 *, const float *, const int4 *, const int *, int, int, int, int, int, int *, bool, bool, bool, int)",
+      "grid": [
+        24,
+        1,
+        1
+      ],
+      "block": [
+        128,
+        1,
+        1
+      ],
+      "instances": 330,
+      "total_ms": 5.336175,
+      "average_us": 16.17022727272727,
+      "ms_per_generated_step": 0.027792578125,
+      "instances_per_generated_step": 1.71875
+    },
+    {
+      "family": "void marlin::Marlin<(long)1125899906909960, (long)2814749767172868, (long)1125899906909960, (long)1125899906909960, (int)256, (int)4, (int)16, (int)4, (bool)0, (int)4, (int)8, (bool)0>(const int4 *, const int4 *, int4 *, int4 *, const int4 *, const float *, const int4 *, const float *, const int4 *, const int *, int, int, int, int, int, int *, bool, bool, bool, int)",
+      "grid": [
+        24,
+        1,
+        1
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "instances": 48,
+      "total_ms": 2.194151,
+      "average_us": 45.71147916666666,
+      "ms_per_generated_step": 0.011427869791666666,
+      "instances_per_generated_step": 0.25
+    },
+    {
+      "family": "void marlin::Marlin<(long)1125899906909960, (long)2814749767172868, (long)1125899906909960, (long)1125899906909960, (int)128, (int)4, (int)4, (int)8, (bool)0, (int)4, (int)8, (bool)0>(const int4 *, const int4 *, int4 *, int4 *, const int4 *, const float *, const int4 *, const float *, const int4 *, const int *, int, int, int, int, int, int *, bool, bool, bool, int)",
+      "grid": [
+        24,
+        1,
+        1
+      ],
+      "block": [
+        128,
+        1,
+        1
+      ],
+      "instances": 66,
+      "total_ms": 1.3411,
+      "average_us": 20.319696969696967,
+      "ms_per_generated_step": 0.006984895833333333,
+      "instances_per_generated_step": 0.34375
+    },
+    {
+      "family": "void at::native::reduce_kernel<(int)512, (int)1, at::native::ReduceOp<float, at::native::ArgMaxOps<float>, unsigned int, long, (int)4, (int)4>>(T3)",
+      "grid": [
+        1,
+        31,
+        1
+      ],
+      "block": [
+        512,
+        1,
+        1
+      ],
+      "instances": 192,
+      "total_ms": 1.230848,
+      "average_us": 6.410666666666667,
+      "ms_per_generated_step": 0.006410666666666667,
+      "instances_per_generated_step": 1.0
+    },
+    {
+      "family": "chunk_gated_delta_rule_fwd_kernel_h_blockdim64",
+      "grid": [
+        4,
+        16,
+        1
+      ],
+      "block": [
+        64,
+        1,
+        1
+      ],
+      "instances": 108,
+      "total_ms": 0.989309,
+      "average_us": 9.160268518518519,
+      "ms_per_generated_step": 0.005152651041666667,
+      "instances_per_generated_step": 0.5625
+    },
+    {
+      "family": "void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase &)::[lambda() (instance 3)]::operator ()() const::[lambda() (instance 7)]::operator ()() const::[lambda(float) (instance 1)], std::array<char *, (unsigned long)2>, (int)4, TrivialOffsetCalculator<(int)1, unsigned int>, TrivialOffsetCalculator<(int)1, unsigned int>, at::native::memory::LoadWithCast<(int)1>, at::native::memory::StoreWithCast<(int)1>>(int, T1, T2, T4, T5, T6, T7)",
+      "grid": [
+        485,
+        1,
+        1
+      ],
+      "block": [
+        128,
+        1,
+        1
+      ],
+      "instances": 192,
+      "total_ms": 0.905065,
+      "average_us": 4.713880208333333,
+      "ms_per_generated_step": 0.004713880208333333,
+      "instances_per_generated_step": 1.0
+    },
+    {
+      "family": "merge_16x16_to_64x64_inverse_kernel",
+      "grid": [
+        1,
+        16,
+        1
+      ],
+      "block": [
+        64,
+        1,
+        1
+      ],
+      "instances": 108,
+      "total_ms": 0.864853,
+      "average_us": 8.007898148148147,
+      "ms_per_generated_step": 0.004504442708333333,
+      "instances_per_generated_step": 0.5625
+    },
+    {
+      "family": "void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase &)::[lambda() (instance 3)]::operator ()() const::[lambda() (instance 4)]::operator ()() const::[lambda(long) (instance 1)], std::array<char *, (unsigned long)2>, (int)4, TrivialOffsetCalculator<(int)1, unsigned int>, TrivialOffsetCalculator<(int)1, unsigned int>, at::native::memory::LoadWithCast<(int)1>, at::native::memory::StoreWithCast<(int)1>>(int, T1, T2, T4, T5, T6, T7)",
+      "grid": [
+        1,
+        1,
+        1
+      ],
+      "block": [
+        128,
+        1,
+        1
+      ],
+      "instances": 600,
+      "total_ms": 0.788745,
+      "average_us": 1.314575,
+      "ms_per_generated_step": 0.004108046875,
+      "instances_per_generated_step": 3.125
+    },
+    {
+      "family": "void at::native::index_elementwise_kernel<(int)128, (int)4, void at::native::gpu_index_kernel<void at::native::index_kernel_impl<at::native::OpaqueType<(int)4>>(at::TensorIteratorBase &, c10::ArrayRef<long>, c10::ArrayRef<long>)::[lambda(char *, const char *, long) (instance 1)]>(at::TensorIteratorBase &, c10::ArrayRef<long>, c10::ArrayRef<long>, const T1 &, bool)::[lambda(int) (instance 1)]>(long, T3)",
+      "grid": [
+        512,
+        1,
+        1
+      ],
+      "block": [
+        128,
+        1,
+        1
+      ],
+      "instances": 108,
+      "total_ms": 0.785398,
+      "average_us": 7.2722037037037035,
+      "ms_per_generated_step": 0.004090614583333333,
+      "instances_per_generated_step": 0.5625
+    },
+    {
+      "family": "chunk_fwd_kernel_o",
+      "grid": [
+        4,
+        1,
+        16
+      ],
+      "block": [
+        128,
+        1,
+        1
+      ],
+      "instances": 108,
+      "total_ms": 0.721773,
+      "average_us": 6.683083333333333,
+      "ms_per_generated_step": 0.003759234375,
+      "instances_per_generated_step": 0.5625
+    },
+    {
+      "family": "void at::native::index_elementwise_kernel<(int)128, (int)4, void at::native::gpu_index_kernel<void at::native::index_kernel_impl<at::native::OpaqueType<(int)2>>(at::TensorIteratorBase &, c10::ArrayRef<long>, c10::ArrayRef<long>)::[lambda(char *, const char *, long) (instance 1)]>(at::TensorIteratorBase &, c10::ArrayRef<long>, c10::ArrayRef<long>, const T1 &, bool)::[lambda(int) (instance 1)]>(long, T3)",
+      "grid": [
+        2,
+        1,
+        1
+      ],
+      "block": [
+        128,
+        1,
+        1
+      ],
+      "instances": 192,
+      "total_ms": 0.572399,
+      "average_us": 2.9812447916666667,
+      "ms_per_generated_step": 0.0029812447916666663,
+      "instances_per_generated_step": 1.0
+    },
+    {
+      "family": "void at::native::index_elementwise_kernel<(int)128, (int)4, void at::native::gpu_index_kernel<void at::native::index_put_kernel_impl<at::native::OpaqueType<(int)4>>(at::TensorIterator &, c10::ArrayRef<long>, c10::ArrayRef<long>)::[lambda(char *, const char *, long) (instance 1)]>(at::TensorIteratorBase &, c10::ArrayRef<long>, c10::ArrayRef<long>, const T1 &, bool)::[lambda(int) (instance 1)]>(long, T3)",
+      "grid": [
+        512,
+        1,
+        1
+      ],
+      "block": [
+        128,
+        1,
+        1
+      ],
+      "instances": 108,
+      "total_ms": 0.568917,
+      "average_us": 5.26775,
+      "ms_per_generated_step": 0.002963109375,
+      "instances_per_generated_step": 0.5625
+    },
+    {
+      "family": "recompute_w_u_fwd_kernel",
+      "grid": [
+        1,
+        16,
+        1
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "instances": 108,
+      "total_ms": 0.456137,
+      "average_us": 4.223490740740741,
+      "ms_per_generated_step": 0.0023757135416666666,
+      "instances_per_generated_step": 0.5625
+    },
+    {
+      "family": "void at::native::index_elementwise_kernel<(int)128, (int)4, void at::native::gpu_index_kernel<void at::native::index_kernel_impl<at::native::OpaqueType<(int)4>>(at::TensorIteratorBase &, c10::ArrayRef<long>, c10::ArrayRef<long>)::[lambda(char *, const char *, long) (instance 1)]>(at::TensorIteratorBase &, c10::ArrayRef<long>, c10::ArrayRef<long>, const T1 &, bool)::[lambda(int) (instance 1)]>(long, T3)",
+      "grid": [
+        1,
+        1,
+        1
+      ],
+      "block": [
+        128,
+        1,
+        1
+      ],
+      "instances": 192,
+      "total_ms": 0.432649,
+      "average_us": 2.2533802083333336,
+      "ms_per_generated_step": 0.0022533802083333334,
+      "instances_per_generated_step": 1.0
+    },
+    {
+      "family": "kernel",
+      "grid": [
+        2,
+        1,
+        1
+      ],
+      "block": [
+        128,
+        1,
+        1
+      ],
+      "instances": 192,
+      "total_ms": 0.425693,
+      "average_us": 2.2171510416666664,
+      "ms_per_generated_step": 0.0022171510416666663,
+      "instances_per_generated_step": 1.0
+    },
+    {
+      "family": "chunk_scaled_dot_kkt_fwd_kernel",
+      "grid": [
+        1,
+        16,
+        1
+      ],
+      "block": [
+        128,
+        1,
+        1
+      ],
+      "instances": 108,
+      "total_ms": 0.344534,
+      "average_us": 3.1901296296296295,
+      "ms_per_generated_step": 0.0017944479166666668,
+      "instances_per_generated_step": 0.5625
+    },
+    {
+      "family": "void at::native::elementwise_kernel<(int)128, (int)4, void at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase &)::[lambda() (instance 3)]::operator ()() const::[lambda() (instance 12)]::operator ()() const::[lambda(c10::BFloat16) (instance 1)]>(at::TensorIteratorBase &, const T1 &)::[lambda(int) (instance 1)]>(int, T3)",
+      "grid": [
+        2,
+        1,
+        1
+      ],
+      "block": [
+        128,
+        1,
+        1
+      ],
+      "instances": 216,
+      "total_ms": 0.34106,
+      "average_us": 1.5789814814814815,
+      "ms_per_generated_step": 0.0017763541666666667,
+      "instances_per_generated_step": 1.125
+    },
+    {
+      "family": "void at::native::elementwise_kernel<(int)128, (int)2, void at::native::gpu_kernel_impl_nocast<at::native::<unnamed>::masked_fill_kernel(at::TensorIterator &, const c10::Scalar &)::[lambda() (instance 1)]::operator ()() const::[lambda() (instance 7)]::operator ()() const::[lambda(float, bool) (instance 1)]>(at::TensorIteratorBase &, const T1 &)::[lambda(int) (instance 1)]>(int, T3)",
+      "grid": [
+        1024,
+        1,
+        1
+      ],
+      "block": [
+        128,
+        1,
+        1
+      ],
+      "instances": 108,
+      "total_ms": 0.334917,
+      "average_us": 3.1010833333333334,
+      "ms_per_generated_step": 0.001744359375,
+      "instances_per_generated_step": 0.5625
+    },
+    {
+      "family": "flash_attention",
+      "grid": [
+        1,
+        1,
+        8
+      ],
+      "block": [
+        128,
+        1,
+        1
+      ],
+      "instances": 36,
+      "total_ms": 0.313091,
+      "average_us": 8.696972222222223,
+      "ms_per_generated_step": 0.0016306822916666668,
+      "instances_per_generated_step": 0.1875
+    },
+    {
+      "family": "void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase &)::[lambda() (instance 3)]::operator ()() const::[lambda() (instance 3)]::operator ()() const::[lambda(int) (instance 1)], std::array<char *, (unsigned long)2>, (int)4, TrivialOffsetCalculator<(int)1, unsigned int>, TrivialOffsetCalculator<(int)1, unsigned int>, at::native::memory::LoadWithCast<(int)1>, at::native::memory::StoreWithCast<(int)1>>(int, T1, T2, T4, T5, T6, T7)",
+      "grid": [
+        1,
+        1,
+        1
+      ],
+      "block": [
+        128,
+        1,
+        1
+      ],
+      "instances": 210,
+      "total_ms": 0.265601,
+      "average_us": 1.2647666666666666,
+      "ms_per_generated_step": 0.0013833385416666668,
+      "instances_per_generated_step": 1.09375
+    },
+    {
+      "family": "void at::native::vectorized_elementwise_kernel<(int)4, at::native::CUDAFunctor_add<int>, std::array<char *, (unsigned long)3>>(int, T2, T3)",
+      "grid": [
+        1,
+        1,
+        1
+      ],
+      "block": [
+        128,
+        1,
+        1
+      ],
+      "instances": 210,
+      "total_ms": 0.214669,
+      "average_us": 1.0222333333333333,
+      "ms_per_generated_step": 0.0011180677083333333,
+      "instances_per_generated_step": 1.09375
+    },
+    {
+      "family": "void at::native::vectorized_elementwise_kernel<(int)2, at::native::CUDAFunctor_add<long>, std::array<char *, (unsigned long)3>>(int, T2, T3)",
+      "grid": [
+        1,
+        1,
+        1
+      ],
+      "block": [
+        128,
+        1,
+        1
+      ],
+      "instances": 192,
+      "total_ms": 0.213049,
+      "average_us": 1.1096302083333334,
+      "ms_per_generated_step": 0.0011096302083333333,
+      "instances_per_generated_step": 1.0
+    },
+    {
+      "family": "_causal_conv1d_fwd_kernel",
+      "grid": [
+        5,
+        24,
+        1
+      ],
+      "block": [
+        128,
+        1,
+        1
+      ],
+      "instances": 54,
+      "total_ms": 0.204832,
+      "average_us": 3.793185185185185,
+      "ms_per_generated_step": 0.0010668333333333333,
+      "instances_per_generated_step": 0.28125
+    },
+    {
+      "family": "void at::native::unrolled_elementwise_kernel<at::native::CUDAFunctorOnSelf_add<int>, std::array<char *, (unsigned long)2>, (int)4, TrivialOffsetCalculator<(int)1, unsigned int>, TrivialOffsetCalculator<(int)1, unsigned int>, at::native::memory::LoadWithoutCast, at::native::memory::StoreWithoutCast>(int, T1, T2, T4, T5, T6, T7)",
+      "grid": [
+        1,
+        1,
+        1
+      ],
+      "block": [
+        128,
+        1,
+        1
+      ],
+      "instances": 192,
+      "total_ms": 0.163795,
+      "average_us": 0.8530989583333334,
+      "ms_per_generated_step": 0.0008530989583333334,
+      "instances_per_generated_step": 1.0
+    },
+    {
+      "family": "_fused_post_conv_kernel",
+      "grid": [
+        3,
+        32,
+        1
+      ],
+      "block": [
+        128,
+        1,
+        1
+      ],
+      "instances": 90,
+      "total_ms": 0.158083,
+      "average_us": 1.7564777777777778,
+      "ms_per_generated_step": 0.0008233489583333334,
+      "instances_per_generated_step": 0.46875
+    },
+    {
+      "family": "void at::native::vectorized_elementwise_kernel<(int)4, at::native::FillFunctor<int>, std::array<char *, (unsigned long)1>>(int, T2, T3)",
+      "grid": [
+        1,
+        1,
+        1
+      ],
+      "block": [
+        128,
+        1,
+        1
+      ],
+      "instances": 192,
+      "total_ms": 0.151668,
+      "average_us": 0.7899375,
+      "ms_per_generated_step": 0.0007899375,
+      "instances_per_generated_step": 1.0
+    },
+    {
+      "family": "_causal_conv1d_fwd_kernel",
+      "grid": [
+        6,
+        24,
+        1
+      ],
+      "block": [
+        128,
+        1,
+        1
+      ],
+      "instances": 36,
+      "total_ms": 0.147508,
+      "average_us": 4.097444444444444,
+      "ms_per_generated_step": 0.0007682708333333334,
+      "instances_per_generated_step": 0.1875
+    },
+    {
+      "family": "chunk_local_cumsum_scalar_kernel",
+      "grid": [
+        1,
+        16,
+        1
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "instances": 108,
+      "total_ms": 0.138472,
+      "average_us": 1.282148148148148,
+      "ms_per_generated_step": 0.0007212083333333334,
+      "instances_per_generated_step": 0.5625
+    }
+  ],
+  "execution_proofs": [
+    {
+      "kind": "KERNEL_INSTANCE_COUNT",
+      "scope": "CUDA kernels containing '_sm89_exact_packed_bf16_gemv_kernel'",
+      "observed_count": 192,
+      "minimum_count": 192,
+      "evidence_index": 0,
+      "status": "PASS"
+    }
+  ]
+}

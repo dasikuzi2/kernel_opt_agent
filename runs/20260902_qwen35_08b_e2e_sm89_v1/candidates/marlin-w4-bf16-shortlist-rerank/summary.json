@@ -1,0 +1,132 @@
+{
+  "schema_version": "sm89-marlin-w4-bf16-shortlist-rerank-screen-v1",
+  "status": "PROMOTE_OPT_IN_APPROXIMATE_MODE_NOT_EXACT_REPLACEMENT",
+  "candidate": "vLLM Marlin GPTQ W4A16 full-vocabulary scan plus exact BF16 top-128 rerank",
+  "scope": "Qwen3.5-0.8B, RTX 4060 Laptop SM89, max_num_seqs=1, greedy decode, vLLM fp8_per_block or GPTQ-Marlin W4A16 backbone",
+  "microbenchmark": {
+    "exact_packed_bf16_us": 2956.2368392944336,
+    "marlin_w4a16_us": 893.9519882202148,
+    "speedup_vs_exact_packed_bf16": 3.30693021353424,
+    "random_vector_exact_winner_recall_at_128": "8/8",
+    "worst_approximate_rank": 3
+  },
+  "m2_microbenchmark": {
+    "torch_bf16_linear_us": 2842.2756958007812,
+    "marlin_w4a16_us": 803.1008148193359,
+    "speedup_vs_torch_bf16_linear": 3.5391268983336475,
+    "random_vector_exact_winner_recall_at_128": "8/8",
+    "measured_batch_exact_winner_ranks": [1, 1]
+  },
+  "low_power_end_to_end_screen": {
+    "protocol": "same source, adjacent multiprocess runs, six natural prompts, one warmup and three trials, 128 generated tokens",
+    "native_vllm_fp8_tpot_ms": 8.625853439627647,
+    "candidate_tpot_ms": 5.993781618117114,
+    "tpot_speedup": 1.4391337538149032,
+    "token_exact_cases": "6/6",
+    "native_median_graphics_clock_mhz": 945.0,
+    "candidate_median_graphics_clock_mhz": 862.5,
+    "native_median_power_w": 31.17,
+    "candidate_median_power_w": 26.13
+  },
+  "non_comparable_prior_high_clock_baseline": {
+    "native_vllm_fp8_tpot_ms": 5.11861,
+    "graphics_clock_mhz": 2625,
+    "reason": "The current laptop was power limited to 780--975 MHz, so the low-power screen cannot establish speedup against the earlier high-clock frontier."
+  },
+  "mtp1_screen": {
+    "status": "REJECT",
+    "protocol": "same candidate source in separate fresh processes, six natural prompts, one warmup and one measured trial, 64 generated tokens",
+    "nonspec_tpot_ms": 6.2156236587325875,
+    "mtp1_tpot_ms": 6.9221133650740185,
+    "nonspec_speedup_over_mtp1": 1.1136635268045636,
+    "aggregate_draft_acceptance": 0.7351598173515982,
+    "token_exact_cases_vs_nonspec": "3/6",
+    "reason": "M=2 Marlin weight reuse is real, but it does not cover proposer, target verification, rejection, and runtime overhead; the M=2 backbone also changes numerical reductions before exact shortlist reranking."
+  },
+  "gptq_backbone_qualification": {
+    "status": "PASS_PERFORMANCE_BOUNDED_QUALITY_NOT_TOKEN_EXACT",
+    "measured_utils_sha256": "2dcdd2c2e89888fa3c08a99bd1eded2be3ba6b611ec88724fc474bf95fe94766",
+    "protocol": "two independent fresh-cache screens followed by two warmups and five measured trials on six natural prompts, then paired GSM8K n=512",
+    "stock_weighted_tpot_ms": 7.687619650919247,
+    "candidate_weighted_tpot_ms": 4.9589494409322175,
+    "tpot_speedup": 1.5502516697314976,
+    "natural_token_exact": "768/768",
+    "gsm8k_control_correct": 42,
+    "gsm8k_candidate_correct": 42,
+    "gsm8k_answer_agreement": "466/512",
+    "gsm8k_token_exact": "457/512"
+  },
+  "w4_scan_only_boundary": {
+    "status": "REJECT_BEFORE_LONG_QUALIFICATION",
+    "source_sha256": "1cbbc62c84dc13137bd4ce5806de4717ed0658fc8a8f19c7f0bb62c24e915655",
+    "weighted_tpot_ms": 4.806686001313038,
+    "output_tokens_per_second": 208.04354595387153,
+    "speedup_over_stock_gptq": 1.5993596521219042,
+    "speedup_over_mv_rerank": 1.031675336557364,
+    "natural_token_exact": "57/768",
+    "natural_exact_sequences": "0/6",
+    "gsm8k_correct": "42/512",
+    "gsm8k_answer_agreement_vs_stock": "200/512",
+    "gsm8k_token_exact_vs_stock": "167/512",
+    "paired_correctness_changes_vs_stock": "22 control-only, 22 candidate-only",
+    "reason": "Only about 3.2% faster than BF16 shortlist reranking while substantially changing generated behavior; equal aggregate GSM8K accuracy is not sufficient evidence of preserved capability."
+  },
+  "batch_service_frontier": {
+    "status": "PROMOTE_SHAPE_GUARDED_LOW_CONCURRENCY_MODE",
+    "protocol": "one warmup and three measured trials, 64 generated tokens, forward/reverse batch order, max_num_seqs=8; stock-candidate-stock processes with a shared requested cache root and initialization excluded from service throughput",
+    "batch_sizes": [1, 2, 4, 8],
+    "stock_bf16_output_tokens_per_second": [97.89177040632651, 184.96435802514216, 355.9958482546302, 669.9730429533589],
+    "stock_gptq_output_tokens_per_second": [119.8396615731398, 274.2594180980068, 484.7688808457231, 883.2036487418114],
+    "stock_gptq_repeat_output_tokens_per_second": [124.66996985778368, 281.75677657121946, 546.7468912392798, 917.3603424909752],
+    "candidate_output_tokens_per_second": [176.87013918222442, 316.4631258256613, 472.8344230506829, 888.7036358340454],
+    "candidate_speedup_over_stock_gptq": [1.4758898419808884, 1.1538824373665555, 0.9753811387929451, 1.0062273147309446],
+    "candidate_speedup_over_faster_stock_gptq": [1.4187068416234292, 1.1231784011614327, 0.8648141043453147, 0.9687617773195687],
+    "candidate_speedup_over_stock_bf16": [1.8067927308708038, 1.7109411197082873, 1.328202071369334, 1.3264767070574714],
+    "stock_vs_candidate_exact_tokens": ["192/192", "384/384", "721/768", "1433/1536"],
+    "policy": "Opt-in rerank at batch 1; consider at batch 2 only when its approximate contract is acceptable; use stock GPTQ-Marlin at batch 4 and above."
+  },
+  "strict_production_pipeline_frontier": {
+    "status": "PROMOTE_APPROXIMATE_BATCH_1_AND_2_ONLY",
+    "protocol": "two independent cold VLLM_CACHE_ROOT traces per implementation, frozen harness and prompt-token hashes, guarded source hashes, one warmup and three measured trials, 64 generated tokens",
+    "production_components": [
+      "gptq_quantize_weights",
+      "pack_rows",
+      "gptq_marlin_repack",
+      "marlin_permute_scales",
+      "marlin_make_workspace_new"
+    ],
+    "stock_trace_output_tokens_per_second": [
+      [120.0016099708493, 274.7651555383369, 496.1733358305478, 928.5315857812509],
+      [120.80861608675056, 258.7569586207419, 483.2661670748113, 890.2160124124904]
+    ],
+    "candidate_trace_output_tokens_per_second": [
+      [177.01781913502967, 325.3522337671589, 483.26187479126884, 894.0121933891626],
+      [179.92291573610734, 327.9078141883769, 488.07540556060525, 906.6318344393684]
+    ],
+    "conservative_speedup_over_baseline_envelope": [1.4198914087888317, 1.1547272712531187, 0.8838859123567889, 0.9628236745839461],
+    "load_memory_gib_stock_candidate": [0.85, 0.99],
+    "policy": "Under the bounded approximate greedy quality contract, route active batch 1 and 2 to rerank; route batch 4 and 8 to stock GPTQ-Marlin. Under stock-GPTQ token identity, always route stock."
+  },
+  "implementation_limitations": [
+    "Output-head quantization and Marlin repacking now happen during weight post-processing, followed by a load-time warmup; the first request no longer performs packing.",
+    "The implementation uses vLLM production GPTQ quantization, row-packing, Marlin repacking, scale permutation and workspace APIs; it no longer imports a test helper.",
+    "The dense tied output-head weight remains resident beside the packed representation, adding about 0.14 GiB; it is required by both input embedding and BF16 shortlist reranking.",
+    "A prepacked sidecar can remove online conversion time, but removing the dense table requires a separate quantized-embedding candidate and a new quality qualification.",
+    "The top-128 contract is bounded empirical greedy-token identity, not full-logit or all-input mathematical equivalence.",
+    "The 512-case quality result supports an explicit approximate-speed mode only; broader tasks, sampling modes, concurrency and high-clock interleaving remain required before wider promotion."
+  ],
+  "artifacts": {
+    "microbenchmark": "microbench_candidates/marlin_int4_recall_lmhead_sm89.json",
+    "m2_microbenchmark": "microbench_candidates/marlin_int4_recall_lmhead_m2_sm89.json",
+    "runtime_comparison": "comparisons/vllm_fp8_native_vs_marlin_w4_rerank_low_power_screen.json",
+    "mtp1_screen": "comparisons/vllm_fp8_marlin_w4_rerank_mtp1_screen.json",
+    "gptq_qualification": "comparisons/vllm_gptq_marlin_w4_stock_vs_mv_rerank_qualification.json",
+    "gptq_quality": "comparisons/vllm_gptq_marlin_w4_stock_vs_mv_rerank_quality_gsm8k_n512.json",
+    "w4_scan_only_screen": "comparisons/vllm_gptq_marlin_w4_scan_only_boundary.json",
+    "batch_service_frontier": "comparisons/vllm_bf16_gptq_rerank_service_frontier.json",
+    "automatic_gptq_policy": "models/gptq_serving_policy_auto.json",
+    "sidecar_lifecycle_candidate": "candidates/marlin-w4-lmhead-sidecar/summary.json",
+    "prototype_patch": "candidates/marlin-w4-bf16-shortlist-rerank/vllm_utils_marlin_w4_bf16_shortlist_rerank.patch"
+  },
+  "decision": "Expose only as an opt-in approximate low-concurrency greedy mode. Prefer it at batch 1, consider it at batch 2 when the approximate quality contract is accepted, and retain stock GPTQ-Marlin at batch 4 and above. It is not a lossless default because the larger quality screen is not token-identical. Reject MTP-1 at this deployment point."
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": "microbenchmark-plan-v1",
+  "status": "DRAFT",
+  "target_questions": [],
+  "qualification_order": [
+    "DRAFT",
+    "STATIC_VALIDATED",
+    "MECHANISM_VALIDATED",
+    "DEVICE_CALIBRATED",
+    "PRODUCTION_PREDICTIVE"
+  ],
+  "levels": {
+    "P0": {"required": true, "status": "PENDING", "reason": null, "experiments": []},
+    "P1": {"required": true, "status": "PENDING", "reason": null, "experiments": []},
+    "P2": {"required": true, "status": "PENDING", "reason": null, "experiments": []},
+    "P3": {"required": true, "status": "PENDING", "reason": null, "experiments": []},
+    "P4": {"required": true, "status": "PENDING", "reason": null, "experiments": []}
+  },
+  "coupling_tests": [],
+  "cross_layer_prediction_gates": [],
+  "unresolved_questions": []
+}

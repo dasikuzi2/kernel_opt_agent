@@ -1,0 +1,63 @@
+{
+  "cases": [
+    {
+      "id": "natural-batch-1-generate-64",
+      "parameters": {
+        "active_batch": 1,
+        "concurrency": 1,
+        "generated_tokens_per_request": 64,
+        "prompt_suite": "six frozen natural requests",
+        "temperature": 0.0
+      },
+      "weight": 0.7
+    },
+    {
+      "id": "natural-batch-2-generate-64",
+      "parameters": {
+        "active_batch": 2,
+        "concurrency": 2,
+        "generated_tokens_per_request": 64,
+        "prompt_suite": "six frozen natural requests",
+        "temperature": 0.0
+      },
+      "weight": 0.15
+    },
+    {
+      "id": "natural-batch-4-generate-64",
+      "parameters": {
+        "active_batch": 4,
+        "concurrency": 4,
+        "generated_tokens_per_request": 64,
+        "prompt_suite": "six frozen natural requests",
+        "temperature": 0.0
+      },
+      "weight": 0.1
+    },
+    {
+      "id": "natural-batch-8-generate-64",
+      "parameters": {
+        "active_batch": 8,
+        "concurrency": 8,
+        "generated_tokens_per_request": 64,
+        "prompt_suite": "six frozen natural requests",
+        "temperature": 0.0
+      },
+      "weight": 0.05
+    }
+  ],
+  "execution": {
+    "cache_semantics": "frozen GPTQ W4A16 weights warm; request recurrent state and KV cache fresh; prefix cache disabled",
+    "call_frequency": "discovery uses one warmup and one measured trial; promotion requires fresh-cache stock-candidate-stock screening; qualification requires interleaved paired trials",
+    "downstream_layout": "64 greedy token IDs per request; TTFT, TPOT, aggregate output throughput and telemetry reported separately",
+    "graph_mode": "vLLM default torch.compile plus CUDA Graph; eager is correctness diagnosis only",
+    "power_policy": "record power, graphics clock, memory clock, temperature and competing GPU utilization; compare only overlapping operating envelopes",
+    "upstream_layout": "the six natural prompts frozen by benchmark_vllm_offline.py and the Qwen3.5 BF16 tokenizer"
+  },
+  "name": "qwen35_08b_gptq_sm89_natural_service_curve_v1",
+  "objective": {
+    "direction": "minimize",
+    "metric": "end_to_end_us",
+    "statistic": "median"
+  },
+  "schema_version": "workload-v1"
+}

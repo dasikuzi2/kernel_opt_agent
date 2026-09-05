@@ -1,0 +1,126 @@
+diff --git a/vllm/model_executor/models/qwen2_moe.py b/vllm/model_executor/models/qwen2_moe.py
+--- a/vllm/model_executor/models/qwen2_moe.py
++++ b/vllm/model_executor/models/qwen2_moe.py
+@@ -23,5 +23,6 @@
+ """Inference-only Qwen2MoE model compatible with HuggingFace weights."""
+ 
++import os
+ from collections.abc import Iterable
+ from itertools import islice
+ from typing import Any
+@@ -48,6 +49,9 @@ from vllm.model_executor.layers.vocab_parallel_embedding import (
+     VocabParallelEmbedding,
+ )
++from vllm.platforms import current_platform
+ from vllm.sequence import IntermediateTensors
++from vllm.triton_utils import tl, triton
++from vllm.utils.torch_utils import direct_register_custom_op
+ 
+ from .interfaces import SupportsLoRA, SupportsPP
+ from .utils import (
+@@ -71,3 +75,82 @@ logger = init_logger(__name__)
+ 
+ 
++_ENABLE_SM89_FUSED_SWIGLU_DOWN = (
++    os.environ.get("VLLM_SM89_FUSED_SWIGLU_DOWN", "0") == "1"
++    and current_platform.is_device_capability(89)
++)
++
++
++@triton.jit
++def _sm89_fused_swiglu_down_gemv_kernel(
++    gate_up,
++    weight,
++    out,
++    N: tl.constexpr,
++    K: tl.constexpr,
++    BLOCK_N: tl.constexpr,
++    BLOCK_K: tl.constexpr,
++):
++    rows = tl.program_id(0) * BLOCK_N + tl.arange(0, BLOCK_N)
++    cols = tl.arange(0, BLOCK_K)
++    gate = tl.load(gate_up + cols, mask=cols < K, other=0.0).to(tl.float32)
++    up = tl.load(gate_up + K + cols, mask=cols < K, other=0.0).to(tl.float32)
++    activated = (gate * tl.sigmoid(gate) * up).to(tl.bfloat16)
++    w = tl.load(
++        weight + rows[:, None] * K + cols[None, :],
++        mask=(rows[:, None] < N) & (cols[None, :] < K),
++        other=0.0,
++    ).to(tl.float32)
++    accum = tl.sum(w * activated[None, :].to(tl.float32), axis=1)
++    tl.store(out + rows, accum, mask=rows < N)
++
++
++def sm89_fused_swiglu_down_impl(
++    gate_up: torch.Tensor,
++    weight: torch.Tensor,
++) -> torch.Tensor:
++    if weight.shape != (1024, 3584):
++        raise ValueError(f"unsupported down weight shape: {tuple(weight.shape)}")
++    if gate_up.numel() != 7168:
++        half = gate_up.shape[-1] // 2
++        activated = F.silu(gate_up[..., :half]) * gate_up[..., half:]
++        return F.linear(activated, weight)
++    logger.info_once("Using SM89 fused SwiGLU + down-projection GEMV for batch-1 decode.")
++    output = torch.empty(
++        (*gate_up.shape[:-1], 1024), dtype=gate_up.dtype, device=gate_up.device
++    )
++    _sm89_fused_swiglu_down_gemv_kernel[(256,)](
++        gate_up,
++        weight,
++        output,
++        N=1024,
++        K=3584,
++        BLOCK_N=4,
++        BLOCK_K=4096,
++        num_warps=4,
++        num_stages=1,
++    )
++    return output
++
++
++def sm89_fused_swiglu_down_fake(
++    gate_up: torch.Tensor,
++    weight: torch.Tensor,
++) -> torch.Tensor:
++    return gate_up.new_empty((*gate_up.shape[:-1], weight.shape[0]))
++
++
++def sm89_fused_swiglu_down(
++    gate_up: torch.Tensor,
++    weight: torch.Tensor,
++) -> torch.Tensor:
++    return torch.ops.vllm.sm89_fused_swiglu_down(gate_up, weight)
++
++
++direct_register_custom_op(
++    op_name="sm89_fused_swiglu_down",
++    op_func=sm89_fused_swiglu_down_impl,
++    fake_impl=sm89_fused_swiglu_down_fake,
++)
++
++
+ class Qwen2MoeMLP(nn.Module):
+@@ -110,11 +193,22 @@ class Qwen2MoeMLP(nn.Module):
+         self.expert_gate = expert_gate
+ 
+     def forward(self, x):
+         gate_up, _ = self.gate_up_proj(x)
++        if (
++            _ENABLE_SM89_FUSED_SWIGLU_DOWN
++            and self.expert_gate is None
++            and gate_up.is_cuda
++            and gate_up.dtype == torch.bfloat16
++            and self.down_proj.tp_size == 1
++            and self.down_proj.bias is None
++            and self.down_proj.weight.dtype == torch.bfloat16
++            and self.down_proj.weight.shape == (1024, 3584)
++        ):
++            return sm89_fused_swiglu_down(gate_up, self.down_proj.weight)
+         out = self.act_fn(gate_up)
+         out, _ = self.down_proj(out)
+ 
+         if self.expert_gate is not None:
+             out = F.sigmoid(self.expert_gate(x)[0]) * out
+ 
+         return out

@@ -1,0 +1,36 @@
+{
+  "schema_version": "vllm-same-quantization-cssc-qualification-v1",
+  "status": "PASS",
+  "protocol": "same patched vLLM source, C-S-S-C, six natural prompts, 3 warmups x 10 trials per case, 128 generated tokens, max_num_seqs=1, fixed 512 MiB KV cache",
+  "control": "vLLM fp8_per_block Marlin backbone with stock BF16 lm_head",
+  "candidate": "the same vLLM fp8_per_block Marlin backbone with exact-packed BF16 lm_head",
+  "means": {
+    "control_e2e_ms": 686.6492591254124,
+    "candidate_e2e_ms": 629.6484284584949,
+    "e2e_speedup": 1.09052802816719,
+    "control_tpot_ms": 5.118950478015837,
+    "candidate_tpot_ms": 4.681179028547593,
+    "tpot_speedup": 1.0935173482574685
+  },
+  "cross_pair_tpot_speedups": [
+    1.093337120554188,
+    1.0935523535176428,
+    1.0934823498870294,
+    1.0936976114401473
+  ],
+  "correctness": {
+    "natural_suite_cross_mode_token_exact_cases_each_pair": "6/6",
+    "gsm8k_sample_count": 512,
+    "gsm8k_token_exact_count": 512,
+    "gsm8k_answer_agreement_count": 512,
+    "native_fp8_correct": 40,
+    "exact_head_fp8_correct": 40
+  },
+  "telemetry": {
+    "control_median_graphics_clock_mhz": [2625.0, 2610.0],
+    "candidate_median_graphics_clock_mhz": [2610.0, 2610.0],
+    "control_median_power_w": [61.1, 64.92],
+    "candidate_median_power_w": [68.025, 68.94]
+  },
+  "decision": "PROMOTE: the custom exact-packed lm_head contributes a repeatable 9.35% TPOT gain beyond native vLLM FP8 per-block at batch-1 without changing any of the 512 paired GSM8K token sequences."
+}

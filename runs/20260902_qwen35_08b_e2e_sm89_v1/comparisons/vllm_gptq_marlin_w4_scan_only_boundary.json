@@ -1,0 +1,37 @@
+{
+  "schema_version": "vllm-gptq-marlin-w4-scan-only-boundary-v1",
+  "status": "REJECT_BEFORE_LONG_QUALIFICATION",
+  "claim_scope": "LOW_POWER_LOCAL_RTX4060_CONCURRENCY1_GREEDY_SCREEN_NOT_GLOBAL_OPTIMUM",
+  "candidate": "GPTQ-Marlin W4 backbone plus W4-only 248320x1024 output-head scan",
+  "performance_screen": {
+    "trace": "traces/vllm_gptq_w4_head_scan_only_natural_128_screen.json",
+    "warmups": 1,
+    "trials": 1,
+    "weighted_tpot_ms": 4.806686001313038,
+    "weighted_output_tokens_per_second": 208.04354595387153,
+    "speedup_over_stock_gptq": 1.5993596521219042,
+    "speedup_over_mv_rerank": 1.031675336557364,
+    "median_measured_clock_mhz": 780.0,
+    "median_measured_power_w": 23.565,
+    "natural_exact_sequences_vs_stock": "0/6",
+    "natural_exact_tokens_vs_stock": "57/768"
+  },
+  "paired_quality": {
+    "trace": "traces/vllm_gptq_marlin_w4_scan_only_quality_n512_t64.json",
+    "stock_comparison": "comparisons/vllm_gptq_marlin_w4_stock_vs_scan_only_quality_gsm8k_n512.json",
+    "rerank_comparison": "comparisons/vllm_gptq_marlin_w4_mv_rerank_vs_scan_only_quality_gsm8k_n512.json",
+    "sample_count": 512,
+    "stock_correct": 42,
+    "candidate_correct": 42,
+    "answer_agreement_vs_stock": "200/512",
+    "token_exact_vs_stock": "167/512",
+    "paired_outcomes_vs_stock": {
+      "both_correct": 20,
+      "stock_only_correct": 22,
+      "candidate_only_correct": 22,
+      "both_wrong": 448
+    },
+    "mcnemar_exact_two_sided_p": 1.0
+  },
+  "decision": "Reject before repeated long performance qualification. Equal aggregate accuracy with 61% answer disagreement is behavior replacement, not evidence of preserved quality, and buys only about 3.2% over the safer BF16-rerank candidate."
+}

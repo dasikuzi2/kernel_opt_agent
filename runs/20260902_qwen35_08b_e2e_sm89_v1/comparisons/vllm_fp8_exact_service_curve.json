@@ -1,0 +1,53 @@
+{
+  "schema_version": "vllm-fp8-exact-service-curve-v1",
+  "status": "MEASURED_REJECT_SMALL_BATCH_EXTENSION",
+  "configuration": {
+    "quantization": "fp8_per_block",
+    "max_num_seqs": 8,
+    "new_tokens": 64,
+    "warmups": 2,
+    "trials": 5,
+    "sampling": "greedy, ignore_eos"
+  },
+  "points": [
+    {
+      "batch_size": 1,
+      "stock_wall_ms": 362.18269799792324,
+      "small_batch_exact_wall_ms": 749.6641339967027,
+      "stock_over_candidate_speedup": 0.4831266015508335
+    },
+    {
+      "batch_size": 2,
+      "stock_wall_ms": 375.7637849994353,
+      "small_batch_exact_wall_ms": 763.6625480008661,
+      "stock_over_candidate_speedup": 0.4920547367504238
+    },
+    {
+      "batch_size": 3,
+      "stock_wall_ms": 385.6685179998749,
+      "small_batch_exact_wall_ms": 796.3336739994702,
+      "stock_over_candidate_speedup": 0.484304034789393
+    },
+    {
+      "batch_size": 4,
+      "stock_wall_ms": 410.331936996954,
+      "small_batch_exact_wall_ms": 806.5296329987177,
+      "stock_over_candidate_speedup": 0.5087654890535945
+    },
+    {
+      "batch_size": 8,
+      "stock_wall_ms": 468.44144699934986,
+      "small_batch_exact_wall_ms": 465.6312080005591,
+      "stock_over_candidate_speedup": 1.0060353284909687,
+      "note": "candidate selector falls back to stock at batch 8"
+    }
+  ],
+  "m1_only_followup": {
+    "stock_batch1_wall_ms": 362.18269799792324,
+    "m1_exact_batch1_wall_ms": 873.8377310000942,
+    "stock_over_candidate_speedup": 0.4144736099585407,
+    "batch_2_to_8_behavior": "selector falls back to stock and returns near the stock service curve"
+  },
+  "correctness_observation": "Batch-1 output sequences were exact in all five paired trials. Batch 3/4 and fallback batch 8 showed cross-process sequence variation, so this screen cannot support a broad exactness claim for the service curve.",
+  "decision": "Keep the exact-packed head restricted to the separately qualified max_num_seqs=1 policy point. Do not enable either the M1-only or M1-4 variant in the current max_num_seqs=8 configuration."
+}

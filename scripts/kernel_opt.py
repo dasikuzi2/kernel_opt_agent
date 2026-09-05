@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import subprocess
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -21,9 +22,15 @@ class Command:
 COMMAND_GROUPS: dict[str, dict[str, Command]] = {
     "run lifecycle": {
         "new-run": Command("new_run.py", "freeze intake and create a run"),
+        "trace-intake": Command("import_flashinfer_trace.py", "convert FlashInfer Trace into frozen intake contracts"),
         "next": Command("optimizer_step.py", "select the next evidence-driven action"),
         "advance": Command("advance_run.py", "validate and advance one phase gate"),
         "audit": Command("audit_repository.py", "verify reusable-zone purity"),
+    },
+    "candidate discovery": {
+        "opportunity": Command("opportunity_map.py", "validate and rank global gain opportunities before implementation"),
+        "method": Command("method_library.py", "match transferable optimization methods to ranked opportunities"),
+        "candidate": Command("candidate_discovery.py", "manage fast production-candidate discovery and repair"),
     },
     "hardware": {
         "hardware-discover": Command("discover_hardware.py", "query the target device and software stack"),
@@ -42,6 +49,7 @@ COMMAND_GROUPS: dict[str, dict[str, Command]] = {
     "measurement": {
         "p0-calibrate": Command("calibrate_p0.py", "qualify timing and launch semantics"),
         "service-curve-fit": Command("fit_service_curve.py", "fit latency and throughput service curves"),
+        "service-policy": Command("derive_serving_policy.py", "derive a guarded batch-aware serving policy"),
         "paired-compare": Command("compare_paired.py", "compare interleaved baseline/candidate samples"),
     },
     "experiment": {
@@ -92,8 +100,7 @@ def main() -> int:
     # modules import shared helpers from scripts/; disable bytecode generation
     # before exec so normal framework use never creates scripts/__pycache__.
     os.environ["PYTHONDONTWRITEBYTECODE"] = "1"
-    os.execv(sys.executable, [sys.executable, str(target), *forwarded])
-    return 127
+    return subprocess.call([sys.executable, str(target), *forwarded])
 
 
 if __name__ == "__main__":

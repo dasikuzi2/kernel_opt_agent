@@ -1,0 +1,11 @@
+{
+  "candidate": "reuse fused GDN post-convolution MTP kernel for ordinary one-token decode",
+  "scope": "Qwen3.5-0.8B, RTX 4060 Laptop GPU, batch=1 decode, BF16",
+  "e2e_speedup": 0.9676025289102567,
+  "tpot_speedup": 0.9956214395628324,
+  "exact_generated_token_cases": "6/6",
+  "decision": "REJECT",
+  "reason": "The fixed cost of the MTP-oriented fused kernel cancels the removed gated-RMSNorm launch.",
+  "evidence": "comparisons/vllm_sm89_fused_gdn_nonspec_smoke_adjacent.json",
+  "evidence_sha256": "8123fb6f9f1db8356cffde07326b8dd583430ac0133c45016345906a73b10bf9"
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": "hardware-compatibility-receipt-v1",
+  "status": "TECHNICALLY_BLOCKED_FOR_OPERATOR_EXECUTION",
+  "claim_scope": "NO_TARGET_PERFORMANCE_CLAIM",
+  "captured_at": "2026-09-01T15:31:00+08:00",
+  "device": {
+    "name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "uuid": "GPU-44a7edbf-e229-1e53-38a4-1e69ee49dd19",
+    "compute_capability": "8.9",
+    "memory_mib": 8188,
+    "driver": "592.82"
+  },
+  "required_operator_route": "FlashInfer GDN prefill dispatch for architecture major 9, 10, or 12",
+  "actual_architecture_major": 8,
+  "reason": "The frozen SM120 GDN operator has no SM89 dispatch path; running a different implementation here would not validate the target binary or target performance.",
+  "permitted_use": [
+    "agent workflow and schema tests",
+    "workload freezing and subset selection",
+    "source validation and report generation"
+  ],
+  "disposition": "Use the RTX 5090 for operator correctness and performance; do not present local 4060 numbers as target evidence."
+}

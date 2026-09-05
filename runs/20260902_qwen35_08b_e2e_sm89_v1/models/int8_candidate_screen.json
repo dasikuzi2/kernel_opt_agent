@@ -1,0 +1,13 @@
+{
+  "schema_version": "quantized-candidate-screen-v1",
+  "candidate_id": "online-int8-per-channel-weight-only-sm89",
+  "status": "TECHNICAL_FAILURE_NOT_APPLICABLE",
+  "claim_scope": "EXPLORATORY_QUANTIZED_SMOKE_REQUIRES_NEW_NUMERICS_CONTRACT",
+  "requested_mechanism": "vLLM int8_per_channel_weight_only",
+  "observed_configuration": "QuantizationConfigArgs(linear=None, moe=QuantSpec(...))",
+  "observed_loader_result": "Quantized 0 layers of types:",
+  "decision": "STOP_BEFORE_COMPILE_OR_MEASUREMENT",
+  "reason": "The preset did not bind to any dense linear layer in Qwen3.5-0.8B. Any subsequent timing would be a mislabeled BF16 rerun, not INT8 evidence.",
+  "performance_hypothesis_disposition": "NOT_TESTED",
+  "next_valid_route": "Produce an explicitly quantized dense checkpoint or a quantization config whose linear target list is non-empty, then re-run the two-token gate."
+}

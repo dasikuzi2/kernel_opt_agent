@@ -1,0 +1,77 @@
+{
+  "schema_version": "kernel-candidate-evidence-v1",
+  "candidate": "vllm-sm89-bf16-qwen35-08b-lm-head-gemv",
+  "status": "QUALIFIED_DISCOVERY_WINNER",
+  "scope": {
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "compute_capability": "8.9",
+    "runtime": "vLLM 0.28.1rc1.dev312+g41848caa6",
+    "model": "Qwen3.5-0.8B",
+    "dtype": "bfloat16",
+    "batch_size": 1,
+    "projection_shape": [1, 248320, 1024]
+  },
+  "mechanism": "Replace torch/cuBLAS M=1 BF16 lm_head linear with an SM89-specialized Triton GEMV; keep every model weight and the sampler contract unchanged.",
+  "configuration": {
+    "block_n": 4,
+    "block_k": 1024,
+    "num_warps": 8,
+    "num_stages": 1
+  },
+  "qualification": {
+    "prompt_suite": "six natural requests",
+    "warmups": 3,
+    "trials": 10,
+    "generated_tokens_per_request": 128,
+    "stock_weighted_e2e_ms": 1262.6712566666733,
+    "candidate_weighted_e2e_ms": 1070.3661334999997,
+    "e2e_speedup": 1.1796629369595741,
+    "stock_weighted_tpot_ms": 9.623029452099763,
+    "candidate_weighted_tpot_ms": 8.12794336614178,
+    "tpot_speedup": 1.1839439595735863,
+    "exact_generated_token_cases": "6/6",
+    "candidate_median_graphics_clock_mhz": 915.0,
+    "stock_median_graphics_clock_mhz": 930.0,
+    "candidate_median_power_w": 37.7,
+    "stock_median_power_w": 37.025,
+    "candidate_trace": "../traces/vllm_natural_sm89_lmhead_gemv_qual_n_w3_n10.json",
+    "stock_trace": "../traces/vllm_natural_stock_qual_o_w3_n10.json"
+  },
+  "same_source_abba_replication": {
+    "status": "PASS",
+    "order": "candidate-stock-stock-candidate",
+    "source_sha256_both_paths": "a2b0d1ac0600564dae318afc544d7876e13b2e847e44cb1d5632bec7d213dc23",
+    "stock_mean_weighted_e2e_ms": 1263.702336916689,
+    "candidate_mean_weighted_e2e_ms": 1059.4445576666846,
+    "e2e_speedup": 1.19279704423595,
+    "stock_mean_weighted_tpot_ms": 9.68380774081364,
+    "candidate_mean_weighted_tpot_ms": 8.07912004068239,
+    "tpot_speedup": 1.19862159394227,
+    "exact_generated_token_cases_each_pair": "6/6",
+    "evidence": "sm89_lm_head_abba.json"
+  },
+  "numerics": {
+    "claim": "The six qualification sequences are token-exact; the kernel is not claimed bitwise-equal for every possible input.",
+    "main_backbone_extension": "REJECT_CURRENT_REACHABLE_VARIANTS",
+    "main_backbone_reason": "The earlier fresh-cache ablations were retracted after proving their compiled branch could be frozen away. Nsight-backed replacements executed the candidate kernels 3,540/12,468 times, but non-profiled production screening showed only about 0.7-1.7% and just 2/6 token-exact cases.",
+    "main_backbone_evidence": "sm89_nsys_operator_map.json"
+  },
+  "installation": {
+    "patch": "../patches/vllm_0.28.1_sm89_bf16_lm_head.patch",
+    "stock_utils_sha256": "bc4f5701aad407bdd5a7f02872dfb1e14b75d247199619e218482555451502fe",
+    "qualified_candidate_utils_sha256": "a2b0d1ac0600564dae318afc544d7876e13b2e847e44cb1d5632bec7d213dc23",
+    "default_path": "stock",
+    "enable_environment_variable": "VLLM_SM89_BF16_LM_HEAD=1"
+  },
+  "restoration_smoke": {
+    "status": "PASS",
+    "source_sha256": "a2b0d1ac0600564dae318afc544d7876e13b2e847e44cb1d5632bec7d213dc23",
+    "actual_sm89_lm_head": "triton",
+    "actual_gdn_decode_kernel": "cuda",
+    "natural_cases": 6,
+    "generated_tokens_per_case": 16,
+    "trace": "../traces/vllm_lmhead_restored_smoke_w1_n1_t16.json",
+    "trace_sha256": "7a0e4e321a3b4e454614c6db8f40c37d3e59d7467fd0d23495de79b570bbb77f"
+  },
+  "claim_limit": "This is a single-request latency result on one SM89 laptop GPU, not a throughput or cross-hardware SOTA claim."
+}

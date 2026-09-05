@@ -1,0 +1,20 @@
+{
+  "schema_version": "paired-gsm8k-quality-comparison-v1",
+  "status": "PASS",
+  "sample_count": 512,
+  "control_accuracy": 0.087890625,
+  "candidate_accuracy": 0.078125,
+  "candidate_minus_control_accuracy": -0.009765625,
+  "answer_agreement_count": 334,
+  "answer_agreement_rate": 0.65234375,
+  "token_exact_count": 311,
+  "token_exact_rate": 0.607421875,
+  "paired_outcomes": {
+    "both_correct": 30,
+    "control_only_correct": 15,
+    "candidate_only_correct": 10,
+    "both_wrong": 457
+  },
+  "mcnemar_exact_two_sided_p": 0.42435622215270996,
+  "qualification": "This is a bounded task-quality screen, not proof of global model-quality equivalence. Promotion still requires broader tasks and sampling modes."
+}

@@ -1,0 +1,38 @@
+{
+  "schema_version": "vllm-bootstrap-failures-v1",
+  "status": "RESOLVED",
+  "environment": {
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "platform": "Windows WDDM through WSL2 Ubuntu",
+    "vllm": "0.28.1rc1.dev312+g41848caa6"
+  },
+  "attempts": [
+    {
+      "attempt": 1,
+      "failure_class": "TECHNICAL_FAILURE",
+      "root_cause": "The default V2 model runner requires UVA, which the current WSL driver path reported as unavailable.",
+      "terminal_error": "RuntimeError: UVA is not available",
+      "bounded_action": "Set VLLM_USE_V2_MODEL_RUNNER=0 and retry once with the compatibility runner.",
+      "performance_hypothesis_disposition": "NOT_TESTED"
+    },
+    {
+      "attempt": 2,
+      "failure_class": "TECHNICAL_FAILURE",
+      "root_cause": "FlashInfer sampling JIT could not find the ninja executable because the venv Python was invoked without its bin directory on PATH.",
+      "terminal_error": "FileNotFoundError: [Errno 2] No such file or directory: 'ninja'",
+      "bounded_action": "Fix PATH and disable the unrelated FlashInfer top-k/top-p sampler for greedy decoding.",
+      "performance_hypothesis_disposition": "NOT_TESTED"
+    },
+    {
+      "attempt": 3,
+      "failure_class": null,
+      "result": "PASS",
+      "controls": {
+        "VLLM_USE_V2_MODEL_RUNNER": "0",
+        "VLLM_USE_FLASHINFER_SAMPLER": "0",
+        "venv_bin_first_on_PATH": true
+      },
+      "evidence": "traces/vllm_offline_smoke_eager_p16_g2.json"
+    }
+  ]
+}

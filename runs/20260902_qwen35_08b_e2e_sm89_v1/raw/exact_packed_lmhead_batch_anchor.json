@@ -1,0 +1,166 @@
+{
+  "schema_version": "exact-packed-bf16-lmhead-small-batch-screen-v1",
+  "status": "PASS",
+  "scope": {
+    "model": "/home/aden/models/Qwen3.5-0.8B",
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "weight_shape": [
+      248320,
+      1024
+    ],
+    "baseline": "torch.mm BF16 production library path",
+    "candidate": "one CTA reuses each reconstructed weight tile across BLOCK_M rows"
+  },
+  "controls": {
+    "iterations": 2,
+    "repeats": 3,
+    "warmup_pairs": 5,
+    "cuda_graph": true,
+    "paired_order": "alternating"
+  },
+  "best_by_batch": {
+    "2": {
+      "batch_size": 2,
+      "block_m": 2,
+      "block_n": 4,
+      "num_warps": 8,
+      "argmax_exact": true,
+      "maximum_absolute_logit_difference": 0.0001220703125,
+      "baseline_us": 2067.8720474243164,
+      "candidate_us": 1593.2960510253906,
+      "speedup": 1.2978580133262145,
+      "samples": {
+        "baseline_us": [
+          2094.928026199341,
+          2067.8720474243164,
+          2052.608013153076
+        ],
+        "candidate_us": [
+          1593.2960510253906,
+          1588.1119966506958,
+          1621.9199895858765
+        ],
+        "order": [
+          "baseline-candidate",
+          "candidate-baseline",
+          "baseline-candidate"
+        ]
+      }
+    }
+  },
+  "results": [
+    {
+      "batch_size": 2,
+      "block_m": 2,
+      "block_n": 4,
+      "num_warps": 4,
+      "argmax_exact": true,
+      "maximum_absolute_logit_difference": 0.0001220703125,
+      "baseline_us": 2057.7759742736816,
+      "candidate_us": 1596.4159965515137,
+      "speedup": 1.2889973407424953,
+      "samples": {
+        "baseline_us": [
+          2053.5359382629395,
+          2058.7520599365234,
+          2057.7759742736816
+        ],
+        "candidate_us": [
+          1596.4159965515137,
+          1612.8000020980835,
+          1595.728039741516
+        ],
+        "order": [
+          "baseline-candidate",
+          "candidate-baseline",
+          "baseline-candidate"
+        ]
+      }
+    },
+    {
+      "batch_size": 2,
+      "block_m": 2,
+      "block_n": 4,
+      "num_warps": 8,
+      "argmax_exact": true,
+      "maximum_absolute_logit_difference": 0.0001220703125,
+      "baseline_us": 2067.8720474243164,
+      "candidate_us": 1593.2960510253906,
+      "speedup": 1.2978580133262145,
+      "samples": {
+        "baseline_us": [
+          2094.928026199341,
+          2067.8720474243164,
+          2052.608013153076
+        ],
+        "candidate_us": [
+          1593.2960510253906,
+          1588.1119966506958,
+          1621.9199895858765
+        ],
+        "order": [
+          "baseline-candidate",
+          "candidate-baseline",
+          "baseline-candidate"
+        ]
+      }
+    },
+    {
+      "batch_size": 2,
+      "block_m": 2,
+      "block_n": 8,
+      "num_warps": 4,
+      "argmax_exact": true,
+      "maximum_absolute_logit_difference": 0.0001220703125,
+      "baseline_us": 2059.0879917144775,
+      "candidate_us": 1592.3199653625488,
+      "speedup": 1.2931370808037643,
+      "samples": {
+        "baseline_us": [
+          2058.6400032043457,
+          2088.4480476379395,
+          2059.0879917144775
+        ],
+        "candidate_us": [
+          1592.8479433059692,
+          1592.3199653625488,
+          1588.6880159378052
+        ],
+        "order": [
+          "baseline-candidate",
+          "candidate-baseline",
+          "baseline-candidate"
+        ]
+      }
+    },
+    {
+      "batch_size": 2,
+      "block_m": 2,
+      "block_n": 8,
+      "num_warps": 8,
+      "argmax_exact": true,
+      "maximum_absolute_logit_difference": 0.0001220703125,
+      "baseline_us": 2058.6719512939453,
+      "candidate_us": 1615.3600215911865,
+      "speedup": 1.2744353727821498,
+      "samples": {
+        "baseline_us": [
+          2054.4960498809814,
+          2059.7760677337646,
+          2058.6719512939453
+        ],
+        "candidate_us": [
+          1615.3600215911865,
+          1618.9440488815308,
+          1591.1680459976196
+        ],
+        "order": [
+          "baseline-candidate",
+          "candidate-baseline",
+          "baseline-candidate"
+        ]
+      }
+    }
+  ],
+  "decision": "PROMOTE_BATCH_VARIANT_FOR_END_TO_END_SCREEN"
+}

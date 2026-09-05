@@ -106,8 +106,8 @@ def main() -> int:
                 "started_at": started,
                 "finished_at": datetime.now(timezone.utc).isoformat(),
                 "exit_code": completed.returncode,
-                "stdout": {"path": str(stdout_path.relative_to(run)), "sha256": sha256(stdout_path)},
-                "stderr": {"path": str(stderr_path.relative_to(run)), "sha256": sha256(stderr_path)},
+                "stdout": {"path": stdout_path.relative_to(run).as_posix(), "sha256": sha256(stdout_path)},
+                "stderr": {"path": stderr_path.relative_to(run).as_posix(), "sha256": sha256(stderr_path)},
             }
             receipt["commands"].append(record)
             if completed.returncode:
@@ -140,14 +140,14 @@ def main() -> int:
     receipt["status"] = "FAIL" if failure else "PASS"
     receipt["failure"] = failure
     receipt["artifacts"] = {
-        name: {"path": str(artifact_path(run, value).relative_to(run)), "sha256": sha256(artifact_path(run, value))}
+        name: {"path": artifact_path(run, value).relative_to(run).as_posix(), "sha256": sha256(artifact_path(run, value))}
         for name, value in experiment.get("artifacts", {}).items()
         if artifact_path(run, value).is_file()
     }
     atomic_json(receipt_path, receipt)
     queue = read_object(queue_path)
     request = next(item for item in queue["requests"] if item.get("request_id") == args.request_id)
-    receipt_identity = {"path": str(receipt_path.relative_to(run)), "sha256": sha256(receipt_path), "status": receipt["status"]}
+    receipt_identity = {"path": receipt_path.relative_to(run).as_posix(), "sha256": sha256(receipt_path), "status": receipt["status"]}
     request["execution_receipt"] = receipt_identity
     if failure:
         request["status"] = "BLOCKED"

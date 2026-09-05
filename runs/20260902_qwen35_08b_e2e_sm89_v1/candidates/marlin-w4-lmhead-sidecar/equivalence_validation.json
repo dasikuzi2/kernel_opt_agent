@@ -1,0 +1,45 @@
+{
+  "schema_version": "qwen35-sm89-marlin-lmhead-sidecar-validation-v1",
+  "status": "PASS",
+  "captured_at": "2026-09-05T10:56:19.112373+00:00",
+  "environment": {
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "torch": "2.13.0+cu130",
+    "cuda": "13.0",
+    "utils_path": "/home/aden/.venvs/qwen35-vllm-4060/lib/python3.12/site-packages/vllm/model_executor/layers/utils.py",
+    "utils_sha256": "76fa0a8b4523f28efb23fc120d18a15345f09ff6fc513f7416e21da4bebbd65d"
+  },
+  "inputs": {
+    "checkpoint": "/home/aden/models/Qwen3.5-0.8B-W4A16-AutoRound-GPTQ-g128/model.safetensors",
+    "tensor_key": "model.language_model.embed_tokens.weight",
+    "sidecar": "/home/aden/vllm-sidecars/qwen35-08b-gptq/sm89_lmhead_marlin_w4_g128.safetensors",
+    "sidecar_sha256": "b8a06c4d71433a5f97d480d5b16373298567c6ae055e5cf961e5f29656a1a793",
+    "dense_shape": [
+      248320,
+      1024
+    ],
+    "dense_dtype": "torch.bfloat16",
+    "random_seed": 20260905,
+    "test_rows": 2
+  },
+  "checks": {
+    "packed_weight_bit_equal": true,
+    "permuted_scales_bit_equal": true,
+    "g_idx_equal": true,
+    "sort_indices_equal": true,
+    "reranked_logits_bit_equal": true,
+    "argmax_equal": true,
+    "wrong_sidecar_sha256_rejected": true
+  },
+  "materialization_seconds": {
+    "online_quantize_repack": 2.047280487997341,
+    "sidecar_hash_and_load": 0.1427753730022232,
+    "speedup": 14.339170999507472
+  },
+  "scope": {
+    "proves_same_packed_tensors": true,
+    "proves_same_rerank_function_for_test_input": true,
+    "does_not_prove_global_performance": true,
+    "does_not_remove_dense_weight": true
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version": "opportunity-map-v1",
+  "status": "DRAFT",
+  "created_at": null,
+  "ranked_at": null,
+  "policy": {
+    "min_opportunities": 4,
+    "max_opportunities": 12,
+    "min_rewrite_families": 4,
+    "min_candidate_opportunities": 3,
+    "confidence_weights": {
+      "HIGH": 1.0,
+      "MEDIUM": 0.65,
+      "LOW": 0.35
+    },
+    "score_formula": "midpoint(likely_gain_interval_us) * confidence_weight / implementation_budget_minutes",
+    "forbidden_claim_scope": "ABSOLUTE_GLOBAL_OPTIMUM"
+  },
+  "opportunities": [],
+  "events": []
+}

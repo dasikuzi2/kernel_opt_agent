@@ -24,7 +24,7 @@ def main() -> int:
         "status": "BLOCKED",
         "target_identity": hardware.get("target", {}),
         "trusted_policy_identity": {
-            "path": str(args.policy.resolve().relative_to(Path(__file__).resolve().parents[1])),
+            "path": args.policy.resolve().relative_to(Path(__file__).resolve().parents[1]).as_posix(),
             "sha256": sha256(args.policy),
         },
         "official_source_policy": {

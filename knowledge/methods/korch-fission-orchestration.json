@@ -1,0 +1,58 @@
+{
+  "schema_version": "optimization-method-v1",
+  "method_id": "korch-fission-orchestration",
+  "title": "Explore fission before choosing global kernel orchestration",
+  "kind": "ORCHESTRATION",
+  "source": {
+    "title": "Optimal Kernel Orchestration for Tensor Programs with Korch",
+    "url": "https://arxiv.org/abs/2406.09465",
+    "version": "ASPLOS 2024 / arXiv:2406.09465v1",
+    "evidence_tier": "PEER_REVIEWED_PRIMARY",
+    "claim_scope": "Tensor-program orchestration evaluated on V100 and A100; reported speedups do not transfer directly to other workloads or devices."
+  },
+  "opportunity_families": ["cross-stage-fusion", "operator-fission", "kernel-orchestration", "materialization-removal"],
+  "applicability": {
+    "vendors": ["ANY"],
+    "architecture_affinity": [],
+    "required_capabilities": [],
+    "dtypes": ["float16", "bfloat16", "float32"],
+    "problem_signatures": ["stage", "intermediate", "fusion", "materialization", "dag", "operator"]
+  },
+  "implementation_recipe": [
+    "Decompose compound operators into legal primitive regions before selecting fusion boundaries.",
+    "Enumerate orchestration alternatives that include fission-plus-refusion, not only greedy adjacent fusion.",
+    "Score each alternative on weighted end-to-end latency and materialized bytes under explicit compatibility constraints."
+  ],
+  "validation_recipe": [
+    "Preserve an unfused and a greedily fused control alongside the selected orchestration.",
+    "Check every workload case because the best fusion boundary may be shape dependent.",
+    "Attribute gains to removed launches/materializations and record any duplicated compute."
+  ],
+  "expected_bottleneck_shifts": [
+    "Removing launches and intermediates can shift the kernel toward register pressure or redundant computation.",
+    "Fission can expose better fusion boundaries while increasing the orchestration search space."
+  ],
+  "failure_modes": [
+    "Greedy fusion creates a large kernel whose occupancy or instruction cache behavior regresses.",
+    "Fission duplicates expensive work or violates numerical ordering constraints.",
+    "A locally faster stage produces an incompatible downstream layout."
+  ],
+  "scope_limits": [
+    "An optimizer's formal optimum is relative to its decomposition, candidates, cost model, and constraints.",
+    "Do not call the selected orchestration an absolute hardware optimum."
+  ],
+  "candidate_archetypes": [
+    {
+      "family": "operator-fission",
+      "name": "fission then selective refusion",
+      "change_axes": ["mathematical decomposition", "fusion boundary", "intermediate ownership"],
+      "template": "Split a compound stage into legal primitives, then fuse each primitive with the consumer that removes the most weighted materialization."
+    },
+    {
+      "family": "cross-stage-fusion",
+      "name": "weighted orchestration frontier",
+      "change_axes": ["launch count", "materialized bytes", "duplicated compute"],
+      "template": "Implement a small Pareto set spanning minimal launches, minimal bytes, and minimal duplicated work."
+    }
+  ]
+}

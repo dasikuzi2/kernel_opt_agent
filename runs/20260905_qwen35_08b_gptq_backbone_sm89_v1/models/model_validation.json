@@ -1,0 +1,10 @@
+{
+  "schema_version": "cross-layer-model-validation-v1",
+  "status": "INCOMPLETE",
+  "measurement_system": {"status": "PENDING", "evidence": []},
+  "component_predictions": [],
+  "production_predictions": [],
+  "bounded_residuals": [],
+  "failed_predictions": [],
+  "model_revisions": []
+}

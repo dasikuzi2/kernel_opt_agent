@@ -1,0 +1,60 @@
+{
+  "candidate_id": "int8-bf16-shortlist-rerank",
+  "opportunity_id": "sm89-lm-head-residual",
+  "name": "INT8 vocabulary scan with exact BF16 shortlist rerank",
+  "family": "weight-stream-specialization",
+  "change_axes": ["algorithmic decomposition", "weight precision", "candidate-set size"],
+  "hypothesis": "A lossy low-byte scan can recall a small candidate set while exact BF16 recomputation preserves the measured greedy winner at negligible cost.",
+  "expected_global_effect": "Reduce batch-1 greedy TPOT while retaining bounded token identity against the exact FP8-backbone control.",
+  "predicted_global_gain_us": {"lower": 100.0, "upper": 200.0},
+  "dependency_contract": {
+    "status": "PROVEN_LEGAL",
+    "preserved_dependencies": [
+      "Approximate scores depend on every hidden-state element and every quantized vocabulary row.",
+      "Final shortlist scores depend on the original BF16 tied-embedding rows and the same hidden state."
+    ],
+    "changed_boundaries": [
+      "Full-vocabulary BF16 evaluation is decomposed into an INT8 recall stage and a BF16 shortlist rerank stage.",
+      "The supported output boundary is greedy argmax rather than complete full-vocabulary logits."
+    ],
+    "prohibited_rewrites": [
+      "Do not claim full-logit, logprob, stochastic-sampling or all-input mathematical equivalence.",
+      "Do not enable the candidate for max_num_seqs greater than one without a new service-curve qualification."
+    ],
+    "numerical_ordering": "Within the recalled shortlist, each token row is recomputed from original BF16 weights with FP32 reduction before greedy selection; shortlist recall remains an empirically qualified, non-certified boundary.",
+    "evidence": [
+      {
+        "path": "models/nsys2025_int8_bf16_rerank_g1024k128_map.json",
+        "sha256": "35cb1b15f97a01703ad2b6be2334337d39cfed6265e6c46bbed6dddf2ff81a98",
+        "claim": "Nsight observes both the full-vocabulary INT8 scan and exact BF16 rerank kernels once per generated step."
+      },
+      {
+        "path": "comparisons/vllm_fp8_exact_vs_int8head_g1024_rerank_k128_quality_gsm8k_n512.json",
+        "sha256": "0306094ecd0b69a8cfb6c0ae89544383c9fdf8bc7dbf0d05f70316f29c5a3c53",
+        "claim": "The frozen 512-case quality gate records 512/512 token and answer agreement."
+      }
+    ]
+  },
+  "source_paths": [
+    "candidates/int8-bf16-shortlist-rerank/vllm_utils_int8_bf16_shortlist_rerank.patch",
+    "candidates/int8-bf16-shortlist-rerank/verify_candidate.py"
+  ],
+  "commands": {
+    "build": {
+      "argv": ["{python}", "verify_candidate.py", "--stage", "build"],
+      "cwd": "candidates/int8-bf16-shortlist-rerank",
+      "timeout_seconds": 30
+    },
+    "correctness": {
+      "argv": ["{python}", "verify_candidate.py", "--stage", "correctness"],
+      "cwd": "candidates/int8-bf16-shortlist-rerank",
+      "timeout_seconds": 30
+    },
+    "smoke": {
+      "argv": ["{python}", "verify_candidate.py", "--stage", "smoke", "--output", "discovery_smoke.json"],
+      "cwd": "candidates/int8-bf16-shortlist-rerank",
+      "timeout_seconds": 30
+    }
+  },
+  "smoke_result_path": "candidates/int8-bf16-shortlist-rerank/discovery_smoke.json"
+}

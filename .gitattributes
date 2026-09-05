@@ -1,0 +1,9 @@
+* text=auto eol=lf
+*.patch whitespace=-blank-at-eol
+*.cubin binary
+*.csv binary
+*.fatbin binary
+*.ncu-rep binary
+*.nsys-rep binary
+*.sqlite binary
+*.so binary

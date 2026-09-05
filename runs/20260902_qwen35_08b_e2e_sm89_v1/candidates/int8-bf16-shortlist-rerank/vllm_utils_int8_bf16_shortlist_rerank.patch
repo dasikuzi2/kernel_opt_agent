@@ -1,0 +1,62 @@
+--- a/vllm/model_executor/layers/utils.py
++++ b/vllm/model_executor/layers/utils.py
+@@ -134,7 +134,30 @@ def _sm89_int8_groupwise_lmhead_kernel(
+     accum = tl.sum(qweight * scale * x[None, :], axis=1)
+     tl.store(output_ptr + offsets_n, accum, mask=offsets_n < n)
+ 
+ 
++@triton.jit
++def _sm89_exact_bf16_shortlist_rerank_kernel(
++    x_ptr,
++    weight_ptr,
++    shortlist_indices_ptr,
++    output_ptr,
++    k: tl.constexpr,
++    BLOCK_K: tl.constexpr,
++):
++    pid = tl.program_id(0)
++    offsets_k = tl.arange(0, BLOCK_K)
++    row = tl.load(shortlist_indices_ptr + pid).to(tl.int64)
++    valid_k = offsets_k < k
++    x = tl.load(x_ptr + offsets_k, mask=valid_k, other=0.0).to(tl.float32)
++    weight = tl.load(
++        weight_ptr + row * k + offsets_k,
++        mask=valid_k,
++        other=0.0,
++    ).to(tl.float32)
++    accum = tl.sum(weight * x, axis=0)
++    tl.store(output_ptr + row, accum)
++
++
+ _SM89_PACK_BLOCK = 256
+ _SM89_EXACT_PACKED_CACHE: dict[
+     tuple[int, int], tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]
+@@ -261,6 +284,28 @@ def sm89_bf16_gemv_impl(
+             num_warps=num_warps,
+             num_stages=1,
+         )
++        rerank_raw = os.environ.get("VLLM_SM89_INT8_BF16_RERANK_TOPK")
++        if rerank_raw is not None:
++            rerank_k = int(rerank_raw)
++            if rerank_k not in (1, 2, 4, 8, 16, 32, 64, 128):
++                raise ValueError(
++                    "VLLM_SM89_INT8_BF16_RERANK_TOPK must be one of "
++                    "1,2,4,8,16,32,64,128"
++                )
++            shortlist_indices = torch.topk(
++                output, rerank_k, dim=-1, sorted=False
++            ).indices.contiguous()
++            output.fill_(float("-inf"))
++            _sm89_exact_bf16_shortlist_rerank_kernel[(rerank_k,)](
++                x,
++                weight,
++                shortlist_indices,
++                output,
++                k=k,
++                BLOCK_K=triton.next_power_of_2(k),
++                num_warps=4,
++                num_stages=1,
++            )
+         return output
+     if os.environ.get("VLLM_SM89_EXACT_PACKED_LM_HEAD", "0") == "1":
+         packed = _get_sm89_exact_packed_weight(weight)

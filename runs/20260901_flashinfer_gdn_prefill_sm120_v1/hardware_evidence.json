@@ -1,0 +1,86 @@
+{
+  "developer_input_request": {
+    "message": "Agent must search vendor-official sources first. If an exact document for the target architecture/device cannot be found, ask the developer for its official document location. Do not record inferred hardware facts.",
+    "missing_roles": [
+      "programming_model",
+      "instruction_set",
+      "architecture_tuning",
+      "device_product_specification"
+    ],
+    "search_topics": {
+      "architecture_tuning": "architecture tuning guide for the exact compute capability",
+      "device_product_specification": "official product specification for the exact device model",
+      "instruction_set": "PTX ISA and target instruction availability",
+      "programming_model": "CUDA programming guide for the exact compute capability"
+    }
+  },
+  "empirical_measurements": [],
+  "facts": [],
+  "official_source_policy": {
+    "allowed_official_domains": [
+      "docs.nvidia.com",
+      "developer.nvidia.com",
+      "nvidia.com",
+      "www.nvidia.com"
+    ],
+    "policy": {
+      "architecture_name_is_not_evidence": true,
+      "developer_document_required_when_official_search_is_inconclusive": true,
+      "neighboring_architecture_extrapolation_forbidden": true,
+      "undocumented_numeric_hardware_fact_forbidden": true
+    },
+    "vendor": "NVIDIA"
+  },
+  "required_document_roles": [
+    "programming_model",
+    "instruction_set",
+    "architecture_tuning",
+    "device_product_specification"
+  ],
+  "schema_version": "hardware-evidence-manifest-v2",
+  "sources": [],
+  "status": "BLOCKED",
+  "target_identity": {
+    "architecture": "sm_120",
+    "compute_capability": "12.0",
+    "device_index": 0,
+    "device_name": "NVIDIA GeForce RTX 5090",
+    "max_threads_per_block": 1024,
+    "max_threads_per_sm": 1536,
+    "memory_bytes": 33645199360,
+    "registers_per_sm": 65536,
+    "shared_memory_per_block_bytes": 49152,
+    "shared_memory_per_block_optin_bytes": 101376,
+    "shared_memory_per_sm_bytes": 102400,
+    "sm_count": 170,
+    "uuid": "GPU-14f89acf-cf7c-3a09-80d5-e43035823f0d",
+    "vendor": "NVIDIA",
+    "warp_size": 32
+  },
+  "trusted_policy_identity": {
+    "path": "hardware/adapters/nvidia/official_source_policy.json",
+    "sha256": "fc8b3c4d978d2c53b9539b579fd4ce81c498cf17bea914c8dec50160928e1d8b"
+  },
+  "unknowns": [
+    {
+      "kind": "OFFICIAL_DOCUMENT",
+      "role": "programming_model",
+      "status": "MISSING"
+    },
+    {
+      "kind": "OFFICIAL_DOCUMENT",
+      "role": "instruction_set",
+      "status": "MISSING"
+    },
+    {
+      "kind": "OFFICIAL_DOCUMENT",
+      "role": "architecture_tuning",
+      "status": "MISSING"
+    },
+    {
+      "kind": "OFFICIAL_DOCUMENT",
+      "role": "device_product_specification",
+      "status": "MISSING"
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "attempt": 1,
+  "reason": "SMOKE_FAILED",
+  "source_before": [
+    {
+      "path": "candidates/humming-w4a16-all/linear_backend_candidate.py",
+      "sha256": "214bac9984840a00e7afe857c01f160763d6a9b9d0a8a7c10c40271e14fcbb01"
+    },
+    {
+      "path": "candidates/humming-w4a16-all/candidate_spec.json",
+      "sha256": "52889d4cd1a81ea5de9f36aa00add1938d02c84d2095b3b03585a4bbb5c4014a"
+    },
+    {
+      "path": "operator.json",
+      "sha256": "3739a30f2f23abc09e80e66dd4201f5e4c0855a6efa80d93d8364d44c409cbdb"
+    },
+    {
+      "path": "workload.json",
+      "sha256": "39c468849a21eee105f95872c3306a4832fb38fbb543be256c19cd7d7d549339"
+    },
+    {
+      "path": "models/round37_imported_evidence.json",
+      "sha256": "708cc8587a5e928ffa0d7355480d271768e57b9aedf95f0c8adf2ca52d51e8fc"
+    }
+  ],
+  "stages": [
+    {
+      "argv": [
+        "wsl",
+        "-d",
+        "Ubuntu",
+        "--",
+        "/home/aden/.venvs/qwen35-vllm-4060/bin/python",
+        "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/humming-w4a16-all/linear_backend_candidate.py",
+        "build"
+      ],
+      "cwd": "candidates/humming-w4a16-all",
+      "duration_seconds": 0.268446,
+      "exit_code": 0,
+      "stage": "build",
+      "stderr": {
+        "path": "candidates/humming-w4a16-all/attempts/attempt-01/build.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "path": "candidates/humming-w4a16-all/attempts/attempt-01/build.stdout.txt",
+        "sha256": "035d923eb20bdd1dc32735ad6396016e57471527216aa820f32fca796849090d"
+      },
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "wsl",
+        "-d",
+        "Ubuntu",
+        "--",
+        "/home/aden/.venvs/qwen35-vllm-4060/bin/python",
+        "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/humming-w4a16-all/linear_backend_candidate.py",
+        "correctness"
+      ],
+      "cwd": "candidates/humming-w4a16-all",
+      "duration_seconds": 0.282336,
+      "exit_code": 0,
+      "stage": "correctness",
+      "stderr": {
+        "path": "candidates/humming-w4a16-all/attempts/attempt-01/correctness.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "path": "candidates/humming-w4a16-all/attempts/attempt-01/correctness.stdout.txt",
+        "sha256": "e71bed23e8d70cbd6e43c55ad8141b80837b0fefa4a8c76b6dd3af0dacda20b6"
+      },
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "wsl",
+        "-d",
+        "Ubuntu",
+        "--",
+        "/home/aden/.venvs/qwen35-vllm-4060/bin/python",
+        "/mnt/d/codes/kernel_opt_agent/runs/20260905_qwen35_08b_gptq_backbone_sm89_v1/candidates/humming-w4a16-all/linear_backend_candidate.py",
+        "smoke"
+      ],
+      "cwd": "candidates/humming-w4a16-all",
+      "duration_seconds": 33.822714,
+      "exit_code": 1,
+      "stage": "smoke",
+      "stderr": {
+        "path": "candidates/humming-w4a16-all/attempts/attempt-01/smoke.stderr.txt",
+        "sha256": "3f952dfe87e159e7655409393d2059f6c0b38fa15b621a6579e70474580cfb67"
+      },
+      "stdout": {
+        "path": "candidates/humming-w4a16-all/attempts/attempt-01/smoke.stdout.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "timed_out": false
+    }
+  ],
+  "started_at": "2026-09-05T12:07:28.317752+00:00",
+  "status": "TECHNICAL_FAILURE"
+}

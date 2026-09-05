@@ -1,0 +1,48 @@
+{
+  "schema_version": "gptq-backbone-imported-evidence-v1",
+  "status": "PASS",
+  "claim_scope": "DISCOVERY_PRIOR_AND_CURRENT_SCHEDULE_PROFILE_NOT_QUALIFICATION",
+  "sources": [
+    {
+      "path": "../20260902_qwen35_08b_e2e_sm89_v1/models/marlin_node_profile_round37.json",
+      "sha256": "bb989a53fb1f023ff64d6d9aa19dbe0c5967a8b794ed615661617d7dd8fffdf1",
+      "claim": "Node-expanded profile split with 192 output decisions and 186 decode replays."
+    },
+    {
+      "path": "../20260902_qwen35_08b_e2e_sm89_v1/models/gptq_projection_shapes_round37.json",
+      "sha256": "2f980dad3b70f489dde2e2542b2f6d78d400151280a7472f073c6ac099a5bef2",
+      "claim": "Checkpoint-derived fused GPTQ projection inventory."
+    },
+    {
+      "path": "raw/stock_marlin_natural_b1_w1_n1_t64.json",
+      "sha256": "236133668faded7e40d9df2a22dd5d57556fa3dc9f759fd45e7b2a068cddd5ab",
+      "claim": "Fresh-cache stock Marlin batch-1 natural discovery baseline."
+    }
+  ],
+  "profile": {
+    "gpu_kernel_us_per_output_decision": 4994.962723958333,
+    "marlin_lm_head_us_per_output_decision": 849.8807447916666,
+    "marlin_backbone_us_per_output_decision": 2530.7149427083335,
+    "other_marlin_us_per_output_decision": 242.49119270833334,
+    "non_marlin_us_per_output_decision": 1371.87584375,
+    "marlin_backbone_calls_per_decode_replay": 96,
+    "lm_head_backbone_duration_gap_ratio": 21.097339406157445,
+    "warning": "The profile used the same GPTQ-Marlin backbone with an opt-in output-head candidate; it identifies current-schedule backbone work but is not the stock end-to-end baseline."
+  },
+  "projection_groups": [
+    {"projection": "linear_attention_qkvz", "shape_m_n_k": [1, 8192, 1024], "calls_per_decode": 18},
+    {"projection": "linear_attention_out", "shape_m_n_k": [1, 1024, 2048], "calls_per_decode": 18},
+    {"projection": "full_attention_qkv", "shape_m_n_k": [1, 5120, 1024], "calls_per_decode": 6},
+    {"projection": "full_attention_out", "shape_m_n_k": [1, 1024, 2048], "calls_per_decode": 6},
+    {"projection": "mlp_gate_up", "shape_m_n_k": [1, 7168, 1024], "calls_per_decode": 24},
+    {"projection": "mlp_down", "shape_m_n_k": [1, 1024, 3584], "calls_per_decode": 24}
+  ],
+  "baseline_batch_1": {
+    "mean_e2e_ms_across_six_natural_requests": 535.5673268337947,
+    "mean_tpot_ms_across_six_natural_requests": 7.8872539364888645,
+    "mean_output_tokens_per_second": 126.79889139915461,
+    "post_request_graphics_clock_mhz_range": [825.0, 855.0],
+    "post_request_power_w_range": [25.09, 27.26],
+    "post_request_temperature_c_range": [59.0, 60.0]
+  }
+}

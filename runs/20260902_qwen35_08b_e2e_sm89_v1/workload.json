@@ -1,0 +1,52 @@
+{
+  "cases": [
+    {
+      "id": "prompt-128-generate-128",
+      "parameters": {
+        "batch_size": 1,
+        "concurrency": 1,
+        "generated_tokens": 128,
+        "prompt_tokens": 128,
+        "temperature": 0.0
+      },
+      "weight": 0.2
+    },
+    {
+      "id": "prompt-512-generate-128",
+      "parameters": {
+        "batch_size": 1,
+        "concurrency": 1,
+        "generated_tokens": 128,
+        "prompt_tokens": 512,
+        "temperature": 0.0
+      },
+      "weight": 0.3
+    },
+    {
+      "id": "prompt-2048-generate-128",
+      "parameters": {
+        "batch_size": 1,
+        "concurrency": 1,
+        "generated_tokens": 128,
+        "prompt_tokens": 2048,
+        "temperature": 0.0
+      },
+      "weight": 0.5
+    }
+  ],
+  "execution": {
+    "graph_mode": "vLLM default graph mode after an eager correctness smoke",
+    "cache_semantics": "Qwen/Qwen3.5-0.8B BF16 weights warm; request recurrent state and KV cache fresh; max model length 4096",
+    "concurrency": "batch size 1 and exactly one in-flight text-only request",
+    "upstream_layout": "repeat and truncate a fixed UTF-8 paragraph with the frozen tokenizer to the exact prompt length; seed 20260902",
+    "downstream_layout": "128 exact greedy token IDs; TTFT, TPOT, output tokens/s and peak GPU memory reported separately",
+    "call_frequency": "3 warmups then 10 measured trials per weighted case; reject samples with competing CUDA compute"
+  },
+  "name": "qwen35_08b_sm89_batch1_prefill_decode_v1",
+  "objective": {
+    "direction": "minimize",
+    "metric": "end_to_end_us",
+    "statistic": "median"
+  },
+  "schema_version": "workload-v1"
+}

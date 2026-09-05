@@ -1,0 +1,90 @@
+{
+  "schema_version": "candidate-smoke-result-v3",
+  "status": "PASS",
+  "candidate_id": "triton-w4a16-all",
+  "claim_scope": "DISCOVERY_ONLY_NOT_PRODUCTION_ACCEPTANCE",
+  "cases": [
+    {
+      "case_id": "zh-explanation",
+      "role": "ANCHOR",
+      "correctness": "PASS",
+      "baseline_end_to_end_us": 533355.751002091,
+      "candidate_end_to_end_us": 843339.6179971169
+    },
+    {
+      "case_id": "python-code",
+      "role": "EDGE",
+      "correctness": "PASS",
+      "baseline_end_to_end_us": 534250.5299995537,
+      "candidate_end_to_end_us": 870300.2789989114
+    },
+    {
+      "case_id": "reasoning",
+      "role": "EDGE",
+      "correctness": "PASS",
+      "baseline_end_to_end_us": 546634.810998512,
+      "candidate_end_to_end_us": 883241.9520040276
+    },
+    {
+      "case_id": "editing",
+      "role": "EDGE",
+      "correctness": "PASS",
+      "baseline_end_to_end_us": 534515.4110036674,
+      "candidate_end_to_end_us": 873447.3689983133
+    },
+    {
+      "case_id": "systems-design",
+      "role": "EDGE",
+      "correctness": "FAIL",
+      "baseline_end_to_end_us": 534957.5060026837,
+      "candidate_end_to_end_us": 855054.7390041174
+    },
+    {
+      "case_id": "translation",
+      "role": "EDGE",
+      "correctness": "PASS",
+      "baseline_end_to_end_us": 529689.9519962608,
+      "candidate_end_to_end_us": 853670.3209974803
+    }
+  ],
+  "correctness_gate": {
+    "status": "FAIL",
+    "exact_cases": 5,
+    "required_exact_cases": 6
+  },
+  "reachability": {
+    "status": "PASS",
+    "expected_path": "TritonW4A16LinearKernel",
+    "observed_path": "TritonW4A16LinearKernel",
+    "compile_cache_policy": "FRESH",
+    "execution_proof": {
+      "kind": "INSTRUMENTED_CALL_COUNT",
+      "scope": "vLLM backend-selection log entries",
+      "observed_count": 1,
+      "minimum_count": 1,
+      "evidence_index": 0
+    },
+    "evidence": [
+      {
+        "path": "candidates/triton-w4a16-all/smoke_execution.log",
+        "sha256": "71b7964d3dffc2c01977ba1d620a3973335b10771cc93d69d9b759870993aeb5"
+      }
+    ]
+  },
+  "objective": {
+    "direction": "minimize",
+    "baseline": 535567.3268337947,
+    "candidate": 863175.7129999945,
+    "unit": "us"
+  },
+  "raw": {
+    "baseline": {
+      "path": "raw/stock_marlin_natural_b1_w1_n1_t64.json",
+      "sha256": "236133668faded7e40d9df2a22dd5d57556fa3dc9f759fd45e7b2a068cddd5ab"
+    },
+    "candidate": {
+      "path": "candidates/triton-w4a16-all/raw.json",
+      "sha256": "dbc373d1a8d3af4b5014d116a8876727bb5851614d6c043d28b7af3c97851efb"
+    }
+  }
+}

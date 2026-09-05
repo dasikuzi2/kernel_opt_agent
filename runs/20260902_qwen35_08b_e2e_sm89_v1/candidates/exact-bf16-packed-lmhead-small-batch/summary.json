@@ -1,0 +1,56 @@
+{
+  "schema_version": "sm89-exact-packed-lmhead-small-batch-v1",
+  "candidate": "reuse one exact-packed BF16 lm-head weight tile across 2-4 simultaneous rows",
+  "scope": "Qwen3.5-0.8B lm_head, RTX 4060 Laptop SM89, vLLM fp8_per_block backbone",
+  "isolated_microbenchmark": {
+    "baseline": "torch.mm BF16 library path",
+    "candidate": "Triton exact reconstruction with compile-time row loop",
+    "batch_1_best_speedup": 1.3015165825025767,
+    "batch_2_best_speedup": 1.2953433633529714,
+    "batch_4_best_speedup": 1.2927502595736884,
+    "batch_8_best_speedup": 0.9327378012033,
+    "argmax_exact_for_all_best_points": true
+  },
+  "production_service_screen": {
+    "configuration": "max_num_seqs=8, batch sizes 1/2/3/4/8, 64 output tokens, 2 warmups and 5 trials",
+    "stock_wall_ms": {
+      "1": 362.18269799792324,
+      "2": 375.7637849994353,
+      "3": 385.6685179998749,
+      "4": 410.331936996954,
+      "8": 468.44144699934986
+    },
+    "small_batch_candidate_wall_ms": {
+      "1": 749.6641339967027,
+      "2": 763.6625480008661,
+      "3": 796.3336739994702,
+      "4": 806.5296329987177,
+      "8": 465.6312080005591
+    },
+    "stock_over_candidate_speedup": {
+      "1": 0.483124,
+      "2": 0.492044,
+      "3": 0.484312,
+      "4": 0.508766,
+      "8": 1.006036
+    },
+    "m1_only_followup": "Reversing the 2-4 row extension did not rescue max_num_seqs=8 batch-1: the original M=1 exact kernel took 873.838 ms versus stock 362.183 ms. Batch 2-8, where the selector fell back to stock, returned near the stock curve.",
+    "interpretation": "The isolated weight-reuse result does not compose with the multi-sequence vLLM runner. The exact mechanism is unresolved; CUDA-graph boundary, runtime shape/layout, and power-state behavior remain confounders. The batch-8 fallback is a built-in negative control showing that the overall process/GPU was not uniformly slower."
+  },
+  "decision": "MEASURED_REJECT_PRODUCTION_NONCOMPOSABLE",
+  "reopen_conditions": [
+    "Prove the launched small-batch kernel is inside the intended CUDA graph and archive its actual runtime shapes.",
+    "Demonstrate a clock-controlled or power-state-adaptive path whose full service curve beats stock at every enabled batch size.",
+    "Do not enable the current exact lm-head in a max_num_seqs>1 service solely because its isolated GEMM is faster."
+  ],
+  "evidence": {
+    "microbenchmark": "microbench_candidates/exact_packed_lmhead_small_batch_sm89.json",
+    "microbenchmark_tool": "tools/benchmark_exact_bf16_packed_lmhead_batch.py",
+    "incremental_patch": "candidates/exact-bf16-packed-lmhead-small-batch/vllm_utils_exact_bf16_packed_lmhead_small_batch.patch",
+    "stock_service": "traces/vllm_fp8_exact_small_batch_service_control1.json",
+    "small_batch_service": "traces/vllm_fp8_exact_small_batch_service_candidate.json",
+    "m1_only_service": "traces/vllm_fp8_exact_m1only_service_candidate.json",
+    "service_comparison": "comparisons/vllm_fp8_exact_service_curve.json",
+    "service_tool": "tools/benchmark_vllm_batch_service.py"
+  }
+}

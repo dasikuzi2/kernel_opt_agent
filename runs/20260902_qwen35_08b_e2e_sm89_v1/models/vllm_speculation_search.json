@@ -1,0 +1,89 @@
+{
+  "captured_at": "2026-09-04T17:00:37.943120+00:00",
+  "claim_scope": "DISCOVERY_ONLY_NOT_PRODUCTION_ACCEPTANCE",
+  "comparisons": [
+    {
+      "all_cases_exact_vs_baseline": true,
+      "baseline_trace": {
+        "path": "traces/vllm_discovery_baseline_w1_n3.json",
+        "sha256": "e335f6b3352a213ed22a913c1d02e0c31b4b56fce3beb6dd551ef67b07143571"
+      },
+      "baseline_weighted_e2e_ms": 936.152490899994,
+      "baseline_weighted_tpot_ms": 6.8148290984253,
+      "candidate_id": "synthetic-mtp1",
+      "candidate_trace": {
+        "path": "traces/vllm_screen_mtp1_w1_n3.json",
+        "sha256": "d0fa051d92b2a6ed62c87150e588792db56ec0dbe376909d5caa435df4de8287"
+      },
+      "candidate_weighted_e2e_ms": 1058.3349744999878,
+      "candidate_weighted_tpot_ms": 7.508203048818928,
+      "case_count": 3,
+      "exact_cases_vs_baseline": 3,
+      "speedup_vs_matching_vllm_baseline": 0.8845521630259653
+    },
+    {
+      "all_cases_exact_vs_baseline": true,
+      "baseline_trace": {
+        "path": "traces/vllm_discovery_baseline_w1_n3.json",
+        "sha256": "e335f6b3352a213ed22a913c1d02e0c31b4b56fce3beb6dd551ef67b07143571"
+      },
+      "baseline_weighted_e2e_ms": 936.152490899994,
+      "baseline_weighted_tpot_ms": 6.8148290984253,
+      "candidate_id": "synthetic-ngram4",
+      "candidate_trace": {
+        "path": "traces/vllm_screen_ngram4_w1_n3.json",
+        "sha256": "a73cc4b6aeb1f6e7c4e9c5f87b45579301c180ea871a2f719aacdb18836161cb"
+      },
+      "candidate_weighted_e2e_ms": 397.89122939997696,
+      "candidate_weighted_tpot_ms": 2.5159944188976535,
+      "case_count": 3,
+      "exact_cases_vs_baseline": 3,
+      "speedup_vs_matching_vllm_baseline": 2.3527849365056857
+    },
+    {
+      "all_cases_exact_vs_baseline": false,
+      "baseline_trace": {
+        "path": "traces/vllm_natural_baseline_w1_n3.json",
+        "sha256": "f5e378913737a48f1dc0aac9f9c52d609373432b800e1d9870c435926709e8a0"
+      },
+      "baseline_weighted_e2e_ms": 940.9817813333158,
+      "baseline_weighted_tpot_ms": 6.976853326771559,
+      "candidate_id": "natural-mtp1",
+      "candidate_trace": {
+        "path": "traces/vllm_natural_mtp1_w1_n3.json",
+        "sha256": "32a934caf8811aca3e1cdba2705ddb7d552d28a764009511468be17c6ea5c172"
+      },
+      "candidate_weighted_e2e_ms": 1138.9074866667102,
+      "candidate_weighted_tpot_ms": 8.412032625984452,
+      "case_count": 6,
+      "exact_cases_vs_baseline": 2,
+      "speedup_vs_matching_vllm_baseline": 0.826214413681069
+    },
+    {
+      "all_cases_exact_vs_baseline": false,
+      "baseline_trace": {
+        "path": "traces/vllm_natural_baseline_w1_n3.json",
+        "sha256": "f5e378913737a48f1dc0aac9f9c52d609373432b800e1d9870c435926709e8a0"
+      },
+      "baseline_weighted_e2e_ms": 940.9817813333158,
+      "baseline_weighted_tpot_ms": 6.976853326771559,
+      "candidate_id": "natural-ngram4",
+      "candidate_trace": {
+        "path": "traces/vllm_natural_ngram4_w1_n3.json",
+        "sha256": "bfe573f91973b348cc3f3c2f52c128448e933077f6805d354eb95549c7bafcf1"
+      },
+      "candidate_weighted_e2e_ms": 1813.2133811666524,
+      "candidate_weighted_tpot_ms": 13.841826339894766,
+      "case_count": 6,
+      "exact_cases_vs_baseline": 0,
+      "speedup_vs_matching_vllm_baseline": 0.5189581055969662
+    }
+  ],
+  "conclusion": {
+    "reason": "N-gram wins only on the periodic synthetic output. On the natural suite it is slower and changes every output; MTP-1 is also slower.",
+    "strict_winner": "default-vllm",
+    "synthetic_ngram_speedup_is_generalizable": false
+  },
+  "schema_version": "qwen35-sm89-speculation-search-v1",
+  "status": "PASS"
+}

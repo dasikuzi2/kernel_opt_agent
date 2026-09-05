@@ -1,0 +1,67 @@
+{
+  "schema_version": "production-dataflow-legality-audit-v1",
+  "status": "READY",
+  "claim_scope": "QWEN3.5_0.8B_VLLM_0.28.1_BF16_TP1_DECODE_ONLY",
+  "model_dimensions": {
+    "hidden_size": 1024,
+    "intermediate_size": 3584,
+    "layers": 24,
+    "gdn_layers": 18,
+    "full_attention_layers": 6,
+    "gdn_qkvz_output": 8192,
+    "gdn_ba_output": 32
+  },
+  "source_identities": [
+    {
+      "path": "evidence/vllm_qwen_gdn_linear_attn.py",
+      "sha256": "cb819264c1e791177d866f484ca0579a7d57141926705a1f75dd4a79de4d0125"
+    },
+    {
+      "path": "evidence/vllm_qwen3_next.py",
+      "sha256": "4a27cf7b065c2097688421e6ea849704cef946f347978fb426abbc72b77f00b2"
+    },
+    {
+      "path": "evidence/vllm_qwen3_5.py",
+      "sha256": "3abeac36180df7bd1bd96b1a7c698a8f212d92c063026420cbdd16d1980e90e6"
+    },
+    {
+      "path": "evidence/vllm_qwen2_moe.py",
+      "sha256": "cecb5fb8c82bc92743016a56bc3991f3bd612b9767063ccdc0715a49a3e54442"
+    }
+  ],
+  "regions": [
+    {
+      "region": "mlp",
+      "dataflow": "x -> fused gate_up projection -> SiLU(gate) * up -> down projection",
+      "already_fused": ["gate projection with up projection"],
+      "legal_next_boundaries": ["gate_up projection epilogue with SiLU-and-multiply", "down projection epilogue with following residual-add/RMSNorm"],
+      "illegal_or_dependency_blocked": ["gate_up projection with down projection because SiLU-and-multiply is a true data dependency"]
+    },
+    {
+      "region": "full_attention",
+      "dataflow": "x -> fused Q/K/V/gate projection -> QK norm and RoPE -> attention -> sigmoid gate -> output projection",
+      "already_fused": ["Q, K, V and output-gate input projection", "QK RMSNorm, RoPE and gate extraction"],
+      "legal_next_boundaries": ["attention output gate with output-projection input staging"],
+      "illegal_or_dependency_blocked": ["input projection with output projection across attention"]
+    },
+    {
+      "region": "gdn",
+      "dataflow": "x -> QKVZ projection and BA projection in parallel -> recurrent GDN core -> gated RMSNorm -> output projection",
+      "already_fused": ["Q, K, V and Z input projections", "B and A input projections", "decode recurrent core and packed norm when supported"],
+      "legal_next_boundaries": ["QKVZ with BA because both consume the same x and neither depends on the other", "gated norm with output-projection input staging"],
+      "illegal_or_dependency_blocked": ["input projections with output projection across the recurrent-state update"]
+    },
+    {
+      "region": "decoder_layer",
+      "dataflow": "fused residual-add/RMSNorm -> attention or GDN -> fused residual-add/RMSNorm -> MLP",
+      "already_fused": ["residual add with each RMSNorm"],
+      "legal_next_boundaries": ["producer epilogue with immediately following residual-add/RMSNorm when numerical order is preserved"],
+      "illegal_or_dependency_blocked": ["cross-layer projection fusion across residual, normalization, attention/recurrent state, or MLP activation dependencies"]
+    }
+  ],
+  "decision": {
+    "highest_value_legal_untried_rewrite": "Fuse the GDN QKVZ and BA projections into one 8224x1024 BF16 projection, then screen end-to-end before attempting a custom persistent schedule.",
+    "why": "It is the only repeated projection pair not already fused that shares an identical input without an intervening mathematical dependency.",
+    "numerical_contract": "Preserve BF16 weights, FP32 accumulation behavior as exposed by the selected linear backend, tensor layout, recurrent-state update and greedy token IDs."
+  }
+}

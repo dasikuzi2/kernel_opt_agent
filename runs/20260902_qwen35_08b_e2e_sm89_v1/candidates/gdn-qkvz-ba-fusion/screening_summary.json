@@ -1,0 +1,44 @@
+{
+  "schema_version": "manual-production-screen-v1",
+  "status": "SCREENED_OUT_PENDING_FORMAL_CANDIDATE_BINDING",
+  "candidate_id": "gdn-qkvz-ba-fusion",
+  "claim_scope": "ONE_WARMUP_ONE_TRIAL_SIX_NATURAL_PROMPTS_DISCOVERY_ONLY",
+  "change": "Replace the separate 8192x1024 QKVZ and 32x1024 BA projections in each of 18 GDN layers with one 8224x1024 MergedColumnParallelLinear call.",
+  "source_identities": [
+    {
+      "path": "candidates/gdn-qkvz-ba-fusion/vllm_qwen35_gdn_input_fusion.patch",
+      "sha256": "f5dec91cb5d6f810b91840b349bce8693cae2b9aeb13ee7506927bb21ec2d66e"
+    }
+  ],
+  "traces": {
+    "candidate": {
+      "path": "candidates/gdn-qkvz-ba-fusion/smoke_candidate.json",
+      "sha256": "74ac5c265b1d0facba557cd798fddd44aee024c7d627f4de19e2a49435c67093"
+    },
+    "stock": {
+      "path": "candidates/gdn-qkvz-ba-fusion/smoke_stock.json",
+      "sha256": "20c9aea35fa37cf07983c4390b3353d5b249029fa5b0ece257be3395d039f773"
+    }
+  },
+  "correctness": {
+    "status": "PASS",
+    "exact_token_cases": 6,
+    "total_cases": 6,
+    "generated_tokens_per_case": 16
+  },
+  "objective": {
+    "candidate_mean_tpot_ms": 8.246358333330287,
+    "stock_mean_tpot_ms": 7.779350322222297,
+    "tpot_speedup": 0.9433679701717026,
+    "candidate_mean_end_to_end_ms": 162.28587466669828,
+    "stock_mean_end_to_end_ms": 151.04861866668293,
+    "end_to_end_speedup": 0.9307564135012097
+  },
+  "decision": "SCREEN_OUT",
+  "reason": "The legal launch-reduction rewrite was 5.7% slower in TPOT and 6.9% slower end-to-end in the cheap screen. The likely explanation is that changing the large projection output from the tile-friendly 8192 rows to 8224 harms the selected GEMV schedule more than removing the tiny 32-row BA launch saves; this causal explanation remains an inference until kernel-level profiling.",
+  "limitations": [
+    "Power and clocks were observed neither locked nor recorded in this cheap screen.",
+    "Each side used one timed trial after one workload warmup.",
+    "Runtime kernel-count proof has not yet been bound, so this record is not a formal candidate-smoke-result-v3 or qualification result."
+  ]
+}

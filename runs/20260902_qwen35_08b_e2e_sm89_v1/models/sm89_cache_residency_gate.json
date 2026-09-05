@@ -1,0 +1,92 @@
+{
+  "schema_version": "qwen35-sm89-cache-residency-gate-v1",
+  "status": "PASS",
+  "claim_scope": "RTX_4060_LAPTOP_SM89_BATCH1_BF16_DISCOVERY",
+  "hardware": {
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "l2_cache_bytes": 33554432,
+    "l2_source": "torch.cuda.get_device_properties(0).L2_cache_size"
+  },
+  "production_iteration": {
+    "active_weight_stream_bytes": 1541502656,
+    "exceeds_l2": true,
+    "interpretation": "successive layer weights evict isolated projection weights; warm repeated-shape timing is not production-predictive"
+  },
+  "cold_cache_protocol": {
+    "eviction_bytes": 67108864,
+    "method": "mutate a 64 MiB buffer before each timed single invocation; eviction is ordered before and excluded from the CUDA-event interval",
+    "limitations": "screening approximation; event resolution and laptop power variation remain visible in raw samples"
+  },
+  "projection_results": [
+    {
+      "name": "gdn_qkvz",
+      "weight_bytes": 16777216,
+      "weight_fits_l2": true,
+      "warm_speedup": 1.6291,
+      "cold_speedup": 1.0408,
+      "multiplicity_per_token": 18
+    },
+    {
+      "name": "mlp_gate_up",
+      "weight_bytes": 14680064,
+      "weight_fits_l2": true,
+      "warm_speedup": 1.5712,
+      "cold_speedup": 1.0706,
+      "multiplicity_per_token": 24
+    },
+    {
+      "name": "mlp_down",
+      "weight_bytes": 7340032,
+      "weight_fits_l2": true,
+      "warm_speedup": 0.9649,
+      "cold_speedup": 1.0192,
+      "multiplicity_per_token": 24
+    }
+  ],
+  "production_screen": {
+    "candidate": "mlp_down-only SM89 Triton GEMV",
+    "control_weighted_tpot_ms": 7.976409312169299,
+    "candidate_weighted_tpot_ms": 7.968948113756669,
+    "tpot_speedup": 1.0009362839745122,
+    "control_weighted_e2e_ms": 541.7633858333322,
+    "candidate_weighted_e2e_ms": 542.7301572499914,
+    "e2e_speedup": 0.9982186885992151,
+    "exact_generated_token_cases": "5/6",
+    "decision": "SCREEN_OUT_BELOW_1_PERCENT_AND_NUMERICAL_CONTRACT_FAILURE"
+  },
+  "lm_head_residual": {
+    "schedules_screened": 72,
+    "incumbent": "BLOCK_N=4,num_warps=8,num_stages=1",
+    "sample_best": "BLOCK_N=4,num_warps=8,num_stages=2",
+    "paired_speedup_vs_incumbent": 0.9985247324592953,
+    "argmax_average_us": 19.72140625,
+    "argmax_fraction_of_profiled_gpu_time": 0.002348093167812002,
+    "decision": "KEEP_INCUMBENT_AND_DO_NOT_FUSE_ARGMAX_UNDER_CURRENT_MATERIALITY_FLOOR"
+  },
+  "policy_update": {
+    "rule": "When an isolated weight fits L2 but the production iteration streams more than L2, candidate ranking must use cold-cache single-invocation timing or a full production trace; warm repeated timing cannot justify promotion.",
+    "resolved_failure_mode": "cache-resident microbenchmarks overstated backbone GEMV speedups by roughly an order of magnitude at the end-to-end level"
+  },
+  "evidence": {
+    "extended_lm_head_search": {
+      "path": "../microbench_candidates/bf16_triton_lm_head_extended_sm89.json",
+      "sha256": "84f2f1fa179386d82663d4b3cb98d93dc84fa6d08b38214c4d07cef0d308665d"
+    },
+    "cold_cache_microbench": {
+      "path": "../microbench_candidates/bf16_triton_backbone_cold_cache_sm89.json",
+      "sha256": "5a905e1e141fc54121fc2b046fd9eb43c10094732df18029fa5c1b9c6ce3efef"
+    },
+    "control_trace": {
+      "path": "../traces/vllm_natural_sm89_mlpdown_control_w1_n2_t64.json",
+      "sha256": "8651c69f68cce32ade9f1ba192277bada143f03a106fb55ffda62f52080ffe6d"
+    },
+    "candidate_trace": {
+      "path": "../traces/vllm_natural_sm89_mlpdown_candidate_w1_n2_t64.json",
+      "sha256": "90f485af74c5234ec1adb41441b2d2a894e9f274ec355dc1a16f6a070f610aec"
+    },
+    "comparison": {
+      "path": "../comparisons/vllm_sm89_mlpdown_vs_control.json",
+      "sha256": "e34c48e5251ed55a9e1c07cc0f016b9e7e9ec5ad137104096780a7fa3d04b028"
+    }
+  }
+}

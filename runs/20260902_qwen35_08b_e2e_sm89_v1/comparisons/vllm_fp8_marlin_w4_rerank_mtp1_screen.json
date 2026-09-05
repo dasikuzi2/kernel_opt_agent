@@ -1,0 +1,39 @@
+{
+  "schema_version": "sm89-marlin-w4-rerank-mtp1-screen-v1",
+  "status": "REJECT_MTP1",
+  "claim_scope": "LOW_POWER_ONE_TRIAL_SCREEN_NOT_QUALIFICATION",
+  "workload": "Qwen3.5-0.8B, RTX 4060 Laptop SM89, vLLM fp8_per_block backbone, Marlin W4 full-vocabulary recall plus exact BF16 top-128 rerank, batch/concurrency 1, six natural prompts, 64 greedy tokens",
+  "microbenchmark": {
+    "m2_marlin_w4_scan_median_us": 803.1008148193359,
+    "m2_torch_bf16_linear_median_us": 2842.2756958007812,
+    "speedup_vs_m2_torch_bf16_linear": 3.5391268983336475,
+    "random_vector_exact_winner_recall_at_128": "8/8",
+    "measured_m2_exact_winner_ranks": [1, 1],
+    "artifact": "microbench_candidates/marlin_int4_recall_lmhead_m2_sm89.json"
+  },
+  "runtime": {
+    "nonspec_trace": "traces/vllm_fp8_marlin_w4_rerank_m2_nonspec_screen_w1_n1_t64.json",
+    "mtp1_trace": "traces/vllm_fp8_marlin_w4_rerank_mtp1_screen_w1_n1_t64.json",
+    "nonspec_weighted_tpot_ms": 6.2156236587325875,
+    "mtp1_weighted_tpot_ms": 6.9221133650740185,
+    "nonspec_weighted_e2e_ms": 431.8655191661188,
+    "mtp1_weighted_e2e_ms": 488.48375733420346,
+    "nonspec_speedup_over_mtp1_tpot": 1.1136635268045636,
+    "aggregate_draft_acceptance": {
+      "accepted": 161,
+      "drafted": 219,
+      "rate": 0.7351598173515982
+    },
+    "token_exact_cases_vs_nonspec": "3/6",
+    "nonspec_median_measured_clock_mhz": 810.0,
+    "mtp1_median_measured_clock_mhz": 780.0,
+    "nonspec_median_measured_power_w": 23.125,
+    "mtp1_median_measured_power_w": 20.825
+  },
+  "interpretation": [
+    "Marlin makes the two-row vocabulary scan cheap enough that lm-head weight traffic is shared, but this local kernel win does not amortize the MTP proposer, target verification, rejection handling, and extra host/runtime work.",
+    "The M=2 target path also changes upstream floating-point reduction behavior, so exact BF16 shortlist reranking alone cannot guarantee the same greedy token stream as M=1.",
+    "A longer qualification run is unnecessary because the screen misses both the performance and token-identity promotion gates."
+  ],
+  "decision": "Keep the Marlin W4 shortlist/rerank candidate for ordinary batch-1 greedy decoding; close MTP-1 for this hardware/model/runtime point."
+}

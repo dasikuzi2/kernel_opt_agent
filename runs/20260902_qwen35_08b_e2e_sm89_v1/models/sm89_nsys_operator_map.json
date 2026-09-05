@@ -1,0 +1,183 @@
+{
+  "schema_version": "qwen35-sm89-nsys-operator-map-v1",
+  "status": "DISCOVERY_EVIDENCE_COMPLETE",
+  "scope": {
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "compute_capability": "8.9",
+    "model": "Qwen3.5-0.8B",
+    "dtype": "bfloat16",
+    "batch_size": 1,
+    "prompt_suite": "six natural requests",
+    "generated_tokens_per_request": 32,
+    "cuda_graph_decode_steps": 186,
+    "profiler": "NVIDIA Nsight Systems 2025.5.1",
+    "trace_mode": "--cuda-graph-trace=node"
+  },
+  "baseline_lm_head_candidate": {
+    "total_gpu_kernel_ms": 1612.589335,
+    "cuda_kernel_instances": 60164,
+    "decode_graph": {
+      "cublas_gemvx_instances": 21204,
+      "cublas_gemvx_instances_per_step": 114,
+      "cublas_gemvx_total_ms": 936.626329,
+      "cublas_gemvx_ms_per_step": 5.035625424731183
+    },
+    "lm_head": {
+      "candidate_kernel_instances": 192,
+      "average_us_per_invocation": 2057.5395,
+      "total_ms": 395.047584
+    },
+    "logical_projection_map": [
+      {
+        "operation": "gdn_qkvz",
+        "shape": [1, 8192, 1024],
+        "layers_per_decode_step": 18,
+        "grid_x": 2048,
+        "instances": 3348,
+        "average_us": 80.463
+      },
+      {
+        "operation": "mlp_gate_up",
+        "shape": [1, 7168, 1024],
+        "layers_per_decode_step": 24,
+        "grid_x": 1792,
+        "instances": 4464,
+        "average_us": 70.969
+      },
+      {
+        "operation": "attention_qkv_stacked",
+        "shape": [1, 5120, 1024],
+        "layers_per_decode_step": 6,
+        "grid_x": 1280,
+        "instances": 1116,
+        "average_us": 52.357,
+        "correction": "The prior 3072 output width was wrong; vLLM stacks q=4096, k=512 and v=512."
+      },
+      {
+        "operation": "gdn_and_attention_output_plus_mlp_down",
+        "grid_x": 256,
+        "instances": 8928,
+        "average_us": 30.888,
+        "note": "A shared launch signature covers 48 projections per step; duration clustering separates 24 GDN/attention outputs at 24.063 us from 24 MLP-down projections at 37.702 us."
+      },
+      {
+        "operation": "gdn_a_b",
+        "shape": [1, 32, 1024],
+        "layers_per_decode_step": 18,
+        "grid_x": 8,
+        "instances": 3348,
+        "average_us": 4.848
+      }
+    ]
+  },
+  "runtime_reachability": {
+    "lm_head_only": {
+      "expected_candidate_kernel_instances": 192,
+      "observed_candidate_kernel_instances": 192,
+      "status": "PASS"
+    },
+    "lm_head_plus_gdn_qkvz": {
+      "expected_candidate_kernel_instances": 3540,
+      "observed_candidate_kernel_instances": 3540,
+      "gdn_stock_average_us": 80.463,
+      "gdn_candidate_average_us": 72.544,
+      "estimated_gdn_saving_ms_per_decode_step": 0.142542,
+      "profiled_e2e_speedup": 1.0218071304180492,
+      "profiled_tpot_speedup": 1.0407077352194174,
+      "token_exact_cases": "5/6",
+      "decision": "REJECT_NUMERICAL_CONTRACT",
+      "status": "PASS"
+    },
+    "lm_head_plus_gdn_and_mlp": {
+      "expected_candidate_kernel_instances": 12468,
+      "observed_candidate_kernel_instances": 12468,
+      "profiled_e2e_speedup": 1.020797036937858,
+      "profiled_tpot_speedup": 1.044642041039184,
+      "token_exact_cases": "4/6",
+      "decision": "REJECT_NUMERICAL_CONTRACT",
+      "status": "PASS"
+    }
+  },
+  "non_profiler_screening": {
+    "gdn_qkvz_plus_mlp_gate_up": {
+      "order": "candidate-stock-candidate",
+      "control_tpot_ms": 8.124619254593036,
+      "candidate_mean_tpot_ms": 7.993045621390883,
+      "mean_tpot_speedup": 1.016461013665434,
+      "mean_e2e_speedup": 1.0168039220841991,
+      "token_exact_cases_each_candidate_pair": "2/6",
+      "decision": "REJECT: small, power-sensitive gain and numerical contract failure"
+    },
+    "attention_qkv_stacked": {
+      "microbenchmark_stock_us": 55.132,
+      "microbenchmark_candidate_us": 33.935,
+      "microbenchmark_speedup": 1.6246,
+      "screening_e2e_speedup": 1.005857118652376,
+      "screening_tpot_speedup": 1.006976013462942,
+      "token_exact_cases": "2/6",
+      "comparison_limit": "Configuration-only source revision differs from the reused control, so this is screening rather than same-source qualification.",
+      "decision": "REJECT: sub-noise global gain and numerical contract failure"
+    }
+  },
+  "decision": {
+    "promote": "lm_head-only SM89 BF16 GEMV",
+    "reject": "current reachable backbone GEMV substitutions",
+    "reason": "The profiler proves execution and local kernel reductions, but the production effect is only about 0.7-1.7% without profiler overhead and fails the frozen token-exact contract on four of six requests.",
+    "next_ranked_opportunities": [
+      "cross-projection fusion or persistent weight streaming that removes launches/traffic instead of replacing each GEMV independently",
+      "full-attention and recurrent-state materialization/layout reductions",
+      "high-performance power-state qualification of the lm_head winner"
+    ],
+    "claim_limit": "Node tracing perturbs short-kernel timing; its percentages rank opportunities and prove reachability, but do not qualify production speedup."
+  },
+  "evidence": {
+    "baseline_sqlite": {
+      "path": "../profiles/nsys2025_lmhead_candidate_nodes.sqlite",
+      "sha256": "fcbdbc7ff6b0ecdb8bb9277616f39fe056560d8c873c5b0b15215acf6c6a4363"
+    },
+    "gdn_sqlite": {
+      "path": "../profiles/nsys2025_reachable_gdnqkvz_b.sqlite",
+      "sha256": "0fff587d4a6889774ed80b7a85319f8c9e6995b7f8af58c19c232750fde0bec6"
+    },
+    "all_sqlite": {
+      "path": "../profiles/nsys2025_reachable_all_b.sqlite",
+      "sha256": "17a7fd08ddb1768dab605532fb933015f71c6856b65d605286167aaeef776d25"
+    },
+    "baseline_analysis": {
+      "path": "nsys2025_lmhead_opportunity_map.json",
+      "sha256": "2489e67cd0c268c13ddac379a801630b17908f7f3d7ebbe244e04e4bc5a33026"
+    },
+    "gdn_analysis": {
+      "path": "nsys2025_reachable_gdnqkvz_map.json",
+      "sha256": "4072184e43ad9811c8762dae71582e1899ed8aec9e6e30b587d78f839f61d5f6"
+    },
+    "all_analysis": {
+      "path": "nsys2025_reachable_all_map.json",
+      "sha256": "d0d751297ef1eb3828c497a89debb76ae3ffd7213218b62e8001ba3d9afff317"
+    },
+    "gdn_profile_comparison": {
+      "path": "../comparisons/vllm_nsys2025_reachable_gdnqkvz_vs_lmhead_t32.json",
+      "sha256": "67efa1f0f95a13ca6f284f752b41480b1d041054c50e87d091fdcb5fcc949b44"
+    },
+    "all_profile_comparison": {
+      "path": "../comparisons/vllm_nsys2025_reachable_all_vs_lmhead_t32.json",
+      "sha256": "487d018f2d739235b9354c5394dfbfb6ed6b7198137132b4ba95664178b4ed0b"
+    },
+    "gdn_gate_candidate_1_comparison": {
+      "path": "../comparisons/vllm_reachable_gdn_gate_c1_vs_s1.json",
+      "sha256": "b0dbee2b9eb85458694a6e7efd45d55f13e40049a4a98623a75ba1534dc341e4"
+    },
+    "gdn_gate_candidate_2_comparison": {
+      "path": "../comparisons/vllm_reachable_gdn_gate_c2_vs_s1.json",
+      "sha256": "349c777e8ff2245a826184b21c412e197ecc5475e3ef358b5ba070c0f4165f9f"
+    },
+    "attention_comparison": {
+      "path": "../comparisons/vllm_reachable_attention_c1_vs_prior_control.json",
+      "sha256": "d03f7263a2009fa26dff518efbc51417f9fd9702053350f0ac3b78ba2bef778b"
+    },
+    "attention_microbenchmark": {
+      "path": "../microbench_candidates/bf16_triton_gemv_sm89_attention_qkv_5120.json",
+      "sha256": "b2c14411fae5cc2d5f0463a96c591e8af8afc5db9436973410839e33f056498e"
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "schema_version": "microarchitecture-model-v1",
+  "status": "DRAFT",
+  "target_identity": null,
+  "scope": [],
+  "resource_nodes": [],
+  "resource_edges": [],
+  "allocation_constraints": [],
+  "service_curves": [],
+  "latency_constraints": [],
+  "workload_mappings": [],
+  "overlap_constraints": [],
+  "unknowns": [],
+  "evidence": []
+}
